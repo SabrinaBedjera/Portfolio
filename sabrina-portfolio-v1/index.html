@@ -11,6 +11,9 @@
         <link rel="shortcut icon" href="images/favicon.ico" />      
         <link href='https://fonts.googleapis.com/css?family=Poppins:400,700,800' rel='stylesheet' type='text/css'>	             
         <link rel="stylesheet" type="text/css"  href='style.css' />
+        <!-- Custom styles: keep these after the Volos style.css -->
+        <link rel="stylesheet" type="text/css"  href='css/sb-site.css' />
+        <link rel="stylesheet" type="text/css"  href='css/sb-hero.css' />
 
         <!--[if lt IE 9]>
                 <script src="js/html5.js"></script>            
@@ -72,7 +75,7 @@
                 <div class="content-right-wrapper">
                     
                     <!-- Home Section -->  
-                    <div id="home" class="section full-width-section curious-home">
+                    <div id="home" class="section full-width-section curious-home sb-hero">
                         <div class="section-wrapper block curious-hero">
                             <div class="home-left-part curious-copy">
                                 <p class="eyebrow">CURIOUS RESEARCHER · SB—001</p>
@@ -504,15 +507,7 @@
         <script src='js/circle-progress.min.js'></script>                                                            
         <script src='js/main.js'></script>
 
-        <script>
-            (function () {
-                var card = document.getElementById('researcher-card');
-                if (!card) return;
-                card.addEventListener('click', function () {
-                    var flipped = card.classList.toggle('is-flipped');
-                    card.setAttribute('aria-pressed', flipped ? 'true' : 'false');
-                });
-            }());
-        </script>
+        <!-- Custom scripts: keep these after the Volos main.js -->
+        <script src='js/sb-hero.js'></script>
     </body>
 </html>

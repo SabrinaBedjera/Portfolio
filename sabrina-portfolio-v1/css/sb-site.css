@@ -1,0 +1,51 @@
+/* ==================================================
+   Sabrina Bedjera portfolio — site-wide customisations
+   Loaded after style.css (the untouched Volos template).
+   Holds design tokens and changes that affect every page:
+   colours, the slim navigation rail and the menu panel.
+   Section-specific styles live in their own css/sb-*.css file.
+   ================================================== */
+:root {
+    --sb-ink: #14213d;
+    --sb-blue: #315f8c;
+    --sb-blue-light: #dfeaf4;
+    --sb-green: #6f8f72;
+    --sb-green-light: #e7eee6;
+    --sb-paper: #ffffff;
+    --sb-soft: #f5f7f6;
+    --sb-line: #cbd6d2;
+}
+
+body { background: var(--sb-paper); }
+
+/* Keep Volos' navigation rail, lose the oversized resume sidebar. */
+.content-left {
+    width: 90px;
+    background-color: var(--sb-ink);
+    z-index: 4;
+}
+.content-left-wrapper { padding-left: 34px; }
+.content-right {
+    margin-left: 90px;
+    width: calc(100% - 90px);
+}
+.my-info-wrapper, .big-num, .top-pagination { display: none !important; }
+.menu-holder {
+    width: 340px;
+    padding: 120px 45px 0 55px;
+    background-color: var(--sb-blue);
+    transform: translateX(-340px);
+    box-shadow: 18px 0 50px rgba(20,33,61,.14);
+}
+.menu-wrapper { padding-top: 90px; }
+.menu-line, .menu-line:before, .menu-line:after { background-color: #fff; }
+
+@media screen and (max-width: 1360px) {
+    .content-left { width: 90px; }
+    .content-right { margin-left: 90px; width: calc(100% - 90px); }
+}
+@media screen and (max-width: 1020px) {
+    .content-left { height: 55px; width: 100%; background: var(--sb-ink); }
+    .content-right { margin-left: 0; width: 100%; }
+    .menu-holder { position: fixed; }
+}
