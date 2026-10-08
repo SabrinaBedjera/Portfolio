@@ -35,8 +35,9 @@ body { background: var(--sb-paper); }
     padding: 120px 45px 0 55px;
     background-color: var(--sb-blue);
     transform: translateX(-340px);
-    box-shadow: 18px 0 50px rgba(20,33,61,.14);
 }
+/* Shadow only while open, so it doesn't bleed onto the page when closed. */
+.open .menu-holder { box-shadow: 18px 0 50px rgba(20,33,61,.14); }
 .menu-wrapper { padding-top: 90px; }
 .menu-line, .menu-line:before, .menu-line:after { background-color: #fff; }
 

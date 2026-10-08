@@ -9,7 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <link rel="shortcut icon" href="images/favicon.ico" />      
-        <link href='https://fonts.googleapis.com/css?family=Poppins:400,700,800' rel='stylesheet' type='text/css'>	             
+        <link href='https://fonts.googleapis.com/css?family=Poppins:400,700,800' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@500;600&display=swap' rel='stylesheet' type='text/css'>	             
         <link rel="stylesheet" type="text/css"  href='style.css' />
         <!-- Custom styles: keep these after the Volos style.css -->
         <link rel="stylesheet" type="text/css"  href='css/sb-site.css' />
@@ -51,12 +52,10 @@
                             <div class="menu-wrapper relative">                                 
                                 <nav id="header-main-menu">
                                     <ul class="main-menu sm sm-clean">
-                                        <li><a href="#home">Home</a></li>
+                                        <li><a href="#portfolio">Projects</a></li>
+                                        <li><a href="#skills">Lab</a></li>
                                         <li><a href="#service">About</a></li>
-                                        <li><a href="#portfolio">Work</a></li>                                  
-                                        <li><a href="#resume">Experience</a></li>                                  
-                                        <li><a href="#skills">Curiosities</a></li>                                  
-                                        <li><a href="#contact">Connect</a></li>                                  
+                                        <li><a href="#contact">Contact</a></li>
                                     </ul>
                                 </nav>                            
                             </div>
@@ -74,48 +73,206 @@
             <div class="content-right">  
                 <div class="content-right-wrapper">
                     
-                    <!-- Home Section -->  
-                    <div id="home" class="section full-width-section curious-home sb-hero">
-                        <div class="section-wrapper block curious-hero">
-                            <div class="home-left-part curious-copy">
-                                <p class="eyebrow">CURIOUS RESEARCHER · SB—001</p>
-                                <h1 class="entry-title">Sabrina<br>Bedjera</h1>
-                                <p class="hero-kicker">Technology · Investment · Strategy</p>
-                                <p class="site-info">
-                                    I bring a science and engineering lens to evaluating technologies, investments and complex projects — and moving them forward.
-                                </p>
-                                <div class="hero-links">
-                                    <a href="#portfolio" class="hero-link hero-link-primary">Explore my work <span>↘</span></a>
-                                    <a href="#contact" class="hero-link">Connect</a>
-                                </div>
-                                <p class="micro-note">Science → technology → decisions → deployment</p>
+                    <!-- Home Section: creative workspace (experiment) -->
+                    <div id="home" class="section full-width-section sb-hero">
+                        <header class="ws-header">
+                            <a class="ws-name slow-scroll" href="#home">Sabrina Bedjera</a>
+                            <nav class="ws-nav" aria-label="Primary">
+                                <a class="slow-scroll" href="#portfolio">Projects</a>
+                                <a class="slow-scroll" href="#skills">Lab</a>
+                                <a class="slow-scroll" href="#service">About</a>
+                                <a class="slow-scroll" href="#contact">Contact</a>
+                            </nav>
+                        </header>
+
+                        <div class="ws-layout">
+                            <div class="ws-copy">
+                                <p class="ws-eyebrow">Technology <span>·</span> Investment <span>·</span> Strategy</p>
+                                <h1 class="ws-statement">I work at the intersection of technology, investment and strategy to advance complex energy and technology projects from ideas toward real&#8209;world&nbsp;impact.</h1>
+                                <p class="ws-hint">Explore the studio — open the notebook, visit the lab or pick up the photograph. Or simply use the menu.</p>
                             </div>
 
-                            <div class="home-right-part curious-visual">
-                                <div class="portrait-frame">
-                                    <img src="images/home.jpg" alt="Sabrina Bedjera">
-                                    <span class="figure-label">FIG. 01 · THE RESEARCHER</span>
-                                </div>
+                            <div class="ws-scene" aria-label="An interactive studio desk">
+                                <div class="ws-stage">
+                                    <div class="ws-world">
+                                        <div class="ws-desk">
+                                            <!-- Sunlight through a window, with a plant beside it -->
+                                            <span class="ws-sun" aria-hidden="true"></span>
+                                            <svg class="ws-gobo" viewBox="0 0 1400 1200" aria-hidden="true">
+                                                <g class="ws-gobo-frame">
+                                                    <rect x="300" y="-100" width="46" height="1400"/>
+                                                    <rect x="760" y="-100" width="46" height="1400"/>
+                                                    <rect x="-100" y="430" width="1600" height="40"/>
+                                                </g>
+                                                <g class="ws-gobo-leaves">
+                                                    <path d="M1180 -60 C1120 120 1060 260 1010 420 C980 520 950 600 930 700" fill="none" stroke-width="14"/>
+                                                    <path d="M1130 80 c-90 -30 -170 10 -210 70 c80 30 160 10 210 -70z"/>
+                                                    <path d="M1100 170 c60 -80 150 -100 220 -70 c-50 70 -140 100 -220 70z"/>
+                                                    <path d="M1060 280 c-100 -20 -170 40 -190 110 c90 10 160 -30 190 -110z"/>
+                                                    <path d="M1035 360 c70 -70 160 -80 225 -40 c-60 60 -150 80 -225 40z"/>
+                                                    <path d="M1000 470 c-90 0 -150 60 -160 130 c80 -5 140 -50 160 -130z"/>
+                                                    <path d="M975 560 c60 -60 140 -60 200 -20 c-55 50 -135 60 -200 20z"/>
+                                                </g>
+                                            </svg>
 
-                                <button class="researcher-card" id="researcher-card" type="button" aria-label="Flip researcher card" aria-pressed="false">
-                                    <span class="researcher-card-inner">
-                                        <span class="card-face card-front">
-                                            <span class="card-topline"><span>FIELD ID</span><span>SB—001</span></span>
-                                            <span class="card-rule"></span>
-                                            <span class="card-small">CURIOUS RESEARCHER</span>
-                                            <strong>SABRINA<br>BEDJERA</strong>
-                                            <span class="card-domains">ENERGY · TECHNOLOGY<br>INVESTMENT · DATA</span>
-                                            <span class="card-flip">CLICK TO FLIP ↻</span>
-                                        </span>
-                                        <span class="card-face card-back">
-                                            <span class="card-small">WHAT I'M ABOUT</span>
-                                            <strong>Connecting ideas<br>to real-world<br>decisions.</strong>
-                                            <span class="card-back-copy">I like complex problems where science, technology, data and investment meet.</span>
-                                            <span class="card-current"><b>CURRENT CURIOSITY</b><br>AI × ENERGY</span>
-                                            <span class="card-flip">FLIP BACK ↻</span>
-                                        </span>
-                                    </span>
-                                </button>
+                                            <!-- 01 · Notebook → Projects -->
+                                            <a class="ws-obj ws-notebook slow-scroll" href="#portfolio" aria-label="Open the notebook: Projects">
+                                                <span class="ws-shadow nb-shadow-soft"></span>
+                                                <span class="ws-shadow nb-shadow-contact"></span>
+                                                <span class="nb-ribbon"></span>
+                                                <span class="nb-edge nb-edge-front"></span>
+                                                <span class="nb-edge nb-edge-back"></span>
+                                                <span class="nb-edge nb-edge-right"></span>
+                                                <span class="nb-edge nb-edge-spine"></span>
+                                                <span class="nb-page">
+                                                    <span class="nb-page-title">Projects</span>
+                                                    <span class="nb-page-line"><i>I.</i> Energy &amp; technology</span>
+                                                    <span class="nb-page-line"><i>II.</i> Data visualisation</span>
+                                                    <span class="nb-page-line"><i>III.</i> Creative work</span>
+                                                </span>
+                                                <span class="nb-cover">
+                                                    <span class="nb-cover-front">
+                                                        <span class="nb-label">
+                                                            <span class="nb-label-kicker">Nº 01</span>
+                                                            <span class="nb-label-title">Projects</span>
+                                                        </span>
+                                                        <span class="nb-band"></span>
+                                                    </span>
+                                                    <span class="nb-cover-inside"></span>
+                                                </span>
+                                            </a>
+
+                                            <!-- Pencil, resting beside the notebook -->
+                                            <span class="ws-pencil" aria-hidden="true">
+                                                <span class="ws-shadow pencil-shadow"></span>
+                                                <span class="pencil-body"></span>
+                                            </span>
+
+                                            <!-- 02 · Inventor's corner → Lab -->
+                                            <a class="ws-obj ws-lab slow-scroll" href="#skills" aria-label="Visit the lab">
+                                                <span class="ws-shadow lab-shadow-board"></span>
+                                                <svg class="lab-cable" viewBox="0 0 420 300" aria-hidden="true">
+                                                    <path class="cable-shadow" d="M218 156 C252 170 252 212 288 206"/>
+                                                    <path class="cable" d="M214 150 C248 164 248 206 284 200"/>
+                                                </svg>
+                                                <span class="lab-board">
+                                                    <svg viewBox="0 0 200 130" aria-hidden="true">
+                                                        <defs>
+                                                            <linearGradient id="pcb" x1="0" y1="0" x2="1" y2="1">
+                                                                <stop offset="0" stop-color="#24543f"/>
+                                                                <stop offset="1" stop-color="#173a2c"/>
+                                                            </linearGradient>
+                                                        </defs>
+                                                        <rect width="200" height="130" rx="6" fill="url(#pcb)"/>
+                                                        <g fill="none" stroke="#c9a85c" stroke-width="1.6" stroke-linecap="round" opacity=".75">
+                                                            <path d="M20 20 H70 V48 H96"/>
+                                                            <path d="M20 32 H58 V64 H96"/>
+                                                            <path d="M138 56 H170 V24"/>
+                                                            <path d="M138 70 H180 V108"/>
+                                                            <path d="M118 88 V112 H40"/>
+                                                            <path d="M104 88 V100 H28 V76"/>
+                                                        </g>
+                                                        <g fill="#d8bb72">
+                                                            <circle cx="12" cy="12" r="4"/><circle cx="188" cy="12" r="4"/>
+                                                            <circle cx="12" cy="118" r="4"/><circle cx="188" cy="118" r="4"/>
+                                                            <circle cx="170" cy="24" r="2.6"/><circle cx="180" cy="108" r="2.6"/>
+                                                            <circle cx="40" cy="112" r="2.6"/><circle cx="28" cy="76" r="2.6"/>
+                                                        </g>
+                                                        <g fill="#0f0f12">
+                                                            <rect x="20" y="10" width="7" height="30" rx="1"/>
+                                                        </g>
+                                                        <g fill="#c9c4b8">
+                                                            <rect x="21.5" y="13" width="4" height="4"/><rect x="21.5" y="22" width="4" height="4"/><rect x="21.5" y="31" width="4" height="4"/>
+                                                        </g>
+                                                        <rect x="150" y="84" width="22" height="9" rx="2" fill="#d9c9a3"/>
+                                                        <rect x="154" y="84" width="2" height="9" fill="#7a4b2a"/><rect x="160" y="84" width="2" height="9" fill="#2b2b2b"/><rect x="165" y="84" width="2" height="9" fill="#b0863b"/>
+                                                        <text x="146" y="122" font-family="Poppins, sans-serif" font-size="7" letter-spacing="1.4" fill="#e6dcc0" opacity=".7">SB·LAB r1</text>
+                                                    </svg>
+                                                    <span class="lab-chip"></span>
+                                                    <span class="lab-led"><span class="lab-led-glow"></span></span>
+                                                </span>
+
+                                                <!-- Flask on a sensor plate (stands upright) -->
+                                                <span class="ws-shadow lab-puck-shadow"></span>
+                                                <span class="ws-shadow flask-shadow"></span>
+                                                <span class="lab-puck"></span>
+                                                <span class="flask-caustic"></span>
+                                                <span class="ws-upright flask">
+                                                    <svg viewBox="0 0 160 220" aria-hidden="true">
+                                                        <defs>
+                                                            <linearGradient id="glass" x1="0" x2="1">
+                                                                <stop offset="0" stop-color="#ffffff" stop-opacity=".55"/>
+                                                                <stop offset=".18" stop-color="#e9f1f3" stop-opacity=".18"/>
+                                                                <stop offset=".7" stop-color="#dfe9ec" stop-opacity=".12"/>
+                                                                <stop offset="1" stop-color="#b9c9cf" stop-opacity=".45"/>
+                                                            </linearGradient>
+                                                            <linearGradient id="liquid" x1="0" y1="0" x2="1" y2="1">
+                                                                <stop offset="0" stop-color="#5cc3b5"/>
+                                                                <stop offset=".55" stop-color="#2e9f99"/>
+                                                                <stop offset="1" stop-color="#1d6f78"/>
+                                                            </linearGradient>
+                                                            <clipPath id="flaskInside">
+                                                                <path d="M66 18 V78 L20 190 Q16 204 32 204 H128 Q144 204 140 190 L94 78 V18 Z"/>
+                                                            </clipPath>
+                                                        </defs>
+                                                        <g clip-path="url(#flaskInside)">
+                                                            <path d="M0 128 Q40 122 80 128 T160 128 V220 H0 Z" fill="url(#liquid)" opacity=".92"/>
+                                                            <ellipse cx="80" cy="128" rx="40" ry="4" fill="#9fe0d6" opacity=".55"/>
+                                                            <g class="flask-bubbles" fill="#e8fffb">
+                                                                <circle class="bubble b1" cx="70" cy="196" r="3"/>
+                                                                <circle class="bubble b2" cx="86" cy="198" r="2.2"/>
+                                                                <circle class="bubble b3" cx="96" cy="194" r="2.6"/>
+                                                                <circle class="bubble b4" cx="62" cy="199" r="1.8"/>
+                                                                <circle class="bubble b5" cx="80" cy="197" r="1.5"/>
+                                                            </g>
+                                                            <rect class="flask-probe" x="88" y="0" width="4" height="176" rx="2" fill="#3a3f45"/>
+                                                        </g>
+                                                        <path d="M66 18 V78 L20 190 Q16 204 32 204 H128 Q144 204 140 190 L94 78 V18" fill="url(#glass)" stroke="#9fb2b9" stroke-opacity=".55" stroke-width="1.4"/>
+                                                        <rect x="60" y="10" width="40" height="10" rx="4" fill="#f2f6f7" stroke="#9fb2b9" stroke-opacity=".6" stroke-width="1.2"/>
+                                                        <path d="M70 26 V80 L32 176" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+                                                        <path d="M130 186 L100 112" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".4"/>
+                                                        <g stroke="#7d9199" stroke-width="1" opacity=".5">
+                                                            <path d="M104 150 h10"/><path d="M110 170 h10"/><path d="M98 130 h8"/>
+                                                        </g>
+                                                        <path d="M90 2 V14" stroke="#3a3f45" stroke-width="4" stroke-linecap="round"/>
+                                                        <path d="M90 4 C92 -1 146 -2 148 32 L150 218" fill="none" stroke="#2f3338" stroke-width="2.6" stroke-linecap="round"/>
+                                                    </svg>
+                                                </span>
+
+                                                <!-- Miniature display (stands upright) -->
+                                                <span class="ws-shadow display-shadow"></span>
+                                                <span class="ws-upright display">
+                                                    <span class="display-body">
+                                                        <span class="display-screen">
+                                                            <svg viewBox="0 0 120 64" preserveAspectRatio="none" aria-hidden="true">
+                                                                <g stroke="#1f6f62" stroke-width=".5" opacity=".6">
+                                                                    <path d="M0 16 H120 M0 32 H120 M0 48 H120"/>
+                                                                </g>
+                                                                <polyline class="display-trace" fill="none" stroke="#7ff5d9" stroke-width="1.6" stroke-linejoin="round" points=""/>
+                                                            </svg>
+                                                            <span class="display-readout"><b>pH</b> <span class="display-value">6.82</span></span>
+                                                        </span>
+                                                    </span>
+                                                    <span class="display-stand"></span>
+                                                </span>
+                                            </a>
+
+                                            <!-- 03 · Photograph → About -->
+                                            <a class="ws-obj ws-photo slow-scroll" href="#service" aria-label="Pick up the photograph: About me">
+                                                <span class="ws-shadow photo-shadow"></span>
+                                                <span class="photo-print">
+                                                    <img src="images/home.jpg" alt="">
+                                                    <span class="photo-caption">about me</span>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Editorial captions (2D, laid over the scene) -->
+                                    <a class="ws-tag tag-projects slow-scroll" href="#portfolio"><span class="ws-tag-num">01</span> Projects</a>
+                                    <a class="ws-tag tag-lab slow-scroll" href="#skills"><span class="ws-tag-num">02</span> Lab</a>
+                                    <a class="ws-tag tag-about slow-scroll" href="#service"><span class="ws-tag-num">03</span> About</a>
+                                </div>
                             </div>
                         </div>
                     </div>
