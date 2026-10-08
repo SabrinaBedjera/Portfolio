@@ -1,7 +1,7 @@
 # Sabrina Bedjera — portfolio
 
 A static site built on the Volos one-page HTML template. No build step: open it through a local web server
-(for example `python3 -m http.server` in this folder, then visit http://localhost:8000). Opening `index.html`
+(for example `python3 -m http.server` in the repository root, then visit http://localhost:8000). Opening `index.html`
 directly from disk breaks the portfolio pages, which are loaded with AJAX.
 
 ## How the code is organised
