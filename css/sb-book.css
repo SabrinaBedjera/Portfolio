@@ -1,0 +1,390 @@
+/* ==================================================
+   Sabrina Bedjera portfolio — Portfolio book viewer
+   EXPERIMENT: desktop prototype. Behaviour in js/sb-book.js.
+
+   Structure
+   - .pf-fly    is animated from the notebook's position on the desk.
+   - .pf-book   holds the leaves; .is-closed shifts it so the cover is centred.
+   - .pf-leaf   is one sheet: a front face (right-hand page) and a back face
+                (left-hand page of the next spread). Turning a page rotates the
+                leaf 180° around the spine. JS sets each leaf's z-index.
+   ================================================== */
+
+.pf-viewer {
+    --ph: min(76vh, 760px, calc((100vw - 220px) / 1.6));   /* page height */
+    --pw: calc(var(--ph) * .8);                             /* page width  */
+    --pf-ink: #1f2b4a;
+    --pf-muted: #7d7466;
+    --pf-paper: #fbf8f1;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    color: var(--pf-ink);
+    font-family: 'Newsreader', Georgia, serif;
+}
+.pf-viewer[hidden] { display: none; }
+
+.pf-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(32, 25, 18, .62);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity .55s ease;
+}
+.pf-viewer.is-visible .pf-backdrop { opacity: 1; }
+
+/* ---------- Controls ---------- */
+.pf-close,
+.pf-controls button {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    background: #fbf8f3;
+    color: var(--pf-ink);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+    transition: background .2s, opacity .3s, transform .2s;
+}
+.pf-close {
+    position: absolute;
+    z-index: 3;
+    top: 26px; right: 30px;
+    padding: 12px 20px 12px 22px;
+}
+.pf-close span { margin-left: 6px; font-size: 20px; vertical-align: -1px; }
+.pf-controls {
+    position: absolute;
+    z-index: 3;
+    left: 50%; bottom: 26px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    transform: translateX(-50%);
+}
+.pf-controls button { padding: 12px 22px; }
+.pf-close:hover,
+.pf-controls button:hover { background: #fff; }
+.pf-controls button:disabled { opacity: .35; cursor: default; }
+.pf-close:focus-visible,
+.pf-controls button:focus-visible,
+.pf-page button:focus-visible,
+.pf-page a:focus-visible { outline: 2px solid #c9a85c; outline-offset: 3px; }
+.pf-count {
+    min-width: 120px;
+    color: #f4ede2;
+    font-size: 15px;
+    text-align: center;
+    letter-spacing: .04em;
+}
+.pf-close, .pf-controls { opacity: 0; transition: opacity .4s ease; }
+.pf-viewer.is-open .pf-close,
+.pf-viewer.is-open .pf-controls { opacity: 1; }
+
+/* ---------- Book ---------- */
+.pf-stage {
+    position: absolute;
+    left: 50%; top: calc(50% - 18px);
+    width: calc(var(--pw) * 2);
+    height: var(--ph);
+    margin-left: calc(var(--pw) * -1);
+    margin-top: calc(var(--ph) / -2);
+}
+.pf-fly { width: 100%; height: 100%; transform-origin: 75% 50%; }
+.pf-book {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s cubic-bezier(.3, .7, .2, 1);
+}
+.pf-book.is-closed { transform: translateX(calc(var(--pw) * -.5)); }
+
+/* Hard covers visible around the open pages */
+.pf-boards {
+    position: absolute;
+    inset: -9px -12px;
+    border-radius: 7px;
+    background:
+        linear-gradient(90deg, transparent calc(50% - 7px), rgba(0, 0, 0, .35) 50%, transparent calc(50% + 7px)),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, .03) 0 1px, transparent 1px 3px),
+        #1e2c4c;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, .45), 0 8px 18px rgba(0, 0, 0, .25);
+    opacity: 0;
+    transition: opacity .5s ease .25s;
+}
+.pf-book:not(.is-closed) .pf-boards { opacity: 1; }
+
+.pf-leaf {
+    position: absolute;
+    left: 50%; top: 0;
+    width: var(--pw);
+    height: var(--ph);
+    transform-origin: 0 50%;
+    transform-style: preserve-3d;
+    transform: perspective(2600px) rotateY(0deg);
+    transition: transform .95s cubic-bezier(.45, .05, .2, 1);
+}
+.pf-leaf.is-flipped { transform: perspective(2600px) rotateY(-180deg); }
+.pf-book.is-fast .pf-leaf { transition-duration: .32s; }
+
+.pf-face {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.pf-back { transform: rotateY(180deg); }
+
+/* Paper, with shading toward the spine */
+.pf-page {
+    padding: 13% 10% 9%;
+    background: var(--pf-paper);
+    font-size: calc(var(--ph) / 46);
+    line-height: 1.5;
+}
+.pf-front.pf-page {
+    border-radius: 0 3px 3px 0;
+    background:
+        linear-gradient(90deg, rgba(60, 45, 25, .16), rgba(60, 45, 25, 0) 9%),
+        var(--pf-paper);
+}
+.pf-back.pf-page {
+    border-radius: 3px 0 0 3px;
+    background:
+        linear-gradient(270deg, rgba(60, 45, 25, .16), rgba(60, 45, 25, 0) 9%),
+        var(--pf-paper);
+}
+/* A soft shadow sweeps across a page while it turns */
+.pf-face:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, 0) 60%);
+    opacity: 0;
+    transition: opacity .45s ease;
+}
+.pf-back:after { background: linear-gradient(270deg, rgba(0, 0, 0, .18), rgba(0, 0, 0, 0) 60%); }
+.pf-leaf.is-turning .pf-face:after { opacity: 1; }
+
+.pf-cover { border-radius: 3px 6px 6px 3px; background: #1e2c4c; }
+.pf-cover img {
+    display: block;
+    width: 100%; height: 100%;
+    max-width: none; max-height: none;
+    object-fit: cover;
+}
+.pf-book.is-closed .pf-cover { box-shadow: 0 30px 60px rgba(0, 0, 0, .45); }
+
+/* ---------- Page typography ---------- */
+.pf-page p { margin: 0 0 .9em; color: #2e3754; font-size: 1em; line-height: 1.55; }
+.pf-running {
+    position: absolute;
+    top: 4.2%; left: 10%; right: 10%;
+    margin: 0 !important;
+    padding-bottom: .5em;
+    border-bottom: 1px solid #e3dccd;
+    color: var(--pf-muted) !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: .58em !important;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+}
+.pf-folio {
+    position: absolute;
+    bottom: 3.6%; left: 0; right: 0;
+    margin: 0 !important;
+    color: var(--pf-muted) !important;
+    font-size: .75em !important;
+    text-align: center;
+}
+.pf-eyebrow {
+    margin: 0 0 .5em !important;
+    color: #6f8f72 !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: .6em !important;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+}
+.pf-h {
+    margin: 0 0 .8em;
+    color: var(--pf-ink);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 2.05em;
+    font-weight: 400;
+    line-height: 1.1;
+}
+.pf-sub {
+    margin: 1.5em 0 .5em;
+    color: var(--pf-ink);
+    font-family: 'Poppins', sans-serif;
+    font-size: .62em;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+.pf-list { margin: 0 0 .8em; padding-left: 1.1em; }
+.pf-list li { margin-bottom: .35em; color: #2e3754; list-style: disc; }
+.pf-note { color: var(--pf-muted) !important; font-size: .85em !important; }
+.pf-caption, .pf-figure figcaption { margin-top: .6em; color: var(--pf-muted); font-size: .78em; }
+
+/* Placeholders: clearly marked, never mistaken for real content */
+.pf-page .ph {
+    padding: 0 .2em;
+    border-radius: 2px;
+    background: rgba(201, 168, 92, .16);
+    color: #74603d;
+    font-style: italic;
+}
+.pf-page .pf-list li.ph { background: none; padding: 0; }
+.pf-page p.ph, .pf-page dd.ph, .pf-page .pf-h .ph { width: fit-content; max-width: 100%; }
+.pf-page .ph { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* Title page */
+.pf-title-page { display: flex; flex-direction: column; justify-content: center; text-align: center; }
+.pf-kicker {
+    color: var(--pf-muted) !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: .62em !important;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+}
+.pf-title { margin: .1em 0 0; color: var(--pf-ink); font-family: 'Newsreader', Georgia, serif; font-size: 4.4em; font-weight: 400; line-height: 1; }
+.pf-rule { display: block; width: 3.2em; height: 1px; margin: 1.4em auto; background: #c9a85c; }
+.pf-lede { font-size: 1.15em !important; }
+.pf-edition { margin-top: 2.5em !important; color: var(--pf-muted) !important; font-size: .8em !important; }
+
+/* Contents */
+.pf-contents { margin: 0 0 2em; padding: 0; counter-reset: none; }
+.pf-contents li { list-style: none; border-bottom: 1px solid #e6dfd1; }
+.pf-contents button {
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+    width: 100%;
+    padding: .85em 0;
+    border: 0;
+    background: none;
+    color: var(--pf-ink);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+.pf-contents button:hover .pf-c-name { color: #315f8c; }
+.pf-c-num { width: 1.6em; color: #6f8f72; font-family: 'Poppins', sans-serif; font-size: .7em; letter-spacing: .1em; }
+.pf-c-name { flex: 1; font-size: 1.1em; }
+.pf-c-name em { display: block; margin-top: .15em; font-size: .78em; }
+.pf-c-page { color: var(--pf-muted); font-size: .85em; }
+
+/* Project metadata */
+.pf-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .7em 1.4em;
+    margin: 0 0 .4em;
+    padding: .9em 0;
+    border-top: 1px solid #e3dccd;
+    border-bottom: 1px solid #e3dccd;
+}
+.pf-meta dt {
+    color: var(--pf-muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: .55em;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+.pf-meta dd { margin: .15em 0 0; font-size: .9em; }
+
+/* Figures */
+.pf-figure { margin: 0 0 1em; }
+.pf-figure-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 10;
+    padding: 1.5em;
+    border: 1px dashed #c9bfa9;
+    background: repeating-linear-gradient(135deg, rgba(201, 191, 169, .14) 0 6px, transparent 6px 14px), #f6f1e6;
+    text-align: center;
+    font-size: .9em;
+}
+.pf-figure-tall .pf-figure-box { aspect-ratio: 4 / 4.2; }
+.pf-tag {
+    position: absolute;
+    top: .8em; left: .8em;
+    padding: .25em .6em;
+    border-radius: 2px;
+    background: #fbf8f1;
+    color: var(--pf-muted);
+    font-family: 'Poppins', sans-serif;
+    font-size: .55em;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+/* Outcome metrics */
+.pf-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; }
+.pf-metrics div { padding-top: .6em; border-top: 2px solid var(--pf-ink); }
+.pf-metrics b { display: block; font-size: 1.25em; font-weight: 500; }
+.pf-metrics span { display: inline-block; margin-top: .3em; font-size: .75em; }
+
+/* Process diagram */
+.pf-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1em; margin: 1.6em 0 .2em; }
+.pf-flow div {
+    position: relative;
+    padding: .9em .7em 1em;
+    border: 1px solid #d9d0be;
+    border-radius: 3px;
+    background: #fff;
+    font-size: .82em;
+    line-height: 1.35;
+}
+.pf-flow div + div:before {
+    content: "→";
+    position: absolute;
+    left: -1.05em; top: 50%;
+    transform: translateY(-50%);
+    color: #a39883;
+}
+.pf-flow b { display: block; margin-bottom: .4em; color: #6f8f72; font-family: 'Poppins', sans-serif; font-size: .75em; letter-spacing: .12em; }
+
+/* Table */
+.pf-table { width: 100%; border: 0; border-collapse: collapse; font-size: .85em; }
+.pf-table th {
+    padding: .5em .4em;
+    border-bottom: 1px solid var(--pf-ink);
+    color: var(--pf-ink);
+    font-family: 'Poppins', sans-serif;
+    font-size: .68em;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-align: left;
+    text-transform: uppercase;
+}
+.pf-table th, .pf-table td { border-top: 0; border-left: 0; border-right: 0; }
+.pf-table td { padding: .55em .4em; border-bottom: 1px solid #e3dccd; }
+.pf-page .pf-table td.ph { background: none; }
+
+/* Closing pages */
+.pf-closing { display: flex; flex-direction: column; justify-content: center; }
+.pf-button {
+    display: inline-block;
+    margin-top: .6em;
+    padding: .7em 1.4em;
+    border-radius: 999px;
+    background: var(--pf-ink);
+    color: #fff !important;
+    font-size: .95em;
+}
+.pf-button:hover { background: #315f8c; }
+
+@media (prefers-reduced-motion: reduce) {
+    .pf-leaf, .pf-book, .pf-backdrop, .pf-boards { transition-duration: .01ms !important; }
+}

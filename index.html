@@ -15,6 +15,7 @@
         <!-- Custom styles: keep these after the Volos style.css -->
         <link rel="stylesheet" type="text/css"  href='css/sb-site.css' />
         <link rel="stylesheet" type="text/css"  href='css/sb-hero.css' />
+        <link rel="stylesheet" type="text/css"  href='css/sb-book.css' />
 
         <!--[if lt IE 9]>
                 <script src="js/html5.js"></script>            
@@ -79,7 +80,7 @@
                             <img class="desk-photo" src="images/hero/desk.jpg" alt="" width="1200" height="800">
 
                             <nav class="desk-nav" aria-label="Primary">
-                                <a class="slow-scroll" href="#portfolio">Portfolio</a>
+                                <a href="#portfolio" data-open-book>Portfolio</a>
                                 <a class="slow-scroll" href="#skills">Lab</a>
                                 <a class="slow-scroll" href="#service">About</a>
                                 <a class="slow-scroll" href="#contact">Contact</a>
@@ -93,7 +94,7 @@
                             </div>
 
                             <!-- Clickable objects: each hit area is shaped to the object in the photo -->
-                            <a class="desk-hit hit-book slow-scroll" href="#portfolio" aria-label="Portfolio: selected work, projects and impact"></a>
+                            <a class="desk-hit hit-book" href="#portfolio" data-open-book aria-label="Portfolio: selected work, projects and impact"></a>
                             <a class="desk-hit hit-photo slow-scroll" href="#service" aria-label="About: my story, background and interests"></a>
                             <a class="desk-hit hit-lab slow-scroll" href="#skills" aria-label="Lab: experiments, ideas and prototypes"></a>
                             <a class="desk-hit hit-ball" href="#home" aria-label="Fun corner (coming soon)" title="Fun corner — coming soon"></a>
@@ -103,7 +104,7 @@
                                 <span class="note-title">Lab</span>
                                 <span class="note-list">Experiments<br>Ideas<br>Prototypes<br>and more</span>
                             </a>
-                            <a class="desk-note note-portfolio slow-scroll" href="#portfolio" tabindex="-1" aria-hidden="true">
+                            <a class="desk-note note-portfolio" href="#portfolio" data-open-book tabindex="-1" aria-hidden="true">
                                 <span class="note-title">Portfolio</span>
                                 <span class="note-list">Selected work<br>Projects<br>Impact</span>
                             </a>
@@ -491,6 +492,185 @@
             </div>            
         </div>        
 
+        <!-- Portfolio book (opens from the notebook on the desk). EXPERIMENT. -->
+        <div class="pf-viewer" id="portfolio-book" role="dialog" aria-modal="true" aria-label="Portfolio book" hidden>
+            <div class="pf-backdrop" data-close-book></div>
+            <button class="pf-close" type="button" data-close-book>Close book <span aria-hidden="true">×</span></button>
+
+            <div class="pf-stage">
+                <div class="pf-fly">
+                    <div class="pf-book">
+                        <span class="pf-boards" aria-hidden="true"></span>
+
+                        <!-- Leaf 0: cover / title page -->
+                        <div class="pf-leaf">
+                            <div class="pf-face pf-front pf-cover"><img src="images/hero/book-cover.jpg" alt="Portfolio — Sabrina Bedjera"></div>
+                            <div class="pf-face pf-back pf-page pf-title-page">
+                                <p class="pf-kicker">Sabrina Bedjera</p>
+                                <h2 class="pf-title">Portfolio</h2>
+                                <span class="pf-rule"></span>
+                                <p class="pf-lede">Selected work in technology, investment and strategy.</p>
+                                <p class="pf-edition">Sample pages for review <span class="ph">[edition / year]</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Leaf 1: contents / project 01 overview -->
+                        <div class="pf-leaf">
+                            <div class="pf-face pf-front pf-page">
+                                <p class="pf-running">Contents</p>
+                                <h3 class="pf-h">Contents</h3>
+                                <ol class="pf-contents">
+                                    <li><button type="button" data-goto="2"><span class="pf-c-num">01</span><span class="pf-c-name">Energy &amp; technology<em class="ph">[Project title]</em></span><span class="pf-c-page">2</span></button></li>
+                                    <li><button type="button" data-goto="3"><span class="pf-c-num">02</span><span class="pf-c-name">Data visualisation<em class="ph">[Project title]</em></span><span class="pf-c-page">4</span></button></li>
+                                    <li><button type="button" data-goto="4"><span class="pf-c-num">03</span><span class="pf-c-name">Strategy &amp; investment<em class="ph">[Project title]</em></span><span class="pf-c-page">6</span></button></li>
+                                    <li><button type="button" data-goto="5"><span class="pf-c-num">—</span><span class="pf-c-name">More work &amp; contact</span><span class="pf-c-page">8</span></button></li>
+                                </ol>
+                                <p class="pf-note">Every project detail in these sample pages is a placeholder, shown in <span class="ph">[brackets]</span>.</p>
+                                <p class="pf-folio">i</p>
+                            </div>
+                            <div class="pf-face pf-back pf-page">
+                                <p class="pf-running">01 · Energy &amp; technology</p>
+                                <p class="pf-eyebrow">Project 01 — Energy &amp; technology</p>
+                                <h3 class="pf-h"><span class="ph">[Project title]</span></h3>
+                                <dl class="pf-meta">
+                                    <div><dt>Role</dt><dd class="ph">[Your role]</dd></div>
+                                    <div><dt>Organisation</dt><dd class="ph">[Organisation]</dd></div>
+                                    <div><dt>Year</dt><dd class="ph">[Year]</dd></div>
+                                    <div><dt>Focus</dt><dd class="ph">[e.g. techno-economic analysis]</dd></div>
+                                </dl>
+                                <h4 class="pf-sub">Context</h4>
+                                <p class="ph">[Two or three sentences: the problem, who it mattered to and why.]</p>
+                                <h4 class="pf-sub">Approach</h4>
+                                <ul class="pf-list">
+                                    <li class="ph">[Step or method 1]</li>
+                                    <li class="ph">[Step or method 2]</li>
+                                    <li class="ph">[Step or method 3]</li>
+                                </ul>
+                                <p class="pf-folio">2</p>
+                            </div>
+                        </div>
+
+                        <!-- Leaf 2: project 01 detail / project 02 figure -->
+                        <div class="pf-leaf">
+                            <div class="pf-face pf-front pf-page">
+                                <p class="pf-running">01 · Energy &amp; technology</p>
+                                <figure class="pf-figure">
+                                    <div class="pf-figure-box"><span class="pf-tag">Placeholder figure</span><span class="ph">[Diagram or chart — e.g. system boundary, cost curve]</span></div>
+                                    <figcaption>Figure 1.1 — <span class="ph">[Caption and data source]</span></figcaption>
+                                </figure>
+                                <h4 class="pf-sub">Findings</h4>
+                                <ul class="pf-list">
+                                    <li class="ph">[Key finding 1]</li>
+                                    <li class="ph">[Key finding 2]</li>
+                                </ul>
+                                <h4 class="pf-sub">Outcome</h4>
+                                <div class="pf-metrics">
+                                    <div><b class="ph">[Metric]</b><span class="ph">[What it measures]</span></div>
+                                    <div><b class="ph">[Metric]</b><span class="ph">[What it measures]</span></div>
+                                    <div><b class="ph">[Metric]</b><span class="ph">[What it measures]</span></div>
+                                </div>
+                                <p class="pf-folio">3</p>
+                            </div>
+                            <div class="pf-face pf-back pf-page">
+                                <p class="pf-running">02 · Data visualisation</p>
+                                <p class="pf-eyebrow">Project 02 — Data visualisation</p>
+                                <h3 class="pf-h"><span class="ph">[Project title]</span></h3>
+                                <figure class="pf-figure pf-figure-tall">
+                                    <div class="pf-figure-box"><span class="pf-tag">Placeholder visual</span><span class="ph">[Main visualisation — screenshot or embedded chart]</span></div>
+                                    <figcaption>Figure 2.1 — <span class="ph">[What the visual shows; data source]</span></figcaption>
+                                </figure>
+                                <p class="pf-folio">4</p>
+                            </div>
+                        </div>
+
+                        <!-- Leaf 3: project 02 text / project 03 framework -->
+                        <div class="pf-leaf">
+                            <div class="pf-face pf-front pf-page">
+                                <p class="pf-running">02 · Data visualisation</p>
+                                <dl class="pf-meta">
+                                    <div><dt>Role</dt><dd class="ph">[Your role]</dd></div>
+                                    <div><dt>Tools</dt><dd class="ph">[e.g. Python, D3, Tableau]</dd></div>
+                                    <div><dt>Data</dt><dd class="ph">[Dataset and source]</dd></div>
+                                </dl>
+                                <h4 class="pf-sub">Question</h4>
+                                <p class="ph">[The question the visualisation answers.]</p>
+                                <h4 class="pf-sub">Method</h4>
+                                <p class="ph">[How the data was gathered, cleaned and analysed.]</p>
+                                <h4 class="pf-sub">Insight</h4>
+                                <p class="ph">[What the visual revealed and who used it.]</p>
+                                <p class="pf-link"><span class="ph">[Link to live project or repository]</span></p>
+                                <p class="pf-folio">5</p>
+                            </div>
+                            <div class="pf-face pf-back pf-page">
+                                <p class="pf-running">03 · Strategy &amp; investment</p>
+                                <p class="pf-eyebrow">Project 03 — Strategy &amp; investment</p>
+                                <h3 class="pf-h"><span class="ph">[Project title]</span></h3>
+                                <p class="ph">[One-sentence summary of the decision this work supported.]</p>
+                                <div class="pf-flow" aria-label="Placeholder process diagram">
+                                    <div><b>01</b><span class="ph">[Opportunity]</span></div>
+                                    <div><b>02</b><span class="ph">[Evidence]</span></div>
+                                    <div><b>03</b><span class="ph">[Investment case]</span></div>
+                                    <div><b>04</b><span class="ph">[Deployment]</span></div>
+                                </div>
+                                <p class="pf-caption">Figure 3.1 — <span class="ph">[Placeholder process diagram; replace with the real framework]</span></p>
+                                <p class="pf-folio">6</p>
+                            </div>
+                        </div>
+
+                        <!-- Leaf 4: project 03 results / more work -->
+                        <div class="pf-leaf">
+                            <div class="pf-face pf-front pf-page">
+                                <p class="pf-running">03 · Strategy &amp; investment</p>
+                                <h4 class="pf-sub">Analysis</h4>
+                                <table class="pf-table">
+                                    <thead><tr><th>Option</th><th>Assessment</th><th>Risk</th></tr></thead>
+                                    <tbody>
+                                        <tr><td class="ph">[Option A]</td><td class="ph">[Summary]</td><td class="ph">[Low / Med / High]</td></tr>
+                                        <tr><td class="ph">[Option B]</td><td class="ph">[Summary]</td><td class="ph">[Low / Med / High]</td></tr>
+                                        <tr><td class="ph">[Option C]</td><td class="ph">[Summary]</td><td class="ph">[Low / Med / High]</td></tr>
+                                    </tbody>
+                                </table>
+                                <h4 class="pf-sub">Recommendation</h4>
+                                <p class="ph">[What was recommended and why.]</p>
+                                <h4 class="pf-sub">Outcome</h4>
+                                <p class="ph">[What happened next — decision, funding, deployment.]</p>
+                                <p class="pf-folio">7</p>
+                            </div>
+                            <div class="pf-face pf-back pf-page pf-closing">
+                                <p class="pf-running">More work</p>
+                                <h3 class="pf-h">More work in progress</h3>
+                                <p>Further projects will be added here as the full portfolio is built.</p>
+                                <ul class="pf-list">
+                                    <li class="ph">[Future project 04]</li>
+                                    <li class="ph">[Future project 05]</li>
+                                </ul>
+                                <p class="pf-folio">8</p>
+                            </div>
+                        </div>
+
+                        <!-- Leaf 5: contact -->
+                        <div class="pf-leaf">
+                            <div class="pf-face pf-front pf-page pf-closing">
+                                <p class="pf-running">Contact</p>
+                                <h3 class="pf-h">Let’s talk</h3>
+                                <p>Interested in a project or a conversation about energy, technology and investment?</p>
+                                <p><a class="pf-button" href="#contact" data-close-book data-then="#contact">Get in touch</a></p>
+                                <p class="pf-note"><span class="ph">[CV download link]</span></p>
+                                <p class="pf-folio">9</p>
+                            </div>
+                            <div class="pf-face pf-back pf-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pf-controls">
+                <button class="pf-prev" type="button" aria-label="Previous page"><span aria-hidden="true">←</span> Previous</button>
+                <span class="pf-count" aria-live="polite"></span>
+                <button class="pf-next" type="button" aria-label="Next page">Next <span aria-hidden="true">→</span></button>
+            </div>
+        </div>
+
         <!--Load JavaScript-->
         <script src="js/jquery.js"></script>			                                                               
         <script src='js/imagesloaded.pkgd.js'></script>                
@@ -503,5 +683,6 @@
 
         <!-- Custom scripts: keep these after the Volos main.js -->
         <script src='js/sb-hero.js'></script>
+        <script src='js/sb-book.js'></script>
     </body>
 </html>

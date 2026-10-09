@@ -16,14 +16,33 @@
     --desk-ink: #1d2a4c;
     --desk-pen: #22305a;
 }
+/* Fit: the desk keeps its 3:2 shape and is sized so the band from the menu
+   (4% down) to the bottom of the Portfolio note (96%) always fits the screen.
+   On screens wider than that, a blurred copy of the desk fills the sides. */
+.sb-hero {
+    --desk-h: min(66.667vw, 108.1vh);
+}
 .sb-hero.section {
+    position: relative;
+    height: min(100vh, var(--desk-h));
     padding: 0;
+    overflow: hidden;
     background: #f4ece1;
 }
+.sb-hero.section:before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    background: url(../images/hero/desk.jpg) center / cover;
+    filter: blur(28px) brightness(1.04);
+}
 .sb-hero .desk {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3 / 2;
+    position: absolute;
+    left: 50%;
+    top: min(0px, calc(min(100vh, var(--desk-h)) / 2 - var(--desk-h) * .4975));
+    width: calc(var(--desk-h) * 1.5);
+    height: var(--desk-h);
+    margin-left: calc(var(--desk-h) * -.75);
     overflow: hidden;
     container-type: inline-size;
     color: var(--desk-ink);
