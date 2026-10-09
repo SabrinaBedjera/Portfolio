@@ -148,16 +148,22 @@
         updateControls();
         viewer.classList.remove('is-open');
 
-        // Turn every page back, close the cover, then return to the desk.
-        book.classList.add('is-fast');
-        var chain = Promise.resolve();
-        for (var i = 0; i < turned; i++) {
-            chain = chain.then(function () { return turn(-1, T_FAST); });
-        }
-        chain.then(function () {
-            book.classList.remove('is-fast');
-            book.classList.add('is-closed');
-            return wait(reduceMotion ? 1 : 500);
+        // Close from the current spread: every turned page swings back over
+        // the spine together, as one block with the cover, while the book
+        // slides back to centre the cover. Halfway through the swing the
+        // stacking order flips so the cover ends up on top.
+        leaves.forEach(function (leaf, i) {
+            if (i < turned) {
+                leaf.classList.add('is-turning');
+                leaf.classList.remove('is-flipped');
+            }
+        });
+        book.classList.add('is-closed');
+        spread = 0;
+        wait(T_TURN * .5).then(function () {
+            restack();
+            leaves.forEach(function (leaf) { leaf.classList.remove('is-turning'); });
+            return wait(T_TURN * .5 + (reduceMotion ? 0 : 150));
         }).then(function () {
             viewer.classList.remove('is-visible');
             var end = fromDesk();

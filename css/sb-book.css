@@ -15,7 +15,7 @@
     --pw: calc(var(--ph) * .8);                             /* page width  */
     --pf-ink: #1f2b4a;
     --pf-muted: #7d7466;
-    --pf-paper: #fbf8f1;
+    --pf-paper: #fafaf8;
     position: fixed;
     inset: 0;
     z-index: 1000;
@@ -311,7 +311,7 @@
     aspect-ratio: 16 / 10;
     padding: 1.5em;
     border: 1px dashed #c9bfa9;
-    background: repeating-linear-gradient(135deg, rgba(201, 191, 169, .14) 0 6px, transparent 6px 14px), #f6f1e6;
+    background: repeating-linear-gradient(135deg, rgba(201, 191, 169, .14) 0 6px, transparent 6px 14px), #f2f2ef;
     text-align: center;
     font-size: .9em;
 }
@@ -321,7 +321,7 @@
     top: .8em; left: .8em;
     padding: .25em .6em;
     border-radius: 2px;
-    background: #fbf8f1;
+    background: var(--pf-paper);
     color: var(--pf-muted);
     font-family: 'Poppins', sans-serif;
     font-size: .55em;
