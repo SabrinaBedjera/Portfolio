@@ -15,7 +15,8 @@
     --pw: calc(var(--ph) * .8);                             /* page width  */
     --pf-ink: #1f2b4a;
     --pf-muted: #7d7466;
-    --pf-paper: #fafaf8;
+    --pf-paper: #ffffff;
+    --pf-line: #e6e6e6;
     position: fixed;
     inset: 0;
     z-index: 1000;
@@ -94,7 +95,7 @@
     margin-left: calc(var(--pw) * -1);
     margin-top: calc(var(--ph) / -2);
 }
-.pf-fly { width: 100%; height: 100%; transform-origin: 75% 50%; }
+.pf-fly { width: 100%; height: 100%; transform-origin: 50% 50%; }  /* the closed cover is centred */
 .pf-book {
     position: relative;
     width: 100%;
@@ -179,7 +180,9 @@
     max-width: none; max-height: none;
     object-fit: cover;
 }
-.pf-book.is-closed .pf-cover { box-shadow: 0 30px 60px rgba(0, 0, 0, .45); }
+.pf-book.is-closed .pf-cover { box-shadow: 0 30px 60px rgba(0, 0, 0, .45); transition: box-shadow .75s ease; }
+/* While landing back on the desk, the lifted shadow shrinks to nothing. */
+.pf-viewer.is-landing .pf-cover { box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
 
 /* ---------- Page typography ---------- */
 .pf-page p { margin: 0 0 .9em; color: #2e3754; font-size: 1em; line-height: 1.55; }
@@ -188,7 +191,7 @@
     top: 4.2%; left: 10%; right: 10%;
     margin: 0 !important;
     padding-bottom: .5em;
-    border-bottom: 1px solid #e3dccd;
+    border-bottom: 1px solid var(--pf-line);
     color: var(--pf-muted) !important;
     font-family: 'Poppins', sans-serif;
     font-size: .58em !important;
@@ -262,7 +265,7 @@
 
 /* Contents */
 .pf-contents { margin: 0 0 2em; padding: 0; counter-reset: none; }
-.pf-contents li { list-style: none; border-bottom: 1px solid #e6dfd1; }
+.pf-contents li { list-style: none; border-bottom: 1px solid var(--pf-line); }
 .pf-contents button {
     display: flex;
     align-items: baseline;
@@ -289,8 +292,8 @@
     gap: .7em 1.4em;
     margin: 0 0 .4em;
     padding: .9em 0;
-    border-top: 1px solid #e3dccd;
-    border-bottom: 1px solid #e3dccd;
+    border-top: 1px solid var(--pf-line);
+    border-bottom: 1px solid var(--pf-line);
 }
 .pf-meta dt {
     color: var(--pf-muted);
@@ -310,8 +313,8 @@
     justify-content: center;
     aspect-ratio: 16 / 10;
     padding: 1.5em;
-    border: 1px dashed #c9bfa9;
-    background: repeating-linear-gradient(135deg, rgba(201, 191, 169, .14) 0 6px, transparent 6px 14px), #f2f2ef;
+    border: 1px dashed #c8c8c8;
+    background: repeating-linear-gradient(135deg, rgba(0, 0, 0, .035) 0 6px, transparent 6px 14px), #f7f7f7;
     text-align: center;
     font-size: .9em;
 }
@@ -340,7 +343,7 @@
 .pf-flow div {
     position: relative;
     padding: .9em .7em 1em;
-    border: 1px solid #d9d0be;
+    border: 1px solid #dcdcdc;
     border-radius: 3px;
     background: #fff;
     font-size: .82em;
@@ -369,7 +372,7 @@
     text-transform: uppercase;
 }
 .pf-table th, .pf-table td { border-top: 0; border-left: 0; border-right: 0; }
-.pf-table td { padding: .55em .4em; border-bottom: 1px solid #e3dccd; }
+.pf-table td { padding: .55em .4em; border-bottom: 1px solid var(--pf-line); }
 .pf-page .pf-table td.ph { background: none; }
 
 /* Closing pages */

@@ -17,9 +17,10 @@
     var desk = document.querySelector('.sb-hero .desk');
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Where the notebook sits in the desk photo (percent of the photo):
-    // centre, width of the cover, and its rotation.
-    var NOTEBOOK = { cx: .5683, cy: .5766, w: .2625, angle: -10.6 };
+    // Where the notebook's cover sits in the desk photo, measured from its
+    // four corners: centre (fraction of the photo's width and height), cover
+    // height (fraction of the photo's height) and rotation in degrees.
+    var NOTEBOOK = { cx: .5667, cy: .5676, h: .4898, angle: -13.4 };
 
     var LAST = leaves.length - 1;   // the final leaf is never turned
     var spread = 0;                 // number of leaves turned; 0 = closed cover
@@ -103,7 +104,7 @@
         var cy = d.top + d.height * NOTEBOOK.cy;
         if (cy < 0 || cy > window.innerHeight) return null;   // notebook not on screen
         var cover = leaves[0].getBoundingClientRect();        // closed cover, centred
-        var scale = (d.width * NOTEBOOK.w) / cover.width;
+        var scale = (d.height * NOTEBOOK.h) / cover.height;
         var dx = cx - (cover.left + cover.width / 2);
         var dy = cy - (cover.top + cover.height / 2);
         return 'translate(' + dx + 'px,' + dy + 'px) rotate(' + NOTEBOOK.angle + 'deg) scale(' + scale + ')';
@@ -165,15 +166,25 @@
             leaves.forEach(function (leaf) { leaf.classList.remove('is-turning'); });
             return wait(T_TURN * .5 + (reduceMotion ? 0 : 150));
         }).then(function () {
-            viewer.classList.remove('is-visible');
+            // Fly back with the desk still dimmed, so only one notebook is
+            // visible while the book is moving. Its lifted shadow settles.
+            viewer.classList.add('is-landing');
             var end = fromDesk();
             var anim = end
                 ? fly.animate([{ transform: 'none' }, { transform: end }], { duration: T_FLY, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'forwards' })
                 : fly.animate([{ opacity: 1 }, { opacity: 0, transform: 'scale(.85)' }], { duration: T_FLY * .6, fill: 'forwards' });
             return anim.finished.then(function () { return anim; });
         }).then(function (anim) {
+            // Landed exactly over the notebook in the photo: clear the dimming,
+            // then dissolve the flying book into the photo underneath.
+            viewer.classList.remove('is-visible');
+            return wait(reduceMotion ? 1 : 450).then(function () {
+                return fly.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduceMotion ? 1 : 260, fill: 'forwards' }).finished;
+            }).then(function (fade) { return anim; });
+        }).then(function (anim) {
             viewer.hidden = true;
-            anim.cancel();
+            viewer.classList.remove('is-landing');
+            fly.getAnimations().forEach(function (a) { a.cancel(); });
             document.documentElement.style.overflow = '';
             busy = false;
             if (thenHash) {
