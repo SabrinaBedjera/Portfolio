@@ -350,3 +350,21 @@ a[aria-disabled="true"] { cursor: default; }
 
 /* Jump target for "Résumé" (it shares the contact section) */
 .sb-anchor { position: absolute; top: 0; left: 0; }
+
+/* Case study contributions and inline links (content-only pass; restyle later) */
+.sb-contrib-title {
+    margin: 6px 0 10px;
+    color: var(--c-navy);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+.sb-contrib li { margin-bottom: 12px; font-size: 15px; line-height: 1.6; }
+.sb-contrib strong { color: var(--c-navy); font-weight: 600; }
+.sb-card-body p a:not(.sb-btn),
+.sb-card-body li a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
