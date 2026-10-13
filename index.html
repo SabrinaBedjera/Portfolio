@@ -16,6 +16,7 @@
         <link rel="stylesheet" type="text/css"  href='css/sb-site.css' />
         <link rel="stylesheet" type="text/css"  href='css/sb-hero.css' />
         <link rel="stylesheet" type="text/css"  href='css/sb-book.css' />
+        <link rel="stylesheet" type="text/css"  href='css/sb-content.css' />
 
         <!--[if lt IE 9]>
                 <script src="js/html5.js"></script>            
@@ -29,6 +30,23 @@
         <div class="doc-loader">
             <img src="images/preloader.gif" alt="Loading">
         </div>
+
+        <!-- Site navigation for the scrolling sections. On desktop it appears
+             once the visitor scrolls past the desk (the desk has its own menu). -->
+        <header class="sb-nav" id="site-nav">
+            <div class="sb-nav-inner">
+                <a class="sb-nav-name slow-scroll" href="#home">Sabrina Bedjera</a>
+                <button class="sb-nav-toggle" type="button" aria-expanded="false" aria-controls="sb-nav-links">Menu</button>
+                <nav id="sb-nav-links" aria-label="Sections">
+                    <a class="slow-scroll" href="#work">Work</a>
+                    <a class="slow-scroll" href="#more-work">More Work</a>
+                    <a class="slow-scroll" href="#experience">Experience</a>
+                    <a class="slow-scroll" href="#about">About</a>
+                    <a class="slow-scroll" href="#resume">Résumé</a>
+                    <a class="slow-scroll" href="#contact">Contact</a>
+                </nav>
+            </div>
+        </header>
 
         <div id="content" class="site-content">
 
@@ -53,9 +71,8 @@
                             <div class="menu-wrapper relative">                                 
                                 <nav id="header-main-menu">
                                     <ul class="main-menu sm sm-clean">
-                                        <li><a href="#portfolio">Portfolio</a></li>
-                                        <li><a href="#skills">Lab</a></li>
-                                        <li><a href="#service">About</a></li>
+                                        <li><a href="#work">Work</a></li>
+                                        <li><a href="#about">About</a></li>
                                         <li><a href="#contact">Contact</a></li>
                                     </ul>
                                 </nav>                            
@@ -80,9 +97,9 @@
                             <img class="desk-photo" src="images/hero/desk.jpg" alt="" width="1200" height="800">
 
                             <nav class="desk-nav" aria-label="Primary">
-                                <a href="#portfolio" data-open-book>Portfolio</a>
-                                <a class="slow-scroll" href="#skills">Lab</a>
-                                <a class="slow-scroll" href="#service">About</a>
+                                <a href="#work" data-open-book>Portfolio</a>
+                                <a href="#home" data-soon title="Lab — coming soon">Lab</a>
+                                <a class="slow-scroll" href="#about">About</a>
                                 <a class="slow-scroll" href="#contact">Contact</a>
                                 <a class="slow-scroll desk-nav-arrow" href="#contact" tabindex="-1" aria-hidden="true">&#8594;</a>
                             </nav>
@@ -94,399 +111,257 @@
                             </div>
 
                             <!-- Clickable objects: each hit area is shaped to the object in the photo -->
-                            <a class="desk-hit hit-book" href="#portfolio" data-open-book aria-label="Portfolio: selected work, projects and impact"></a>
-                            <a class="desk-hit hit-photo slow-scroll" href="#service" aria-label="About: my story, background and interests"></a>
-                            <a class="desk-hit hit-lab slow-scroll" href="#skills" aria-label="Lab: experiments, ideas and prototypes"></a>
-                            <a class="desk-hit hit-ball" href="#home" aria-label="Fun corner (coming soon)" title="Fun corner — coming soon"></a>
+                            <a class="desk-hit hit-book" href="#work" data-open-book aria-label="Portfolio: selected work, projects and impact"></a>
+                            <a class="desk-hit hit-photo slow-scroll" href="#about" aria-label="About: my story, background and interests"></a>
+                            <a class="desk-hit hit-lab" href="#home" data-soon aria-label="Lab (coming soon)" title="Lab — coming soon"></a>
+                            <a class="desk-hit hit-ball" href="#home" data-soon aria-label="Fun corner (coming soon)" title="Fun corner — coming soon"></a>
 
                             <!-- Handwritten annotations (real text) -->
-                            <a class="desk-note note-lab slow-scroll" href="#skills" tabindex="-1" aria-hidden="true">
+                            <a class="desk-note note-lab" href="#home" data-soon title="Lab — coming soon" tabindex="-1" aria-hidden="true">
                                 <span class="note-title">Lab</span>
                                 <span class="note-list">Experiments<br>Ideas<br>Prototypes<br>and more</span>
                             </a>
-                            <a class="desk-note note-portfolio" href="#portfolio" data-open-book tabindex="-1" aria-hidden="true">
+                            <a class="desk-note note-portfolio" href="#work" data-open-book tabindex="-1" aria-hidden="true">
                                 <span class="note-title">Portfolio</span>
                                 <span class="note-list">Selected work<br>Projects<br>Impact</span>
                             </a>
-                            <a class="desk-note note-about slow-scroll" href="#service" tabindex="-1" aria-hidden="true">
+                            <a class="desk-note note-about slow-scroll" href="#about" tabindex="-1" aria-hidden="true">
                                 <span class="note-title">About</span>
                                 <span class="note-list">My story<br>Background<br>Interests</span>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Service Section -->  
-                    <div id="service" class="section">                        
-                        <div class="section-wrapper block">
-                            <div class="content-1300">
-                                <div class="row">
-                                    <div class="one-half width-55">
-                                        <div class="services-wrapper">
-                                            <div class="service-holder">
-                                                <img src="images/service1.png" alt="" />
-                                                <h4 class="service-title">Design</h4>
-                                                <div class="service-text">
-                                                    A full stack allaround designer that may or may not include a guide for specific creative people
-                                                </div>                                        
-                                            </div>                               
+                    <!-- ============ Portfolio content (below the desk) ============ -->
 
-                                            <div class="service-holder m-right-0">
-                                                <img src="images/service2.png" alt="" />
-                                                <h4 class="service-title">Develop</h4>
-                                                <div class="service-text">
-                                                    Tellus pharetra erat tristique erat donec dignissim etiam sed malesik enim sodales lorem ipsum
-                                                </div>                                        
-                                            </div>                                
-
-                                            <div class="service-holder m-bottom-0">
-                                                <img src="images/service3.png" alt="" />
-                                                <h4 class="service-title">Write</h4>
-                                                <div class="service-text">
-                                                    Vestibulum consequat, dignissim tellus sollicitudin vulputate elit aliquet ullamcorper feugiat nisi
-                                                </div>                                        
-                                            </div>
-
-                                            <div class="service-holder m-right-0 m-bottom-0">
-                                                <img src="images/service4.png" alt="" />
-                                                <h4 class="service-title">Promote</h4>
-                                                <div class="service-text">
-                                                    Quam facilisi nunc faucibus at porttitor vestibulum consequat dignissim tellus sollicitudin
-                                                </div>                                        
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="one-half width-40 last">                                
-                                        <h2 class="entry-title section-title">Services</h2>
-                                        <p class="section-info">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra tristique placerat in massa consectetur quisque nunc fames.
-                                        </p>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra tristique placerat in massa consectetur quisque. Nunc ac fames lectus in libero aliquet. 
-                                        </p>
-                                        <p>
-                                            Faucibus sed tristique fames sed aliquet ultricies eget viverra arcu. Vitae faucibus diam consequat maecenas. Turpis metus sit diam purus leo in varius ac quam. Nunc amet tristique volutpat adipiscing vulputate phasellus. Volutpat faucibus 
-                                        </p>
-
-                                        <div class="button-group-wrapper">
-                                            <a class="button">Download CV</a> 
-                                            <a href="#portfolio" class="button">Check My Portfolio</a>                                                                   
-                                        </div>
-                                    </div>                                                                    
+                    <!-- 1. Introduction -->
+                    <section class="sb-sec sb-intro" id="intro" aria-labelledby="intro-title">
+                        <div class="sb-wrap sb-intro-grid">
+                            <div>
+                                <p class="sb-eyebrow">Technology · Investment · Strategy</p>
+                                <h2 class="sb-intro-name" id="intro-title">Sabrina Bedjera</h2>
+                            </div>
+                            <div>
+                                <p class="sb-intro-lede">I work at the intersection of technology, investment and strategy to advance complex energy and technology projects from ideas toward real&#8209;world impact.</p>
+                                <div class="sb-actions">
+                                    <a class="sb-btn sb-btn-primary slow-scroll" href="#work">Selected work</a>
+                                    <a class="sb-btn" href="assets/Sabrina-Bedjera-Resume.pdf" download>Résumé (PDF)</a>
+                                    <a class="sb-btn slow-scroll" href="#contact">Contact</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Portfolio Section -->  
-                    <div id="portfolio" class="section">                        
-                        <div class="section-wrapper block">
-                            <div class="content-1300">
-                                <div id="portfolio-wrapper" class="relative">
-                                    <div class="category-filter">
-                                        <div class="category-filter-icon"></div>                       
-                                    </div>
-                                    <div class="category-filter-list button-group filters-button-group">
-                                        <div class="button is-checked" data-filter="*">All</div>
-                                        <div class="button" data-filter=".text">Text</div>
-                                        <div class="button" data-filter=".video">Video</div>
-                                        <div class="button" data-filter=".image">Image</div>                                        
-                                    </div>
-                                    <div class="portfolio-load-content-holder"></div>
-                                    <div class="grid" id="portfolio-grid">                                                            
-                                        <div class="grid-sizer"></div>
-
-                                        <div id="p-item-1" class="grid-item element-item p-one-third text">
-                                            <a class="item-link ajax-portfolio" href="portfolio-1.html" data-id="1">
-                                                <img src="images/portfolio1.jpg" alt="" />
-                                                <div class="portfolio-text-holder">
-                                                    <div class="portfolio-text-wrapper">
-                                                        <p class="portfolio-text">Home</p>
-                                                        <p class="portfolio-cat">Text</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                        <div id="p-item-2" class="grid-item element-item p-one-third text">
-                                            <a class="item-link ajax-portfolio" href="portfolio-2.html" data-id="2">
-                                                <img src="images/portfolio2.jpg" alt="" />
-                                                <div class="portfolio-text-holder">
-                                                    <div class="portfolio-text-wrapper">
-                                                        <p class="portfolio-text">Stairways</p>
-                                                        <p class="portfolio-cat">Text</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                        <div id="p-item-3" class="grid-item element-item p-one-third text">
-                                            <a class="item-link ajax-portfolio" href="portfolio-3.html" data-id="3">
-                                                <img src="images/portfolio3.jpg" alt="" />
-                                                <div class="portfolio-text-holder">
-                                                    <div class="portfolio-text-wrapper">
-                                                        <p class="portfolio-text">Sneakers</p>
-                                                        <p class="portfolio-cat">Text</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                        <div class="grid-item element-item p-one-third video">
-                                            <a class="item-link" href="https://vimeo.com/199192931" data-rel="prettyPhoto[portfolio]">
-                                                <img src="images/portfolio4.jpg" alt="" />
-                                                <div class="portfolio-text-holder">
-                                                    <div class="portfolio-text-wrapper">
-                                                        <p class="portfolio-text">Design</p>
-                                                        <p class="portfolio-cat">Video</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                        <div class="grid-item element-item p-one-third image">
-                                            <a class="item-link" href="images/item_03.jpg" data-rel="prettyPhoto[portfolio]">
-                                                <img src="images/portfolio5.jpg" alt="" />
-                                                <div class="portfolio-text-holder">
-                                                    <div class="portfolio-text-wrapper">
-                                                        <p class="portfolio-text">Leaf</p>
-                                                        <p class="portfolio-cat">Image</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                        <div class="grid-item element-item p-one-third image">
-                                            <a class="item-link" href="images/item_02.jpg" data-rel="prettyPhoto[portfolio]">
-                                                <img src="images/portfolio6.jpg" alt="" />
-                                                <div class="portfolio-text-holder">
-                                                    <div class="portfolio-text-wrapper">
-                                                        <p class="portfolio-text">Bottle</p>
-                                                        <p class="portfolio-cat">Image</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-
-                                    </div>                
-                                </div>   
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Resume Section -->  
-                    <div id="resume" class="section">                        
-                        <div class="section-wrapper block">
-                            <div class="content-1300">  
-                                <div class="row">
-                                    <div class="one-half width-55">
-                                        <h2 class="entry-title section-title">Experience</h2>
-
-                                        <ul class="timeline-holder">                                        
-                                            <li class="timeline-event">
-                                                <span class="timeline-circle"></span>
-                                                <div class="timeline-event-content">
-                                                    <b>2015 - 2017</b> Turpis metus sit diam purus leo in varius ac quam. Nunc amet tristique volutpat adipiscing vulputate phasellus. Eget enim aliquam euismod mauris in vitae viverra blandit lectus diam feugiat. Nunc amet tristique volutpat adipiscing vulputate phasellus. Eget enim aliquam euismod.
-                                                </div>
-                                                <div class="timeline-event-date">2015</div>
-                                            </li>
-
-                                            <li class="timeline-event">
-                                                <span class="timeline-circle"></span>
-                                                <div class="timeline-event-content">                                    
-                                                    <b>2017 - 2018</b> Rings of Uranus the only home we’ve ever known. Permanence of the stars Tunguska event drake equation encyclopaedia galactica great turbulent quisque risus arcu, ullamcorper id nunc quis, euismod tincidunt.
-                                                </div>
-                                                <div class="timeline-event-date">2017</div>
-                                            </li>
-
-                                            <li class="timeline-event">
-                                                <span class="timeline-circle"></span>
-                                                <div class="timeline-event-content">
-                                                    <b>2018 - 2020</b> Eget enim aliquam euismod mauris in vitae viverra blandit lectus faucibus diam consequat maecenas turpis metus sit diam purus leo in varius. Nunc amet tristique volutpat adipiscing vulputate phasellus eget enim.
-                                                </div>
-                                                <div class="timeline-event-date">2018</div>
-                                            </li>
-
-                                            <li class="timeline-event">
-                                                <span class="timeline-circle"></span>
-                                                <div class="timeline-event-content">
-                                                    <b>2020 - 2022</b> Tendrils of gossamer clouds, the ash of stellar alchemy tendrils of true gossamer clouds vangelis the sky calls to us rich in heavy atoms something. Turpis metus sit diam purus leo in varius ac quam. Nunc amet tristique volutpat adipiscing vulputate phasellus. Eget enim aliquam euismod mauris in vitae viverra blandit lectus diam feugiat.
-                                                </div>
-                                                <div class="timeline-event-date">2020</div>
-                                            </li>                                           
-
-                                            <li class="timeline-event">
-                                                <span class="timeline-circle"></span>
-                                                <div class="timeline-event-content">
-                                                    <b>2022 - 2025</b> Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In nec ipsum risus. Nulla vulputate pulvinar consectetur. Praesent semper sem eget nisl viverra, vitae vulputate metus placerat. 
-                                                </div>
-                                                <div class="timeline-event-date">2025</div>
-                                            </li>                                           
+                    <!-- 2. Selected work -->
+                    <section class="sb-sec" id="work" aria-labelledby="work-title">
+                        <div class="sb-wrap">
+                            <header class="sb-head">
+                                <p class="sb-num">01</p>
+                                <h2 class="sb-h2" id="work-title">Selected work</h2>
+                            </header>
+                            <div class="sb-cards">
+                                <article class="sb-card">
+                                    <div class="sb-visual sb-visual-blue" aria-hidden="true"><span>Critical minerals · Clean energy</span></div>
+                                    <div class="sb-card-body">
+                                        <p class="sb-card-kicker">Natural Resources Canada</p>
+                                        <h3 class="sb-card-title">Critical Minerals &amp; Investment</h3>
+                                        <p>Coordinated cross-functional evaluations of advanced clean energy and critical minerals projects, assessing technical maturity, market conditions and strategic alignment. Contributed to funding assessments and agreement development supporting decisions involving over $1&nbsp;billion in federal funding.</p>
+                                        <ul class="sb-tags" aria-label="Skills">
+                                            <li>Technology Assessment</li><li>Investment</li><li>Critical Minerals</li><li>Commercialization</li>
                                         </ul>
                                     </div>
+                                </article>
 
-                                    <div class="one-half width-40 last">
-                                        <h2 class="entry-title section-title">Cover letter</h2>
-                                        <p class="section-info">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra tristique placerat in massa consectetur quisque nunc fames.
-                                        </p>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra tristique placerat in massa consectetur quisque. Nunc ac fames lectus in libero aliquet.  Mauris egestas nulla arcu, ut vestibulum diam vulputate non. Ut massa mauris, condimentum ut tincidunt eu, mattis euismod dolor.
-                                        </p>
-                                        <p>
-                                            Faucibus sed tristique fames sed aliquet ultricies eget viverra arcu. Vitae faucibus diam consequat maecenas. Turpis metus sit diam purus leo in varius ac quam. Nunc amet tristique volutpat adipiscing vulputate phasellus. Volutpat faucibus sed condimentum aliquet mi, nec lobortis neque gravida tempor. Praesent vel commodo dolor, at vehicula turpis.
-                                        </p>
-
-                                        <p>
-                                            Phasellus non dui sed eros scelerisque gravida eu lobortis magna. Sed vulputate, lacus blandit posuere aliquet, enim purus dignissim nunc, at efficitur nulla lacus id quam. Morbi feugiat neque a quam viverra auctor. 
-                                        </p>                                        
-
-                                        <img class="my-signature" src="images/signature2.png" alt="">                                        
+                                <article class="sb-card">
+                                    <!-- TODO: replace with a screenshot of the published visualization, e.g. images/work/pacific-energy.png -->
+                                    <div class="sb-visual sb-visual-placeholder">
+                                        <span class="sb-ph-label">Screenshot placeholder</span>
+                                        <span>Published visualization screenshot goes here</span>
                                     </div>
-                                </div>
+                                    <div class="sb-card-body">
+                                        <p class="sb-card-kicker">Independent project</p>
+                                        <h3 class="sb-card-title">Pacific Renewable Energy Data Visualization</h3>
+                                        <p>An independent data visualization project examining renewable energy transitions and electricity access in Pacific Island countries, including Papua New Guinea and Tonga. It combines public energy data, analysis and interactive visual storytelling.</p>
+                                        <ul class="sb-tags" aria-label="Skills">
+                                            <li>Data Visualization</li><li>Energy Transition</li><li>Data Analysis</li>
+                                        </ul>
+                                        <!-- TODO: replace href="#" with the published visualization URL -->
+                                        <p class="sb-card-link"><a href="#" class="sb-ph-link" aria-disabled="true">View the visualization <span class="sb-ph-label">link to be added</span></a></p>
+                                    </div>
+                                </article>
+
+                                <article class="sb-card">
+                                    <div class="sb-visual sb-visual-green" aria-hidden="true"><span>Carbon management · CCUS</span></div>
+                                    <div class="sb-card-body">
+                                        <p class="sb-card-kicker">Natural Resources Canada</p>
+                                        <h3 class="sb-card-title">Carbon Capture &amp; CCUS</h3>
+                                        <p>Contributed to Canada’s carbon management initiatives and international clean technology collaboration, including work related to Canada’s Carbon Management Strategy and International Energy Agency CCUS handbooks. Recognized for contributions to the handbook on legal and regulatory frameworks for CCUS.</p>
+                                        <ul class="sb-tags" aria-label="Skills">
+                                            <li>Carbon Capture</li><li>Clean Energy</li><li>Technology Strategy</li><li>International Collaboration</li>
+                                        </ul>
+                                    </div>
+                                </article>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Skills Section -->  
-                    <div id="skills" class="section">                        
-                        <div class="section-wrapper block">
-                            <div class="content-1300"> 
-                                <div class="row m-bottom-60">
-                                    <h2 class="entry-title section-title">Skills</h2>
-
-                                    <div class="skill-circle-holder">
-                                        <div class="skill-circle">
-                                            <div class="skill-circle-wrapper relative" data-value="0.82" data-color="#f37b83" data-empty-color="#554247">
-                                                <span class="skill-circle-num"></span>                                            
-                                            </div>
-                                            <p class="skill-circle-text">Photoshop</p>
-                                        </div>
-
-                                        <div class="skill-circle">
-                                            <div class="skill-circle-wrapper relative" data-value="0.6" data-color="#f37b83" data-empty-color="#554247">
-                                                <span class="skill-circle-num"></span>                                            
-                                            </div>
-                                            <p class="skill-circle-text">Marketing</p>
-                                        </div>                                
-
-                                        <div class="skill-circle">
-                                            <div class="skill-circle-wrapper relative" data-value="0.75" data-color="#f37b83" data-empty-color="#554247">
-                                                <span class="skill-circle-num"></span>                                            
-                                            </div>
-                                            <p class="skill-circle-text">PhP</p>
-                                        </div>
-
-                                        <div class="skill-circle">
-                                            <div class="skill-circle-wrapper relative" data-value="0.31" data-color="#f37b83" data-empty-color="#554247">
-                                                <span class="skill-circle-num"></span>                                            
-                                            </div>
-                                            <p class="skill-circle-text">3D</p>
-                                        </div>
-                                    </div>                                    
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="one-half">                                    
-                                        <div class="skills-holder">
-                                            <div class="skill-holder">                                        
-                                                <div class="skill-text">                                            
-                                                    <div class="skill">
-                                                        <div class="skill-fill" data-fill="75%"></div>                                                    
-                                                    </div>              
-                                                    <span>Creativity</span>
-                                                </div>                
-                                                <div class="skill-percent">75%</div>
-                                            </div>
-
-                                            <div class="skill-holder">                                        
-                                                <div class="skill-text">                                            
-                                                    <div class="skill">
-                                                        <div class="skill-fill" data-fill="48%"></div>                                                   
-                                                    </div>              
-                                                    <span>Cooking</span>
-                                                </div>                                            
-                                                <div class="skill-percent">48%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="one-half last">
-                                        <div class="skills-holder sec-skills-holder">
-                                            <div class="skill-holder">                                        
-                                                <div class="skill-text">                                            
-                                                    <div class="skill">
-                                                        <div class="skill-fill" data-fill="90%"></div>                                                   
-                                                    </div>                                                
-                                                    <span>PhP</span>
-                                                </div>                
-                                                <div class="skill-percent">90%</div>
-                                            </div>
-
-                                            <div class="skill-holder">                                        
-                                                <div class="skill-text">                                            
-                                                    <div class="skill">
-                                                        <div class="skill-fill" data-fill="62%"></div>                                                   
-                                                    </div>              
-                                                    <span>Marketing</span>
-                                                </div>                
-                                                <div class="skill-percent">62%</div>
-                                            </div>                                    
-                                        </div>
-                                    </div>                                    
-                                </div>                                
-                            </div>                            
-                        </div>
-                    </div>          
-                    
-                    <!-- Contact Section -->  
-                    <div id="contact" class="section">                        
-                        <div class="section-wrapper block">
-                            <div class="content-1300">   
-                                <div class="row">
-                                    <h2 class="entry-title section-title">Get in touch</h2>
-                                    <div class="one-half width-40">
-
-                                        <p class="section-info">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra tristique placerat in massa consectetur quisque nunc fames.
-                                        </p>
-                                        <p>
-                                            Magni dolores eos qui sed quia consequuntur ratione voluptatem sequi nesciunt permano Nence of the stars from which we spring muse about as a patch of light billions upon billions.                                        
-                                        </p>                                    
-                                        <p>
-                                            Energy hidden in matter a mote of lorem ipsum dust suspended in a sunbeam billions upon ratione voluptatem sequi nesciunt permano lorem ipsum.                                                                  
-                                        </p>
-                                        <p>
-                                            <b>ADDRESS:</b> Some Street 987, USA <br>
-                                            <b>EMAIL:</b> company@youremail.com <br>
-                                            <b>WEBSITE:</b> www.yourwebsite.com <br>
-                                        </p>
-                                    </div>
-
-                                    <div class="one-half width-55 last">
-                                        <div class="contact-form">
-                                            <p>
-                                                <input id="name" type="text" name="your-name" placeholder="Name">
-                                            </p>
-                                            <p>
-                                                <input id="contact-email" type="email" name="your-email" placeholder="Email">
-                                            </p>                                    
-                                            <p>
-                                                <input id="subject" type="text" name="your-subject" placeholder="Subject">
-                                            </p>
-                                            <p>
-                                                <textarea id="message" name="your-message" placeholder="Message"></textarea>
-                                            </p>
-                                            <p class="contact-submit-holder">
-                                                <input type="submit" value="SEND">
-                                            </p>                                
-                                        </div> 
-                                    </div> 
-                                </div>
+                    <!-- 3. More of my work -->
+                    <section class="sb-sec sb-sec-tint" id="more-work" aria-labelledby="more-title">
+                        <div class="sb-wrap">
+                            <header class="sb-head">
+                                <p class="sb-num">02</p>
+                                <h2 class="sb-h2" id="more-title">More of my work</h2>
+                            </header>
+                            <div class="sb-more">
+                                <article>
+                                    <h3>Water Treatment &amp; Environmental Research</h3>
+                                    <p>Master’s research modelling micropollutant degradation during drinking water ozonation. Awarded the American Water Works Association first-place Master’s Academic Achievement Award.</p>
+                                </article>
+                                <article>
+                                    <h3>Water Security &amp; Climate Adaptation</h3>
+                                    <p>Engineering and policy research with the University of Waterloo’s forWater Network, including a climate adaptation assessment framework.</p>
+                                </article>
+                                <article>
+                                    <h3>Intellectual Property, AI &amp; Emerging Technology</h3>
+                                    <p>Technical and policy analysis on intellectual property, artificial intelligence and climate-related technologies, including development of performance indicators and organization of NRCan’s inaugural IP conference.</p>
+                                </article>
+                                <article>
+                                    <h3>Research Data &amp; Visualization</h3>
+                                    <p>Led data management and qualitative analysis work at Ontario Tech University using NVivo and structured research datasets.</p>
+                                </article>
                             </div>
                         </div>
-                    </div>
+                    </section>
+
+                    <!-- 4. Professional experience -->
+                    <section class="sb-sec" id="experience" aria-labelledby="exp-title">
+                        <div class="sb-wrap">
+                            <header class="sb-head">
+                                <p class="sb-num">03</p>
+                                <h2 class="sb-h2" id="exp-title">Professional experience</h2>
+                            </header>
+                            <ol class="sb-timeline">
+                                <li>
+                                    <p class="sb-when">Nov 2022 – present</p>
+                                    <div>
+                                        <h3>Natural Resources Canada</h3>
+                                        <p class="sb-where">Critical Minerals Centre of Excellence</p>
+                                        <p>Evaluation of advanced clean energy and critical minerals projects; funding assessments and agreement development.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="sb-when">Jan 2022 – Nov 2022</p>
+                                    <div>
+                                        <h3>Natural Resources Canada</h3>
+                                        <p class="sb-where">Carbon Capture Division</p>
+                                        <p>Carbon management initiatives, including Canada’s Carbon Management Strategy and International Energy Agency CCUS handbooks.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="sb-when">Oct 2020 – Jan 2022</p>
+                                    <div>
+                                        <h3>Natural Resources Canada</h3>
+                                        <p class="sb-where">Intellectual Property Division</p>
+                                        <p>Technical and policy analysis on intellectual property, AI and climate-related technologies; performance indicators; NRCan’s inaugural IP conference.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="sb-when">Feb 2019 – Jul 2020</p>
+                                    <div>
+                                        <h3>University of Waterloo</h3>
+                                        <p class="sb-where">forWater Network</p>
+                                        <p>Engineering and policy research on water security, including a climate adaptation assessment framework.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="sb-when">Sep 2015 – Feb 2019</p>
+                                    <div>
+                                        <h3>Ontario Tech University</h3>
+                                        <p class="sb-where">Data Management Lead</p>
+                                        <p>Research data management and qualitative analysis using NVivo and structured research datasets.</p>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </section>
+
+                    <!-- 5. Education & skills -->
+                    <section class="sb-sec sb-sec-tint" id="education" aria-labelledby="edu-title">
+                        <div class="sb-wrap sb-two">
+                            <div>
+                                <header class="sb-head">
+                                    <p class="sb-num">04</p>
+                                    <h2 class="sb-h2" id="edu-title">Education</h2>
+                                </header>
+                                <ul class="sb-edu">
+                                    <li><h3>MASc, Civil and Environmental Engineering</h3><p>Water specialization · University of Waterloo</p></li>
+                                    <li><h3>BSc, Minor in Mathematics</h3><p>Ontario Tech University</p></li>
+                                    <li><h3>BEd</h3><p>Ontario Tech University</p></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <header class="sb-head">
+                                    <h2 class="sb-h2" id="skills-title">Skills</h2>
+                                </header>
+                                <ul class="sb-skills">
+                                    <li>Technology assessment</li>
+                                    <li>Project evaluation</li>
+                                    <li>Funding assessment &amp; agreement development</li>
+                                    <li>Stakeholder engagement</li>
+                                    <li>Strategic analysis</li>
+                                    <li>Technical research</li>
+                                    <li>Policy analysis</li>
+                                    <li>Data analysis &amp; visualization</li>
+                                    <li>Qualitative analysis (NVivo)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 6. About -->
+                    <section class="sb-sec" id="about" aria-labelledby="about-title">
+                        <div class="sb-wrap sb-about">
+                            <figure class="sb-about-photo">
+                                <img src="images/home.jpg" alt="Sabrina Bedjera" width="800" height="800">
+                            </figure>
+                            <div>
+                                <header class="sb-head">
+                                    <p class="sb-num">05</p>
+                                    <h2 class="sb-h2" id="about-title">About</h2>
+                                </header>
+                                <p class="sb-lead">I started in science and mathematics, trained as a teacher, and went on to engineering research on drinking water treatment.</p>
+                                <p>That path taught me to look closely at how things actually work: the chemistry, the data, the people who will use the result. It is also what I bring to my work at Natural Resources Canada, where I have moved from intellectual property and emerging technology to carbon capture and, now, critical minerals and clean energy investment.</p>
+                                <p>The questions I enjoy most sit between disciplines. Is a technology ready? Is the market? Does a project fit the bigger strategy, and what would it take to move it forward? I like turning complex technical and economic information into something clear enough to act on.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 7. Résumé & contact -->
+                    <section class="sb-sec sb-contact" id="contact" aria-labelledby="contact-title">
+                        <span class="sb-anchor" id="resume" aria-hidden="true"></span>
+                        <div class="sb-wrap">
+                            <header class="sb-head">
+                                <p class="sb-num">06</p>
+                                <h2 class="sb-h2" id="contact-title">Résumé &amp; contact</h2>
+                            </header>
+                            <p class="sb-contact-lede">Interested in working together or talking about energy, technology and investment? I’d be glad to hear from you.</p>
+                            <div class="sb-actions">
+                                <!-- Upload the résumé to assets/Sabrina-Bedjera-Resume.pdf (see assets/README.md) -->
+                                <a class="sb-btn sb-btn-light" href="assets/Sabrina-Bedjera-Resume.pdf" download>Download résumé (PDF)</a>
+                                <!-- TODO: replace href="#" with the LinkedIn profile URL -->
+                                <a class="sb-btn sb-btn-outline" href="#" aria-disabled="true">LinkedIn <span class="sb-ph-label">URL to be added</span></a>
+                                <!-- TODO: replace href="#" with mailto:your-address -->
+                                <a class="sb-btn sb-btn-outline" href="#" aria-disabled="true">Email <span class="sb-ph-label">address to be added</span></a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer class="sb-footer">
+                        <div class="sb-wrap">
+                            <p>© 2026 Sabrina Bedjera</p>
+                            <a class="slow-scroll" href="#home">Back to the desk ↑</a>
+                        </div>
+                    </footer>
 
                 </div>
             </div>            
@@ -684,5 +559,6 @@
         <!-- Custom scripts: keep these after the Volos main.js -->
         <script src='js/sb-hero.js'></script>
         <script src='js/sb-book.js'></script>
+        <script src='js/sb-content.js'></script>
     </body>
 </html>

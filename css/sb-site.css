@@ -51,21 +51,10 @@ body { background: var(--sb-paper); }
     .menu-holder { position: fixed; }
 }
 
-/* Desktop homepage experiment: no dark side rail. The menu button floats
-   on its own and only appears once the visitor has scrolled past the desk
-   photo (js/sb-hero.js adds .sb-past-hero). */
-@media screen and (min-width: 1021px) {
-    .content-left { width: 0; background: transparent; }
-    .content-right { margin-left: 0; width: 100%; }
-    .toggle-holder {
-        padding: 12px 10px;
-        border-radius: 6px;
-        background: var(--sb-ink);
-        top: 22px; left: 22px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity .3s;
-    }
-    .sb-past-hero .toggle-holder,
-    .open .toggle-holder { opacity: 1; pointer-events: auto; }
-}
+/* The Volos sidebar and its slide-out menu are retired: the desk has its own
+   menu and the scrolling sections use the navigation bar in sb-content.css.
+   The Volos markup stays in index.html (main.js expects it) but is hidden. */
+.content-left { display: none !important; }
+.content-right,
+.content-right-wrapper { margin-left: 0 !important; width: 100% !important; }
+.doc-loader { background-color: #f4ece1; }

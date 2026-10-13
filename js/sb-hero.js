@@ -8,15 +8,17 @@
     var hero = document.querySelector('.sb-hero');
     if (!hero) return;
 
-    // The Volos menu button is hidden over the desk photo (the photo has its
-    // own navigation) and comes back once the visitor scrolls past it.
-    function updateMenuButton() {
+    // Desktop: the site navigation bar stays out of the desk photo (the photo
+    // has its own menu) and appears once the visitor scrolls past it.
+    function updatePastHero() {
         document.body.classList.toggle('sb-past-hero', hero.getBoundingClientRect().bottom < 80);
     }
-    updateMenuButton();
-    window.addEventListener('scroll', updateMenuButton, { passive: true });
+    updatePastHero();
+    window.addEventListener('scroll', updatePastHero, { passive: true });
+    window.addEventListener('resize', updatePastHero);
 
-    // Placeholder: the fun corner doesn't exist yet.
-    var ball = hero.querySelector('.hit-ball');
-    if (ball) ball.addEventListener('click', function (e) { e.preventDefault(); });
+    // Placeholders: the Lab and the fun corner don't exist yet.
+    hero.querySelectorAll('[data-soon]').forEach(function (el) {
+        el.addEventListener('click', function (e) { e.preventDefault(); });
+    });
 }());
