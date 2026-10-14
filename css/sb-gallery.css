@@ -1,0 +1,472 @@
+/* ==================================================
+   Sabrina Bedjera portfolio — Selected Work gallery + project detail views
+   Adapted from the Figma Make prototype "Integrate with Claude" (React/Tailwind),
+   ported to plain CSS for this static site. Behaviour in js/sb-gallery.js.
+
+   Palette: change the variables below to restyle the whole gallery.
+   ================================================== */
+
+.sg, .sg-detail {
+    --sg-bg: #f2f3f0;          /* cool off-white */
+    --sg-ink: #24292b;         /* charcoal */
+    --sg-muted: #5f6769;       /* secondary text */
+    --sg-accent: #1f4f4c;      /* deep teal */
+    --sg-accent-soft: #8fb0a9; /* muted teal-sage, used for the data panel ring */
+    --sg-line: rgba(36, 41, 43, .2);
+    --sg-paper: #f7f8f6;       /* caption / badge background */
+    --sg-serif: 'Instrument Serif', 'Newsreader', Georgia, serif;
+    --sg-sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--sg-ink);
+    font-family: var(--sg-sans);
+}
+
+/* ---------- Section ---------- */
+.sg {
+    position: relative;
+    overflow: hidden;
+    background: var(--sg-bg);
+}
+.sg *, .sg-detail * { box-sizing: border-box; }
+.sg button, .sg-detail button { font: inherit; }
+.sg :focus-visible, .sg-detail :focus-visible { outline: 2px solid var(--sg-accent); outline-offset: 5px; }
+
+.sg-intro {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 88px clamp(24px, 5vw, 76px) 22px;
+    border-bottom: 1px solid var(--sg-line);
+}
+.sg-marker {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: clamp(14px, 1.6vw, 22px);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+.sg-heading {
+    margin: 0;
+    color: var(--sg-ink);
+    font-family: var(--sg-serif);
+    font-size: clamp(50px, 5.4vw, 84px);
+    font-weight: 400;
+    line-height: .8;
+    letter-spacing: -.045em;
+    white-space: nowrap;
+}
+.sg-heading em { color: var(--sg-accent); font-weight: 400; }
+
+/* ---------- Asymmetric gallery ----------
+   Critical Minerals takes 5 of 12 columns across both rows (the Figma
+   prototype gave it 7); Pacific and Clean Energy stack on the right. The grid
+   height follows the viewport so the header and all three projects fit on a
+   typical desktop screen. */
+.sg-projects {
+    max-width: 1440px;
+    height: clamp(460px, calc(100vh - 330px), 600px);
+    margin: 0 auto;
+    padding: clamp(24px, 2.6vw, 36px) clamp(24px, 5vw, 76px) clamp(48px, 6vw, 80px);
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: 1.14fr .86fr;
+    gap: clamp(20px, 2.2vw, 34px);
+    box-sizing: content-box;
+}
+.sg-project { position: relative; min-width: 0; min-height: 0; }
+.sg-project--mineral { grid-column: 1 / 6; grid-row: 1 / 3; }
+.sg-project--data    { grid-column: 6 / -1; grid-row: 1; }
+.sg-project--energy  { grid-column: 6 / -1; grid-row: 2; }
+
+.sg-link {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+.sg-link span { display: block; }
+.sg-project--mineral .sg-link,
+.sg-project--data .sg-link { grid-template-rows: minmax(0, 1fr) auto; }
+
+.sg-media {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    background: #161a1b;
+}
+.sg-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+    filter: saturate(.85);
+    transition: transform .9s cubic-bezier(.2, .75, .2, 1), filter .6s ease;
+}
+.sg-link:hover .sg-image,
+.sg-link:focus-visible .sg-image { transform: scale(1.035); filter: saturate(1); }
+
+.sg-credit {
+    position: absolute;
+    right: 14px;
+    bottom: 12px;
+    color: rgba(255, 255, 255, .78);
+    font-size: 9px;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+}
+
+/* "Explore" badge that pops in on hover / keyboard focus */
+.sg-pill {
+    position: absolute;
+    z-index: 2;
+    top: 20px;
+    right: 20px;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: var(--sg-paper);
+    color: var(--sg-ink);
+    font-size: 9px;
+    letter-spacing: .04em;
+    transform: scale(0) rotate(-18deg);
+    transition: transform .45s cubic-bezier(.17, .86, .35, 1.35);
+}
+.sg-pill .sg-arrow { width: 13px; }
+.sg-link:hover .sg-pill,
+.sg-link:focus-visible .sg-pill { transform: scale(1) rotate(0); }
+
+.sg-arrow {
+    width: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform .3s ease;
+}
+.sg-arrow--diagonal { transform: rotate(-45deg); }
+
+/* Captions */
+.sg-caption {
+    position: relative;
+    z-index: 2;
+    display: grid !important;
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 16px 4px 0 0;
+}
+.sg-caption > .sg-arrow { margin-top: 4px; }
+.sg-link:hover .sg-caption > .sg-arrow,
+.sg-link:focus-visible .sg-caption > .sg-arrow { transform: translateX(7px); }
+.sg-num { padding-top: 4px; color: var(--sg-muted); font-size: 11px; letter-spacing: .1em; }
+.sg-eyebrow {
+    margin: 0 0 7px;
+    color: var(--sg-muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
+.sg-title {
+    font-family: var(--sg-serif);
+    font-size: clamp(25px, 2.3vw, 36px);
+    line-height: .98;
+    letter-spacing: -.02em;
+    transition: color .3s ease;
+}
+.sg-link:hover .sg-title,
+.sg-link:focus-visible .sg-title { color: var(--sg-accent); }
+.sg-summary {
+    max-width: 520px;
+    margin-top: 8px;
+    color: var(--sg-muted);
+    font-size: 12px;
+    line-height: 1.5;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.sg-project--data .sg-title,
+.sg-project--energy .sg-title { font-size: clamp(23px, 2vw, 31px); }
+.sg-project--data .sg-summary,
+.sg-project--energy .sg-summary { -webkit-line-clamp: 2; }
+.sg-project--data .sg-media { min-height: 120px; }
+
+/* Pacific: reserved panel for the Flourish visualizations (no chart until real data) */
+.sg-data {
+    position: relative;
+    height: 100%;
+    padding: 18px 20px;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    color: #eef3f1;
+    background: var(--sg-accent);
+}
+.sg-data::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    right: -170px;
+    top: -175px;
+    border: 46px solid var(--sg-accent-soft);
+    border-radius: 50%;
+    opacity: .55;
+    transition: transform .8s cubic-bezier(.2, .7, .2, 1);
+}
+.sg-link:hover .sg-data::after,
+.sg-link:focus-visible .sg-data::after { transform: translate(-26px, 26px); }
+.sg-data__label {
+    position: relative;
+    z-index: 1;
+    display: flex !important;
+    justify-content: space-between;
+    gap: 16px;
+    padding-right: 80px;
+    font-size: 9px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+.sg-data__note {
+    position: relative;
+    z-index: 1;
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    opacity: .9;
+}
+.sg-data__index {
+    position: absolute;
+    right: 20px;
+    bottom: 14px;
+    font-family: var(--sg-serif);
+    font-size: clamp(34px, 3.8vw, 56px);
+    line-height: .75;
+    letter-spacing: -.04em;
+    opacity: .16;
+}
+.sg-ph {
+    display: inline-block !important;
+    padding: 3px 7px;
+    border: 1px solid currentColor;
+    font-size: 8px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+.sg-project--data .sg-caption { padding-top: 14px; }
+
+/* Clean Energy: image beside its caption */
+.sg-project--energy .sg-link { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: stretch; }
+.sg-project--energy .sg-media { height: 100%; }
+.sg-project--energy .sg-image { object-position: center 58%; }
+.sg-project--energy .sg-caption {
+    align-self: center;
+    padding: 0 0 0 clamp(16px, 2vw, 28px);
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 8px;
+}
+.sg-project--energy .sg-caption > .sg-arrow { display: none; }
+
+/* ---------- Project detail view ---------- */
+.sg-detail {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    overflow-y: auto;
+    background: var(--sg-bg);
+    animation: sg-reveal .55s cubic-bezier(.16, .85, .28, 1) both;
+}
+.sg-detail[hidden] { display: none; }
+.sg-detail.is-closing { animation: sg-hide .3s ease both; }
+.sg-detail__bar {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    height: 68px;
+    padding: 0 clamp(20px, 4vw, 58px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(242, 243, 240, .93);
+    border-bottom: 1px solid var(--sg-line);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+.sg-close {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0 8px 20px;
+    border: 0;
+    background: transparent;
+    color: var(--sg-ink);
+    font-size: 10px !important;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.sg-close svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.3; transition: transform .35s ease; }
+.sg-close:hover svg { transform: rotate(90deg); }
+
+.sg-detail__hero {
+    position: relative;
+    height: min(46vw, 560px);
+    margin: 0 clamp(20px, 4vw, 58px);
+    overflow: hidden;
+    background: #161a1b;
+}
+.sg-detail__hero img { display: block; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: cover; }
+.sg-detail--data .sg-detail__hero { background: var(--sg-accent); }
+.sg-data--large { padding: clamp(24px, 4vw, 56px); }
+.sg-data--large .sg-data__label { font-size: 11px; }
+.sg-data--large .sg-data__note { font-size: 15px; }
+.sg-data--large .sg-data__index { font-size: clamp(60px, 9vw, 140px); }
+.sg-hero-tag {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    padding: 7px 10px;
+    background: var(--sg-paper);
+    color: var(--sg-ink);
+    font-size: 9px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.sg-detail__content {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: clamp(56px, 8vw, 110px) clamp(20px, 7vw, 110px) 120px;
+    display: grid;
+    grid-template-columns: .95fr 1.05fr;
+    gap: clamp(48px, 7vw, 120px);
+}
+.sg-detail__intro h2 {
+    margin: 0;
+    color: var(--sg-ink);
+    font-family: var(--sg-serif);
+    font-size: clamp(48px, 6vw, 92px);
+    font-weight: 400;
+    line-height: .9;
+    letter-spacing: -.035em;
+}
+.sg-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 32px 0 0; padding: 0; list-style: none; }
+.sg-tags li {
+    padding: 5px 11px;
+    border: 1px solid var(--sg-line);
+    border-radius: 999px;
+    color: var(--sg-ink);
+    font-size: 12px;
+    line-height: 1.4;
+}
+.sg-detail__copy { padding-top: 10px; }
+.sg-lede {
+    margin: 0 0 48px;
+    color: var(--sg-ink);
+    font-family: var(--sg-serif);
+    font-size: clamp(23px, 2.1vw, 32px);
+    line-height: 1.22;
+}
+.sg-contrib-title {
+    margin: 0 0 4px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--sg-line);
+    color: var(--sg-muted);
+    font-family: var(--sg-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
+.sg-contrib { margin: 0; padding: 0; list-style: none; }
+.sg-contrib li {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--sg-line);
+    color: #3a4245;
+    font-size: 15px;
+    line-height: 1.65;
+}
+.sg-contrib strong { display: block; margin-bottom: 4px; color: var(--sg-ink); font-weight: 600; }
+.sg-detail a:not(.sg-button) {
+    color: var(--sg-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+.sg-detail a:not(.sg-button):hover { color: var(--sg-ink); }
+.sg-cta { margin: 36px 0 0; }
+.sg-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    background: var(--sg-accent);
+    color: #fff !important;
+    font-size: 14px;
+    transition: background .2s ease;
+}
+.sg-button:hover { background: var(--sg-ink); }
+
+@keyframes sg-reveal { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+@keyframes sg-hide { to { opacity: 0; transform: translateY(24px); } }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+    .sg-intro { padding-top: 72px; }
+    .sg-heading { font-size: clamp(54px, 12vw, 84px); }
+    .sg-projects { height: auto; display: block; padding-bottom: 72px; }
+    .sg-project + .sg-project { margin-top: 64px; }
+    .sg-project--mineral .sg-media { height: 62vw; }
+    .sg-project--data .sg-link { display: flex; flex-direction: column; }
+    .sg-project--data .sg-media { height: min(56vw, 420px); min-height: 300px; }
+    .sg-caption {
+        width: 86%;
+        margin: -22px 0 0 auto;
+        padding: 22px 0 0 22px;
+        background: var(--sg-bg);
+    }
+    .sg-project--data .sg-caption { padding-top: 22px; }
+    .sg-title, .sg-project--data .sg-title, .sg-project--energy .sg-title { font-size: clamp(30px, 6vw, 46px); }
+    .sg-project--energy .sg-link { display: block; }
+    .sg-project--energy .sg-media { height: 56vw; }
+    .sg-project--energy .sg-caption { width: 86%; margin: -22px 0 0 auto; padding: 22px 0 0 22px; align-self: auto; }
+    .sg-detail__content { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 600px) {
+    .sg-heading { white-space: normal; font-size: clamp(52px, 17vw, 84px); line-height: .84; }
+    .sg-caption, .sg-project--energy .sg-caption {
+        width: 94%;
+        grid-template-columns: 26px minmax(0, 1fr);
+        gap: 10px;
+        padding: 20px 0 0 18px;
+    }
+    .sg-caption > .sg-arrow { display: none; }
+    .sg-summary { font-size: 13px; -webkit-line-clamp: 4; }
+    .sg-pill { width: 60px; height: 60px; top: 14px; right: 14px; transform: scale(1); }
+    .sg-project--mineral .sg-media, .sg-project--energy .sg-media { height: 78vw; }
+    .sg-detail__bar { height: 58px; }
+    .sg-detail__hero { height: 70vw; margin: 0; }
+    .sg-detail__content { padding-top: 48px; padding-bottom: 80px; }
+    .sg-contrib li { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .sg *, .sg-detail, .sg-detail * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
