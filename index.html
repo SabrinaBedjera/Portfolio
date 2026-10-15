@@ -153,34 +153,30 @@
                         </div>
                     </section>
 
-                    <!-- 2. Selected work: editorial gallery (adapted from the Figma Make prototype "Integrate with Claude").
-                         Each project opens a detail view (the dialogs at the end of <body>); styles in css/sb-gallery.css,
-                         behaviour in js/sb-gallery.js. -->
-                    <section class="sg" id="work" aria-labelledby="work-title">
-                        <header class="sg-intro">
-                            <div class="sg-marker"><span>Selected work</span><span>01—03</span></div>
-                            <h2 class="sg-heading" id="work-title">Selected <em>Work</em></h2>
-                        </header>
-                        <div class="sg-projects">
-                            <article class="sg-project sg-project--mineral">
-                                <button class="sg-link" type="button" aria-haspopup="dialog" aria-controls="detail-critical-minerals" data-detail="detail-critical-minerals">
-                                    <span class="sg-media"><img class="sg-image" src="images/work/placeholder-critical-minerals.jpg" alt="Placeholder image: mineral crystals (stock photograph, not project imagery)"><span class="sg-credit">Placeholder image · Unsplash</span><span class="sg-pill">Explore <svg class="sg-arrow sg-arrow--diagonal" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></span></span>
-                                    <span class="sg-caption"><span class="sg-num">01</span><span class="sg-text"><span class="sg-eyebrow">Natural Resources Canada</span><span class="sg-title">Critical Minerals Investment &amp; Commercialization</span><span class="sg-summary">Advanced strategic critical minerals investments through project evaluation, commercial negotiations and the development of innovative federal investment approaches to strengthen Canada’s critical minerals supply chains.</span></span><svg class="sg-arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></span>
-                                </button>
-                            </article>
-                            <article class="sg-project sg-project--data">
-                                <button class="sg-link" type="button" aria-haspopup="dialog" aria-controls="detail-pacific-dataviz" data-detail="detail-pacific-dataviz">
-                                    <span class="sg-media sg-media--data"><span class="sg-data"><span class="sg-data__label"><span>Pacific energy transition</span><span>Papua New Guinea · Tonga</span></span><span class="sg-data__note"><span class="sg-ph">Placeholder</span>Flourish visualizations will appear here</span><span class="sg-data__index" aria-hidden="true">PNG / TON</span></span><span class="sg-pill">Explore <svg class="sg-arrow sg-arrow--diagonal" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></span></span>
-                                    <span class="sg-caption"><span class="sg-num">02</span><span class="sg-text"><span class="sg-eyebrow">Independent project</span><span class="sg-title">Pacific Renewable Energy Data Visualization</span><span class="sg-summary">Developed an independent data visualization project examining renewable energy transitions across Pacific Island countries, combining quantitative analysis and interactive storytelling to explore differences in electricity access, energy generation and investment needs.</span></span><svg class="sg-arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></span>
-                                </button>
-                            </article>
-                            <article class="sg-project sg-project--energy">
-                                <button class="sg-link" type="button" aria-haspopup="dialog" aria-controls="detail-clean-energy" data-detail="detail-clean-energy">
-                                    <span class="sg-media"><img class="sg-image" src="images/work/placeholder-clean-energy.jpg" alt="Placeholder image: aerial view of a solar installation (stock photograph, not project imagery)"><span class="sg-credit">Placeholder image · Unsplash</span><span class="sg-pill">Explore <svg class="sg-arrow sg-arrow--diagonal" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></span></span>
-                                    <span class="sg-caption"><span class="sg-num">03</span><span class="sg-text"><span class="sg-eyebrow">Natural Resources Canada</span><span class="sg-title">Clean Energy Technology &amp; Innovation</span><span class="sg-summary">Advanced clean energy technology initiatives through strategic research, international collaboration and technical analysis, supporting Canada’s engagement in energy innovation and carbon management.</span></span><svg class="sg-arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></span>
-                                </button>
-                            </article>
+                    <!-- 2. Selected work: editorial magazine covers (Figma Make "Design experiment B · Editorial covers").
+                         Each cover opens its case-study page (end of <body>). Styles: css/sb-gallery.css; behaviour: js/sb-gallery.js. -->
+                    <section class="sg magazine-experiment" id="work" aria-labelledby="work-title">
+                        <div class="magazine-experiment__heading">
+                            <div>
+                                <p>Selected work · 01—03</p>
+                                <h2 id="work-title">Selected <em>Work</em></h2>
+                            </div>
+                            <p>Three case studies presented as a small collection of independent publications. Open any cover to read its case study.</p>
                         </div>
+                        <div class="cover-browser"><div class="cover-browser__stage">
+                            <article class="magazine-cover magazine-cover--mineral magazine-cover--active">
+                                <button class="magazine-cover__open sg-link" type="button" data-detail="detail-critical-minerals" aria-haspopup="dialog" aria-label="Open case study: Critical Minerals Investment and Commercialization"></button>
+                                <div class="mineral-cover__image"><img class="magazine-cover__photo" src="images/work/placeholder-critical-minerals.jpg" alt=""></div><div class="magazine-cover__masthead"><span>Selected Work</span><span>Issue 01</span></div><div class="mineral-cover__type"><span>Critical</span><span>Minerals</span></div><p class="magazine-cover__deck">Investment &amp; Commercialization</p>
+                            </article>
+                            <article class="magazine-cover magazine-cover--data magazine-cover--next">
+                                <button class="magazine-cover__open sg-link" type="button" data-detail="detail-pacific-dataviz" aria-haspopup="dialog" aria-label="Open case study: Pacific Renewable Energy Data Visualization"></button>
+                                <div class="magazine-cover__masthead"><span>Selected Work</span><span>Issue 02</span></div><div class="data-cover__title"><span>Pacific</span><span>Energy</span></div><div class="data-cover__visual"><svg viewBox="0 0 220 330" aria-hidden="true"><g class="data-cover__grid"><path d="M10 45H210M10 115H210M10 185H210M10 255H210"/><path d="M10 25V300M60 25V300M110 25V300M160 25V300M210 25V300"/></g><path class="data-cover__line data-cover__line--a" d="M10 258c38-17 42-53 70-45s42-43 69-36 31-46 61-69"/><path class="data-cover__line data-cover__line--b" d="M10 174c31 2 44-38 69-31s41-36 68-39 37-30 63-45"/></svg><span>Placeholder · not project data</span></div><p class="magazine-cover__deck">Data Visualization</p>
+                            </article>
+                            <article class="magazine-cover magazine-cover--energy magazine-cover--previous">
+                                <button class="magazine-cover__open sg-link" type="button" data-detail="detail-clean-energy" aria-haspopup="dialog" aria-label="Open case study: Clean Energy Technology and Innovation"></button>
+                                <div class="energy-cover__image"><img class="magazine-cover__photo" src="images/work/placeholder-clean-energy.jpg" alt=""></div><div class="magazine-cover__masthead"><span>Selected Work</span><span>Issue 03</span></div><div class="energy-cover__type"><span>Clean</span><span>Energy</span></div><p class="magazine-cover__deck">Technology &amp; Innovation</p>
+                            </article>
+                        </div></div>
                     </section>
 
                     <!-- 3. More of my work -->
@@ -522,79 +518,41 @@
             </div>
         </div>
 
-        <!-- Selected Work detail views. Content is the finalized case-study text (verbatim). -->
-        <div class="sg-detail sg-detail--mineral" id="detail-critical-minerals" role="dialog" aria-modal="true" aria-labelledby="detail-critical-minerals-title" hidden>
-            <div class="sg-detail__bar">
-                <span>Selected Work / 01</span>
-                <button class="sg-close" type="button" data-close-detail><span>Close</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
-            </div>
-            <div class="sg-detail__hero"><img class="sg-image" src="images/work/placeholder-critical-minerals.jpg" alt="Placeholder image: mineral crystals (stock photograph, not project imagery)"><span class="sg-hero-tag">Placeholder image</span></div>
-            <div class="sg-detail__content">
-                <div class="sg-detail__intro">
-                    <p class="sg-eyebrow">Natural Resources Canada</p>
-                    <h2 id="detail-critical-minerals-title">Critical Minerals Investment &amp; Commercialization</h2>
-                    <ul class="sg-tags" aria-label="Skills"><li>Investment Strategy</li><li>Commercial Negotiations</li><li>Technology Assessment</li><li>Power BI</li></ul>
-                </div>
-                <div class="sg-detail__copy">
-                    <p class="sg-lede">Advanced strategic critical minerals investments through project evaluation, commercial negotiations and the development of innovative federal investment approaches to strengthen Canada’s critical minerals supply chains.</p>
-                    <h3 class="sg-contrib-title">Key contributions &amp; impact</h3>
-                    <ul class="sg-contrib">
-                                            <li><strong>Strategic Investment &amp; Project Assessment:</strong> Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals and clean energy projects, supporting investment decisions across federal funding programs with a combined $3.5&nbsp;billion investment envelope.</li>
-                                            <li><strong>Investment Strategy &amp; Commercial Negotiations:</strong> Evaluated project economics, technical feasibility and strategic commercial considerations to inform federal investment decisions. Collaborated with industry partners and multidisciplinary teams of engineers, geologists, lawyers and financial specialists to negotiate and finalize the <a href="https://www.canada.ca/en/natural-resources-canada/news/2025/10/backgrounder-canada-unlocks-25-new-investments-and-partnerships-with-9-allied-countries-to-secure-critical-minerals-supply-chains.html" target="_blank" rel="noopener">Government of Canada’s first critical minerals offtake agreements</a> with Nouveau Monde Graphite and Rio Tinto.</li>
-                                            <li><strong>Investment Program Development:</strong> Shaped the design of the Canada Critical Minerals Accelerator by applying lessons from the government’s first critical minerals offtake negotiations to inform investment strategies, project assessment processes and financing approaches.</li>
-                                            <li><strong>Data Analytics &amp; Visualization:</strong> Developed interactive Power BI dashboards to visualize project pipelines, track funding allocations and support strategic investment decisions.</li>
-                                        </ul>
-                </div>
-            </div>
+        <!-- Selected Work case-study pages (Figma "MagazineCaseStudy" layout). Content adapted from the finalized case studies. -->
+        <div class="sg-detail case-study case-study--mineral" id="detail-critical-minerals" role="dialog" aria-modal="true" aria-labelledby="detail-critical-minerals-title" hidden>
+            <nav class="case-study__nav" aria-label="Case study navigation"><button type="button" data-close-detail><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M19 12H5M10 7l-5 5 5 5"/></svg><span>Back to Selected Work</span></button><span>Case Study / 01</span></nav>
+            <header class="article-hero">
+                <div class="article-hero__copy"><p>Natural Resources Canada · Investment strategy</p><h1 id="detail-critical-minerals-title">Turning Critical Minerals Projects into Investments</h1><p class="article-hero__intro">Project evaluation, commercial negotiations and new federal investment approaches to strengthen Canada’s critical minerals supply chains.</p></div>
+                <div class="article-hero__visual"><img src="images/work/placeholder-critical-minerals.jpg" alt="Placeholder image: mineral crystals (stock photograph, not project imagery)"><span>Placeholder visual</span></div>
+            </header>
+            <section class="article-contributions"><header><p>Critical Minerals Investment &amp; Commercialization</p><h2>Four areas of contribution</h2></header><div class="article-contributions__list"><article><span>01</span><h3>Assessing Projects</h3><p>Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals and clean energy projects, supporting investment decisions across federal funding programs with a combined $3.5&nbsp;billion investment envelope.</p></article><article><span>02</span><h3>Negotiating Deals</h3><p>Evaluated project economics, technical feasibility and commercial considerations, and worked with industry partners and teams of engineers, geologists, lawyers and financial specialists to negotiate and finalize the <a href="https://www.canada.ca/en/natural-resources-canada/news/2025/10/backgrounder-canada-unlocks-25-new-investments-and-partnerships-with-9-allied-countries-to-secure-critical-minerals-supply-chains.html" target="_blank" rel="noopener">Government of Canada’s first critical minerals offtake agreements</a> with Nouveau Monde Graphite and Rio Tinto.</p></article><article><span>03</span><h3>Designing Investment Programs</h3><p>Shaped the design of the Canada Critical Minerals Accelerator, applying lessons from the first offtake negotiations to investment strategies, project assessment processes and financing approaches.</p></article><article><span>04</span><h3>Visualizing Investments</h3><p>Developed interactive Power BI dashboards to visualize project pipelines, track funding allocations and support strategic investment decisions.</p></article></div></section>
+            <section class="article-support"><header><p>Project material</p><h2>Supporting visuals</h2></header><div class="article-support__visuals"><div><span>Visual 01 · Placeholder</span><p>Project image, chart or diagram to be added.</p></div><div><span>Visual 02 · Placeholder</span><p>Supporting document or excerpt to be added.</p></div></div></section>
+            <section class="article-links"><p>Further reading</p><h2>Sources &amp; links</h2><ul><li><a href="https://www.canada.ca/en/natural-resources-canada/news/2025/10/backgrounder-canada-unlocks-25-new-investments-and-partnerships-with-9-allied-countries-to-secure-critical-minerals-supply-chains.html" target="_blank" rel="noopener">Canada’s first critical minerals offtake agreements ↗</a><span>Government of Canada backgrounder</span></li></ul></section>
+            <footer class="case-study__footer"><p>End of case study / 01</p><button type="button" data-close-detail><span>Back to Selected Work</span><svg class="sg-arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></button></footer>
         </div>
 
-        <div class="sg-detail sg-detail--data" id="detail-pacific-dataviz" role="dialog" aria-modal="true" aria-labelledby="detail-pacific-dataviz-title" hidden>
-            <div class="sg-detail__bar">
-                <span>Selected Work / 02</span>
-                <button class="sg-close" type="button" data-close-detail><span>Close</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
-            </div>
-            <div class="sg-detail__hero"><span class="sg-data sg-data--large"><span class="sg-data__label"><span>Pacific energy transition</span><span>Papua New Guinea · Tonga</span></span><span class="sg-data__note"><span class="sg-ph">Placeholder</span>Flourish visualizations will appear here</span><span class="sg-data__index" aria-hidden="true">PNG / TON</span></span></div>
-            <div class="sg-detail__content">
-                <div class="sg-detail__intro">
-                    <p class="sg-eyebrow">Independent project</p>
-                    <h2 id="detail-pacific-dataviz-title">Pacific Renewable Energy Data Visualization</h2>
-                    <ul class="sg-tags" aria-label="Skills"><li>Data Analysis</li><li>Renewable Energy</li><li>Interactive Visualization</li><li>Energy Strategy</li></ul>
-                </div>
-                <div class="sg-detail__copy">
-                    <p class="sg-lede">Developed an independent <a href="https://sites.google.com/view/sabrinabedjerapacificdataviz/pacific-data-visualization" target="_blank" rel="noopener">data visualization project</a> examining renewable energy transitions across Pacific Island countries, combining quantitative analysis and interactive storytelling to explore differences in electricity access, energy generation and investment needs.</p>
-                    <h3 class="sg-contrib-title">Key contributions &amp; impact</h3>
-                    <ul class="sg-contrib">
-                                            <li><strong>Energy Data Analysis:</strong> Analyzed publicly available energy datasets to compare electricity access, renewable energy deployment and energy transition challenges in Papua New Guinea and Tonga.</li>
-                                            <li><strong>Interactive Data Visualization:</strong> Designed and developed interactive visualizations using Flourish and Excel, translating complex energy datasets into accessible charts and a cohesive digital experience.</li>
-                                            <li><strong>Energy Transition Insights:</strong> Demonstrated how differing national energy conditions require tailored transition strategies, highlighting Papua New Guinea’s need to expand electricity access and Tonga’s focus on reducing oil dependence, while identifying investment as a shared requirement for both countries. The country-specific transition pathways discussed draw on a <a href="https://openknowledge.worldbank.org/server/api/core/bitstreams/2e7e6fb4-74b1-416f-9f60-a575d1761725/content" target="_blank" rel="noopener">World Bank report</a>.</li>
-                                        </ul>
-                        <p class="sg-cta"><a class="sg-button" href="https://sites.google.com/view/sabrinabedjerapacificdataviz/pacific-data-visualization" target="_blank" rel="noopener">Explore Interactive Project ↗</a></p>
-                </div>
-            </div>
+        <div class="sg-detail case-study case-study--data" id="detail-pacific-dataviz" role="dialog" aria-modal="true" aria-labelledby="detail-pacific-dataviz-title" hidden>
+            <nav class="case-study__nav" aria-label="Case study navigation"><button type="button" data-close-detail><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M19 12H5M10 7l-5 5 5 5"/></svg><span>Back to Selected Work</span></button><span>Case Study / 02</span></nav>
+            <header class="article-hero">
+                <div class="article-hero__copy"><p>Independent project · Data visualization</p><h1 id="detail-pacific-dataviz-title">Making Pacific Energy Transitions Visible</h1><p class="article-hero__intro">An independent <a href="https://sites.google.com/view/sabrinabedjerapacificdataviz/pacific-data-visualization" target="_blank" rel="noopener">data visualization project</a> combining quantitative analysis and interactive storytelling to explore electricity access, energy generation and investment needs across Pacific Island countries.</p><p class="article-cta"><a class="sg-button" href="https://sites.google.com/view/sabrinabedjerapacificdataviz/pacific-data-visualization" target="_blank" rel="noopener">Explore Interactive Project ↗</a></p></div>
+                <div class="article-hero__visual"><div class="sg-data-ph"><span>Pacific energy transition · Papua New Guinea · Tonga</span><p>Flourish visualizations will appear here.</p></div><span>Placeholder visual</span></div>
+            </header>
+            <section class="article-contributions"><header><p>Pacific Renewable Energy Data Visualization</p><h2>Three areas of contribution</h2></header><div class="article-contributions__list"><article><span>01</span><h3>Analyzing Energy Data</h3><p>Analyzed publicly available energy datasets to compare electricity access, renewable energy deployment and energy transition challenges in Papua New Guinea and Tonga.</p></article><article><span>02</span><h3>Designing the Visualizations</h3><p>Designed and developed interactive visualizations using Flourish and Excel, turning complex energy datasets into accessible charts and a cohesive digital experience.</p></article><article><span>03</span><h3>Drawing Transition Insights</h3><p>Showed how different national conditions call for tailored strategies: expanding electricity access in Papua New Guinea and reducing oil dependence in Tonga, with investment a shared requirement. The country-specific transition pathways draw on a <a href="https://openknowledge.worldbank.org/server/api/core/bitstreams/2e7e6fb4-74b1-416f-9f60-a575d1761725/content" target="_blank" rel="noopener">World Bank report</a>.</p></article></div></section>
+            <section class="article-support"><header><p>Project material</p><h2>Supporting visuals</h2></header><div class="article-support__visuals"><div><span>Visual 01 · Placeholder</span><p>Project image, chart or diagram to be added.</p></div><div><span>Visual 02 · Placeholder</span><p>Supporting document or excerpt to be added.</p></div></div></section>
+            <section class="article-links"><p>Further reading</p><h2>Sources &amp; links</h2><ul><li><a href="https://sites.google.com/view/sabrinabedjerapacificdataviz/pacific-data-visualization" target="_blank" rel="noopener">The interactive project ↗</a><span>Published visualization</span></li><li><a href="https://openknowledge.worldbank.org/server/api/core/bitstreams/2e7e6fb4-74b1-416f-9f60-a575d1761725/content" target="_blank" rel="noopener">World Bank report ↗</a><span>Source for the country transition pathways</span></li></ul></section>
+            <footer class="case-study__footer"><p>End of case study / 02</p><button type="button" data-close-detail><span>Back to Selected Work</span><svg class="sg-arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></button></footer>
         </div>
 
-        <div class="sg-detail sg-detail--energy" id="detail-clean-energy" role="dialog" aria-modal="true" aria-labelledby="detail-clean-energy-title" hidden>
-            <div class="sg-detail__bar">
-                <span>Selected Work / 03</span>
-                <button class="sg-close" type="button" data-close-detail><span>Close</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
-            </div>
-            <div class="sg-detail__hero"><img class="sg-image" src="images/work/placeholder-clean-energy.jpg" alt="Placeholder image: aerial view of a solar installation (stock photograph, not project imagery)"><span class="sg-hero-tag">Placeholder image</span></div>
-            <div class="sg-detail__content">
-                <div class="sg-detail__intro">
-                    <p class="sg-eyebrow">Natural Resources Canada</p>
-                    <h2 id="detail-clean-energy-title">Clean Energy Technology &amp; Innovation</h2>
-                    <ul class="sg-tags" aria-label="Skills"><li>Carbon Capture &amp; Storage</li><li>Energy Innovation</li><li>International Collaboration</li><li>Technology Strategy</li></ul>
-                </div>
-                <div class="sg-detail__copy">
-                    <p class="sg-lede">Advanced clean energy technology initiatives through strategic research, international collaboration and technical analysis, supporting Canada’s engagement in energy innovation and carbon management.</p>
-                    <h3 class="sg-contrib-title">Key contributions &amp; impact</h3>
-                    <ul class="sg-contrib">
-                                            <li><strong>Clean Energy Strategy:</strong> Contributed technical and policy research to <a href="https://natural-resources.canada.ca/energy-sources/carbon-management-strategy" target="_blank" rel="noopener">Canada’s Carbon Management Strategy</a>, supporting the development of federal priorities for carbon capture, utilization and storage (CCUS).</li>
-                                            <li><strong>International Energy Innovation:</strong> Advanced Canada’s participation in the International Energy Agency’s Committee on Energy Research and Technology (CERT) by preparing technical analyses, developing Canadian positions and coordinating contributions to international discussions on energy research, technology development and innovation.</li>
-                                            <li><strong>Technical Research &amp; Guidance:</strong> Reviewed technical information and contributed Canadian regulatory context to International Energy Agency CCUS handbooks, including the <a href="https://iea.blob.core.windows.net/assets/bda8c2b2-2b9c-4010-ab56-b941dc8d0635/LegalandRegulatoryFrameworksforCCUS-AnIEACCUSHandbook.pdf" target="_blank" rel="noopener">Legal and Regulatory Framework for CCUS</a>, receiving formal acknowledgment for contributions to the publication.</li>
-                                        </ul>
-                </div>
-            </div>
+        <div class="sg-detail case-study case-study--energy" id="detail-clean-energy" role="dialog" aria-modal="true" aria-labelledby="detail-clean-energy-title" hidden>
+            <nav class="case-study__nav" aria-label="Case study navigation"><button type="button" data-close-detail><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M19 12H5M10 7l-5 5 5 5"/></svg><span>Back to Selected Work</span></button><span>Case Study / 03</span></nav>
+            <header class="article-hero">
+                <div class="article-hero__copy"><p>Natural Resources Canada · Research &amp; collaboration</p><h1 id="detail-clean-energy-title">Connecting Clean Energy Ideas to Action</h1><p class="article-hero__intro">Strategic research, international collaboration and technical analysis supporting Canada’s engagement in energy innovation and carbon management.</p></div>
+                <div class="article-hero__visual"><img src="images/work/placeholder-clean-energy.jpg" alt="Placeholder image: aerial view of a solar installation (stock photograph, not project imagery)"><span>Placeholder visual</span></div>
+            </header>
+            <section class="article-contributions"><header><p>Clean Energy Technology &amp; Innovation</p><h2>Three areas of contribution</h2></header><div class="article-contributions__list"><article><span>01</span><h3>Shaping Carbon Management Strategy</h3><p>Contributed technical and policy research to <a href="https://natural-resources.canada.ca/energy-sources/carbon-management-strategy" target="_blank" rel="noopener">Canada’s Carbon Management Strategy</a>, supporting federal priorities for carbon capture, utilization and storage (CCUS).</p></article><article><span>02</span><h3>Advancing International Innovation</h3><p>Supported Canada’s participation in the International Energy Agency’s Committee on Energy Research and Technology (CERT): technical analyses, Canadian positions and coordinated contributions to international discussions.</p></article><article><span>03</span><h3>Guiding CCUS Regulation</h3><p>Reviewed technical information and contributed Canadian regulatory context to IEA CCUS handbooks, including the <a href="https://iea.blob.core.windows.net/assets/bda8c2b2-2b9c-4010-ab56-b941dc8d0635/LegalandRegulatoryFrameworksforCCUS-AnIEACCUSHandbook.pdf" target="_blank" rel="noopener">Legal and Regulatory Framework for CCUS</a>, with formal acknowledgment in the publication.</p></article></div></section>
+            <section class="article-support"><header><p>Project material</p><h2>Supporting visuals</h2></header><div class="article-support__visuals"><div><span>Visual 01 · Placeholder</span><p>Project image, chart or diagram to be added.</p></div><div><span>Visual 02 · Placeholder</span><p>Supporting document or excerpt to be added.</p></div></div></section>
+            <section class="article-links"><p>Further reading</p><h2>Sources &amp; links</h2><ul><li><a href="https://natural-resources.canada.ca/energy-sources/carbon-management-strategy" target="_blank" rel="noopener">Canada’s Carbon Management Strategy ↗</a><span>Natural Resources Canada</span></li><li><a href="https://iea.blob.core.windows.net/assets/bda8c2b2-2b9c-4010-ab56-b941dc8d0635/LegalandRegulatoryFrameworksforCCUS-AnIEACCUSHandbook.pdf" target="_blank" rel="noopener">Legal and Regulatory Frameworks for CCUS ↗</a><span>IEA CCUS handbook (PDF)</span></li></ul></section>
+            <footer class="case-study__footer"><p>End of case study / 03</p><button type="button" data-close-detail><span>Back to Selected Work</span><svg class="sg-arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></svg></button></footer>
         </div>
 
         <!--Load JavaScript-->

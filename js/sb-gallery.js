@@ -55,7 +55,7 @@
         if (!detail) return;
         btn.setAttribute('aria-expanded', 'false');
         btn.addEventListener('click', function () { show(detail, btn); });
-        detail.querySelector('[data-close-detail]').addEventListener('click', hide);
+        detail.querySelectorAll('[data-close-detail]').forEach(function (b) { b.addEventListener('click', hide); });
     });
 
     document.addEventListener('keydown', function (e) {
