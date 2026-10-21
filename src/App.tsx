@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react"
+import "./curiosity-home.css"
 
 type Project = {
   slug: string
@@ -365,153 +366,204 @@ function ExhibitLabel({
   )
 }
 
+/* ------------------------------------------------------------------
+   Cabinet-of-curiosities homepage (phase 1: background, type, stands)
+   Geometry is in pixels of the 1672 × 941 reference/background image and
+   converted to container units in CSS, so everything stays locked to the
+   photograph at any size. Each exhibit has an empty `.ch-object` slot for
+   the photorealistic object added in phase 2.
+------------------------------------------------------------------- */
+
+type Stand = {
+  x: number // front face, top-left corner
+  y: number
+  w: number // front face width
+  h: number // front face height
+  d: number // visible depth of the top face
+  s: number // horizontal shift of the back edge (+ shows right side, − shows left side)
+}
+
+type Exhibit = {
+  key: string
+  number: string
+  title: string
+  description: string
+  href: string
+  stand: Stand
+  label: { x: number; y: number; w: number; h: number; r: number }
+}
+
+const exhibits: Exhibit[] = [
+  {
+    key: "work", number: "01", title: "Selected Work", description: "Case studies and featured projects", href: "#selected-work",
+    stand: { x: 330, y: 786, w: 465, h: 120, d: 40, s: 26 },
+    label: { x: 372, y: 798, w: 398, h: 104, r: -3 },
+  },
+  {
+    key: "lab", number: "02", title: "Lab", description: "Technical and creative projects", href: "#lab",
+    stand: { x: 574, y: 498, w: 298, h: 108, d: 22, s: 14 },
+    label: { x: 618, y: 512, w: 254, h: 90, r: -2 },
+  },
+  {
+    key: "experience", number: "03", title: "Experience", description: "Professional background", href: "#experience",
+    stand: { x: 870, y: 504, w: 325, h: 112, d: 22, s: 4 },
+    label: { x: 918, y: 520, w: 274, h: 94, r: -2.5 },
+  },
+  {
+    key: "education", number: "04", title: "Education", description: "Academic background", href: "#education",
+    stand: { x: 1216, y: 488, w: 404, h: 138, d: 24, s: -14 },
+    label: { x: 1296, y: 512, w: 322, h: 110, r: -2.5 },
+  },
+  {
+    key: "about", number: "05", title: "About", description: "My approach and interests", href: "#about",
+    stand: { x: 935, y: 760, w: 386, h: 146, d: 32, s: -6 },
+    label: { x: 1020, y: 790, w: 300, h: 114, r: -3 },
+  },
+  {
+    key: "contact", number: "06", title: "Contact", description: "Let’s connect", href: "#contact",
+    stand: { x: 1390, y: 748, w: 246, h: 118, d: 26, s: -18 },
+    label: { x: 1455, y: 768, w: 178, h: 96, r: -4 },
+  },
+]
+
+const SCENE_W = 1672
+const u = (px: number) => `calc(${px} * var(--ch-unit))`
+
+/** Bounding box and face polygons (in % of the box) for one acrylic stand. */
+function standGeometry({ x, y, w, h, d, s }: Stand) {
+  const left = x + Math.min(0, s)
+  const top = y - d
+  const bw = w + Math.abs(s)
+  const bh = h + d
+  const fx = Math.max(0, -s) // front face left edge inside the box
+  const P = (px: number, py: number) => `${((px / bw) * 100).toFixed(3)}% ${((py / bh) * 100).toFixed(3)}%`
+  const front = [P(fx, d), P(fx + w, d), P(fx + w, bh), P(fx, bh)]
+  const topFace = [P(fx, d), P(fx + w, d), P(fx + w + s, 0), P(fx + s, 0)]
+  const side =
+    s >= 0
+      ? [P(fx + w, d), P(fx + w + s, 0), P(fx + w + s, h), P(fx + w, bh)]
+      : [P(fx, d), P(fx + s, 0), P(fx + s, h), P(fx, bh)]
+  const edges = [
+    // outline of the visible block, drawn as an SVG overlay in box pixels
+    [fx, d, fx + w, d], [fx + w, d, fx + w, bh], [fx, bh, fx + w, bh], [fx, d, fx, bh],
+    [fx, d, fx + s, 0], [fx + w, d, fx + w + s, 0], [fx + s, 0, fx + w + s, 0],
+    s >= 0 ? [fx + w + s, 0, fx + w + s, h] : [fx + s, 0, fx + s, h],
+  ]
+  return { left, top, bw, bh, front, topFace, side, edges, sideRight: s >= 0 }
+}
+
+function AcrylicStand({ stand }: { stand: Stand }) {
+  const g = standGeometry(stand)
+  const poly = (pts: string[]) => ({ clipPath: `polygon(${pts.join(", ")})` })
+  return (
+    <span
+      className="ch-stand"
+      style={{ left: u(g.left), top: u(g.top), width: u(g.bw), height: u(g.bh) }}
+      aria-hidden="true"
+    >
+      <span className="ch-stand__caustic" />
+      <span className="ch-stand__shadow" />
+      <span className="ch-stand__face ch-stand__face--top" style={poly(g.topFace)} />
+      <span className="ch-stand__face ch-stand__face--front" style={poly(g.front)} />
+      <span
+        className={`ch-stand__face ch-stand__face--side ${g.sideRight ? "is-right" : "is-left"}`}
+        style={poly(g.side)}
+      />
+      <svg className="ch-stand__edges" viewBox={`0 0 ${g.bw} ${g.bh}`} preserveAspectRatio="none">
+        {g.edges.map(([x1, y1, x2, y2], i) => (
+          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
+        ))}
+      </svg>
+    </span>
+  )
+}
+
 function CuriosityHomepage() {
   return (
-    <main id="home" className="curiosity-home">
-      <nav className="curiosity-nav" aria-label="Primary navigation">
-        <a className="curiosity-nav__brand" href="#home">
-          Sabrina Bedjera
-        </a>
-        <div className="curiosity-nav__links">
-          {homeNavigation.map(([label, target], index) => (
-            <a
-              className={index === 0 ? "is-current" : ""}
-              href={`#${target}`}
-              key={target}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
-      </nav>
+    <main id="home" className="ch-home">
+      <div className="ch-scene" style={{ ["--ch-scene-w" as string]: SCENE_W }}>
+        <img className="ch-bg" src="/home-background.jpg" alt="" draggable={false} />
 
-      <section className="curiosity-hero" aria-labelledby="home-title">
-        <div className="curiosity-copy">
-          <p>Science × Technology × Strategy</p>
-          <h1 id="home-title">Making complex ideas move forward.</h1>
-          <span>
-            Engineering, energy, investment and creative technology for a more
-            sustainable and connected world.
-          </span>
-        </div>
+        <nav className="ch-nav" aria-label="Primary navigation">
+          <a className="ch-nav__brand" href="#home">Sabrina Bedjera</a>
+          <div className="ch-nav__links">
+            {homeNavigation.map(([label, target], index) => (
+              <a className={index === 0 ? "is-current" : ""} href={`#${target}`} key={target}>
+                {label}
+              </a>
+            ))}
+          </div>
+        </nav>
 
-        <div className="curiosity-scene" aria-label="Explore portfolio sections">
-          <a
-            className="exhibit exhibit--work"
-            href="#selected-work"
-            aria-label="Explore Selected Work: case studies and featured projects"
-          >
-            <span className="exhibit-object magazine-stack" aria-hidden="true">
-              <span className="magazine-stack__sheet magazine-stack__sheet--three" />
-              <span className="magazine-stack__sheet magazine-stack__sheet--two" />
-              <span className="magazine-stack__sheet magazine-stack__sheet--one" />
-              <span className="home-magazine">
-                <span className="home-magazine__meta">Selected Work · 01</span>
-                <span className="home-magazine__title">Clean Energy</span>
-                <span className="home-magazine__subtitle">
-                  Solutions for a brighter tomorrow
-                </span>
-                <img
-                  src="/home-clean-energy.jpg"
-                  alt=""
-                  draggable="false"
+        <section className="ch-copy" aria-labelledby="home-title">
+          <p className="ch-eyebrow">Science <span>×</span> Technology <span>×</span> Strategy</p>
+          <h1 id="home-title">Making complex<br />ideas move forward.</h1>
+          <p className="ch-lede">
+            Engineering, energy, investment and creative technology for a more sustainable and
+            connected world.
+          </p>
+        </section>
+
+        <div className="ch-exhibits" aria-label="Explore portfolio sections">
+          {exhibits.map((ex) => {
+            const g = standGeometry(ex.stand)
+            return (
+              <a
+                key={ex.key}
+                className={`ch-exhibit ch-exhibit--${ex.key}`}
+                href={ex.href}
+                aria-label={`${ex.title}: ${ex.description}`}
+              >
+                <AcrylicStand stand={ex.stand} />
+                {/* Phase 2: the photorealistic object for this exhibit goes here. */}
+                <span
+                  className="ch-object"
+                  data-object={ex.key}
+                  style={{ left: u(g.left), top: u(g.top), width: u(g.bw), height: u(g.bh) }}
+                  aria-hidden="true"
                 />
-              </span>
-            </span>
-            <ExhibitLabel
-              number="01"
-              title="Selected Work"
-              description="Case studies and featured projects"
-            />
-          </a>
-
-          <a
-            className="exhibit exhibit--lab"
-            href="#lab"
-            aria-label="Explore Lab: technical and creative projects"
-          >
-            <span className="exhibit-object botanical-dome" aria-hidden="true">
-              <span className="botanical-dome__glass">
-                <img src="/home-botanical.jpg" alt="" draggable="false" />
-              </span>
-              <span className="botanical-dome__base" />
-            </span>
-            <ExhibitLabel
-              number="02"
-              title="Lab"
-              description="Technical and creative projects"
-            />
-          </a>
-
-          <a
-            className="exhibit exhibit--experience"
-            href="#experience"
-            aria-label="Explore Experience: professional background"
-          >
-            <span className="exhibit-object mineral-specimen" aria-hidden="true">
-              <img src="/home-mineral.jpg" alt="" draggable="false" />
-              <span className="acrylic-plinth" />
-            </span>
-            <ExhibitLabel
-              number="03"
-              title="Experience"
-              description="Professional background"
-            />
-          </a>
-
-          <a
-            className="exhibit exhibit--education"
-            href="#education"
-            aria-label="Explore Education: academic background"
-          >
-            <span className="exhibit-object book-stack" aria-hidden="true">
-              <span className="book book--engineering">Engineering</span>
-              <span className="book book--science">Science</span>
-              <span className="book book--policy">Policy</span>
-              <span className="book book--technology">Technology</span>
-            </span>
-            <ExhibitLabel
-              number="04"
-              title="Education"
-              description="Academic background"
-            />
-          </a>
-
-          <a
-            className="exhibit exhibit--about"
-            href="#about"
-            aria-label="Explore About: my approach and interests"
-          >
-            <span className="exhibit-object portrait-frame" aria-hidden="true">
-              <img src="/home-about.jpg" alt="" draggable="false" />
-            </span>
-            <ExhibitLabel
-              number="05"
-              title="About"
-              description="My approach and interests"
-            />
-          </a>
-
-          <a
-            className="exhibit exhibit--contact"
-            href="#contact"
-            aria-label="Explore Contact: let's connect"
-          >
-            <span className="exhibit-object pen-cup" aria-hidden="true">
-              <span className="pen pen--one" />
-              <span className="pen pen--two" />
-              <span className="pen pen--three" />
-              <span className="pen-cup__vessel" />
-            </span>
-            <ExhibitLabel
-              number="06"
-              title="Contact"
-              description="Let’s connect"
-            />
-          </a>
+                <span
+                  className="ch-label"
+                  style={{
+                    left: u(ex.label.x), top: u(ex.label.y), width: u(ex.label.w), height: u(ex.label.h),
+                    transform: `rotate(${ex.label.r}deg)`,
+                  }}
+                  aria-hidden="true"
+                >
+                  <span className="ch-label__number">{ex.number}</span>
+                  <span className="ch-label__title">{ex.title}</span>
+                  <span className="ch-label__description">{ex.description}</span>
+                  <span className="ch-label__arrow">→</span>
+                </span>
+              </a>
+            )
+          })}
         </div>
-      </section>
+      </div>
     </main>
+  )
+}
+
+/** Temporary destinations for the homepage objects that have no section yet. */
+const placeholderSections = [
+  ["lab", "02", "Lab", "Technical and creative projects"],
+  ["experience", "03", "Experience", "Professional background"],
+  ["education", "04", "Education", "Academic background"],
+  ["about", "05", "About", "My approach and interests"],
+  ["contact", "06", "Contact", "Let’s connect"],
+]
+
+function PlaceholderSections() {
+  return (
+    <div className="ch-placeholders">
+      {placeholderSections.map(([id, number, title, description]) => (
+        <section id={id} className="ch-placeholder" key={id} aria-labelledby={`${id}-title`}>
+          <p>{number} · Placeholder section</p>
+          <h2 id={`${id}-title`}>{title}</h2>
+          <span>{description} — content to be added.</span>
+        </section>
+      ))}
+    </div>
   )
 }
 
@@ -1151,6 +1203,7 @@ export default function App() {
     <>
       <CuriosityHomepage />
       <MagazineExperiment onExplore={openCaseStudy} />
+      <PlaceholderSections />
       <PaletteStudy />
       <main className="portfolio">
         <header className="intro">
