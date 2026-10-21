@@ -1,0 +1,11 @@
+{
+  "title": "Selected Work — Portfolio Prototype",
+  "description": "An editorial portfolio gallery exploring work across critical minerals, renewable energy data and clean energy technology.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
