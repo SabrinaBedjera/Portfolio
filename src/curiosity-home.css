@@ -1,7 +1,7 @@
 /* ==================================================
    Cabinet-of-curiosities homepage — phase 1
-   Photographic background (public/home-background.jpg, 1672 × 941),
-   real HTML type, six independent acrylic stands and exhibit labels.
+   Photographic background (public/home-background.jpg, 1672 × 941) with
+   three acrylic blocks in the back row, real HTML type and six labels.
    All geometry uses --ch-unit (1 reference pixel), so the scene scales
    as one piece and stays locked to the photograph.
    Everything is scoped to .ch-* classes.
@@ -124,127 +124,68 @@
   inset: 0;
   color: inherit;
   text-decoration: none;
-  pointer-events: none;              /* only the stand, object and label take clicks */
+  pointer-events: none;              /* only the label, block and (later) object take clicks */
 }
 .ch-exhibit:focus-visible { outline: none; }
 .ch-exhibit:focus-visible .ch-label { outline: 2px solid #1e5a55; outline-offset: 4px; }
-.ch-stand, .ch-label, .ch-object { position: absolute; pointer-events: auto; cursor: pointer; }
-.ch-object { pointer-events: none; }  /* becomes clickable once an object is placed */
+.ch-object, .ch-label { position: absolute; }
+.ch-label { pointer-events: auto; cursor: pointer; }
+.ch-object { pointer-events: none; }
+/* The photographic acrylic block of a back-row exhibit is part of its link */
+.ch-exhibit--on-block .ch-object { pointer-events: auto; cursor: pointer; }
 
 /* Layering: back row first, foreground last */
 .ch-exhibit--lab, .ch-exhibit--experience, .ch-exhibit--education { z-index: 1; }
-.ch-exhibit--about, .ch-exhibit--contact { z-index: 2; }
-.ch-exhibit--work { z-index: 3; }
+.ch-exhibit--about, .ch-exhibit--contact, .ch-exhibit--work { z-index: 2; }
 
-/* ---------- Acrylic stand ---------- */
-.ch-stand { display: block; }
-.ch-stand__face {
-  position: absolute;
-  inset: 0;
-  -webkit-backdrop-filter: blur(calc(1.4 * var(--ch-unit))) brightness(1.06) saturate(1.06);
-  backdrop-filter: blur(calc(1.4 * var(--ch-unit))) brightness(1.06) saturate(1.06);
-}
-/* Front: clear block with faint internal reflections and a bright base where light pools */
-.ch-stand__face--front {
-  -webkit-backdrop-filter: blur(calc(2.2 * var(--ch-unit))) brightness(1.1) saturate(1.05);
-  backdrop-filter: blur(calc(2.2 * var(--ch-unit))) brightness(1.1) saturate(1.05);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.12) 6%, rgba(255,255,255,0) 14%),
-    linear-gradient(0deg, rgba(255,246,222,.85) 0%, rgba(255,246,222,.25) 10%, rgba(255,246,222,0) 22%),
-    linear-gradient(90deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.08) 4%, rgba(255,255,255,0) 9%, rgba(255,255,255,0) 91%, rgba(255,255,255,.1) 96%, rgba(255,255,255,.6) 100%),
-    repeating-linear-gradient(90deg, rgba(255,255,255,0) 0 11%, rgba(255,255,255,.22) 11.4% 12%, rgba(255,255,255,0) 12.6% 23%),
-    linear-gradient(100deg, rgba(255,250,238,.22), rgba(255,250,238,.10) 45%, rgba(255,250,238,.24));
-}
-/* Top: catches the sunlight */
-.ch-stand__face--top {
-  -webkit-backdrop-filter: blur(calc(1.8 * var(--ch-unit))) brightness(1.12) saturate(1.04);
-  backdrop-filter: blur(calc(1.8 * var(--ch-unit))) brightness(1.12) saturate(1.04);
-  background: linear-gradient(170deg, rgba(255,252,240,.42), rgba(255,250,236,.18));
-}
-/* Side: thickness of the block refracts more strongly */
-.ch-stand__face--side {
-  -webkit-backdrop-filter: blur(calc(2.5 * var(--ch-unit))) brightness(1.16);
-  backdrop-filter: blur(calc(2.5 * var(--ch-unit))) brightness(1.16);
-  background: linear-gradient(90deg, rgba(255,255,255,.36), rgba(255,244,220,.14));
-}
-.ch-stand__face--side.is-left { background: linear-gradient(270deg, rgba(255,255,255,.36), rgba(255,244,220,.14)); }
-
-/* Crisp polished edges */
-.ch-stand__edges {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.ch-stand__edges line {
-  stroke: rgba(255, 255, 255, .95);
-  stroke-width: 1.6;
-  vector-effect: non-scaling-stroke;
-}
-
-/* Contact shadow along the base, falling away from the light (upper right) */
-.ch-stand__shadow {
-  position: absolute;
-  left: -2%;
-  right: 4%;
-  bottom: calc(-10 * var(--ch-unit));
-  height: calc(22 * var(--ch-unit));
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(92, 64, 34, .34), rgba(92, 64, 34, 0));
-  filter: blur(calc(3 * var(--ch-unit)));
-  mix-blend-mode: multiply;
-}
-/* Light focused through the acrylic onto the table */
-.ch-stand__caustic {
-  position: absolute;
-  left: -16%;
-  width: 70%;
-  bottom: calc(-34 * var(--ch-unit));
-  height: calc(48 * var(--ch-unit));
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(100deg, rgba(255, 244, 214, 0) 0 6%, rgba(255, 244, 214, .9) 7% 8%, rgba(255, 244, 214, 0) 10% 15%),
-    radial-gradient(closest-side, rgba(255, 238, 200, .7), rgba(255, 238, 200, 0));
-  -webkit-mask: radial-gradient(closest-side, #000 40%, transparent);
-  mask: radial-gradient(closest-side, #000 40%, transparent);
-  mix-blend-mode: screen;
-}
-
-/* ---------- Exhibit labels ---------- */
+/* ---------- Museum labels ----------
+   Small ivory placards: a hairline rule, number, title in spaced capitals,
+   a short description and a quiet arrow. */
 .ch-label {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto auto;
   align-content: center;
-  padding: calc(14 * var(--ch-unit)) calc(30 * var(--ch-unit)) calc(14 * var(--ch-unit)) calc(32 * var(--ch-unit));
-  background: linear-gradient(180deg, #fbf8f2, #f3eee5);
-  box-shadow:
-    0 calc(1 * var(--ch-unit)) 0 rgba(255,255,255,.9) inset,
-    0 calc(10 * var(--ch-unit)) calc(18 * var(--ch-unit)) rgba(92, 64, 34, .14);
+  column-gap: calc(12 * var(--ch-unit));
+  padding: calc(9 * var(--ch-unit)) calc(16 * var(--ch-unit)) calc(9 * var(--ch-unit)) calc(18 * var(--ch-unit));
+  background: rgba(251, 248, 242, .9);
+  border: 1px solid rgba(120, 98, 70, .16);
+  box-shadow: 0 calc(4 * var(--ch-unit)) calc(10 * var(--ch-unit)) rgba(92, 64, 34, .10);
   color: var(--ch-ink);
-  transform-origin: left bottom;
-  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;
+  transition: background .3s ease, box-shadow .3s ease;
 }
-.ch-label__number { grid-column: 1; font-size: calc(15 * var(--ch-unit)); letter-spacing: .06em; }
+.ch-label__number {
+  grid-column: 1;
+  font-size: calc(10.5 * var(--ch-unit));
+  letter-spacing: .14em;
+  color: #6b6a62;
+}
 .ch-label__title {
   grid-column: 1;
-  margin-top: calc(4 * var(--ch-unit));
-  font-size: calc(17 * var(--ch-unit));
-  letter-spacing: .12em;
+  margin-top: calc(2 * var(--ch-unit));
+  font-size: calc(13 * var(--ch-unit));
+  letter-spacing: .16em;
   text-transform: uppercase;
 }
-.ch-label__description { grid-column: 1; margin-top: calc(3 * var(--ch-unit)); color: #4f5650; font-size: calc(12.5 * var(--ch-unit)); }
+.ch-label__description {
+  grid-column: 1;
+  margin-top: calc(1 * var(--ch-unit));
+  color: #5d625c;
+  font-size: calc(10.5 * var(--ch-unit));
+  line-height: 1.3;
+}
 .ch-label__arrow {
   grid-column: 2;
-  grid-row: 1 / 3;
+  grid-row: 1 / 4;
   align-self: center;
-  font-size: calc(24 * var(--ch-unit));
+  font-size: calc(16 * var(--ch-unit));
   transition: transform .3s ease;
 }
+.ch-exhibit:hover .ch-label,
+.ch-exhibit:focus-visible .ch-label { background: rgba(253, 251, 247, .98); box-shadow: 0 calc(6 * var(--ch-unit)) calc(14 * var(--ch-unit)) rgba(92, 64, 34, .14); }
 .ch-exhibit:hover .ch-label__arrow,
-.ch-exhibit:focus-visible .ch-label__arrow { transform: translateX(calc(5 * var(--ch-unit))); }
+.ch-exhibit:focus-visible .ch-label__arrow { transform: translateX(calc(4 * var(--ch-unit))); }
 
 /* ---------- Temporary placeholder sections ---------- */
 .ch-placeholders { background: #f1efe8; }

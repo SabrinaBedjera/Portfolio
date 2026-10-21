@@ -367,21 +367,15 @@ function ExhibitLabel({
 }
 
 /* ------------------------------------------------------------------
-   Cabinet-of-curiosities homepage (phase 1: background, type, stands)
-   Geometry is in pixels of the 1672 × 941 reference/background image and
-   converted to container units in CSS, so everything stays locked to the
-   photograph at any size. Each exhibit has an empty `.ch-object` slot for
-   the photorealistic object added in phase 2.
+   Cabinet-of-curiosities homepage
+   Background: public/home-background.jpg (1672 × 941) — cream wall, marble
+   table and three photographic acrylic blocks (back row). Geometry is in
+   pixels of that image and converted to container units in CSS, so the
+   labels and object slots stay locked to the photograph at any size.
+   Each exhibit has an empty `.ch-object` slot for its phase-2 object.
 ------------------------------------------------------------------- */
 
-type Stand = {
-  x: number // front face, top-left corner
-  y: number
-  w: number // front face width
-  h: number // front face height
-  d: number // visible depth of the top face
-  s: number // horizontal shift of the back edge (+ shows right side, − shows left side)
-}
+type Rect = { x: number; y: number; w: number; h: number }
 
 type Exhibit = {
   key: string
@@ -389,94 +383,49 @@ type Exhibit = {
   title: string
   description: string
   href: string
-  stand: Stand
-  label: { x: number; y: number; w: number; h: number; r: number }
+  /** Where the object will sit; for back-row exhibits this includes the acrylic block. */
+  area: Rect
+  /** Back-row exhibits stand on a photographic acrylic block, which is clickable. */
+  onBlock: boolean
+  label: Rect
 }
 
 const exhibits: Exhibit[] = [
   {
     key: "work", number: "01", title: "Selected Work", description: "Case studies and featured projects", href: "#selected-work",
-    stand: { x: 330, y: 786, w: 465, h: 120, d: 40, s: 26 },
-    label: { x: 372, y: 798, w: 398, h: 104, r: -3 },
+    area: { x: 70, y: 500, w: 720, h: 320 }, onBlock: false,
+    label: { x: 420, y: 834, w: 300, h: 64 },
   },
   {
     key: "lab", number: "02", title: "Lab", description: "Technical and creative projects", href: "#lab",
-    stand: { x: 574, y: 498, w: 298, h: 108, d: 22, s: 14 },
-    label: { x: 618, y: 512, w: 254, h: 90, r: -2 },
+    area: { x: 477, y: 150, w: 288, h: 436 }, onBlock: true,
+    label: { x: 500, y: 504, w: 242, h: 62 },
   },
   {
     key: "experience", number: "03", title: "Experience", description: "Professional background", href: "#experience",
-    stand: { x: 870, y: 504, w: 325, h: 112, d: 22, s: 4 },
-    label: { x: 918, y: 520, w: 274, h: 94, r: -2.5 },
+    area: { x: 807, y: 300, w: 336, h: 304 }, onBlock: true,
+    label: { x: 846, y: 522, w: 258, h: 62 },
   },
   {
     key: "education", number: "04", title: "Education", description: "Academic background", href: "#education",
-    stand: { x: 1216, y: 488, w: 404, h: 138, d: 24, s: -14 },
-    label: { x: 1296, y: 512, w: 322, h: 110, r: -2.5 },
+    area: { x: 1190, y: 270, w: 405, h: 328 }, onBlock: true,
+    label: { x: 1262, y: 516, w: 262, h: 62 },
   },
   {
     key: "about", number: "05", title: "About", description: "My approach and interests", href: "#about",
-    stand: { x: 935, y: 760, w: 386, h: 146, d: 32, s: -6 },
-    label: { x: 1020, y: 790, w: 300, h: 114, r: -3 },
+    area: { x: 985, y: 590, w: 290, h: 210 }, onBlock: false,
+    label: { x: 1012, y: 830, w: 236, h: 62 },
   },
   {
     key: "contact", number: "06", title: "Contact", description: "Let’s connect", href: "#contact",
-    stand: { x: 1390, y: 748, w: 246, h: 118, d: 26, s: -18 },
-    label: { x: 1455, y: 768, w: 178, h: 96, r: -4 },
+    area: { x: 1445, y: 540, w: 165, h: 240 }, onBlock: false,
+    label: { x: 1428, y: 808, w: 200, h: 62 },
   },
 ]
 
 const SCENE_W = 1672
 const u = (px: number) => `calc(${px} * var(--ch-unit))`
-
-/** Bounding box and face polygons (in % of the box) for one acrylic stand. */
-function standGeometry({ x, y, w, h, d, s }: Stand) {
-  const left = x + Math.min(0, s)
-  const top = y - d
-  const bw = w + Math.abs(s)
-  const bh = h + d
-  const fx = Math.max(0, -s) // front face left edge inside the box
-  const P = (px: number, py: number) => `${((px / bw) * 100).toFixed(3)}% ${((py / bh) * 100).toFixed(3)}%`
-  const front = [P(fx, d), P(fx + w, d), P(fx + w, bh), P(fx, bh)]
-  const topFace = [P(fx, d), P(fx + w, d), P(fx + w + s, 0), P(fx + s, 0)]
-  const side =
-    s >= 0
-      ? [P(fx + w, d), P(fx + w + s, 0), P(fx + w + s, h), P(fx + w, bh)]
-      : [P(fx, d), P(fx + s, 0), P(fx + s, h), P(fx, bh)]
-  const edges = [
-    // outline of the visible block, drawn as an SVG overlay in box pixels
-    [fx, d, fx + w, d], [fx + w, d, fx + w, bh], [fx, bh, fx + w, bh], [fx, d, fx, bh],
-    [fx, d, fx + s, 0], [fx + w, d, fx + w + s, 0], [fx + s, 0, fx + w + s, 0],
-    s >= 0 ? [fx + w + s, 0, fx + w + s, h] : [fx + s, 0, fx + s, h],
-  ]
-  return { left, top, bw, bh, front, topFace, side, edges, sideRight: s >= 0 }
-}
-
-function AcrylicStand({ stand }: { stand: Stand }) {
-  const g = standGeometry(stand)
-  const poly = (pts: string[]) => ({ clipPath: `polygon(${pts.join(", ")})` })
-  return (
-    <span
-      className="ch-stand"
-      style={{ left: u(g.left), top: u(g.top), width: u(g.bw), height: u(g.bh) }}
-      aria-hidden="true"
-    >
-      <span className="ch-stand__caustic" />
-      <span className="ch-stand__shadow" />
-      <span className="ch-stand__face ch-stand__face--top" style={poly(g.topFace)} />
-      <span className="ch-stand__face ch-stand__face--front" style={poly(g.front)} />
-      <span
-        className={`ch-stand__face ch-stand__face--side ${g.sideRight ? "is-right" : "is-left"}`}
-        style={poly(g.side)}
-      />
-      <svg className="ch-stand__edges" viewBox={`0 0 ${g.bw} ${g.bh}`} preserveAspectRatio="none">
-        {g.edges.map(([x1, y1, x2, y2], i) => (
-          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />
-        ))}
-      </svg>
-    </span>
-  )
-}
+const box = (r: Rect) => ({ left: u(r.x), top: u(r.y), width: u(r.w), height: u(r.h) })
 
 function CuriosityHomepage() {
   return (
@@ -505,39 +454,23 @@ function CuriosityHomepage() {
         </section>
 
         <div className="ch-exhibits" aria-label="Explore portfolio sections">
-          {exhibits.map((ex) => {
-            const g = standGeometry(ex.stand)
-            return (
-              <a
-                key={ex.key}
-                className={`ch-exhibit ch-exhibit--${ex.key}`}
-                href={ex.href}
-                aria-label={`${ex.title}: ${ex.description}`}
-              >
-                <AcrylicStand stand={ex.stand} />
-                {/* Phase 2: the photorealistic object for this exhibit goes here. */}
-                <span
-                  className="ch-object"
-                  data-object={ex.key}
-                  style={{ left: u(g.left), top: u(g.top), width: u(g.bw), height: u(g.bh) }}
-                  aria-hidden="true"
-                />
-                <span
-                  className="ch-label"
-                  style={{
-                    left: u(ex.label.x), top: u(ex.label.y), width: u(ex.label.w), height: u(ex.label.h),
-                    transform: `rotate(${ex.label.r}deg)`,
-                  }}
-                  aria-hidden="true"
-                >
-                  <span className="ch-label__number">{ex.number}</span>
-                  <span className="ch-label__title">{ex.title}</span>
-                  <span className="ch-label__description">{ex.description}</span>
-                  <span className="ch-label__arrow">→</span>
-                </span>
-              </a>
-            )
-          })}
+          {exhibits.map((ex) => (
+            <a
+              key={ex.key}
+              className={`ch-exhibit ch-exhibit--${ex.key}${ex.onBlock ? " ch-exhibit--on-block" : ""}`}
+              href={ex.href}
+              aria-label={`${ex.title}: ${ex.description}`}
+            >
+              {/* Phase 2: the photorealistic object for this exhibit goes here. */}
+              <span className="ch-object" data-object={ex.key} style={box(ex.area)} aria-hidden="true" />
+              <span className="ch-label" style={box(ex.label)} aria-hidden="true">
+                <span className="ch-label__number">{ex.number}</span>
+                <span className="ch-label__title">{ex.title}</span>
+                <span className="ch-label__description">{ex.description}</span>
+                <span className="ch-label__arrow">→</span>
+              </span>
+            </a>
+          ))}
         </div>
       </div>
     </main>
