@@ -1,6 +1,6 @@
 /* ==================================================
    Portfolio sections (Selected Work surroundings, Experience, Education,
-   Associations & Volunteering, Lab, About, Contact)
+   Associations, Lab, About, Contact)
    Warm editorial style taken from the homepage photograph:
    cream paper, deep green ink, rust accents, Instrument Serif headings,
    DM Sans text. One type and spacing scale (tokens below) is used
@@ -328,7 +328,7 @@
   font-size: var(--ps-fs-small);
 }
 
-/* ---------- Associations & Volunteering ---------- */
+/* ---------- Associations ---------- */
 .ps-associations {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

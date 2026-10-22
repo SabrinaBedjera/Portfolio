@@ -2,8 +2,7 @@
    The page's sections, in reading order. The top navigation, the section
    headings and the homepage object captions all read their labels from
    here, so renaming a section updates every place it appears.
-   `number` matches the six objects on the homepage; Associations &
-   Volunteering has no object and no number.
+   `number` matches the seven objects on the homepage.
 ------------------------------------------------------------------- */
 
 export type SectionId =
@@ -28,10 +27,10 @@ export const sections: Section[] = [
   { id: "selected-work", label: "Selected Work", number: "01" },
   { id: "experience", label: "Professional Experience", number: "02", caption: "Experience" },
   { id: "education", label: "Education", number: "03" },
-  { id: "associations", label: "Associations & Volunteering" },
+  { id: "associations", label: "Associations", number: "06" },
   { id: "lab", label: "Lab", number: "04" },
   { id: "about", label: "About", number: "05" },
-  { id: "contact", label: "Contact", number: "06" },
+  { id: "contact", label: "Contact", number: "07" },
 ]
 
 export const section = (id: SectionId) => sections.find((s) => s.id === id)!

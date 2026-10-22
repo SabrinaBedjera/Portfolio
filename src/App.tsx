@@ -402,6 +402,8 @@ type HomeObject = {
   /** Caption offset: dx from the object's left edge, dy from its ground line. */
   caption: { dx: number; dy: number }
   layers: { src: string; className?: string }[]
+  /** Faint animated steam above the object (drawn in SVG, shown on hover). */
+  steam?: boolean
 }
 
 /* Back row rests on the far part of the table, front row nearer the viewer. */
@@ -434,8 +436,14 @@ const homeObjects: HomeObject[] = [
   },
   {
     id: "about", description: "My approach and interests",
-    x: 836, w: 222, ground: 914, aspect: 487 / 390, base: 0.912, caption: { dx: 226, dy: -26 },
+    x: 650, w: 200, ground: 924, aspect: 487 / 390, base: 0.912, caption: { dx: 204, dy: -28 },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
+  },
+  {
+    id: "associations", description: "Professional associations and volunteering",
+    x: 990, w: 196, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 26, dy: 14 },
+    layers: [{ src: "/home-objects/06_associations_espresso_cup.webp" }],
+    steam: true,
   },
   {
     // Back of the holder, then the pen, then the holder again clipped to its
@@ -514,6 +522,18 @@ function CuriosityHomepage() {
                     {object.layers.map((layer, i) => (
                       <img className={layer.className} src={layer.src} alt="" draggable={false} key={i} />
                     ))}
+                    {object.steam && (
+                      <svg className="ch-steam" viewBox="0 0 120 200" aria-hidden="true">
+                        <defs>
+                          <filter id="ch-steam-blur" x="-50%" y="-20%" width="200%" height="140%">
+                            <feGaussianBlur stdDeviation="3.2" />
+                          </filter>
+                        </defs>
+                        <path className="ch-steam__wisp" d="M60 196 C 40 166, 78 140, 58 110 S 44 60, 66 26" />
+                        <path className="ch-steam__wisp" d="M48 196 C 30 170, 62 150, 46 120 S 36 76, 52 44" />
+                        <path className="ch-steam__wisp" d="M72 196 C 92 168, 60 146, 80 118 S 90 74, 74 40" />
+                      </svg>
+                    )}
                   </span>
                   <span className="ch-caption" aria-hidden="true">
                     <span className="ch-caption__number">{number}</span>

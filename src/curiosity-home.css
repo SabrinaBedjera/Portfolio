@@ -284,6 +284,42 @@
 .ch-object--education > a:hover .ch-object__art,
 .ch-object--education > a:focus-visible .ch-object__art { transform: none; }
 
+/* ---------- Associations: espresso cup with faint steam ----------
+   The cup stays still; on hover or focus three soft wisps rise from the
+   coffee and fade. Kept very faint on purpose. */
+.ch-object--associations .ch-object__art img { -webkit-mask-image: none; mask-image: none; }
+.ch-object--associations > a:hover .ch-object__art,
+.ch-object--associations > a:focus-visible .ch-object__art { transform: none; }
+.ch-steam {
+  position: absolute;
+  left: 28%;
+  bottom: 79%;            /* starts at the coffee's surface */
+  width: 38%;
+  overflow: visible;
+  pointer-events: none;
+}
+.ch-steam__wisp {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 8;
+  stroke-linecap: round;
+  filter: url(#ch-steam-blur);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.ch-object--associations > a:hover .ch-steam__wisp,
+.ch-object--associations > a:focus-visible .ch-steam__wisp,
+.ch-object--associations > a:active .ch-steam__wisp { animation: ch-steam-rise 4.2s ease-in-out infinite; }
+.ch-object--associations .ch-steam__wisp:nth-child(3) { animation-delay: 1.4s !important; }
+.ch-object--associations .ch-steam__wisp:nth-child(4) { animation-delay: 2.8s !important; }
+@keyframes ch-steam-rise {
+  0% { opacity: 0; transform: translateY(14%) scaleY(.85); }
+  30% { opacity: .55; }
+  65% { opacity: .32; }
+  100% { opacity: 0; transform: translate(4%, -16%) scaleY(1.05); }
+}
+
 /* ---------- Contact: back of the holder, the pen, then the front wall ---------- */
 .ch-object--contact .ch-holder { position: relative; z-index: 0; }
 .ch-object--contact .ch-holder-front {
@@ -294,6 +330,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* steam appears, still and faint, instead of rising */
+  .ch-object--associations > a:hover .ch-steam__wisp,
+  .ch-object--associations > a:focus-visible .ch-steam__wisp,
+  .ch-object--associations > a:active .ch-steam__wisp { animation: none; opacity: .35; }
   .ch-object--education .ch-books-tech,
   .ch-object--education > a:hover .ch-books-tech,
   .ch-object--education > a:focus-visible .ch-books-tech,
@@ -386,6 +426,14 @@
     mask-image: linear-gradient(to bottom, transparent, #000 12%);
   }
   .ch-object { --y0: 281; }
+  /* the scene is smaller here, so captions are too, to keep them apart */
+  .ch-caption { gap: 7px; padding: 4px 10px; }
+  .ch-caption__title { font-size: 12px; letter-spacing: .08em; }
+  .ch-caption__number { font-size: 11px; }
+  /* caption positions for this layout; !important overrides the inline
+     values from App.tsx. --dy is measured from the top of the object. */
+  .ch-object--selected-work { --dx: 130 !important; --dy: 300 !important; }
+  .ch-object--about { --dx: -150 !important; --dy: 205 !important; }
 }
 
 /* ---------- Narrow: headline, then the objects as a grid ---------- */
@@ -463,6 +511,16 @@
     margin-top: auto;
   }
   .ch-object--education .ch-object__art img { max-height: none; }
+  .ch-object--associations .ch-object__art {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 735 / 516;
+    margin-top: auto;
+  }
+  .ch-object--associations .ch-object__art img { width: 100%; max-height: none; }
+  /* seven tiles: the last one spans both columns */
+  .ch-object--contact { grid-column: 1 / -1; }
   .ch-object__shadow { display: none; }
   .ch-caption {
     position: static;

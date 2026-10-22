@@ -4,7 +4,7 @@ import { section, type SectionId } from "./sections"
 
 /* ------------------------------------------------------------------
    Portfolio sections after Selected Work: Experience, Education,
-   Associations & Volunteering, Lab, About and Contact. Content restored from experiment/photo-desk.
+   Associations, Lab, About and Contact. Content restored from experiment/photo-desk.
    Section ids match the homepage hotspots and navigation.
 ------------------------------------------------------------------- */
 
@@ -243,7 +243,6 @@ export default function PortfolioSections() {
 
       <section id="associations" className="ps-section" aria-labelledby="associations-title">
         <div className="ps-wrap">
-          {/* Unnumbered: the numbers match the six objects on the homepage. */}
           <SectionHead id="associations" />
           <div className="ps-associations">
             {associations.map((item) => (
