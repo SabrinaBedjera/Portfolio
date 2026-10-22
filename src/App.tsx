@@ -176,166 +176,6 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   )
 }
 
-function EnergyGraphic({ large = false }: { large?: boolean }) {
-  return (
-    <div className={`energy-graphic ${large ? "energy-graphic--large" : ""}`}>
-      <div className="chart-meta">
-        <span>Electricity access</span>
-        <span>2000—2022</span>
-      </div>
-      <svg
-        viewBox="0 0 800 460"
-        role="img"
-        aria-label="Placeholder line chart comparing energy access trends in Papua New Guinea and Tonga"
-      >
-        <g className="grid">
-          <path d="M40 70H760M40 170H760M40 270H760M40 370H760" />
-          <path d="M40 55V390M220 55V390M400 55V390M580 55V390M760 55V390" />
-        </g>
-        <path
-          className="line line--one"
-          d="M40 315 C150 305,165 280,220 282 S345 250,400 252 S510 215,580 222 S680 180,760 150"
-        />
-        <path
-          className="line line--two"
-          d="M40 200 C145 196,165 170,220 172 S330 150,400 142 S520 112,580 105 S700 90,760 70"
-        />
-        <g className="dots">
-          <circle cx="760" cy="150" r="7" />
-          <circle cx="760" cy="70" r="7" />
-        </g>
-      </svg>
-      <div className="chart-legend">
-        <span>
-          <i className="legend-dot legend-dot--orange" />
-          Papua New Guinea
-        </span>
-        <span>
-          <i className="legend-dot legend-dot--pink" />
-          Tonga
-        </span>
-      </div>
-    </div>
-  )
-}
-
-const paletteStudies = [
-  {
-    name: "Deep teal",
-    description: "Cool ivory · Muted sage",
-    background: "#ECEFE8",
-    ink: "#173C3A",
-    accent: "#1E5A55",
-    secondary: "#8B9B84",
-  },
-  {
-    name: "Charcoal",
-    description: "Soft grey · Muted plum",
-    background: "#E8E7E8",
-    ink: "#29282A",
-    accent: "#2C2B2D",
-    secondary: "#76596C",
-  },
-  {
-    name: "Soft white",
-    description: "Slate blue · Charcoal",
-    background: "#F5F5F2",
-    ink: "#262C31",
-    accent: "#536C87",
-    secondary: "#2D3338",
-  },
-]
-
-function PaletteStudy() {
-  return (
-    <section className="palette-study" aria-labelledby="palette-study-title">
-      <div className="palette-study__heading">
-        <div>
-          <p>Colour direction study · Prototype only</p>
-          <h2 id="palette-study-title">
-            Three quieter <em>directions</em>
-          </h2>
-        </div>
-        <p>
-          The layout, imagery and hierarchy are held constant. The existing
-          gallery remains unchanged below.
-        </p>
-      </div>
-
-      <div className="palette-study__grid">
-        {paletteStudies.map((palette, index) => {
-          const style = {
-            "--study-bg": palette.background,
-            "--study-ink": palette.ink,
-            "--study-accent": palette.accent,
-            "--study-secondary": palette.secondary,
-          } as CSSProperties
-
-          return (
-            <article
-              className="palette-option"
-              style={style}
-              key={palette.name}
-            >
-              <div className="palette-option__topline">
-                <span>0{index + 1}</span>
-                <span>{palette.name}</span>
-              </div>
-              <div className="palette-option__composition" aria-hidden="true">
-                <div className="palette-option__mineral">
-                  <img src={projects[0].image} alt="" />
-                  <div>
-                    <i />
-                    <span>Critical Minerals</span>
-                  </div>
-                </div>
-                <div className="palette-option__data">
-                  <svg viewBox="0 0 200 90">
-                    <path
-                      className="study-grid"
-                      d="M5 20H195M5 45H195M5 70H195"
-                    />
-                    <path
-                      className="study-line study-line--one"
-                      d="M5 70C35 65 42 54 65 57S105 42 125 45s42-21 70-26"
-                    />
-                    <path
-                      className="study-line study-line--two"
-                      d="M5 49c31-2 40-15 64-14s42-8 64-13 38-8 62-10"
-                    />
-                  </svg>
-                  <span>Pacific Energy Data</span>
-                </div>
-                <div className="palette-option__energy">
-                  <img src={projects[2].image} alt="" />
-                  <span>Clean Energy</span>
-                </div>
-              </div>
-              <div className="palette-option__footer">
-                <div>
-                  <span
-                    className="palette-swatch"
-                    style={{ backgroundColor: palette.background }}
-                  />
-                  <span
-                    className="palette-swatch"
-                    style={{ backgroundColor: palette.accent }}
-                  />
-                  <span
-                    className="palette-swatch"
-                    style={{ backgroundColor: palette.secondary }}
-                  />
-                </div>
-                <p>{palette.description}</p>
-              </div>
-            </article>
-          )
-        })}
-      </div>
-    </section>
-  )
-}
-
 const homeNavigation = [
   ["Home", "home"],
   ["Selected Work", "selected-work"],
@@ -561,7 +401,7 @@ function MagazineExperiment({
   return (
     <section
       id="selected-work"
-      className="magazine-experiment"
+      className="magazine-experiment ps-section ps-section--tint"
       aria-labelledby="covers-title"
       onKeyDown={(event) => {
         if (openingCover !== null) return
@@ -569,18 +409,17 @@ function MagazineExperiment({
         if (event.key === "ArrowRight") rotate(1)
       }}
     >
-      <div className="magazine-experiment__heading">
-        <div>
-          <p>Professional portfolio · 01—03</p>
-          <h2 id="covers-title">
-            Selected <em>Work</em>
-          </h2>
-        </div>
-        <p>
+      {/* Heading styled like the sections that follow (portfolio-sections.css). */}
+      <header className="ps-head selected-work__head">
+        <p className="ps-number">01</p>
+        <h2 id="covers-title">
+          Selected <em>Work</em>
+        </h2>
+        <p className="ps-lede">
           Please explore my experience across critical minerals, Pacific energy
           systems, and clean technology.
         </p>
-      </div>
+      </header>
 
       <div className="cover-browser">
         <div className="cover-browser__stage" aria-live="polite">
@@ -978,91 +817,7 @@ function MagazineCaseStudy({
   )
 }
 
-function ProjectDetail({
-  project,
-  onClose,
-}: {
-  project: Project
-  onClose: () => void
-}) {
-  const closeRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = "hidden"
-    closeRef.current?.focus()
-    const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose()
-    }
-    window.addEventListener("keydown", handleKey)
-    return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener("keydown", handleKey)
-    }
-  }, [onClose])
-
-  return (
-    <div
-      className="detail"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="detail-title"
-    >
-      <div className="detail__bar">
-        <span>Selected Work / {project.number}</span>
-        <button ref={closeRef} className="close-button" onClick={onClose}>
-          <span>Close</span>
-          <svg aria-hidden="true" viewBox="0 0 24 24">
-            <path d="M5 5l14 14M19 5L5 19" />
-          </svg>
-        </button>
-      </div>
-
-      <div className={`detail__hero detail__hero--${project.tone}`}>
-        {project.tone === "data" ? (
-          <EnergyGraphic large />
-        ) : (
-          <img src={project.image} alt={project.imageAlt} />
-        )}
-        <span className="placeholder-tag">Placeholder visual</span>
-      </div>
-
-      <main className="detail__content">
-        <div className="detail__intro">
-          <p className="eyebrow">{project.eyebrow}</p>
-          <h2 id="detail-title">{project.title}</h2>
-        </div>
-        <div className="detail__copy">
-          <p className="detail__lede">{project.description}</p>
-          <div className="detail__facts">
-            <div>
-              <span>Role</span>
-              <p>To be added</p>
-            </div>
-            <div>
-              <span>Contributions</span>
-              <p>To be added</p>
-            </div>
-            <div>
-              <span>Links</span>
-              <p>Coming with full case study</p>
-            </div>
-          </div>
-          <div className="detail__placeholder">
-            <span>Case study content</span>
-            <p>
-              This space is reserved for the project narrative, process,
-              supporting visuals and outcomes.
-            </p>
-          </div>
-        </div>
-      </main>
-    </div>
-  )
-}
-
 export default function App() {
-  const [activeProject, setActiveProject] = useState<Project | null>(null)
   const [caseStudyProject, setCaseStudyProject] = useState<Project | null>(
     () => {
       const slug = window.location.hash.replace("#case-study/", "")
@@ -1109,128 +864,6 @@ export default function App() {
       <CuriosityHomepage />
       <MagazineExperiment onExplore={openCaseStudy} />
       <PortfolioSections />
-      <PaletteStudy />
-      <main className="portfolio">
-        <header className="intro">
-          <div className="intro__marker">
-            <span>Selected work</span>
-            <span>01—03</span>
-          </div>
-          <h1>
-            Selected <em>Work</em>
-          </h1>
-          <p>
-            A selection of work across critical minerals, energy systems and
-            technology—where complex questions become clear decisions.
-          </p>
-          <div className="scroll-note" aria-hidden="true">
-            <span>Scroll to explore</span>
-            <i />
-          </div>
-        </header>
-
-        <section className="projects" aria-label="Selected projects">
-          <article className="project project--mineral">
-            <button
-              className="project__link"
-              onClick={() => setActiveProject(projects[0])}
-              aria-label={`View project: ${projects[0].title}`}
-            >
-              <div className="project__image-wrap">
-                <img
-                  className="project__image"
-                  src={projects[0].image}
-                  alt={projects[0].imageAlt}
-                />
-                <span className="image-credit">
-                  Placeholder image · Unsplash
-                </span>
-                <span className="explore-pill">
-                  Explore <Arrow diagonal />
-                </span>
-              </div>
-              <div className="project__caption">
-                <span className="project__number">{projects[0].number}</span>
-                <div>
-                  <p className="eyebrow">{projects[0].eyebrow}</p>
-                  <h2>{projects[0].title}</h2>
-                  <p className="summary">{projects[0].summary}</p>
-                </div>
-                <Arrow />
-              </div>
-            </button>
-          </article>
-
-          <article className="project project--data">
-            <button
-              className="project__link"
-              onClick={() => setActiveProject(projects[1])}
-              aria-label={`View project: ${projects[1].title}`}
-            >
-              <div className="project__caption">
-                <span className="project__number">{projects[1].number}</span>
-                <div>
-                  <p className="eyebrow">{projects[1].eyebrow}</p>
-                  <h2>{projects[1].title}</h2>
-                  <p className="summary">{projects[1].summary}</p>
-                </div>
-                <Arrow />
-              </div>
-              <div className="data-stage">
-                <div className="data-stage__label">
-                  <span>Pacific energy transition</span>
-                  <span>Prototype view</span>
-                </div>
-                <EnergyGraphic />
-                <div className="data-stage__index">PNG / TON</div>
-              </div>
-            </button>
-          </article>
-
-          <article className="project project--energy">
-            <button
-              className="project__link"
-              onClick={() => setActiveProject(projects[2])}
-              aria-label={`View project: ${projects[2].title}`}
-            >
-              <div className="project__image-wrap">
-                <img
-                  className="project__image"
-                  src={projects[2].image}
-                  alt={projects[2].imageAlt}
-                />
-                <span className="image-credit">
-                  Placeholder image · Unsplash
-                </span>
-                <span className="explore-pill">
-                  Explore <Arrow diagonal />
-                </span>
-              </div>
-              <div className="project__caption">
-                <span className="project__number">{projects[2].number}</span>
-                <div>
-                  <p className="eyebrow">{projects[2].eyebrow}</p>
-                  <h2>{projects[2].title}</h2>
-                  <p className="summary">{projects[2].summary}</p>
-                </div>
-                <Arrow />
-              </div>
-            </button>
-          </article>
-        </section>
-
-        <footer>
-          <span>Selected Work</span>
-          <span>Scroll onward</span>
-        </footer>
-      </main>
-
-      {activeProject && (
-        <ProjectDetail
-          project={activeProject}
-          onClose={() => setActiveProject(null)}
-        />
-      )}
     </>
   )
 }

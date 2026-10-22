@@ -4,7 +4,8 @@
    cream paper, deep green ink, Instrument Serif headings, DM Sans text.
    Everything is scoped to .ps-* classes.
    ================================================== */
-.ps {
+.ps,
+#selected-work {
   --ps-paper: #fbf6ee;
   --ps-tint: #f3e8d8;
   --ps-ink: #1c2a22;
@@ -13,6 +14,8 @@
   --ps-rule: rgba(60, 45, 30, .16);
   --ps-accent: #2b7441;
   --ps-clay: #a75825;
+}
+.ps {
   font-family: "DM Sans", sans-serif;
   color: var(--ps-text);
 }
@@ -192,3 +195,24 @@
 .ps-footer a { color: inherit; }
 
 .ps a:focus-visible { outline: 2px solid #e0a274; outline-offset: 3px; }
+
+/* ---------- Selected Work surroundings ----------
+   The magazine carousel itself is unchanged; only the section around it
+   follows the other sections' background, width, spacing and heading. */
+#selected-work.magazine-experiment {
+  min-height: 0;
+  padding: 112px 0 96px;
+  background: var(--ps-tint);
+  border-bottom: 0;
+}
+.selected-work__head {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 64px;
+  box-sizing: border-box;
+  font-family: "DM Sans", sans-serif;
+}
+.selected-work__head .ps-lede { color: var(--ps-text); }
+.selected-work__head h2 em { color: var(--ps-clay); }
+#selected-work .cover-browser { margin-top: 0; }
+#selected-work .cover-browser__index button.is-active { border-bottom-color: var(--ps-clay); }

@@ -1,12 +1,12 @@
 import "./portfolio-sections.css"
 
 /* ------------------------------------------------------------------
-   Portfolio sections after Selected Work: Lab, Experience, Education,
-   About and Contact. Content restored from experiment/photo-desk.
+   Portfolio sections after Selected Work: Additional Work, Lab,
+   Experience, Education, About and Contact. Content restored from experiment/photo-desk.
    Section ids match the homepage hotspots and navigation.
 ------------------------------------------------------------------- */
 
-const labProjects = [
+const additionalWork = [
   {
     title: "Water Treatment & Environmental Research",
     text: "Master’s research modelling micropollutant degradation during drinking water ozonation. Awarded the American Water Works Association first-place Master’s Academic Achievement Award.",
@@ -76,10 +76,10 @@ const skills = [
   "Qualitative analysis (NVivo)",
 ]
 
-function SectionHead({ id, number, title, lede }: { id: string; number: string; title: string; lede?: string }) {
+function SectionHead({ id, number, title, lede }: { id: string; number?: string; title: string; lede?: string }) {
   return (
     <header className="ps-head">
-      <p className="ps-number">{number}</p>
+      <p className="ps-number">{number ?? "\u00a0"}</p>
       <h2 id={`${id}-title`}>{title}</h2>
       {lede && <p className="ps-lede">{lede}</p>}
     </header>
@@ -89,17 +89,25 @@ function SectionHead({ id, number, title, lede }: { id: string; number: string; 
 export default function PortfolioSections() {
   return (
     <div className="ps">
-      <section id="lab" className="ps-section ps-section--tint" aria-labelledby="lab-title">
+      <section id="additional-work" className="ps-section" aria-labelledby="additional-work-title">
         <div className="ps-wrap">
-          <SectionHead id="lab" number="02" title="Lab" lede="Technical and creative projects" />
+          {/* Unnumbered: the numbers match the six exhibits on the homepage. */}
+          <SectionHead id="additional-work" title="Additional Work" />
           <div className="ps-cards">
-            {labProjects.map((project) => (
+            {additionalWork.map((project) => (
               <article className="ps-card" key={project.title}>
                 <h3>{project.title}</h3>
                 <p>{project.text}</p>
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Lab projects to be added. */}
+      <section id="lab" className="ps-section ps-section--tint" aria-labelledby="lab-title">
+        <div className="ps-wrap">
+          <SectionHead id="lab" number="02" title="Lab" lede="Technical and creative projects" />
         </div>
       </section>
 
