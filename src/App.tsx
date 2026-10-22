@@ -311,44 +311,50 @@ type HomeObject = {
   title: string
   description: string
   href: string
-  /** Object box on the stage: left, top and width; height follows the image. */
+  /** Left edge and width on the 1672 × 941 stage. */
   x: number
-  y: number
   w: number
-  /** Caption position relative to the object box. */
+  /** Stage y of the table line the object rests on. */
+  ground: number
+  /** Image height / width, and where its base sits (fraction of image height). */
+  aspect: number
+  base: number
+  /** Caption offset: dx from the object's left edge, dy from its ground line. */
   caption: { dx: number; dy: number }
   layers: { src: string; className?: string }[]
 }
 
+/* Back row rests on the far part of the table, front row nearer the viewer. */
+const BACK = 652
 const homeObjects: HomeObject[] = [
   {
     key: "work", number: "01", title: "Selected Work", description: "Case studies and featured projects", href: "#selected-work",
-    x: 64, y: 520, w: 540, caption: { dx: 300, dy: 330 },
+    x: 60, w: 540, ground: 892, aspect: 430 / 653, base: 0.951, caption: { dx: 330, dy: -40 },
     layers: [{ src: "/home-objects/01_selected_work_magazines.webp" }],
   },
   {
     key: "experience", number: "02", title: "Experience", description: "Professional background", href: "#experience",
-    x: 968, y: 380, w: 186, caption: { dx: 52, dy: 256 },
+    x: 650, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: 30, dy: 12 },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
     key: "education", number: "03", title: "Education", description: "Academic background", href: "#education",
-    x: 1196, y: 356, w: 372, caption: { dx: 196, dy: 280 },
+    x: 905, w: 380, ground: BACK, aspect: 458 / 625, base: 0.926, caption: { dx: 120, dy: 12 },
     layers: [{ src: "/home-objects/04_education_books.webp" }],
   },
   {
     key: "lab", number: "04", title: "Lab", description: "Technical and creative projects", href: "#lab",
-    x: 660, y: 300, w: 262, caption: { dx: 18, dy: 334 },
+    x: 1320, w: 262, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 80, dy: 12 },
     layers: [{ src: "/home-objects/03_lab_cloche.webp" }],
   },
   {
     key: "about", number: "05", title: "About", description: "My approach and interests", href: "#about",
-    x: 812, y: 646, w: 204, caption: { dx: 214, dy: 212 },
+    x: 860, w: 180, ground: 912, aspect: 487 / 390, base: 0.912, caption: { dx: 190, dy: -26 },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
     key: "contact", number: "06", title: "Contact", description: "Let’s connect", href: "#contact",
-    x: 1250, y: 664, w: 152, caption: { dx: 166, dy: 196 },
+    x: 1220, w: 150, ground: 905, aspect: 457 / 303, base: 0.932, caption: { dx: 160, dy: -22 },
     layers: [
       // the animated pen sits behind the holder, so the rim hides its lower end
       { src: "/home-objects/07_contact_animated_pen.webp", className: "ch-pen" },
@@ -356,6 +362,9 @@ const homeObjects: HomeObject[] = [
     ],
   },
 ]
+
+/** Top of the object's box, so that its base lands on its ground line. */
+const objectTop = (o: HomeObject) => o.ground - o.base * o.w * o.aspect
 
 function CuriosityHomepage() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -402,10 +411,11 @@ function CuriosityHomepage() {
                 style={
                   {
                     "--x": object.x,
-                    "--y": object.y,
+                    "--y": objectTop(object),
                     "--w": object.w,
+                    "--base": object.base,
                     "--dx": object.caption.dx,
-                    "--dy": object.caption.dy,
+                    "--dy": object.ground + object.caption.dy - objectTop(object),
                   } as CSSProperties
                 }
               >

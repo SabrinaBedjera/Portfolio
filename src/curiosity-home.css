@@ -148,23 +148,27 @@
   height: auto;
   user-select: none;
   /* The supplied cut-outs keep a faint haze up to their edges; feathering the
-     outer few percent hides the rectangle without touching the object.
+     outer few percent hides the rectangle without touching the object
+     (only the last 2% at the bottom, where the bases are).
      Clean transparent replacements need no change here. */
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 98%, transparent);
   -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 98%, transparent);
   mask-composite: intersect;
 }
-/* soft contact shadow where the object meets the table */
+/* Contact shadow centred on the object's base line (--base): a soft, wide
+   ambient shadow with a tighter, darker core where it touches the table. */
 .ch-object__shadow {
   position: absolute;
-  left: 10%;
-  right: 10%;
-  bottom: calc(-8 * var(--u));
-  height: calc(22 * var(--u));
+  left: 8%;
+  right: 8%;
+  top: calc(var(--base) * 100% - 14 * var(--u));
+  height: calc(26 * var(--u));
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(95, 62, 32, .32), rgba(95, 62, 32, 0));
-  filter: blur(3px);
+  background:
+    radial-gradient(closest-side, rgba(80, 50, 25, .38), rgba(80, 50, 25, .12) 55%, rgba(80, 50, 25, 0)),
+    radial-gradient(50% 32% at 50% 55%, rgba(60, 36, 18, .35), rgba(60, 36, 18, 0));
+  filter: blur(2px);
   transition: opacity .45s ease, transform .45s ease;
 }
 .ch-object > a:hover .ch-object__art,
