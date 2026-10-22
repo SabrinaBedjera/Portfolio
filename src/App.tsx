@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react"
 import "./curiosity-home.css"
 import "./selected-work.css"
 import PortfolioSections from "./PortfolioSections"
+import { section, sections, type SectionId } from "./sections"
 
 type Project = {
   slug: string
@@ -29,12 +30,25 @@ type Project = {
     pointsLead?: string
     points?: Array<string | { label: string; text: string }>
     figure?: CaseFigure
+    video?: CaseVideo
+    link?: { href: string; label: string }
+    /** A short passage in the author's own words. */
+    quote?: { text: string; source: string }
   }>
   image?: string
   imageAlt?: string
   featureImage: string
   featureImageAlt: string
-  tone: "mineral" | "data" | "energy" | "water"
+  /** Case-study hero, when it differs from the magazine cover image. */
+  heroImage?: { src: string; alt: string }
+  tone: "mineral" | "data" | "energy" | "water" | "policy"
+}
+
+type CaseVideo = {
+  /** YouTube video id */
+  id: string
+  title: string
+  description: string
 }
 
 type CaseFigure = {
@@ -45,10 +59,10 @@ type CaseFigure = {
   enlarge?: boolean
 }
 
-/* The water case study reuses the Clean Energy cover and article layout;
+/* The water and policy case studies reuse the Clean Energy cover and article layout;
    its own colours are set in selected-work.css. */
 const layoutTone = (tone: Project["tone"]) =>
-  tone === "water" ? "energy water" : tone
+  tone === "water" || tone === "policy" ? `energy ${tone}` : tone
 
 
 const projects: Project[] = [
@@ -208,7 +222,7 @@ const projects: Project[] = [
     coverSubtitle: "Micropollutant Removal & Ozonation Modelling",
     caseHeadline: "Predicting Micropollutant Removal in Drinking Water",
     caseIntroduction:
-      "Master of Applied Science Research | University of Waterloo | 2019",
+      "Master of Applied Science (MASc) in Civil and Environmental Engineering | University of Waterloo | 2019",
     contributionsLabel: "Master’s research",
     contributionsHeading: "The research",
     contributionsLayout: "chapters",
@@ -238,6 +252,11 @@ const projects: Project[] = [
           caption: "Figure 3.2 — Bench-scale ozonation setup: glass columns connected by ozone gas lines, with one column chilled in an ice bath.",
           enlarge: true,
         },
+        video: {
+          id: "wCCp21QAsbY",
+          title: "Watch My Three Minute Thesis",
+          description: "My 2016 Three Minute Thesis presentation, explaining this micropollutant research to a general audience.",
+        },
       },
       {
         number: "03",
@@ -264,12 +283,86 @@ const projects: Project[] = [
         title: "Recognition",
         highlight: "First Place — American Water Works Association (AWWA) Master’s Academic Achievement Award",
         body: "Awarded for my master’s research in drinking water treatment.",
+        link: {
+          href: "https://uwaterloo.ca/nserc-chair-water-treatment/blog/sabrina-bedjera-received-awwa-academic-achievement-award-her",
+          label: "View University of Waterloo announcement",
+        },
       },
     ],
-    featureImage: "/case-studies/thesis-figure-3-2-ozonation-setup.jpg",
+    // Hero photo: a treatment-plant photograph is planned once its licence is
+    // confirmed. Until then the hero uses the cover image (Figure 4.10 panels).
+    // heroImage: {
+    //   src: "/case-studies/thesis-hero-treatment-plant.jpg",
+    //   alt: "Water flowing over the weir of a large circular treatment tank, with trees and blue sky behind",
+    // },
+    // Cover: panels A and B of thesis Figure 4.10 (the full figure appears in the case study).
+    featureImage: "/case-studies/thesis-cover-btex-panels.png",
     featureImageAlt:
-      "Bench-scale ozonation setup from the thesis research: glass columns connected by gas tubing on a laboratory bench",
+      "Two simulated degradation curves from the thesis: BTEX compound concentrations falling over 1,500 seconds at an ozone dose of 1 mg/L, at 20 °C and 5 °C",
     tone: "water",
+  },
+  {
+    slug: "indigenous-drinking-water-policy",
+    number: "05",
+    title: "A Holistic Approach to Measuring Drinking Water Success in Indigenous Communities",
+    eyebrow: "Science Policy · Drinking Water · Indigenous Communities",
+    summary:
+      "A policy proposal for measures of drinking water success that go beyond boil water advisories.",
+    description:
+      "Policy proposal recognized as a runner-up in the Canadian Science Policy Centre’s 2019 Science Policy Awards of Excellence – Youth Category.",
+    coverTitle: ["Water", "Policy"],
+    coverSubtitle: "Measuring Drinking Water Success in Indigenous Communities",
+    caseHeadline: "Measuring Drinking Water Success in Indigenous Communities",
+    caseIntroduction:
+      "Policy proposal | Canadian Science Policy Centre, Science Policy Awards of Excellence – Youth Category | 2019",
+    contributionsLabel: "Policy proposal",
+    contributionsHeading: "The proposal",
+    contributionsLayout: "chapters",
+    // Content summarized from the proposal as published by CSPC (2019).
+    contributions: [
+      {
+        number: "01",
+        title: "The Challenge",
+        body: [
+          "Indigenous communities in Canada are disproportionately affected by poor drinking water quality, linked to factors including colonization, governance, water infrastructure and operator training.",
+          "In 2015, the federal government pledged to end long-term boil water advisories in Indigenous communities. But focusing only on advisories can leave communities behind. Many households without running water rely on cisterns filled by water trucks, where water can become contaminated during delivery; because the treatment plant itself produces safe water, no advisory is issued — and in one community the proposal describes, that meant no eligibility for additional funding. Even after an advisory is lifted, residents may remain unsatisfied with, and distrustful of, their water.",
+          "The proposal argued for new measures of drinking water success, developed in collaboration with Indigenous people, that reflect the full state of drinking water in their communities.",
+        ],
+      },
+      {
+        number: "02",
+        title: "My Approach",
+        body: "Drawing on published research on drinking water, health and governance in Indigenous communities, I proposed a four-step policy approach:",
+        points: [
+          { label: "A dedicated committee", text: "Create a committee with meaningful Indigenous representation, drinking water experts, federal and provincial officials and researchers, to develop measures of drinking water success founded in Indigenous knowledge and values." },
+          { label: "Broader measures of success", text: "Alongside standard water quality measures, consider factors such as residents’ satisfaction with their tap water, how often they drink it, and health outcomes such as gastrointestinal illness, waterborne disease and skin problems." },
+          { label: "Community-based research", text: "Determine where new research is needed and carry it out through community-based participatory methods, including communities that rely on cisterns rather than running water." },
+          { label: "Drinking water goals", text: "Set drinking water goals against the new measures — federally, provincially or by community — with the appropriate agencies allocating resources to meet them." },
+        ],
+        video: {
+          id: "ECDsMIN_8EY",
+          title: "Watch the Policy Interview",
+          description: "My 2019 video interview discussing this policy proposal.",
+        },
+      },
+      {
+        number: "03",
+        title: "Results & Recognition",
+        highlight: "Runner-up — Canadian Science Policy Centre, 5th Annual Science Policy Awards of Excellence – Youth Category (2019)",
+        body: [
+          "The proposal was one of two runners-up in the Youth Category, which recognizes people under 35 who develop innovative, evidence-based policy proposals that would make a positive difference to Canadians. The 2019 awards were presented at the 11th Canadian Science Policy Conference in Ottawa in November 2019.",
+          "The work connects engineering knowledge of drinking water treatment with policy design: how success is measured shapes which communities receive attention and resources.",
+        ],
+        quote: {
+          text: "Through the collaborative water program at the University of Waterloo I learned about drinking water treatment issues in Indigenous communities. I had the opportunity to learn from Indigenous communities themselves and even had the honor of attending a water ceremony.",
+          source: "From my award profile, CSPC 2019",
+        },
+      },
+    ],
+    featureImage: "/case-studies/policy-cover-quote.svg",
+    featureImageAlt:
+      "Quotation from the proposal: “Boil water advisories on their own do not provide enough information on the state of drinking water in Indigenous communities.”",
+    tone: "policy",
   },
 ]
 
@@ -294,29 +387,16 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
    Text is sized in px so browser zoom enlarges it; the layout adapts.
 ------------------------------------------------------------------- */
 
-/* Same order as the sections on the page; objects below follow it too. */
-const siteNavigation: [string, string][] = [
-  ["Selected Work", "selected-work"],
-  ["Experience", "experience"],
-  ["Education", "education"],
-  ["Associations", "associations"],
-  ["Lab", "lab"],
-  ["About", "about"],
-  ["Contact", "contact"],
-]
-
 type HomeObject = {
-  key: string
-  number: string
-  title: string
+  /** The section this object links to; its number and label come from sections.ts. */
+  id: SectionId
   description: string
-  href: string
   /** Left edge and width on the 1672 × 941 stage. */
   x: number
   w: number
   /** Stage y of the table line the object rests on. */
   ground: number
-  /** Image height / width, and where its base sits (fraction of image height). */
+  /** Box height / width, and where the base sits (fraction of box height). */
   aspect: number
   base: number
   /** Caption offset: dx from the object's left edge, dy from its ground line. */
@@ -328,37 +408,44 @@ type HomeObject = {
 const BACK = 652
 const homeObjects: HomeObject[] = [
   {
-    key: "work", number: "01", title: "Selected Work", description: "Case studies and featured projects", href: "#selected-work",
+    id: "selected-work", description: "Case studies and featured projects",
     x: 60, w: 540, ground: 892, aspect: 430 / 653, base: 0.951, caption: { dx: 330, dy: -40 },
     layers: [{ src: "/home-objects/01_selected_work_magazines.webp" }],
   },
   {
-    key: "experience", number: "02", title: "Experience", description: "Professional background", href: "#experience",
-    x: 650, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: 30, dy: 12 },
+    id: "experience", description: "Professional background",
+    x: 650, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: 10, dy: 12 },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
-    key: "education", number: "03", title: "Education", description: "Academic background", href: "#education",
-    x: 905, w: 380, ground: BACK, aspect: 458 / 625, base: 0.926, caption: { dx: 120, dy: 12 },
-    layers: [{ src: "/home-objects/04_education_books.webp" }],
+    // The stack and the standing Technology book are laid out together in
+    // curiosity-home.css; the standing book tips onto the stack on hover.
+    id: "education", description: "Academic background",
+    x: 884, w: 432, ground: BACK, aspect: 0.53, base: 0.995, caption: { dx: 170, dy: 12 },
+    layers: [
+      { src: "/home-objects/04_education_books_stack.webp", className: "ch-books-stack" },
+      { src: "/home-objects/04_education_technology_book.webp", className: "ch-books-tech" },
+    ],
   },
   {
-    key: "lab", number: "04", title: "Lab", description: "Technical and creative projects", href: "#lab",
-    x: 1320, w: 262, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 80, dy: 12 },
+    id: "lab", description: "Technical and creative projects",
+    x: 1330, w: 256, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 80, dy: 12 },
     layers: [{ src: "/home-objects/03_lab_cloche.webp" }],
   },
   {
-    key: "about", number: "05", title: "About", description: "My approach and interests", href: "#about",
-    x: 860, w: 180, ground: 912, aspect: 487 / 390, base: 0.912, caption: { dx: 190, dy: -26 },
+    id: "about", description: "My approach and interests",
+    x: 836, w: 222, ground: 914, aspect: 487 / 390, base: 0.912, caption: { dx: 226, dy: -26 },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
-    key: "contact", number: "06", title: "Contact", description: "Let’s connect", href: "#contact",
-    x: 1220, w: 150, ground: 905, aspect: 457 / 303, base: 0.932, caption: { dx: 160, dy: -22 },
+    // Back of the holder, then the pen, then the holder again clipped to its
+    // front wall: the pen's lower end disappears inside the cup.
+    id: "contact", description: "Let’s connect",
+    x: 1232, w: 150, ground: 905, aspect: 457 / 303, base: 0.932, caption: { dx: 160, dy: -22 },
     layers: [
-      // the animated pen sits behind the holder, so the rim hides its lower end
-      { src: "/home-objects/07_contact_animated_pen.webp", className: "ch-pen" },
       { src: "/home-objects/06_contact_pen_holder.webp", className: "ch-holder" },
+      { src: "/home-objects/07_contact_animated_pen.webp", className: "ch-pen" },
+      { src: "/home-objects/06_contact_pen_holder.webp", className: "ch-holder-front" },
     ],
   },
 ]
@@ -383,9 +470,9 @@ function CuriosityHomepage() {
             {menuOpen ? "Close" : "Menu"}
           </button>
           <ul id="ch-nav-links" className={`ch-nav__links${menuOpen ? " is-open" : ""}`}>
-            {siteNavigation.map(([label, target]) => (
-              <li key={target}>
-                <a href={`#${target}`} onClick={() => setMenuOpen(false)}>{label}</a>
+            {sections.map(({ id, label }) => (
+              <li key={id}>
+                <a href={`#${id}`} onClick={() => setMenuOpen(false)}>{label}</a>
               </li>
             ))}
           </ul>
@@ -404,10 +491,12 @@ function CuriosityHomepage() {
           {/* the photograph again, shown on its own when the headline sits above the scene */}
           <img className="ch-scene__bg" src="/home-background.jpg" alt="" draggable={false} />
           <ul className="ch-objects" aria-label="Explore portfolio sections">
-            {homeObjects.map((object) => (
+            {homeObjects.map((object) => {
+              const { number, label, caption } = section(object.id)
+              return (
               <li
-                className={`ch-object ch-object--${object.key}`}
-                key={object.key}
+                className={`ch-object ch-object--${object.id}`}
+                key={object.id}
                 style={
                   {
                     "--x": object.x,
@@ -419,21 +508,22 @@ function CuriosityHomepage() {
                   } as CSSProperties
                 }
               >
-                <a href={object.href} aria-label={`${object.number} ${object.title}: ${object.description}`}>
+                <a href={`#${object.id}`} aria-label={`${number} ${label}: ${object.description}`}>
                   <span className="ch-object__shadow" aria-hidden="true" />
                   <span className="ch-object__art" aria-hidden="true">
-                    {object.layers.map((layer) => (
-                      <img className={layer.className} src={layer.src} alt="" draggable={false} key={layer.src} />
+                    {object.layers.map((layer, i) => (
+                      <img className={layer.className} src={layer.src} alt="" draggable={false} key={i} />
                     ))}
                   </span>
                   <span className="ch-caption" aria-hidden="true">
-                    <span className="ch-caption__number">{object.number}</span>
-                    <span className="ch-caption__title">{object.title}</span>
+                    <span className="ch-caption__number">{number}</span>
+                    <span className="ch-caption__title">{caption ?? label}</span>
                     <span className="ch-caption__arrow">→</span>
                   </span>
                 </a>
               </li>
-            ))}
+              )
+            })}
           </ul>
         </div>
       </div>
@@ -541,13 +631,15 @@ function MagazineExperiment({
     >
       {/* Heading styled like the sections that follow (portfolio-sections.css). */}
       <header className="ps-head selected-work__head">
-        <p className="ps-number">01</p>
+        <p className="ps-number">{section("selected-work").number}</p>
         <h2 id="covers-title">
-          Selected <em>Work</em>
+          {/* last word in italics, as in the original design */}
+          {section("selected-work").label.split(" ").slice(0, -1).join(" ")}{" "}
+          <em>{section("selected-work").label.split(" ").at(-1)}</em>
         </h2>
         <p className="ps-lede">
           Please explore my experience across critical minerals, Pacific energy
-          systems, clean technology, and drinking water research.
+          systems, clean technology, drinking water research and water policy.
         </p>
       </header>
 
@@ -663,6 +755,44 @@ function MagazineExperiment({
   )
 }
 
+/**
+ * A YouTube video shown as a thumbnail; the player loads only when chosen,
+ * so the page doesn't load YouTube until the visitor asks for it.
+ */
+function CaseStudyVideo({ video }: { video: CaseVideo }) {
+  const [playing, setPlaying] = useState(false)
+  const watchUrl = `https://www.youtube.com/watch?v=${video.id}`
+  return (
+    <div className="case-video">
+      {playing ? (
+        <div className="case-video__frame">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0`}
+            title={video.title}
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="case-video__poster"
+          onClick={() => setPlaying(true)}
+          aria-label={`${video.title} (plays here)`}
+          style={{ backgroundImage: `url(https://i.ytimg.com/vi/${video.id}/hqdefault.jpg)` }}
+        >
+          <span className="case-video__play" aria-hidden="true" />
+        </button>
+      )}
+      <p className="case-video__title">{video.title}</p>
+      <p className="case-video__description">{video.description}</p>
+      <a className="case-video__link" href={watchUrl} target="_blank" rel="noreferrer">
+        Open on YouTube <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  )
+}
+
 /** A research figure; when `enlarge` is set it opens full size in a dialog. */
 function CaseStudyFigure({ figure }: { figure: CaseFigure }) {
   const dialog = useRef<HTMLDialogElement>(null)
@@ -749,14 +879,19 @@ function MagazineCaseStudy({
         <span>Case Study / {project.number}</span>
       </nav>
 
-      <header className="article-hero">
+      <header
+        className={`article-hero${project.heroImage ? " article-hero--photo" : ""}`}
+      >
         <div className="article-hero__copy">
           <p>{project.eyebrow}</p>
           <h1>{project.caseHeadline}</h1>
           <p className="article-hero__intro">{project.caseIntroduction}</p>
         </div>
         <div className="article-hero__visual" aria-label="Project visual">
-          <img src={project.featureImage} alt={project.featureImageAlt} />
+          <img
+            src={project.heroImage?.src ?? project.featureImage}
+            alt={project.heroImage?.alt ?? project.featureImageAlt}
+          />
           <span>Selected Work / {project.number}</span>
         </div>
       </header>
@@ -802,15 +937,38 @@ function MagazineCaseStudy({
                         <li key={point}>{point}</li>
                       ) : (
                         <li key={point.label}>
-                          <b>{point.label}:</b> {point.text}
+                          <b>{point.label}</b> {point.text}
                         </li>
                       ),
                     )}
                   </ul>
                 )}
+                {contribution.link && (
+                  <a
+                    className="article-contributions__link"
+                    href={contribution.link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {contribution.link.label} <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+                {contribution.quote && (
+                  <blockquote className="article-contributions__quote">
+                    <p>“{contribution.quote.text}”</p>
+                    <cite>{contribution.quote.source}</cite>
+                  </blockquote>
+                )}
               </div>
-              {contribution.figure && (
-                <CaseStudyFigure figure={contribution.figure} />
+              {(contribution.figure || contribution.video) && (
+                <div className="article-chapter__media">
+                  {contribution.figure && (
+                    <CaseStudyFigure figure={contribution.figure} />
+                  )}
+                  {contribution.video && (
+                    <CaseStudyVideo video={contribution.video} />
+                  )}
+                </div>
               )}
             </article>
           ))}

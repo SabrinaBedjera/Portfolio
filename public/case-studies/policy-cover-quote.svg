@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <!-- Typographic cover for the drinking water policy case study.
+       The quotation is from the proposal (CSPC, 2019). No imagery. -->
+  <rect width="1600" height="1000" fill="#f3e8d8"/>
+  <g fill="none" stroke="#8c4a2f" stroke-linecap="round">
+    <path d="M0 842 C 180 818, 360 866, 540 842 S 900 818, 1080 842 S 1440 866, 1600 842" stroke-width="3" opacity=".55"/>
+    <path d="M0 880 C 180 858, 360 902, 540 880 S 900 858, 1080 880 S 1440 902, 1600 880" stroke-width="2" opacity=".35"/>
+    <path d="M0 914 C 180 896, 360 932, 540 914 S 900 896, 1080 914 S 1440 932, 1600 914" stroke-width="1.5" opacity=".22"/>
+  </g>
+  <text x="120" y="250" fill="#8c4a2f" font-family="Georgia, 'Times New Roman', serif" font-size="230">“</text>
+  <g fill="#1c2a22" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-style="italic">
+    <text x="120" y="330">Boil water advisories on their</text>
+    <text x="120" y="434">own do not provide enough</text>
+    <text x="120" y="538">information on the state of</text>
+    <text x="120" y="642">drinking water in Indigenous</text>
+    <text x="120" y="746">communities.</text>
+  </g>
+</svg>

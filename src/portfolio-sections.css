@@ -110,10 +110,11 @@
    A compact career overview whose milestones link to the roles, then the
    roles as a vertical timeline: date | rail with marker | role. */
 .ps-career {
+  --ps-select: #2f5f8a;          /* the selected milestone */
   position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  margin: -8px 0 56px;
+  margin: -4px 0 64px;
   padding: 0;
   list-style: none;
 }
@@ -121,17 +122,17 @@
 .ps-career::before {
   content: "";
   position: absolute;
-  top: 4px;
-  left: 4px;
-  right: calc(20% - 4px);
-  height: 1px;
-  background: rgba(43, 116, 65, .4);
+  top: 8px;
+  left: 8px;
+  right: calc(20% - 8px);
+  height: 2px;
+  background: rgba(43, 116, 65, .45);
 }
 .ps-career li { position: relative; }
 .ps-career a {
   position: relative;
   display: block;
-  padding: 22px 16px 6px 0;
+  padding: 32px 18px 10px 0;
   color: inherit;
   text-decoration: none;
 }
@@ -140,37 +141,45 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 7px;
-  height: 7px;
-  border: 1px solid var(--ps-accent);
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border: 2px solid var(--ps-accent);
   border-radius: 50%;
   background: var(--ps-bg);
-  transition: background .2s ease, transform .2s ease;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
 }
 .ps-career li.is-current a::before { background: var(--ps-accent); }
 .ps-career a:hover::before,
-.ps-career a:focus-visible::before { background: var(--ps-accent); transform: scale(1.35); }
-.ps-career a:focus-visible { outline: 2px solid var(--ps-accent); outline-offset: 4px; border-radius: 2px; }
+.ps-career a:focus-visible::before { transform: scale(1.25); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
+.ps-career li.is-selected a::before {
+  border-color: var(--ps-select);
+  background: var(--ps-select);
+  box-shadow: 0 0 0 5px rgba(47, 95, 138, .18);
+}
+.ps-career a:focus-visible { outline: 2px solid var(--ps-accent); outline-offset: 6px; border-radius: 2px; }
 .ps-career__year {
   display: block;
   color: var(--ps-clay);
-  font-size: var(--ps-fs-meta);
-  letter-spacing: .14em;
+  font-size: 15px;
+  letter-spacing: .12em;
 }
 .ps-career__label {
   display: block;
-  margin-top: 5px;
+  margin-top: 6px;
   color: var(--ps-text);
-  font-size: var(--ps-fs-small);
+  font-size: 18px;
   line-height: 1.35;
   text-decoration: underline;
   text-decoration-color: transparent;
-  text-underline-offset: 4px;
-  transition: text-decoration-color .2s ease;
+  text-underline-offset: 5px;
+  transition: text-decoration-color .2s ease, color .2s ease;
 }
 .ps-career li.is-current .ps-career__label { color: var(--ps-ink); font-weight: 500; }
 .ps-career a:hover .ps-career__label,
 .ps-career a:focus-visible .ps-career__label { color: var(--ps-ink); text-decoration-color: var(--ps-clay); }
+.ps-career li.is-selected .ps-career__year { color: var(--ps-select); }
+.ps-career li.is-selected .ps-career__label { color: var(--ps-ink); text-decoration-color: var(--ps-select); }
 
 /* Vertical timeline */
 .ps-roles {
@@ -222,6 +231,47 @@
   background: var(--ps-bg);
 }
 .ps-role + .ps-role::before { top: 42px; }
+/* After a milestone is selected: an accent line and arrow beside the role,
+   with a faint wash, that fade away. */
+.ps-role__body { position: relative; }
+.ps-role.is-arrived .ps-role__body::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  bottom: -14px;
+  left: -22px;
+  right: -22px;
+  border-left: 3px solid #2f5f8a;
+  background: rgba(47, 95, 138, .07);
+  pointer-events: none;
+  animation: ps-arrive 3s ease-out forwards;
+}
+.ps-role.is-arrived .ps-role__body::after {
+  content: "→";
+  position: absolute;
+  top: -7px;
+  left: -66px;                 /* just before the rail marker */
+  color: #2f5f8a;
+  font-size: 22px;
+  animation: ps-arrive-arrow 3s ease-out forwards;
+}
+.ps-role.is-arrived::before {
+  border-color: #2f5f8a;
+  background: #2f5f8a;
+  box-shadow: 0 0 0 5px rgba(47, 95, 138, .18);
+}
+@keyframes ps-arrive {
+  0%, 55% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes ps-arrive-arrow {
+  0% { opacity: 0; transform: translateX(-8px); }
+  12%, 55% { opacity: 1; transform: none; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ps-role.is-arrived .ps-role__body::after { animation-name: ps-arrive; }
+}
 .ps-role--current::before { background: var(--ps-accent); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
 .ps-role__when {
   grid-column: 1;
@@ -404,18 +454,21 @@
     scroll-snap-type: x proximity;
   }
   .ps-career::before { display: none; }
-  .ps-career li { flex: 0 0 156px; scroll-snap-align: start; }
+  .ps-career li { flex: 0 0 168px; scroll-snap-align: start; }
   /* line segment from each marker to the next */
   .ps-career li:not(:last-child)::after {
     content: "";
     position: absolute;
-    top: 4px;
-    left: 4px;
+    top: 8px;
+    left: 8px;
     right: 0;
-    height: 1px;
+    height: 2px;
     background: rgba(43, 116, 65, .4);
   }
   .ps-career a { min-height: 44px; }
+  .ps-career__label { font-size: 16px; }
+  .ps-role.is-arrived .ps-role__body::before { left: -10px; right: -8px; }
+  .ps-role.is-arrived .ps-role__body::after { display: none; }
 
   .ps-roles { --ps-date-w: 0px; --ps-rail: 28px; }
   .ps-role__when { grid-column: 3; margin-bottom: 6px; }

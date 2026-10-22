@@ -1,4 +1,6 @@
+import { useState } from "react"
 import "./portfolio-sections.css"
+import { section, type SectionId } from "./sections"
 
 /* ------------------------------------------------------------------
    Portfolio sections after Selected Work: Experience, Education,
@@ -89,7 +91,7 @@ const careerMilestones = [
 
 const education: { degree: string; detail: string; award?: string }[] = [
   {
-    degree: "MASc, Civil and Environmental Engineering",
+    degree: "Master of Applied Science (MASc) in Civil and Environmental Engineering",
     detail: "Water specialization · University of Waterloo",
     award: "First place, American Water Works Association (AWWA) Master’s Academic Achievement Award",
   },
@@ -125,11 +127,57 @@ const associations = [
   },
 ]
 
-function SectionHead({ id, number, title, lede }: { id: string; number?: string; title: string; lede?: string }) {
+/**
+ * The horizontal career overview. Selecting a milestone fills its marker
+ * (until another is chosen), scrolls to the role and briefly highlights it.
+ */
+function CareerOverview() {
+  const [selected, setSelected] = useState<string | null>(null)
+  const select = (roleId: string) => {
+    setSelected(roleId)
+    const entry = document.getElementById(roleId)
+    if (!entry) return
+    // restart the highlight even when the same milestone is chosen again
+    entry.classList.remove("is-arrived")
+    void entry.offsetWidth
+    entry.classList.add("is-arrived")
+    window.setTimeout(() => entry.classList.remove("is-arrived"), 3200)
+  }
+  return (
+    <nav aria-label="Career overview, 2015 to present">
+      <ol className="ps-career">
+        {careerMilestones.map((milestone, i) => {
+          const role = roles.find((r) => r.id === milestone.role)!
+          const classes = [
+            i === careerMilestones.length - 1 ? "is-current" : "",
+            selected === milestone.role ? "is-selected" : "",
+          ].join(" ").trim()
+          return (
+            <li className={classes || undefined} key={milestone.label}>
+              <a
+                href={`#${milestone.role}`}
+                aria-label={`${milestone.year}, ${milestone.label}: go to ${role.organization}, ${role.unit}`}
+                aria-current={selected === milestone.role ? "true" : undefined}
+                onClick={() => select(milestone.role)}
+              >
+                <span className="ps-career__year">{milestone.year}</span>
+                <span className="ps-career__label">{milestone.label}</span>
+              </a>
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
+  )
+}
+
+/** Number and heading come from sections.ts, shared with the navigation. */
+function SectionHead({ id, lede }: { id: SectionId; lede?: string }) {
+  const { number, label } = section(id)
   return (
     <header className="ps-head">
       <p className="ps-number">{number ?? "\u00a0"}</p>
-      <h2 id={`${id}-title`}>{title}</h2>
+      <h2 id={`${id}-title`}>{label}</h2>
       {lede && <p className="ps-lede">{lede}</p>}
     </header>
   )
@@ -140,25 +188,8 @@ export default function PortfolioSections() {
     <div className="ps">
       <section id="experience" className="ps-section" aria-labelledby="experience-title">
         <div className="ps-wrap">
-          <SectionHead id="experience" number="02" title="Professional experience" />
-          <nav aria-label="Career overview, 2015 to present">
-            <ol className="ps-career">
-              {careerMilestones.map((milestone, i) => {
-                const role = roles.find((r) => r.id === milestone.role)!
-                return (
-                  <li className={i === careerMilestones.length - 1 ? "is-current" : undefined} key={milestone.label}>
-                    <a
-                      href={`#${milestone.role}`}
-                      aria-label={`${milestone.year}, ${milestone.label}: go to ${role.organization}, ${role.unit}`}
-                    >
-                      <span className="ps-career__year">{milestone.year}</span>
-                      <span className="ps-career__label">{milestone.label}</span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ol>
-          </nav>
+          <SectionHead id="experience" />
+          <CareerOverview />
 
           <ol className="ps-roles">
             {roles.map((role, i) => (
@@ -185,7 +216,7 @@ export default function PortfolioSections() {
       <section id="education" className="ps-section ps-section--tint" aria-labelledby="education-title">
         <div className="ps-wrap ps-two">
           <div>
-            <SectionHead id="education" number="03" title="Education" />
+            <SectionHead id="education" />
             <ul className="ps-education">
               {education.map((item) => (
                 <li key={item.degree}>
@@ -213,7 +244,7 @@ export default function PortfolioSections() {
       <section id="associations" className="ps-section" aria-labelledby="associations-title">
         <div className="ps-wrap">
           {/* Unnumbered: the numbers match the six objects on the homepage. */}
-          <SectionHead id="associations" title="Associations & Volunteering" />
+          <SectionHead id="associations" />
           <div className="ps-associations">
             {associations.map((item) => (
               <article className="ps-association" key={item.organization}>
@@ -234,7 +265,7 @@ export default function PortfolioSections() {
       {/* Lab projects to be added. */}
       <section id="lab" className="ps-section ps-section--tint" aria-labelledby="lab-title">
         <div className="ps-wrap">
-          <SectionHead id="lab" number="04" title="Lab" lede="Technical and creative projects" />
+          <SectionHead id="lab" lede="Technical and creative projects" />
         </div>
       </section>
 
@@ -245,7 +276,7 @@ export default function PortfolioSections() {
             <img src="/about-portrait.jpg" alt="Sabrina Bedjera" width="800" height="800" />
           </figure>
           <div>
-            <SectionHead id="about" number="05" title="About" />
+            <SectionHead id="about" />
             <p className="ps-about__lead">
               I started in science and mathematics, trained as a teacher, and went on to engineering
               research on drinking water treatment.
@@ -271,8 +302,6 @@ export default function PortfolioSections() {
         <div className="ps-wrap">
           <SectionHead
             id="contact"
-            number="06"
-            title="Contact"
             lede="Interested in working together or talking about energy, technology and investment? I’d be glad to hear from you."
           />
           <div className="ps-actions">

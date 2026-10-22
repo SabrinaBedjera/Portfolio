@@ -3,9 +3,9 @@
 
    Three layouts, chosen by available width in CSS pixels (so browser zoom
    moves between them like any responsive page):
-   - wide (≥ 1200px): headline over the wall, objects on the table, all on a
+   - wide (≥ 1300px): headline over the wall, objects on the table, all on a
      1672 × 941 stage that fits the window;
-   - medium (900–1199px): headline above, the table scene below;
+   - medium (900–1299px): headline above, the table scene below;
    - narrow (< 900px): headline above, objects as a two-column grid.
 
    Text is sized in px (zooms normally). Objects are placed in pixels of the
@@ -53,25 +53,30 @@
 }
 .ch-nav__brand {
   flex: none;
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: .3em;
 }
 .ch-nav__toggle { display: none; }
+/* Links sit in a thin double-ruled frame, like a printed table of contents. */
 .ch-nav__links {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 4px 28px;
+  gap: 4px 26px;
   margin: 0;
-  padding: 0;
+  padding: 7px 22px;
   list-style: none;
+  border: 1px solid rgba(28, 42, 34, .42);
+  outline: 1px solid rgba(28, 42, 34, .16);
+  outline-offset: 3px;
+  background: rgba(251, 246, 238, .38);
 }
 .ch-nav__links a {
   position: relative;
   display: block;
   padding: 6px 0;
-  font-size: 14px;
-  letter-spacing: .13em;
+  font-size: 15px;
+  letter-spacing: .12em;
 }
 .ch-nav__links a::after {
   content: "";
@@ -128,8 +133,9 @@
   top: calc((var(--y) - var(--y0, 0)) * var(--u));
   width: calc(var(--w) * var(--u));
 }
-/* back row behind the front row */
-.ch-object--lab, .ch-object--experience, .ch-object--education { z-index: 1; }
+/* The back-row objects never overlap the front row, so the back row is
+   drawn on top: its captions then stay clear of the front objects. */
+.ch-object--lab, .ch-object--experience, .ch-object--education { z-index: 3; }
 .ch-object > a {
   display: block;
   color: inherit;
@@ -219,16 +225,15 @@
 /* ---------- Contact: pen holder with a pen that wobbles ----------
    The pen is drawn behind the holder; its pivot is where it meets the rim,
    so it reads as resting in the holder. Positions are in % of the holder. */
-.ch-object--contact .ch-holder { position: relative; z-index: 1; }
-/* these two files have clean edges and reach the top of their images */
+/* these files have clean edges and reach the top of their images */
 .ch-object--contact .ch-object__art img { -webkit-mask-image: none; mask-image: none; }
 .ch-object--contact .ch-pen {
   position: absolute;
-  z-index: 0;
+  z-index: 1;
   left: 34%;
   top: -21%;
   width: 60% !important;
-  transform-origin: 46% 54%;
+  transform-origin: 36% 64%;      /* where the pen crosses the front lip */
   animation: ch-pen-idle 7s ease-in-out 1.5s infinite;
 }
 .ch-object--contact > a:hover .ch-pen,
@@ -250,7 +255,49 @@
   100% { transform: rotate(0); }
 }
 
+/* ---------- Education: a stack of three books and a standing Technology book
+   The standing book pivots on its bottom-left corner and tips onto the stack. */
+.ch-object--education .ch-object__art { aspect-ratio: 1 / .53; }
+.ch-object--education .ch-object__art img {
+  position: absolute;
+  bottom: 0;
+  height: auto;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.ch-object--education .ch-books-stack { left: 0; width: 64%; }
+/* resting just beside the stack; it tips onto the stack's top corner */
+.ch-object--education .ch-books-tech {
+  left: 62.5%;
+  width: 30%;
+  transform-origin: 30% 99.6%;    /* bottom-left corner of the spine */
+  transition: transform .5s cubic-bezier(.3, .7, .3, 1);
+}
+.ch-object--education > a:hover .ch-books-tech,
+.ch-object--education > a:focus-visible .ch-books-tech,
+.ch-object--education > a:active .ch-books-tech {
+  transform: rotate(-9deg);
+  /* falls a little past, then settles against the stack */
+  transition: transform .8s cubic-bezier(.5, 1.6, .55, 1);
+}
+/* the books stay on the table; only the standing one moves */
+.ch-object--education > a:hover .ch-object__art,
+.ch-object--education > a:focus-visible .ch-object__art { transform: none; }
+
+/* ---------- Contact: back of the holder, the pen, then the front wall ---------- */
+.ch-object--contact .ch-holder { position: relative; z-index: 0; }
+.ch-object--contact .ch-holder-front {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  clip-path: inset(37% 0 0 0);   /* everything below the front lip of the rim */
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .ch-object--education .ch-books-tech,
+  .ch-object--education > a:hover .ch-books-tech,
+  .ch-object--education > a:focus-visible .ch-books-tech,
+  .ch-object--education > a:active .ch-books-tech { transform: none; transition: none; }
   .ch-object--contact .ch-pen,
   .ch-object--contact > a:hover .ch-pen,
   .ch-object--contact > a:focus-visible .ch-pen { animation: none; }
@@ -265,13 +312,15 @@
 @container ch-stage (max-width: 1549px) {
   .ch-copy h1 { font-size: 56px; }
   .ch-lede { font-size: 19px; }
+  .ch-nav__links { column-gap: 22px; padding: 6px 18px; }
+  .ch-nav__links a { font-size: 14px; letter-spacing: .1em; }
 }
 @container ch-stage (max-width: 1349px) {
   .ch-copy h1 { font-size: 48px; margin-top: 16px; }
   .ch-lede { font-size: 17px; margin-top: 14px; }
   .ch-eyebrow { font-size: 12px; }
-  .ch-nav__links { column-gap: 22px; }
-  .ch-nav__links a { font-size: 13px; }
+  .ch-nav__links { column-gap: 18px; padding: 5px 14px; }
+  .ch-nav__links a { font-size: 13px; letter-spacing: .08em; }
 }
 
 @container ch-stage (max-width: 1279px) {
@@ -280,7 +329,7 @@
 }
 
 /* ---------- Wide: everything on one stage that fits the window ---------- */
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
   .ch-home {
     --ch-h: min(56.28vw, 100vh);           /* 941 / 1672 */
     height: var(--ch-h);
@@ -310,7 +359,7 @@
 }
 
 /* ---------- Medium: headline above, the table scene below ---------- */
-@media (min-width: 900px) and (max-width: 1199px) {
+@media (min-width: 900px) and (max-width: 1299px) {
   .ch-bg { display: none; }
   .ch-home { background: linear-gradient(var(--ch-wall), #e3cfbb); }
   .ch-stage { padding: 22px 40px 0; }
@@ -390,15 +439,30 @@
     align-items: center;
     gap: 12px;
     height: 100%;
-    padding: 18px 10px 14px;
+    padding: 14px 6px 14px;
     border-radius: 6px;
     background: rgba(251, 246, 238, .55);
   }
-  .ch-object__art { width: 78%; height: 150px; display: flex; align-items: flex-end; justify-content: center; }
+  .ch-object__art { width: 92%; height: 172px; display: flex; align-items: flex-end; justify-content: center; }
   .ch-object__art img { width: auto; max-width: 100%; max-height: 100%; }
-  .ch-object--contact .ch-object__art { width: auto; }
-  .ch-object--contact .ch-holder { height: 120px; max-height: none; }
-  .ch-object--contact .ch-pen { width: auto !important; height: 112px; left: 30%; top: -10px; }
+  /* contact and education keep their desktop proportions inside the tile */
+  .ch-object--contact .ch-object__art {
+    display: block;
+    width: auto;
+    height: 146px;
+    aspect-ratio: 303 / 457;
+    margin-top: 26px;
+  }
+  .ch-object--contact .ch-object__art img { max-height: none; }
+  .ch-object--contact .ch-object__art .ch-holder { width: 100%; height: 100%; }
+  .ch-object--contact .ch-object__art .ch-holder-front { width: 100%; height: 100%; }
+  .ch-object--education .ch-object__art {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: auto;
+  }
+  .ch-object--education .ch-object__art img { max-height: none; }
   .ch-object__shadow { display: none; }
   .ch-caption {
     position: static;
