@@ -388,6 +388,8 @@ type Exhibit = {
   href: string
   /** Back-row exhibits: the photographic acrylic block, which is part of the link. */
   block?: Rect
+  /** Cut-out photograph of the exhibit's object, placed on its stand (photograph pixels). */
+  object?: { src: string; alt: string } & Rect
   /** The blank label printed in the photograph that this exhibit's text is mapped onto. */
   label: Quad
   /** Width of the label's layout box; type is set relative to it, so a smaller value prints larger. */
@@ -410,6 +412,8 @@ const exhibits: Exhibit[] = [
   {
     key: "experience", number: "03", title: "Experience", description: "Professional background", href: "#experience",
     block: { x: 648, y: 392, w: 402, h: 168 },
+    /* Rests on the top face of the middle block (top face spans y 392–422). */
+    object: { src: "/exhibit-fluorite.webp", alt: "Purple fluorite specimen", x: 700, y: 232, w: 300, h: 182 },
     label: [[700, 461], [1003, 461], [1003, 533], [700, 533]], labelWidth: 360, labelPadding: [10, 44, 9, 38],
   },
   {
@@ -602,6 +606,12 @@ function CuriosityHomepage() {
                   aria-label={`${ex.title}: ${ex.description}`}
                 >
                   {ex.block && <span className="ch-object" style={box(ex.block)} aria-hidden="true" />}
+                  {ex.object && (
+                    <span className="ch-specimen" style={box(ex.object)} aria-hidden="true">
+                      <span className="ch-specimen__shadow" />
+                      <img src={ex.object.src} alt="" draggable={false} />
+                    </span>
+                  )}
                   {ex.key === "work" && <MagazineStack />}
                   <span
                     className="ch-label"
