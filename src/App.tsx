@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react"
 import "./curiosity-home.css"
+import PortfolioSections from "./PortfolioSections"
 
 type Project = {
   slug: string
@@ -468,29 +469,6 @@ function CuriosityHomepage() {
         </div>
       </div>
     </main>
-  )
-}
-
-/** Temporary destinations for the homepage objects that have no section yet. */
-const placeholderSections = [
-  ["lab", "02", "Lab", "Technical and creative projects"],
-  ["experience", "03", "Experience", "Professional background"],
-  ["education", "04", "Education", "Academic background"],
-  ["about", "05", "About", "My approach and interests"],
-  ["contact", "06", "Contact", "Let’s connect"],
-]
-
-function PlaceholderSections() {
-  return (
-    <div className="ch-placeholders">
-      {placeholderSections.map(([id, number, title, description]) => (
-        <section id={id} className="ch-placeholder" key={id} aria-labelledby={`${id}-title`}>
-          <p>{number} · Placeholder section</p>
-          <h2 id={`${id}-title`}>{title}</h2>
-          <span>{description} — content to be added.</span>
-        </section>
-      ))}
-    </div>
   )
 }
 
@@ -1130,7 +1108,7 @@ export default function App() {
     <>
       <CuriosityHomepage />
       <MagazineExperiment onExplore={openCaseStudy} />
-      <PlaceholderSections />
+      <PortfolioSections />
       <PaletteStudy />
       <main className="portfolio">
         <header className="intro">

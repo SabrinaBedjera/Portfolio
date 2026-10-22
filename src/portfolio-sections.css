@@ -1,0 +1,194 @@
+/* ==================================================
+   Portfolio sections (Lab, Experience, Education, About, Contact)
+   Warm editorial style taken from the homepage photograph:
+   cream paper, deep green ink, Instrument Serif headings, DM Sans text.
+   Everything is scoped to .ps-* classes.
+   ================================================== */
+.ps {
+  --ps-paper: #fbf6ee;
+  --ps-tint: #f3e8d8;
+  --ps-ink: #1c2a22;
+  --ps-text: #3a403b;
+  --ps-muted: #6f6a60;
+  --ps-rule: rgba(60, 45, 30, .16);
+  --ps-accent: #2b7441;
+  --ps-clay: #a75825;
+  font-family: "DM Sans", sans-serif;
+  color: var(--ps-text);
+}
+
+.ps-section {
+  padding: 112px 0 120px;
+  background: var(--ps-paper);
+  scroll-margin-top: 0;
+}
+.ps-section--tint { background: var(--ps-tint); }
+
+.ps-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 64px;
+}
+
+/* ---------- Section heading ---------- */
+.ps-head { margin-bottom: 56px; }
+.ps-number {
+  margin: 0 0 14px;
+  color: var(--ps-clay);
+  font-size: 13px;
+  letter-spacing: .2em;
+}
+.ps-head h2 {
+  margin: 0;
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 68px;
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: -.02em;
+}
+.ps-lede {
+  max-width: 560px;
+  margin: 18px 0 0;
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.ps h3 {
+  margin: 0;
+  color: var(--ps-ink);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.ps p { line-height: 1.6; }
+
+/* ---------- Lab ---------- */
+.ps-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.ps-card {
+  padding: 34px 34px 30px;
+  background: var(--ps-paper);
+  border: 1px solid var(--ps-rule);
+  border-top: 3px solid var(--ps-accent);
+}
+.ps-card p { margin: 14px 0 0; font-size: 16px; }
+
+/* ---------- Experience ---------- */
+.ps-timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ps-rule);
+}
+.ps-timeline li {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 40px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--ps-rule);
+}
+.ps-when {
+  margin: 2px 0 0;
+  color: var(--ps-muted);
+  font-size: 14px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ps-where {
+  margin: 4px 0 10px;
+  color: var(--ps-accent);
+  font-size: 16px;
+}
+.ps-timeline p:last-child { margin-bottom: 0; font-size: 16px; }
+
+/* ---------- Education & skills ---------- */
+.ps-two {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+}
+.ps-education {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ps-rule);
+}
+.ps-education li { padding: 24px 0; border-bottom: 1px solid var(--ps-rule); }
+.ps-education p { margin: 6px 0 0; color: var(--ps-muted); font-size: 16px; }
+.ps-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-skills li {
+  padding: 9px 16px;
+  border: 1px solid rgba(43, 116, 65, .35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .45);
+  color: var(--ps-ink);
+  font-size: 15px;
+}
+
+/* ---------- About ---------- */
+.ps-about {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.ps-about__photo { margin: 0; }
+.ps-about__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.ps-about p { max-width: 620px; margin: 0 0 18px; font-size: 17px; }
+.ps-about .ps-about__lead {
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 30px;
+  line-height: 1.25;
+  margin-bottom: 24px;
+}
+
+/* ---------- Contact ---------- */
+.ps-section--dark {
+  padding-bottom: 48px;
+  background: #1f2c25;
+  color: #e8e1d4;
+}
+.ps-section--dark .ps-head h2 { color: #fbf6ee; }
+.ps-section--dark .ps-number { color: #e0a274; }
+.ps-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.ps-button {
+  display: inline-block;
+  padding: 14px 24px;
+  border: 1px solid rgba(251, 246, 238, .45);
+  color: #fbf6ee;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease;
+}
+.ps-button:hover,
+.ps-button:focus-visible { background: #fbf6ee; color: #1f2c25; }
+.ps-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 96px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(251, 246, 238, .18);
+  font-size: 14px;
+}
+.ps-footer p { margin: 0; }
+.ps-footer a { color: inherit; }
+
+.ps a:focus-visible { outline: 2px solid #e0a274; outline-offset: 3px; }
