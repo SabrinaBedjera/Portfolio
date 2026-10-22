@@ -1,60 +1,338 @@
 /* ==================================================
-   Cabinet-of-curiosities homepage (desktop)
-   The hero is one approved photograph (public/home-hero.jpg, 1672 × 941)
-   with transparent links over its navigation and exhibits. The hero keeps
-   the image's proportions and fits the window; link regions are placed in
-   percentages of the image. Everything is scoped to .ch-* classes.
+   Cabinet-of-curiosities homepage: an interactive still life
+   The empty wall-and-table photograph covers the hero; navigation,
+   headline and the six objects sit on a 1672 × 941 stage that scales as
+   one piece (--ch-unit = 1 stage pixel). Below 900px the objects become a
+   two-column grid. Everything is scoped to .ch-* classes.
    ================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap");
+
 .ch-home {
+  --ch-h: min(56.28vw, 100vh);           /* 941 / 1672 */
+  --ch-w: calc(var(--ch-h) * 1.77683);
+  --ch-unit: calc(var(--ch-w) / 1672);
+  --ch-ink: #1c2a22;
+  --ch-text: #2e3530;
+  --ch-rust: #a75825;
   position: relative;
-  display: flex;
-  justify-content: center;
-  background: #f1e3d0;
+  height: var(--ch-h);
+  overflow: hidden;
+  background: #efe1cd;
+  font-family: "DM Sans", sans-serif;
 }
 
-.ch-hero {
-  position: relative;
-  width: min(100vw, calc(100vh * 1672 / 941));
-  aspect-ratio: 1672 / 941;
-}
-
-.ch-hero__image {
+.ch-bg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
   user-select: none;
 }
 
-.ch-hero__nav,
-.ch-hero__exhibits { position: absolute; inset: 0; pointer-events: none; }
-
-.ch-hit {
+.ch-stage {
   position: absolute;
-  display: block;
-  pointer-events: auto;
-  cursor: pointer;
-  border-radius: 6px;
-}
-.ch-exhibit { color: inherit; }
-.ch-exhibit:focus, .ch-hit:focus { outline: none; }
-
-/* Visible only for keyboard focus, so the design is unchanged otherwise. */
-.ch-hero__nav .ch-hit:focus-visible,
-.ch-exhibit:focus-visible .ch-hit--label {
-  outline: 2px solid #1e5a55;
-  outline-offset: 3px;
-  box-shadow: 0 0 0 5px rgba(255, 252, 245, .7);
+  left: 50%;
+  top: 0;
+  width: var(--ch-w);
+  height: var(--ch-h);
+  transform: translateX(-50%);
 }
 
-.ch-sr-only {
+/* ---------- Navigation ---------- */
+.ch-nav {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
+  z-index: 20;
+  left: calc(68 * var(--ch-unit));
+  right: calc(68 * var(--ch-unit));
+  top: calc(28 * var(--ch-unit));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ch-nav a {
+  color: var(--ch-ink);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.ch-nav__brand {
+  font-size: max(14px, calc(16 * var(--ch-unit)));
+  letter-spacing: .3em;
+}
+.ch-nav__toggle { display: none; }
+.ch-nav__links {
+  display: flex;
+  gap: calc(36 * var(--ch-unit));
+  margin: 0;
   padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
+  list-style: none;
+}
+.ch-nav__links a {
+  position: relative;
+  display: block;
+  padding: 6px 0;
+  font-size: max(13px, calc(14.5 * var(--ch-unit)));
+  letter-spacing: .13em;
+}
+.ch-nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform .25s ease;
+}
+.ch-nav__links a:hover::after,
+.ch-nav__links a:focus-visible::after { transform: scaleX(1); }
+.ch-nav a:focus-visible { outline: 2px solid #1e5a55; outline-offset: 4px; }
+
+/* ---------- Headline ---------- */
+.ch-copy {
+  position: absolute;
+  z-index: 10;
+  left: calc(68 * var(--ch-unit));
+  top: calc(120 * var(--ch-unit));
+  width: calc(600 * var(--ch-unit));
+}
+.ch-eyebrow {
+  margin: 0;
+  color: var(--ch-ink);
+  font-size: max(12px, calc(13 * var(--ch-unit)));
+  letter-spacing: .26em;
+  text-transform: uppercase;
+}
+.ch-eyebrow span { padding: 0 calc(10 * var(--ch-unit)); }
+.ch-copy h1 {
+  margin: calc(22 * var(--ch-unit)) 0 0;
+  color: var(--ch-ink);
+  font-family: "Newsreader", "Instrument Serif", Georgia, serif;
+  font-size: calc(68 * var(--ch-unit));
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: -.018em;
+}
+.ch-lede {
+  max-width: calc(560 * var(--ch-unit));
+  margin: calc(18 * var(--ch-unit)) 0 0;
+  color: var(--ch-text);
+  font-size: max(16px, calc(22 * var(--ch-unit)));
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+/* ---------- Objects ---------- */
+.ch-objects { margin: 0; padding: 0; list-style: none; }
+.ch-object { position: absolute; z-index: 2; }
+/* back row behind the front row */
+.ch-object--lab, .ch-object--experience, .ch-object--education { z-index: 1; }
+.ch-object > a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+.ch-object__art {
+  position: relative;
+  z-index: 1;
+  display: block;
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1), filter .45s ease;
+}
+.ch-object__art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  /* The supplied cut-outs keep a faint haze up to their edges; feathering the
+     outer few percent hides the rectangle without touching the object.
+     Clean transparent replacements need no change here. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  mask-composite: intersect;
+}
+/* soft contact shadow where the object meets the table */
+.ch-object__shadow {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: calc(-8 * var(--ch-unit));
+  height: calc(22 * var(--ch-unit));
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(95, 62, 32, .32), rgba(95, 62, 32, 0));
+  filter: blur(3px);
+  transition: opacity .45s ease, transform .45s ease;
+}
+.ch-object > a:hover .ch-object__art,
+.ch-object > a:focus-visible .ch-object__art {
+  transform: translateY(calc(-7 * var(--ch-unit)));
+  filter: brightness(1.04) saturate(1.05);
+}
+.ch-object > a:hover .ch-object__shadow,
+.ch-object > a:focus-visible .ch-object__shadow { opacity: .65; transform: scaleX(.94); }
+
+/* Caption: number, title, arrow; placed per object in App.tsx */
+.ch-caption {
+  position: absolute;
+  z-index: 3;
+  left: var(--dx);
+  top: var(--dy);
+  display: flex;
+  align-items: baseline;
+  gap: calc(9 * var(--ch-unit));
+  padding: calc(5 * var(--ch-unit)) calc(10 * var(--ch-unit));
+  border-radius: 999px;
+  background: rgba(251, 246, 238, .72);
+  color: var(--ch-ink);
   white-space: nowrap;
-  border: 0;
+  backdrop-filter: blur(2px);
+  transition: background .3s ease;
+}
+.ch-caption__number {
+  color: var(--ch-rust);
+  font-size: max(12px, calc(13 * var(--ch-unit)));
+  letter-spacing: .12em;
+}
+.ch-caption__title {
+  font-size: max(13px, calc(15 * var(--ch-unit)));
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.ch-caption__arrow {
+  font-size: max(14px, calc(16 * var(--ch-unit)));
+  transition: transform .3s ease;
+}
+.ch-object > a:hover .ch-caption,
+.ch-object > a:focus-visible .ch-caption { background: rgba(251, 246, 238, .96); }
+.ch-object > a:hover .ch-caption__arrow,
+.ch-object > a:focus-visible .ch-caption__arrow { transform: translateX(calc(4 * var(--ch-unit))); }
+.ch-object > a:focus-visible .ch-caption { outline: 2px solid #1e5a55; outline-offset: 3px; }
+
+/* ---------- Contact: pen holder with a pen that wobbles ----------
+   The pen is drawn behind the holder; its pivot is where it meets the rim,
+   so it reads as resting in the holder. Positions are in % of the holder. */
+.ch-object--contact .ch-holder { position: relative; z-index: 1; }
+/* these two files have clean edges and reach the top of their images */
+.ch-object--contact .ch-object__art img { -webkit-mask-image: none; mask-image: none; }
+.ch-object--contact .ch-pen {
+  position: absolute;
+  z-index: 0;
+  left: 34%;
+  top: -21%;
+  width: 60% !important;
+  transform-origin: 46% 54%;
+  animation: ch-pen-idle 7s ease-in-out 1.5s infinite;
+}
+.ch-object--contact > a:hover .ch-pen,
+.ch-object--contact > a:focus-visible .ch-pen { animation: ch-pen-twirl 1.4s ease-in-out; }
+
+@keyframes ch-pen-idle {
+  0%, 62%, 100% { transform: rotate(0); }
+  70% { transform: rotate(-6deg); }
+  78% { transform: rotate(4.5deg); }
+  85% { transform: rotate(-2.5deg); }
+  92% { transform: rotate(1deg); }
+}
+@keyframes ch-pen-twirl {
+  0% { transform: rotate(0); }
+  20% { transform: rotate(-12deg); }
+  42% { transform: rotate(9deg); }
+  62% { transform: rotate(-5deg); }
+  80% { transform: rotate(2deg); }
+  100% { transform: rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch-object--contact .ch-pen,
+  .ch-object--contact > a:hover .ch-pen,
+  .ch-object--contact > a:focus-visible .ch-pen { animation: none; }
+  .ch-object__art,
+  .ch-object__shadow,
+  .ch-caption__arrow { transition: none; }
+  .ch-object > a:hover .ch-object__art,
+  .ch-object > a:focus-visible .ch-object__art { transform: none; }
+}
+
+/* ---------- Narrow screens: headline, then the objects as a grid ---------- */
+@media (max-width: 900px) {
+  .ch-home { --ch-unit: 1px; height: auto; overflow: visible; }
+  .ch-bg { object-position: center 70%; }
+  .ch-stage {
+    position: relative;
+    left: auto;
+    width: auto;
+    height: auto;
+    padding: 20px 22px 40px;
+    transform: none;
+  }
+  .ch-nav { position: relative; left: auto; right: auto; top: auto; }
+  .ch-nav__toggle {
+    display: block;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 4px;
+    border: 0;
+    background: none;
+    color: var(--ch-ink);
+    font: inherit;
+    font-size: 13px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .ch-nav__links {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 30;
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    min-width: 220px;
+    padding: 10px 20px;
+    background: #fbf6ee;
+    box-shadow: 0 12px 30px rgba(60, 40, 20, .16);
+  }
+  .ch-nav__links.is-open { display: flex; }
+  .ch-nav__links a { padding: 11px 0; font-size: 14px; }
+
+  .ch-copy { position: relative; left: auto; top: auto; width: auto; margin-top: 40px; }
+  .ch-copy h1 { font-size: clamp(42px, 10vw, 60px); }
+  .ch-lede { max-width: 520px; font-size: 18px; }
+
+  .ch-objects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 18px;
+    margin-top: 44px;
+  }
+  .ch-object { position: relative; left: auto !important; top: auto !important; width: auto !important; }
+  .ch-object > a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+    padding: 18px 10px 14px;
+    border-radius: 6px;
+    background: rgba(251, 246, 238, .55);
+  }
+  .ch-object__art { width: 78%; height: 150px; display: flex; align-items: flex-end; justify-content: center; }
+  .ch-object__art img { width: auto; max-width: 100%; max-height: 100%; }
+  .ch-object--contact .ch-object__art { width: auto; }
+  .ch-object--contact .ch-holder { height: 120px; max-height: none; }
+  .ch-object--contact .ch-pen { width: auto !important; height: 112px; left: 30%; top: -10px; }
+  .ch-object__shadow { display: none; }
+  .ch-caption {
+    position: static;
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    gap: 8px;
+  }
+  .ch-object > a:focus-visible { outline: 2px solid #1e5a55; outline-offset: 2px; }
+  .ch-object > a:focus-visible .ch-caption { outline: none; }
 }

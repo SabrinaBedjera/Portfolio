@@ -2,7 +2,7 @@ import "./portfolio-sections.css"
 
 /* ------------------------------------------------------------------
    Portfolio sections after Selected Work: Lab, Experience, Education,
-   About and Contact. Content restored from experiment/photo-desk.
+   Associations & Volunteering, About and Contact. Content restored from experiment/photo-desk.
    Section ids match the homepage hotspots and navigation.
 ------------------------------------------------------------------- */
 
@@ -109,6 +109,22 @@ const skills = [
   "Qualitative analysis (NVivo)",
 ]
 
+/* Dates and fuller descriptions to be added once confirmed. */
+const associations = [
+  {
+    role: "Mentor",
+    organization: "Clean Technology Open",
+    text: "Mentor within the Clean Technology Open community, contributing to the clean technology entrepreneurship ecosystem.",
+    tags: ["Mentorship", "Clean technology", "Entrepreneurship"],
+  },
+  {
+    role: "Volunteer",
+    organization: "Women in Clean Technology",
+    text: "Volunteer with Women in Clean Technology, taking part in the community of women working across the clean technology sector.",
+    tags: ["Volunteering", "Community", "Clean technology"],
+  },
+]
+
 function SectionHead({ id, number, title, lede }: { id: string; number?: string; title: string; lede?: string }) {
   return (
     <header className="ps-head">
@@ -201,7 +217,28 @@ export default function PortfolioSections() {
         </div>
       </section>
 
-      <section id="about" className="ps-section ps-section--tint" aria-labelledby="about-title">
+      <section id="associations" className="ps-section ps-section--tint" aria-labelledby="associations-title">
+        <div className="ps-wrap">
+          {/* Unnumbered: the numbers match the six objects on the homepage. */}
+          <SectionHead id="associations" title="Associations & Volunteering" />
+          <div className="ps-associations">
+            {associations.map((item) => (
+              <article className="ps-association" key={item.organization}>
+                <p className="ps-association__role">{item.role}</p>
+                <h3>{item.organization}</h3>
+                <p className="ps-association__text">{item.text}</p>
+                <ul className="ps-role__highlights" aria-label="Areas">
+                  {item.tags.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="ps-section" aria-labelledby="about-title">
         <div className="ps-wrap ps-about">
           {/* Temporary photo from the earlier portfolio version. */}
           <figure className="ps-about__photo">

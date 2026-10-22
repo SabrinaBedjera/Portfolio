@@ -95,3 +95,30 @@
 @media (max-width: 760px) {
   .article-research dl > div { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* ---------- Case study type floor ----------
+   Labels, navigation and metadata were 8–10px; bring them to a readable
+   size and give section labels one consistent treatment. */
+.case-study__nav button span,
+.case-study__nav > span,
+.case-study__footer p,
+.case-study__footer button span { font-size: 12px; }
+.article-hero__copy > p:first-child { font-size: 12px; }
+.article-hero__visual > span { font-size: 11px; }
+.case-study section > header > p,
+.article-links > p {
+  color: var(--case-accent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.case-study .article-contributions--editorial .article-contributions__list article > span { font-size: 12px; }
+.article-reading__links span,
+.article-reading__links small,
+.flourish-visual header span,
+.flourish-visual header a { font-size: 12px; }
+.article-reading__links p { font-size: 17px; line-height: 1.6; }
+.article-reading__links em { font-size: 14px; }
+.article-links a { font-size: 13px; }
+.case-study .article-reading { padding-top: clamp(56px, 6vw, 88px); padding-bottom: clamp(56px, 6vw, 88px); }

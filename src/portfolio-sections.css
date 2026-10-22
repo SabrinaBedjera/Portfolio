@@ -1,84 +1,109 @@
 /* ==================================================
-   Portfolio sections (Lab, Experience, Education, About, Contact)
+   Portfolio sections (Selected Work surroundings, Lab, Experience,
+   Education, Associations & Volunteering, About, Contact)
    Warm editorial style taken from the homepage photograph:
-   cream paper, deep green ink, Instrument Serif headings, DM Sans text.
-   Everything is scoped to .ps-* classes.
+   cream paper, deep green ink, rust accents, Instrument Serif headings,
+   DM Sans text. One type and spacing scale (tokens below) is used
+   throughout. Everything is scoped to .ps-* classes.
    ================================================== */
 .ps,
 #selected-work {
   --ps-paper: #fbf6ee;
   --ps-tint: #f3e8d8;
   --ps-ink: #1c2a22;
-  --ps-text: #3a403b;
-  --ps-muted: #6f6a60;
+  --ps-text: #353b36;
+  --ps-muted: #66625a;
   --ps-rule: rgba(60, 45, 30, .16);
   --ps-accent: #2b7441;
   --ps-clay: #a75825;
+
+  /* type scale */
+  --ps-fs-h2: clamp(46px, 5vw, 72px);
+  --ps-fs-lede: clamp(19px, 1.5vw, 22px);
+  --ps-fs-body: clamp(17px, 1.2vw, 18px);
+  --ps-fs-small: 16px;
+  --ps-fs-meta: 13px;          /* uppercase labels, dates, numbers */
+  --ps-lh-body: 1.65;
+
+  /* layout and spacing */
+  --ps-wrap: 1240px;
+  --ps-gutter: clamp(22px, 5vw, 64px);
+  --ps-section-y: clamp(64px, 7.5vw, 104px);
+  --ps-head-gap: clamp(32px, 3.6vw, 52px);
 }
 .ps {
   font-family: "DM Sans", sans-serif;
   color: var(--ps-text);
+  font-size: var(--ps-fs-body);
 }
 
 .ps-section {
-  padding: 112px 0 120px;
+  padding: var(--ps-section-y) 0;
   background: var(--ps-paper);
-  scroll-margin-top: 0;
 }
 .ps-section--tint { background: var(--ps-tint); }
 
 .ps-wrap {
-  max-width: 1120px;
+  box-sizing: border-box;
+  max-width: calc(var(--ps-wrap) + 2 * var(--ps-gutter));
   margin: 0 auto;
-  padding: 0 64px;
+  padding: 0 var(--ps-gutter);
 }
 
 /* ---------- Section heading ---------- */
-.ps-head { margin-bottom: 56px; }
+.ps-head { margin-bottom: var(--ps-head-gap); }
 .ps-number {
   margin: 0 0 14px;
   color: var(--ps-clay);
-  font-size: 13px;
+  font-size: var(--ps-fs-meta);
   letter-spacing: .2em;
 }
 .ps-head h2 {
   margin: 0;
   color: var(--ps-ink);
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 68px;
+  font-size: var(--ps-fs-h2);
   font-weight: 400;
   line-height: .95;
   letter-spacing: -.02em;
 }
 .ps-lede {
-  max-width: 560px;
+  max-width: 640px;
   margin: 18px 0 0;
-  font-size: 19px;
+  font-size: var(--ps-fs-lede);
   line-height: 1.5;
 }
 
 .ps h3 {
   margin: 0;
   color: var(--ps-ink);
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 500;
   line-height: 1.3;
 }
-.ps p { line-height: 1.6; }
+.ps p { line-height: var(--ps-lh-body); }
 
-/* ---------- Lab ---------- */
-.ps-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+/* Lab holds only its heading for now */
+#lab .ps-head { margin-bottom: 0; }
+
+/* Shared tag list (experience highlights, associations) */
+.ps-role__highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.ps-card {
-  padding: 34px 34px 30px;
-  background: var(--ps-paper);
-  border: 1px solid var(--ps-rule);
-  border-top: 3px solid var(--ps-accent);
+.ps-role__highlights li {
+  padding: 6px 14px;
+  border: 1px solid rgba(43, 116, 65, .3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .5);
+  color: var(--ps-ink);
+  font-size: 14px;
+  line-height: 1.4;
 }
-.ps-card p { margin: 14px 0 0; font-size: 16px; }
 
 /* ---------- Experience ----------
    A compact career overview whose milestones link to the roles, then the
@@ -87,7 +112,7 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  margin: -16px 0 64px;
+  margin: -8px 0 56px;
   padding: 0;
   list-style: none;
 }
@@ -128,14 +153,14 @@
 .ps-career__year {
   display: block;
   color: var(--ps-clay);
-  font-size: 12px;
+  font-size: var(--ps-fs-meta);
   letter-spacing: .14em;
 }
 .ps-career__label {
   display: block;
-  margin-top: 4px;
+  margin-top: 5px;
   color: var(--ps-text);
-  font-size: 14px;
+  font-size: var(--ps-fs-small);
   line-height: 1.35;
   text-decoration: underline;
   text-decoration-color: transparent;
@@ -148,7 +173,7 @@
 
 /* Vertical timeline */
 .ps-roles {
-  --ps-date-w: 170px;
+  --ps-date-w: 190px;
   --ps-rail: 56px;
   position: relative;
   margin: 0;
@@ -168,10 +193,10 @@
   position: relative;
   display: grid;
   grid-template-columns: var(--ps-date-w) var(--ps-rail) 1fr;
-  padding-bottom: 44px;
+  padding-bottom: 40px;
   scroll-margin-top: 32px;   /* there is no fixed header; keeps the date clear of the window edge */
 }
-.ps-role + .ps-role { padding-top: 40px; }
+.ps-role + .ps-role { padding-top: 36px; }
 /* subtle divider across the content column only */
 .ps-role + .ps-role::after {
   content: "";
@@ -195,53 +220,36 @@
   border-radius: 50%;
   background: var(--ps-tint);
 }
-.ps-role + .ps-role::before { top: 46px; }
+.ps-role + .ps-role::before { top: 42px; }
 .ps-role--current::before { background: var(--ps-accent); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
 .ps-role__when {
   grid-column: 1;
   margin: 0;
   padding-top: 1px;
   color: var(--ps-clay);
-  font-size: 12px;
+  font-size: var(--ps-fs-meta);
   letter-spacing: .12em;
   text-transform: uppercase;
 }
-.ps-role__body { grid-column: 3; max-width: 760px; }
-.ps-role__org { margin: 0; color: var(--ps-text); font-size: 15px; }
+.ps-role__body { grid-column: 3; max-width: 880px; }
+.ps-role__org { margin: 0; color: var(--ps-text); font-size: var(--ps-fs-small); }
 .ps-role__org span[aria-hidden] { margin: 0 4px; color: var(--ps-muted); }
 .ps-role__unit { color: var(--ps-accent); }
 .ps .ps-role h3 {
   margin-top: 8px;
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 30px;
+  font-size: 34px;
   font-weight: 400;
   line-height: 1.1;
 }
-.ps .ps-role--current h3 { font-size: 40px; }
-.ps-role__text { margin: 12px 0 0; font-size: 16px; }
-.ps-role--current .ps-role__text { font-size: 17px; }
-.ps-role__highlights {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.ps-role__highlights li {
-  padding: 5px 12px;
-  border: 1px solid rgba(43, 116, 65, .3);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .45);
-  color: var(--ps-ink);
-  font-size: 13px;
-}
+.ps .ps-role--current h3 { font-size: 44px; }
+.ps-role__text { margin: 12px 0 0; font-size: var(--ps-fs-body); }
 
 /* ---------- Education & skills ---------- */
 .ps-two {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 80px;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(48px, 6vw, 96px);
 }
 .ps-education {
   margin: 0;
@@ -249,9 +257,9 @@
   list-style: none;
   border-top: 1px solid var(--ps-rule);
 }
-.ps-education li { padding: 24px 0; border-bottom: 1px solid var(--ps-rule); }
-.ps-education p { margin: 6px 0 0; color: var(--ps-muted); font-size: 16px; }
-.ps-education .ps-education__award { color: var(--ps-clay); font-size: 14px; }
+.ps-education li { padding: 22px 0; border-bottom: 1px solid var(--ps-rule); }
+.ps-education p { margin: 6px 0 0; color: var(--ps-muted); font-size: var(--ps-fs-small); }
+.ps-education .ps-education__award { color: var(--ps-clay); }
 .ps-skills {
   display: flex;
   flex-wrap: wrap;
@@ -264,16 +272,43 @@
   padding: 9px 16px;
   border: 1px solid rgba(43, 116, 65, .35);
   border-radius: 999px;
-  background: rgba(255, 255, 255, .45);
+  background: rgba(255, 255, 255, .5);
   color: var(--ps-ink);
-  font-size: 15px;
+  font-size: var(--ps-fs-small);
 }
+
+/* ---------- Associations & Volunteering ---------- */
+.ps-associations {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+.ps-association {
+  padding: clamp(28px, 3vw, 44px);
+  background: var(--ps-paper);
+  border: 1px solid var(--ps-rule);
+  border-top: 3px solid var(--ps-accent);
+}
+.ps-association__role {
+  margin: 0 0 10px;
+  color: var(--ps-clay);
+  font-size: var(--ps-fs-meta);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.ps .ps-association h3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.ps-association__text { margin: 14px 0 0; }
 
 /* ---------- About ---------- */
 .ps-about {
   display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 80px;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: clamp(40px, 6vw, 88px);
   align-items: start;
 }
 .ps-about__photo { margin: 0; }
@@ -284,18 +319,18 @@
   aspect-ratio: 1;
   object-fit: cover;
 }
-.ps-about p { max-width: 620px; margin: 0 0 18px; font-size: 17px; }
+.ps-about p { max-width: 700px; margin: 0 0 20px; }
 .ps-about .ps-about__lead {
   color: var(--ps-ink);
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 30px;
-  line-height: 1.25;
-  margin-bottom: 24px;
+  font-size: clamp(28px, 2.4vw, 34px);
+  line-height: 1.22;
+  margin-bottom: 26px;
 }
 
 /* ---------- Contact ---------- */
 .ps-section--dark {
-  padding-bottom: 48px;
+  padding-bottom: 44px;
   background: #1f2c25;
   color: #e8e1d4;
 }
@@ -304,10 +339,10 @@
 .ps-actions { display: flex; flex-wrap: wrap; gap: 14px; }
 .ps-button {
   display: inline-block;
-  padding: 14px 24px;
+  padding: 15px 26px;
   border: 1px solid rgba(251, 246, 238, .45);
   color: #fbf6ee;
-  font-size: 16px;
+  font-size: var(--ps-fs-body);
   text-decoration: none;
   transition: background .2s ease, color .2s ease;
 }
@@ -316,10 +351,10 @@
 .ps-footer {
   display: flex;
   justify-content: space-between;
-  margin-top: 96px;
+  margin-top: 72px;
   padding-top: 24px;
   border-top: 1px solid rgba(251, 246, 238, .18);
-  font-size: 14px;
+  font-size: 15px;
 }
 .ps-footer p { margin: 0; }
 .ps-footer a { color: inherit; }
@@ -331,42 +366,44 @@
    follows the other sections' background, width, spacing and heading. */
 #selected-work.magazine-experiment {
   min-height: 0;
-  padding: 112px 0 96px;
+  padding: var(--ps-section-y) 0 calc(var(--ps-section-y) - 16px);
   background: var(--ps-tint);
   border-bottom: 0;
 }
 .selected-work__head {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 64px;
   box-sizing: border-box;
+  max-width: calc(var(--ps-wrap) + 2 * var(--ps-gutter));
+  margin: 0 auto;
+  padding: 0 var(--ps-gutter);
   font-family: "DM Sans", sans-serif;
 }
 .selected-work__head .ps-lede { color: var(--ps-text); }
 .selected-work__head h2 em { color: var(--ps-clay); }
 #selected-work .cover-browser { margin-top: 0; }
 #selected-work .cover-browser__index button.is-active { border-bottom-color: var(--ps-clay); }
+#selected-work .cover-browser__navigation > button,
+#selected-work .cover-browser__index button { font-size: 14px; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1100px) {
+  .ps-roles { --ps-date-w: 150px; --ps-rail: 44px; }
+  .ps .ps-role h3 { font-size: 30px; }
+  .ps .ps-role--current h3 { font-size: 38px; }
+}
 
 /* ---------- Narrow screens ----------
    Stack the two-column layouts; the career overview scrolls sideways and
    the roles keep a slim rail on the left with the date above each role. */
 @media (max-width: 760px) {
-  .ps-section { padding: 72px 0 80px; }
-  .ps-wrap,
-  .selected-work__head { padding: 0 22px; }
-  .ps-head { margin-bottom: 36px; }
-  .ps-head h2 { font-size: 48px; }
-  #selected-work.magazine-experiment { padding: 72px 0 64px; }
-
   .ps-career {
     display: flex;
-    margin: -8px -22px 44px;
-    padding: 0 22px 6px;
+    margin: -8px calc(-1 * var(--ps-gutter)) 40px;
+    padding: 0 var(--ps-gutter) 6px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
   }
   .ps-career::before { display: none; }
-  .ps-career li { flex: 0 0 148px; scroll-snap-align: start; }
+  .ps-career li { flex: 0 0 156px; scroll-snap-align: start; }
   /* line segment from each marker to the next */
   .ps-career li:not(:last-child)::after {
     content: "";
@@ -382,13 +419,16 @@
   .ps-roles { --ps-date-w: 0px; --ps-rail: 28px; }
   .ps-role__when { grid-column: 3; margin-bottom: 6px; }
   .ps-role__body { grid-column: 3; }
-  .ps-role + .ps-role { padding-top: 32px; }
-  .ps-role + .ps-role::before { top: 38px; }
-  .ps .ps-role h3 { font-size: 26px; }
+  .ps-role + .ps-role { padding-top: 30px; }
+  .ps-role + .ps-role::before { top: 36px; }
+  .ps .ps-role h3 { font-size: 28px; }
   .ps .ps-role--current h3 { font-size: 32px; }
 
   .ps-two,
-  .ps-about { grid-template-columns: 1fr; gap: 48px; }
-  .ps-about__photo { max-width: 320px; }
+  .ps-about,
+  .ps-associations { grid-template-columns: 1fr; gap: 40px; }
+  .ps-associations { gap: 20px; }
+  .ps .ps-association h3 { font-size: 30px; }
+  .ps-about__photo { max-width: 340px; }
   .ps-footer { flex-direction: column; gap: 12px; }
 }

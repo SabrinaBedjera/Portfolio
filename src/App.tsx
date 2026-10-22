@@ -271,137 +271,140 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   )
 }
 
-const homeNavigation = [
-  ["Home", "home"],
+/* ------------------------------------------------------------------
+   Cabinet-of-curiosities homepage: an interactive still life
+   Background: public/home-background.jpg (1672 × 941, empty wall and table).
+   Objects: cut-out images in public/home-objects/, positioned in pixels of
+   the 1672 × 941 stage and scaled with it (--ch-unit). To swap an object
+   image, replace the file or change its `src` below.
+   Narrow screens show the objects as a grid instead (curiosity-home.css).
+------------------------------------------------------------------- */
+
+const siteNavigation: [string, string][] = [
   ["Selected Work", "selected-work"],
   ["Lab", "lab"],
   ["Experience", "experience"],
   ["Education", "education"],
+  ["Associations", "associations"],
   ["About", "about"],
   ["Contact", "contact"],
 ]
 
-function ExhibitLabel({
-  number,
-  title,
-  description,
-}: {
+type HomeObject = {
+  key: string
   number: string
   title: string
   description: string
-}) {
-  return (
-    <span className="exhibit-label">
-      <span className="exhibit-label__number">{number}</span>
-      <span className="exhibit-label__title">{title}</span>
-      <span className="exhibit-label__description">{description}</span>
-      <span className="exhibit-label__arrow" aria-hidden="true">
-        →
-      </span>
-    </span>
-  )
+  href: string
+  /** Object box on the stage: left, top and width; height follows the image. */
+  x: number
+  y: number
+  w: number
+  /** Caption position relative to the object box. */
+  caption: { dx: number; dy: number }
+  layers: { src: string; className?: string }[]
 }
 
-/* ------------------------------------------------------------------
-   Cabinet-of-curiosities homepage (desktop)
-   The approved composition is a single photograph, public/home-hero.jpg
-   (1672 × 941), which already contains the navigation, headline, six
-   exhibits and their labels. Transparent links sit over the photographed
-   navigation and exhibits. Regions are in pixels of that image and placed
-   as percentages, so they stay aligned as the window is resized.
-------------------------------------------------------------------- */
-
-type Rect = { x: number; y: number; w: number; h: number }
-
-const HERO_W = 1672
-const HERO_H = 941
-
-/** Position a rect given in hero-image pixels, relative to the hero. */
-const at = (r: Rect): CSSProperties => ({
-  left: `${(r.x / HERO_W) * 100}%`,
-  top: `${(r.y / HERO_H) * 100}%`,
-  width: `${(r.w / HERO_W) * 100}%`,
-  height: `${(r.h / HERO_H) * 100}%`,
-})
-
-/* Photographed navigation words (Education is not in the photograph). */
-const heroNavigation: { label: string; href: string; area: Rect }[] = [
-  { label: "Home", href: "#home", area: { x: 852, y: 20, w: 68, h: 34 } },
-  { label: "Selected Work", href: "#selected-work", area: { x: 950, y: 20, w: 150, h: 34 } },
-  { label: "Lab", href: "#lab", area: { x: 1129, y: 20, w: 52, h: 34 } },
-  { label: "Experience", href: "#experience", area: { x: 1214, y: 20, w: 121, h: 34 } },
-  { label: "About", href: "#about", area: { x: 1368, y: 20, w: 76, h: 34 } },
-  { label: "Contact", href: "#contact", area: { x: 1475, y: 20, w: 97, h: 34 } },
-]
-
-/* Each exhibit: its photographed label first (it carries the focus ring), then the object. */
-const heroExhibits: { label: string; href: string; areas: Rect[] }[] = [
+const homeObjects: HomeObject[] = [
   {
-    label: "01 Selected Work: Case studies and featured projects", href: "#selected-work",
-    areas: [
-      { x: 372, y: 785, w: 400, h: 122 },
-      { x: 225, y: 500, w: 390, h: 285 },
-      { x: 65, y: 560, w: 160, h: 225 },
-      { x: 615, y: 612, w: 180, h: 173 },
-      { x: 65, y: 785, w: 307, h: 95 },
+    key: "work", number: "01", title: "Selected Work", description: "Case studies and featured projects", href: "#selected-work",
+    x: 64, y: 520, w: 540, caption: { dx: 300, dy: 330 },
+    layers: [{ src: "/home-objects/01_selected_work_magazines.webp" }],
+  },
+  {
+    key: "lab", number: "02", title: "Lab", description: "Technical and creative projects", href: "#lab",
+    x: 660, y: 300, w: 262, caption: { dx: 18, dy: 334 },
+    layers: [{ src: "/home-objects/03_lab_cloche.webp" }],
+  },
+  {
+    key: "experience", number: "03", title: "Experience", description: "Professional background", href: "#experience",
+    x: 968, y: 380, w: 186, caption: { dx: 52, dy: 256 },
+    layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
+  },
+  {
+    key: "education", number: "04", title: "Education", description: "Academic background", href: "#education",
+    x: 1196, y: 356, w: 372, caption: { dx: 196, dy: 280 },
+    layers: [{ src: "/home-objects/04_education_books.webp" }],
+  },
+  {
+    key: "about", number: "05", title: "About", description: "My approach and interests", href: "#about",
+    x: 812, y: 646, w: 204, caption: { dx: 214, dy: 212 },
+    layers: [{ src: "/home-objects/05_about_frame.webp" }],
+  },
+  {
+    key: "contact", number: "06", title: "Contact", description: "Let’s connect", href: "#contact",
+    x: 1250, y: 664, w: 152, caption: { dx: 166, dy: 196 },
+    layers: [
+      // the animated pen sits behind the holder, so the rim hides its lower end
+      { src: "/home-objects/07_contact_animated_pen.webp", className: "ch-pen" },
+      { src: "/home-objects/06_contact_pen_holder.webp", className: "ch-holder" },
     ],
   },
-  {
-    label: "02 Lab: Technical and creative projects", href: "#lab",
-    areas: [{ x: 615, y: 505, w: 262, h: 105 }, { x: 590, y: 185, w: 262, h: 320 }],
-  },
-  {
-    label: "03 Experience: Professional background", href: "#experience",
-    areas: [{ x: 877, y: 505, w: 318, h: 95 }, { x: 900, y: 315, w: 252, h: 190 }],
-  },
-  {
-    label: "04 Education: Academic background", href: "#education",
-    areas: [{ x: 1295, y: 523, w: 325, h: 105 }, { x: 1243, y: 318, w: 357, h: 205 }],
-  },
-  {
-    label: "05 About: My approach and interests", href: "#about",
-    areas: [{ x: 1018, y: 790, w: 302, h: 118 }, { x: 988, y: 600, w: 285, h: 190 }, { x: 935, y: 745, w: 83, h: 155 }],
-  },
-  {
-    label: "06 Contact: Let’s connect", href: "#contact",
-    areas: [{ x: 1455, y: 765, w: 182, h: 100 }, { x: 1448, y: 628, w: 165, h: 137 }],
-  },
 ]
 
+const u = (px: number) => `calc(${px} * var(--ch-unit))`
+
 function CuriosityHomepage() {
+  const [menuOpen, setMenuOpen] = useState(false)
   return (
     <main id="home" className="ch-home">
-      <div className="ch-hero">
-        <img className="ch-hero__image" src="/home-hero.jpg" alt="" draggable={false} />
-
-        {/* The headline is part of the photograph; this copy is for assistive technology. */}
-        <div className="ch-sr-only">
-          <p>Science × Technology × Strategy</p>
-          <h1>Making complex ideas move forward.</h1>
-          <p>Engineering, energy, investment and creative technology for a more sustainable and connected world.</p>
-        </div>
-
-        <nav className="ch-hero__nav" aria-label="Primary navigation">
-          <a className="ch-hit" href="#home" style={at({ x: 58, y: 20, w: 222, h: 34 })}>
-            <span className="ch-sr-only">Sabrina Bedjera, home</span>
-          </a>
-          {heroNavigation.map((item) => (
-            <a className="ch-hit" href={item.href} style={at(item.area)} key={item.label}>
-              <span className="ch-sr-only">{item.label}</span>
-            </a>
-          ))}
+      <img className="ch-bg" src="/home-background.jpg" alt="" draggable={false} />
+      <div className="ch-stage">
+        <nav className="ch-nav" aria-label="Primary navigation">
+          <a className="ch-nav__brand" href="#home">Sabrina Bedjera</a>
+          <button
+            className="ch-nav__toggle"
+            aria-expanded={menuOpen}
+            aria-controls="ch-nav-links"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? "Close" : "Menu"}
+          </button>
+          <ul id="ch-nav-links" className={`ch-nav__links${menuOpen ? " is-open" : ""}`}>
+            {siteNavigation.map(([label, target]) => (
+              <li key={target}>
+                <a href={`#${target}`} onClick={() => setMenuOpen(false)}>{label}</a>
+              </li>
+            ))}
+          </ul>
         </nav>
 
-        <div className="ch-hero__exhibits" role="list" aria-label="Explore portfolio sections">
-          {heroExhibits.map((ex) => (
-            <a className="ch-exhibit" href={ex.href} role="listitem" key={ex.href}>
-              <span className="ch-sr-only">{ex.label}</span>
-              {ex.areas.map((area, i) => (
-                <span className={`ch-hit${i === 0 ? " ch-hit--label" : ""}`} style={at(area)} key={i} aria-hidden="true" />
-              ))}
-            </a>
+        <section className="ch-copy" aria-labelledby="home-title">
+          <p className="ch-eyebrow">Science <span>×</span> Technology <span>×</span> Strategy</p>
+          <h1 id="home-title">Making complex<br />ideas move forward.</h1>
+          <p className="ch-lede">
+            Engineering, energy, investment and creative technology for a more sustainable and
+            connected world.
+          </p>
+        </section>
+
+        <ul className="ch-objects" aria-label="Explore portfolio sections">
+          {homeObjects.map((object) => (
+            <li
+              className={`ch-object ch-object--${object.key}`}
+              key={object.key}
+              style={{ left: u(object.x), top: u(object.y), width: u(object.w) }}
+            >
+              <a href={object.href} aria-label={`${object.number} ${object.title}: ${object.description}`}>
+                <span className="ch-object__shadow" aria-hidden="true" />
+                <span className="ch-object__art" aria-hidden="true">
+                  {object.layers.map((layer) => (
+                    <img className={layer.className} src={layer.src} alt="" draggable={false} key={layer.src} />
+                  ))}
+                </span>
+                <span
+                  className="ch-caption"
+                  style={{ ["--dx" as string]: u(object.caption.dx), ["--dy" as string]: u(object.caption.dy) }}
+                  aria-hidden="true"
+                >
+                  <span className="ch-caption__number">{object.number}</span>
+                  <span className="ch-caption__title">{object.title}</span>
+                  <span className="ch-caption__arrow">→</span>
+                </span>
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </main>
   )
