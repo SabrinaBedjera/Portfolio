@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react"
 import "./curiosity-home.css"
+import "./selected-work.css"
 import PortfolioSections from "./PortfolioSections"
 
 type Project = {
@@ -11,18 +12,36 @@ type Project = {
   description: string
   caseHeadline: string
   caseIntroduction: string
+  /** Two-word magazine cover title and the small subtitle under it. */
+  coverTitle: [string, string]
+  coverSubtitle: string
+  /** Case-study section heading; defaults to "Selected contributions / Four areas of contribution". */
+  contributionsLabel?: string
+  contributionsHeading?: string
   contributions: Array<{
     number: string
     title: string
     body: string
     highlight?: string
+    points?: string[]
   }>
+  /** Research details shown after the contributions (thesis case study). */
+  research?: {
+    details: Array<[string, string]>
+    skills: string[]
+  }
   image?: string
   imageAlt?: string
   featureImage: string
   featureImageAlt: string
-  tone: "mineral" | "data" | "energy"
+  tone: "mineral" | "data" | "energy" | "water"
 }
+
+/* The water case study reuses the Clean Energy cover and article layout;
+   its own colours are set in selected-work.css. */
+const layoutTone = (tone: Project["tone"]) =>
+  tone === "water" ? "energy water" : tone
+
 
 const projects: Project[] = [
   {
@@ -34,6 +53,8 @@ const projects: Project[] = [
       "Evaluating strategic mineral opportunities from technical promise to commercial reality.",
     description:
       "A future case study exploring the questions, frameworks and decision-making behind strategic critical minerals investments.",
+    coverTitle: ["Critical", "Minerals"],
+    coverSubtitle: "Investment & Commercialization",
     caseHeadline: "Turning Critical Minerals Projects into Investments",
     caseIntroduction:
       "Technical assessment, commercial negotiations, investment strategy and data analytics supporting critical minerals investment and commercialization.",
@@ -81,6 +102,8 @@ const projects: Project[] = [
       "Tracing electricity access and renewable energy transitions across Papua New Guinea and Tonga.",
     description:
       "An interactive visual investigation of energy access and transition pathways. Final charts, methodology and source notes will be added to the complete case study.",
+    coverTitle: ["Pacific", "Energy"],
+    coverSubtitle: "Data Visualization",
     caseHeadline: "Making Pacific Energy Transitions Visible",
     caseIntroduction:
       "An independent interactive data visualization examining electricity access and renewable energy transitions in Papua New Guinea and Tonga.",
@@ -124,6 +147,8 @@ const projects: Project[] = [
       "Connecting carbon management, emerging technology and international collaboration.",
     description:
       "A future case study bringing together selected work across clean energy technology research, strategy and international collaboration.",
+    coverTitle: ["Clean", "Energy"],
+    coverSubtitle: "Technology, Innovation & Decarbonization",
     caseHeadline: "Connecting Clean Energy Ideas to Action",
     caseIntroduction:
       "Work spanning clean energy technology, carbon management strategy and international collaboration, with particular emphasis on carbon capture, utilization and storage.",
@@ -161,6 +186,76 @@ const projects: Project[] = [
     featureImageAlt:
       "Direct air capture installation with repeating industrial equipment set against a green landscape",
     tone: "energy",
+  },
+  {
+    slug: "drinking-water-micropollutants",
+    number: "04",
+    title: "Predicting Micropollutant Removal in Drinking Water",
+    eyebrow: "Environmental Engineering · Water Treatment · Scientific Modelling",
+    summary:
+      "Modelling how ozonation removes micropollutants at three Ontario drinking water treatment plants.",
+    description:
+      "Master’s research on predicting the removal of micropollutants by ozonation in water drawn from Lake Ontario and the Grand River.",
+    coverTitle: ["Drinking", "Water"],
+    coverSubtitle: "Micropollutant Removal & Ozonation Modelling",
+    caseHeadline: "Predicting Micropollutant Removal in Drinking Water",
+    caseIntroduction:
+      "Master of Applied Science research at the University of Waterloo (2019) on predicting the removal of micropollutants by ozonation at three Ontario drinking water treatment plants.",
+    contributionsLabel: "Master’s research",
+    contributionsHeading: "The research",
+    contributions: [
+      {
+        number: "01",
+        title: "The Challenge",
+        body: "Drinking water utilities must effectively remove micropollutants, including pesticides and other emerging contaminants. Treatment performance can vary depending on water chemistry, seasonal conditions, and ozone dose.",
+      },
+      {
+        number: "02",
+        title: "My Approach",
+        highlight: "Three Ontario treatment plants · Lake Ontario & Grand River",
+        body: "Conducted experimental and quantitative research involving three Ontario drinking water treatment plants drawing water from Lake Ontario and the Grand River.",
+        points: [
+          "Characterized ozone and hydroxyl radical exposure and investigated seasonal changes in treatment conditions.",
+          "Analyzed water quality characteristics and their relationships with ozonation performance.",
+          "Used laboratory analytical techniques, statistical analysis, and regression modelling.",
+          "Validated a micropollutant degradation model using experimental atrazine results.",
+          "Simulated the degradation of selected micropollutants under varying water quality and seasonal conditions.",
+        ],
+      },
+      {
+        number: "03",
+        title: "Results & Impact",
+        body: "Developed and validated modelling approaches to assess the effectiveness of ozonation for micropollutant removal across three drinking water treatment plants, providing information to help utilities evaluate treatment performance and plan proactively.",
+      },
+      {
+        number: "04",
+        title: "Recognition",
+        highlight: "First Place — AWWA Master’s Academic Achievement Award",
+        body: "Awarded first place in the American Water Works Association Master’s Academic Achievement Award.",
+      },
+    ],
+    // Thesis figures and further technical detail can be added here later.
+    research: {
+      details: [
+        ["Thesis", "Predicting the Removal of Micropollutants in Lake Ontario and Grand River using Ozonation (2019)"],
+        ["Institution", "University of Waterloo"],
+        ["Degree", "Master of Applied Science, Civil Engineering"],
+        ["Recognition", "First Place — American Water Works Association (AWWA) Master’s Academic Achievement Award"],
+      ],
+      skills: [
+        "Environmental Engineering",
+        "Water Treatment",
+        "Laboratory Research",
+        "Quantitative Analysis",
+        "Statistical Modelling",
+        "Model Validation",
+        "Water Quality Analysis",
+      ],
+    },
+    featureImage: "/drinking-water.svg",
+    featureImageAlt:
+      "Illustration of bubbles rising through clear water beneath a rippled surface",
+    tone: "water",
   },
 ]
 
@@ -393,9 +488,10 @@ function MagazineExperiment({
 
   const getPosition = (index: number) => {
     if (index === activeCover) return "active"
-    if ((index - activeCover + projects.length) % projects.length === 1)
-      return "next"
-    return "previous"
+    const offset = (index - activeCover + projects.length) % projects.length
+    if (offset === 1) return "next"
+    if (offset === projects.length - 1) return "previous"
+    return "back"
   }
 
   return (
@@ -417,7 +513,7 @@ function MagazineExperiment({
         </h2>
         <p className="ps-lede">
           Please explore my experience across critical minerals, Pacific energy
-          systems, and clean technology.
+          systems, clean technology, and drinking water research.
         </p>
       </header>
 
@@ -425,26 +521,20 @@ function MagazineExperiment({
         <div className="cover-browser__stage" aria-live="polite">
           {projects.map((project, index) => {
             const position = getPosition(index)
-            const title =
-              project.tone === "mineral"
-                ? ["Critical", "Minerals"]
-                : project.tone === "data"
-                  ? ["Pacific", "Energy"]
-                  : ["Clean", "Energy"]
-            const subtitle =
-              project.tone === "mineral"
-                ? "Investment & Commercialization"
-                : project.tone === "data"
-                  ? "Data Visualization"
-                  : "Technology, Innovation & Decarbonization"
+            const title = project.coverTitle
+            const subtitle = project.coverSubtitle
 
             return (
               <article
-                className={`magazine-cover magazine-cover--${project.tone} magazine-cover--${position} ${
+                className={`magazine-cover ${layoutTone(project.tone)
+                  .split(" ")
+                  .map((tone) => `magazine-cover--${tone}`)
+                  .join(" ")} magazine-cover--${position} ${
                   openingCover === index ? "magazine-cover--opening" : ""
                 }`}
                 key={project.title}
                 aria-current={position === "active" ? "true" : undefined}
+                aria-hidden={position === "back" ? true : undefined}
                 onClick={(event) => {
                   if (event.target === event.currentTarget) {
                     handleCoverClick(project, index, position)
@@ -455,6 +545,7 @@ function MagazineExperiment({
                   className="magazine-cover__open"
                   onClick={() => handleCoverClick(project, index, position)}
                   disabled={openingCover !== null}
+                  tabIndex={position === "back" ? -1 : undefined}
                   aria-label={
                     position === "active"
                       ? `Open case study: ${project.title}`
@@ -561,7 +652,12 @@ function MagazineCaseStudy({
   }, [project.tone])
 
   return (
-    <main className={`case-study case-study--${project.tone}`}>
+    <main
+      className={`case-study ${layoutTone(project.tone)
+        .split(" ")
+        .map((tone) => `case-study--${tone}`)
+        .join(" ")}`}
+    >
       <nav className="case-study__nav" aria-label="Case study navigation">
         <button onClick={onBack}>
           <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -589,8 +685,10 @@ function MagazineCaseStudy({
         aria-labelledby="contributions-title"
       >
         <header>
-          <p>Selected contributions</p>
-          <h2 id="contributions-title">Four areas of contribution</h2>
+          <p>{project.contributionsLabel ?? "Selected contributions"}</p>
+          <h2 id="contributions-title">
+            {project.contributionsHeading ?? "Four areas of contribution"}
+          </h2>
         </header>
         <div className="article-contributions__list">
           {project.contributions.map((contribution) => (
@@ -602,11 +700,40 @@ function MagazineCaseStudy({
                   <strong>{contribution.highlight}</strong>
                 )}
                 <p>{contribution.body}</p>
+                {contribution.points && (
+                  <ul>
+                    {contribution.points.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </article>
           ))}
         </div>
       </section>
+
+      {project.research && (
+        <section className="article-reading article-research" aria-labelledby="research-title">
+          <header>
+            <p>Research details</p>
+            <h2 id="research-title">Thesis and technical skills</h2>
+          </header>
+          <dl>
+            {project.research.details.map(([term, value]) => (
+              <div key={term}>
+                <dt>{term}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+          <ul aria-label="Technical skills">
+            {project.research.skills.map((skill) => (
+              <li key={skill}>{skill}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {project.tone === "mineral" && (
         <section

@@ -1,0 +1,97 @@
+/* ==================================================
+   Selected Work additions
+   - a hidden "back" slot so the carousel can hold four magazines
+   - colours for the drinking water cover and case study, which reuse
+     the Clean Energy layout (classes --energy plus --water)
+   - the research details block of the thesis case study
+   ================================================== */
+
+/* Covers that are neither centred nor beside it wait behind the centre one. */
+.magazine-cover--back {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-50%, 60px, -420px) scale(.72);
+}
+
+/* ---------- Drinking water cover ---------- */
+.magazine-cover--water .magazine-cover__title span:first-child { color: #2f6283; }
+/* a smaller indent than Clean Energy keeps "Water" clear of the descender of the "g" */
+.magazine-cover--energy.magazine-cover--water .magazine-cover__title span:last-child { margin-left: 24px; font-style: italic; }
+.magazine-cover--water .magazine-cover__subtitle { color: #2f6283; }
+.magazine-cover--energy.magazine-cover--water .magazine-cover__image { background: #d9e9ee; }
+.magazine-cover--energy.magazine-cover--water .magazine-cover__photo {
+  object-fit: cover;
+  object-position: center;
+  filter: none;
+}
+
+/* ---------- Drinking water case study ---------- */
+.case-study--energy.case-study--water {
+  --case-accent: #2f6283;
+  --case-accent-soft: #dbe8ee;
+  --case-surface: #fbfcfa;
+  --case-ink: #17303b;
+}
+.case-study--water .article-hero__visual > img { object-fit: cover; }
+
+.article-contributions__copy ul {
+  margin: 14px 0 0;
+  padding-left: 18px;
+  line-height: 1.55;
+}
+.article-contributions__copy li + li { margin-top: 6px; }
+.article-contributions__copy li::marker { color: var(--case-accent); }
+
+/* ---------- Research details (thesis case study) ---------- */
+.article-reading.article-research { row-gap: 28px; }
+.article-research > header > p {
+  margin: 0 0 14px;
+  color: var(--case-accent);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.article-research dl { margin: 0; }
+.article-research dl > div {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--case-ink) 14%, transparent);
+}
+.article-research dt {
+  color: var(--case-accent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.article-research dd { margin: 0; line-height: 1.5; }
+.article-research ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.article-research li {
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--case-accent) 40%, transparent);
+  border-radius: 999px;
+  background: var(--case-accent-soft);
+  font-size: 14px;
+}
+/* the research grid places the list under the details, in the content column */
+.article-research > dl,
+.article-research > ul { grid-column: 2; }
+
+@media (max-width: 1040px) {
+  .article-research > dl,
+  .article-research > ul { grid-column: auto; }
+}
+@media (max-width: 760px) {
+  .article-research dl > div { grid-template-columns: 1fr; gap: 4px; }
+}

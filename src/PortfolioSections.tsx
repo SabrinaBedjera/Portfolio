@@ -1,80 +1,98 @@
 import "./portfolio-sections.css"
 
 /* ------------------------------------------------------------------
-   Portfolio sections after Selected Work: Additional Work, Lab,
-   Experience, Education, About and Contact. Content restored from experiment/photo-desk.
+   Portfolio sections after Selected Work: Lab, Experience, Education,
+   About and Contact. Content restored from experiment/photo-desk.
    Section ids match the homepage hotspots and navigation.
 ------------------------------------------------------------------- */
 
-const additionalWork = [
-  {
-    title: "Water Treatment & Environmental Research",
-    text: "Master’s research modelling micropollutant degradation during drinking water ozonation. Awarded the American Water Works Association first-place Master’s Academic Achievement Award.",
-  },
-  {
-    title: "Water Security & Climate Adaptation",
-    text: "Engineering and policy research with the University of Waterloo’s forWater Network, including a climate adaptation assessment framework.",
-  },
-  {
-    title: "Intellectual Property, AI & Emerging Technology",
-    text: "Technical and policy analysis on intellectual property, artificial intelligence and climate-related technologies, including development of performance indicators and organization of NRCan’s inaugural IP conference.",
-  },
-  {
-    title: "Research Data & Visualization",
-    text: "Led data management and qualitative analysis work at Ontario Tech University using NVivo and structured research datasets.",
-  },
-]
-
-/* Career overview shown above the roles: one milestone per role, oldest first. */
-const careerMilestones = [
-  { year: "2015", label: "Research & Data" },
-  { year: "2019", label: "Water Security" },
-  { year: "2020", label: "IP & Emerging Technology" },
-  { year: "2022", label: "Carbon Management" },
-  { year: "2022–Present", label: "Critical Minerals & Clean Energy" },
-]
-
-type Role = { when: string; organization: string; unit: string; text: string }
-
-const currentRole: Role = {
-  when: "Nov 2022 – Present",
-  organization: "Natural Resources Canada",
-  unit: "Critical Minerals Centre of Excellence",
-  text: "Lead the assessment and advancement of critical minerals and clean energy projects, including technical and commercial due diligence, funding negotiations, and agreement development. Work across engineering, financial, economic and legal teams to evaluate project viability and support commercialization.",
+type Role = {
+  id: string
+  when: string
+  organization: string
+  unit: string
+  /** Theme of the work, shown as the entry's headline. */
+  theme: string
+  text: string
+  /** Selected skills, project themes or contributions. */
+  highlights: string[]
 }
 
-const earlierNrcanRoles: Role[] = [
+/* Most recent first. */
+const roles: Role[] = [
   {
+    id: "role-critical-minerals",
+    when: "Nov 2022 – Present",
+    organization: "Natural Resources Canada",
+    unit: "Critical Minerals Centre of Excellence",
+    theme: "Critical Minerals & Clean Energy",
+    text: "Lead the assessment and advancement of critical minerals and clean energy projects, including technical and commercial due diligence, funding negotiations, and agreement development. Work across engineering, financial, economic, and legal teams to evaluate project viability and support commercialization.",
+    highlights: [
+      "Project ownership",
+      "Technical & commercial due diligence",
+      "Funding negotiations",
+      "Agreement development",
+      "Cross-functional project assessment",
+      "Commercialization",
+    ],
+  },
+  {
+    id: "role-carbon-capture",
     when: "Jan 2022 – Nov 2022",
     organization: "Natural Resources Canada",
     unit: "Carbon Capture Division",
+    theme: "Carbon Management",
     text: "Advanced carbon management policy and strategy, including Canada’s Carbon Management Strategy and International Energy Agency CCUS publications.",
+    highlights: ["Canada’s Carbon Management Strategy", "IEA CCUS publications", "Carbon capture, utilization & storage"],
   },
   {
+    id: "role-intellectual-property",
     when: "Oct 2020 – Jan 2022",
     organization: "Natural Resources Canada",
     unit: "Intellectual Property Division",
-    text: "Analyzed intellectual property, AI and emerging technologies, and developed performance indicators.",
+    theme: "Intellectual Property, AI & Emerging Technology",
+    text: "Analyzed intellectual property, AI, and emerging technologies, and developed performance indicators to assess program effectiveness.",
+    highlights: [
+      "Climate-related technologies",
+      "Performance indicators",
+      "Organized NRCan’s inaugural IP conference",
+    ],
   },
-]
-
-const researchRoles: Role[] = [
   {
+    id: "role-forwater",
     when: "Feb 2019 – Jul 2020",
     organization: "University of Waterloo",
     unit: "forWater Network",
-    text: "Conducted engineering and policy research on water security, including development of a climate adaptation assessment framework.",
+    theme: "Water Security & Climate Adaptation",
+    text: "Conducted engineering and policy research on water security, including the development of a climate adaptation assessment framework.",
+    highlights: ["Engineering & policy research", "Climate adaptation assessment framework"],
   },
   {
+    id: "role-ontario-tech",
     when: "Sep 2015 – Feb 2019",
     organization: "Ontario Tech University",
     unit: "Data Management Lead",
-    text: "Led research data management and qualitative analysis using NVivo.",
+    theme: "Research Data & Visualization",
+    text: "Led research data management and qualitative analysis using NVivo, including developing data organization and analysis approaches for a research project.",
+    highlights: ["Research data management", "Qualitative analysis (NVivo)", "Structured research datasets"],
   },
 ]
 
-const education = [
-  { degree: "MASc, Civil and Environmental Engineering", detail: "Water specialization · University of Waterloo" },
+/* Career overview above the roles, oldest first; each milestone links to its role. */
+const careerMilestones = [
+  { year: "2015", label: "Research & Data", role: "role-ontario-tech" },
+  { year: "2019", label: "Water Security", role: "role-forwater" },
+  { year: "2020", label: "IP & Emerging Technology", role: "role-intellectual-property" },
+  { year: "2022", label: "Carbon Management", role: "role-carbon-capture" },
+  { year: "2022–Present", label: "Critical Minerals & Clean Energy", role: "role-critical-minerals" },
+]
+
+const education: { degree: string; detail: string; award?: string }[] = [
+  {
+    degree: "MASc, Civil and Environmental Engineering",
+    detail: "Water specialization · University of Waterloo",
+    award: "First place, American Water Works Association (AWWA) Master’s Academic Achievement Award",
+  },
   { degree: "BSc, Minor in Mathematics", detail: "Ontario Tech University" },
   { degree: "BEd", detail: "Ontario Tech University" },
 ]
@@ -104,67 +122,58 @@ function SectionHead({ id, number, title, lede }: { id: string; number?: string;
 export default function PortfolioSections() {
   return (
     <div className="ps">
-      <section id="additional-work" className="ps-section" aria-labelledby="additional-work-title">
-        <div className="ps-wrap">
-          {/* Unnumbered: the numbers match the six exhibits on the homepage. */}
-          <SectionHead id="additional-work" title="Additional Work" />
-          <div className="ps-cards">
-            {additionalWork.map((project) => (
-              <article className="ps-card" key={project.title}>
-                <h3>{project.title}</h3>
-                <p>{project.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Lab projects to be added. */}
-      <section id="lab" className="ps-section ps-section--tint" aria-labelledby="lab-title">
+      <section id="lab" className="ps-section" aria-labelledby="lab-title">
         <div className="ps-wrap">
           <SectionHead id="lab" number="02" title="Lab" lede="Technical and creative projects" />
         </div>
       </section>
 
-      <section id="experience" className="ps-section" aria-labelledby="experience-title">
+      <section id="experience" className="ps-section ps-section--tint" aria-labelledby="experience-title">
         <div className="ps-wrap">
           <SectionHead id="experience" number="03" title="Professional experience" />
-          <ol className="ps-career" aria-label="Career overview, 2015 to present">
-            {careerMilestones.map((milestone, i) => (
-              <li className={i === careerMilestones.length - 1 ? "is-current" : undefined} key={milestone.label}>
-                <span className="ps-career__year">{milestone.year}</span>
-                <span className="ps-career__label">{milestone.label}</span>
+          <nav aria-label="Career overview, 2015 to present">
+            <ol className="ps-career">
+              {careerMilestones.map((milestone, i) => {
+                const role = roles.find((r) => r.id === milestone.role)!
+                return (
+                  <li className={i === careerMilestones.length - 1 ? "is-current" : undefined} key={milestone.label}>
+                    <a
+                      href={`#${milestone.role}`}
+                      aria-label={`${milestone.year}, ${milestone.label}: go to ${role.organization}, ${role.unit}`}
+                    >
+                      <span className="ps-career__year">{milestone.year}</span>
+                      <span className="ps-career__label">{milestone.label}</span>
+                    </a>
+                  </li>
+                )
+              })}
+            </ol>
+          </nav>
+
+          <ol className="ps-roles">
+            {roles.map((role, i) => (
+              <li className={`ps-role${i === 0 ? " ps-role--current" : ""}`} id={role.id} key={role.id}>
+                <p className="ps-role__when">{role.when}</p>
+                <div className="ps-role__body">
+                  <p className="ps-role__org">
+                    {role.organization} <span aria-hidden="true">·</span> <span className="ps-role__unit">{role.unit}</span>
+                  </p>
+                  <h3>{role.theme}</h3>
+                  <p className="ps-role__text">{role.text}</p>
+                  <ul className="ps-role__highlights" aria-label="Selected skills and contributions">
+                    {role.highlights.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
               </li>
             ))}
           </ol>
-
-          <article className="ps-role ps-role--current">
-            <div>
-              <p className="ps-when">{currentRole.when}</p>
-              <p className="ps-role__org">{currentRole.organization}</p>
-            </div>
-            <div>
-              <h3>{currentRole.unit}</h3>
-              <p>{currentRole.text}</p>
-            </div>
-          </article>
-
-          {[earlierNrcanRoles, researchRoles].map((roles, i) => (
-            <div className={`ps-roles${i === 1 ? " ps-roles--compact" : ""}`} key={i}>
-              {roles.map((role) => (
-                <article className="ps-role" key={role.when}>
-                  <p className="ps-when">{role.when}</p>
-                  <h3>{role.organization}</h3>
-                  <p className="ps-where">{role.unit}</p>
-                  <p>{role.text}</p>
-                </article>
-              ))}
-            </div>
-          ))}
         </div>
       </section>
 
-      <section id="education" className="ps-section ps-section--tint" aria-labelledby="education-title">
+      <section id="education" className="ps-section" aria-labelledby="education-title">
         <div className="ps-wrap ps-two">
           <div>
             <SectionHead id="education" number="04" title="Education" />
@@ -173,6 +182,7 @@ export default function PortfolioSections() {
                 <li key={item.degree}>
                   <h3>{item.degree}</h3>
                   <p>{item.detail}</p>
+                  {item.award && <p className="ps-education__award">{item.award}</p>}
                 </li>
               ))}
             </ul>
@@ -191,7 +201,7 @@ export default function PortfolioSections() {
         </div>
       </section>
 
-      <section id="about" className="ps-section" aria-labelledby="about-title">
+      <section id="about" className="ps-section ps-section--tint" aria-labelledby="about-title">
         <div className="ps-wrap ps-about">
           {/* Temporary photo from the earlier portfolio version. */}
           <figure className="ps-about__photo">

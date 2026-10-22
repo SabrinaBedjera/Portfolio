@@ -81,13 +81,13 @@
 .ps-card p { margin: 14px 0 0; font-size: 16px; }
 
 /* ---------- Experience ----------
-   A compact career overview line, then the roles in three tiers:
-   the current role, earlier NRCan roles, and university research roles. */
+   A compact career overview whose milestones link to the roles, then the
+   roles as a vertical timeline: date | rail with marker | role. */
 .ps-career {
   position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  margin: -16px 0 56px;
+  margin: -16px 0 64px;
   padding: 0;
   list-style: none;
 }
@@ -101,11 +101,15 @@
   height: 1px;
   background: rgba(43, 116, 65, .4);
 }
-.ps-career li {
+.ps-career li { position: relative; }
+.ps-career a {
   position: relative;
-  padding: 22px 16px 0 0;
+  display: block;
+  padding: 22px 16px 6px 0;
+  color: inherit;
+  text-decoration: none;
 }
-.ps-career li::before {
+.ps-career a::before {
   content: "";
   position: absolute;
   top: 0;
@@ -115,8 +119,12 @@
   border: 1px solid var(--ps-accent);
   border-radius: 50%;
   background: var(--ps-paper);
+  transition: background .2s ease, transform .2s ease;
 }
-.ps-career li.is-current::before { background: var(--ps-accent); }
+.ps-career li.is-current a::before { background: var(--ps-accent); }
+.ps-career a:hover::before,
+.ps-career a:focus-visible::before { background: var(--ps-accent); transform: scale(1.35); }
+.ps-career a:focus-visible { outline: 2px solid var(--ps-accent); outline-offset: 4px; border-radius: 2px; }
 .ps-career__year {
   display: block;
   color: var(--ps-clay);
@@ -129,55 +137,105 @@
   color: var(--ps-text);
   font-size: 14px;
   line-height: 1.35;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color .2s ease;
 }
 .ps-career li.is-current .ps-career__label { color: var(--ps-ink); font-weight: 500; }
+.ps-career a:hover .ps-career__label,
+.ps-career a:focus-visible .ps-career__label { color: var(--ps-ink); text-decoration-color: var(--ps-clay); }
 
-.ps-when {
-  margin: 0 0 8px;
-  color: var(--ps-muted);
-  font-size: 13px;
-  letter-spacing: .08em;
+/* Vertical timeline */
+.ps-roles {
+  --ps-date-w: 170px;
+  --ps-rail: 56px;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-roles::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: calc(var(--ps-date-w) + var(--ps-rail) / 2);
+  width: 1px;
+  background: rgba(43, 116, 65, .35);
+}
+.ps-role {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--ps-date-w) var(--ps-rail) 1fr;
+  padding-bottom: 44px;
+  scroll-margin-top: 32px;   /* there is no fixed header; keeps the date clear of the window edge */
+}
+.ps-role + .ps-role { padding-top: 40px; }
+/* subtle divider across the content column only */
+.ps-role + .ps-role::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(var(--ps-date-w) + var(--ps-rail));
+  right: 0;
+  height: 1px;
+  background: var(--ps-rule);
+}
+.ps-role:last-child { padding-bottom: 0; }
+/* marker on the rail */
+.ps-role::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: calc(var(--ps-date-w) + var(--ps-rail) / 2 - 5px);
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--ps-accent);
+  border-radius: 50%;
+  background: var(--ps-tint);
+}
+.ps-role + .ps-role::before { top: 46px; }
+.ps-role--current::before { background: var(--ps-accent); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
+.ps-role__when {
+  grid-column: 1;
+  margin: 0;
+  padding-top: 1px;
+  color: var(--ps-clay);
+  font-size: 12px;
+  letter-spacing: .12em;
   text-transform: uppercase;
 }
-.ps-where {
-  margin: 2px 0 8px;
-  color: var(--ps-accent);
-  font-size: 15px;
-}
-.ps-role p:last-child { margin-bottom: 0; }
-
-/* Current role: the most room and weight */
-.ps-role--current {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 48px;
-  padding: 36px 40px;
-  background: var(--ps-tint);
-  border-left: 3px solid var(--ps-accent);
-}
-.ps-role__org { margin: 0; color: var(--ps-ink); font-size: 17px; font-weight: 500; }
-.ps-role--current h3 {
+.ps-role__body { grid-column: 3; max-width: 760px; }
+.ps-role__org { margin: 0; color: var(--ps-text); font-size: 15px; }
+.ps-role__org span[aria-hidden] { margin: 0 4px; color: var(--ps-muted); }
+.ps-role__unit { color: var(--ps-accent); }
+.ps .ps-role h3 {
+  margin-top: 8px;
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 400;
-  line-height: 1.05;
+  line-height: 1.1;
 }
-.ps-role--current h3 + p { margin: 14px 0 0; font-size: 17px; }
-
-/* Earlier roles: two per row, getting smaller */
-.ps-roles {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  margin-top: 36px;
-  padding-top: 28px;
-  border-top: 1px solid var(--ps-rule);
+.ps .ps-role--current h3 { font-size: 40px; }
+.ps-role__text { margin: 12px 0 0; font-size: 16px; }
+.ps-role--current .ps-role__text { font-size: 17px; }
+.ps-role__highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.ps-roles .ps-role p:last-child { font-size: 15px; }
-.ps-roles--compact { margin-top: 28px; padding-top: 22px; }
-.ps-roles--compact h3 { font-size: 16px; }
-.ps-roles--compact .ps-where { font-size: 14px; }
-.ps-roles--compact .ps-role p:last-child { color: var(--ps-muted); font-size: 14px; }
+.ps-role__highlights li {
+  padding: 5px 12px;
+  border: 1px solid rgba(43, 116, 65, .3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .45);
+  color: var(--ps-ink);
+  font-size: 13px;
+}
 
 /* ---------- Education & skills ---------- */
 .ps-two {
@@ -193,6 +251,7 @@
 }
 .ps-education li { padding: 24px 0; border-bottom: 1px solid var(--ps-rule); }
 .ps-education p { margin: 6px 0 0; color: var(--ps-muted); font-size: 16px; }
+.ps-education .ps-education__award { color: var(--ps-clay); font-size: 14px; }
 .ps-skills {
   display: flex;
   flex-wrap: wrap;
@@ -287,3 +346,49 @@
 .selected-work__head h2 em { color: var(--ps-clay); }
 #selected-work .cover-browser { margin-top: 0; }
 #selected-work .cover-browser__index button.is-active { border-bottom-color: var(--ps-clay); }
+
+/* ---------- Narrow screens ----------
+   Stack the two-column layouts; the career overview scrolls sideways and
+   the roles keep a slim rail on the left with the date above each role. */
+@media (max-width: 760px) {
+  .ps-section { padding: 72px 0 80px; }
+  .ps-wrap,
+  .selected-work__head { padding: 0 22px; }
+  .ps-head { margin-bottom: 36px; }
+  .ps-head h2 { font-size: 48px; }
+  #selected-work.magazine-experiment { padding: 72px 0 64px; }
+
+  .ps-career {
+    display: flex;
+    margin: -8px -22px 44px;
+    padding: 0 22px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+  .ps-career::before { display: none; }
+  .ps-career li { flex: 0 0 148px; scroll-snap-align: start; }
+  /* line segment from each marker to the next */
+  .ps-career li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 0;
+    height: 1px;
+    background: rgba(43, 116, 65, .4);
+  }
+  .ps-career a { min-height: 44px; }
+
+  .ps-roles { --ps-date-w: 0px; --ps-rail: 28px; }
+  .ps-role__when { grid-column: 3; margin-bottom: 6px; }
+  .ps-role__body { grid-column: 3; }
+  .ps-role + .ps-role { padding-top: 32px; }
+  .ps-role + .ps-role::before { top: 38px; }
+  .ps .ps-role h3 { font-size: 26px; }
+  .ps .ps-role--current h3 { font-size: 32px; }
+
+  .ps-two,
+  .ps-about { grid-template-columns: 1fr; gap: 48px; }
+  .ps-about__photo { max-width: 320px; }
+  .ps-footer { flex-direction: column; gap: 12px; }
+}
