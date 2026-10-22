@@ -367,266 +367,104 @@ function ExhibitLabel({
 }
 
 /* ------------------------------------------------------------------
-   Cabinet-of-curiosities homepage
-   Background: public/home-background.jpg (1672 × 941) — cream wall, marble
-   table and three photographic acrylic blocks (back row). Geometry is in
-   pixels of that image and converted to container units in CSS, so the
-   labels and object slots stay locked to the photograph at any size.
-   Each exhibit has an empty `.ch-object` slot for its phase-2 object.
+   Cabinet-of-curiosities homepage (desktop)
+   The approved composition is a single photograph, public/home-hero.jpg
+   (1672 × 941), which already contains the navigation, headline, six
+   exhibits and their labels. Transparent links sit over the photographed
+   navigation and exhibits. Regions are in pixels of that image and placed
+   as percentages, so they stay aligned as the window is resized.
 ------------------------------------------------------------------- */
 
 type Rect = { x: number; y: number; w: number; h: number }
-type Point = [number, number]
-/** Corners of a surface in the photograph: top-left, top-right, bottom-right, bottom-left. */
-type Quad = [Point, Point, Point, Point]
 
-type Exhibit = {
-  key: string
-  number: string
-  title: string
-  description: string
-  href: string
-  /** Back-row exhibits: the photographic acrylic block, which is part of the link. */
-  block?: Rect
-  /** Cut-out photograph of the exhibit's object, placed on its stand (photograph pixels). */
-  object?: { src: string; alt: string } & Rect
-  /** The blank label printed in the photograph that this exhibit's text is mapped onto. */
-  label: Quad
-  /** Width of the label's layout box; type is set relative to it, so a smaller value prints larger. */
-  labelWidth: number
-  /** Inner padding of the label box (top, right, bottom, left), clearing screws and acrylic edges. */
-  labelPadding: [number, number, number, number]
-}
+const HERO_W = 1672
+const HERO_H = 941
 
-/* All coordinates are pixels of the background photograph (1672 × 941). */
-const exhibits: Exhibit[] = [
-  {
-    key: "work", number: "01", title: "Selected Work", description: "Case studies and featured projects", href: "#selected-work",
-    label: [[109, 694], [616, 667], [637, 769], [127, 818]], labelWidth: 440, labelPadding: [24, 34, 22, 36],
-  },
-  {
-    key: "lab", number: "02", title: "Lab", description: "Technical and creative projects", href: "#lab",
-    block: { x: 180, y: 365, w: 410, h: 182 },
-    label: [[247, 449], [520, 449], [520, 515], [247, 515]], labelWidth: 360, labelPadding: [9, 44, 8, 34],
-  },
-  {
-    key: "experience", number: "03", title: "Experience", description: "Professional background", href: "#experience",
-    block: { x: 648, y: 392, w: 402, h: 168 },
-    /* Rests on the top face of the middle block (top face spans y 392–422). */
-    object: { src: "/exhibit-fluorite.webp", alt: "Purple fluorite specimen", x: 700, y: 232, w: 300, h: 182 },
-    label: [[700, 461], [1003, 461], [1003, 533], [700, 533]], labelWidth: 360, labelPadding: [10, 44, 9, 38],
-  },
-  {
-    key: "education", number: "04", title: "Education", description: "Academic background", href: "#education",
-    block: { x: 1103, y: 372, w: 517, h: 190 },
-    label: [[1178, 462], [1546, 462], [1546, 537], [1178, 537]], labelWidth: 410, labelPadding: [10, 50, 9, 42],
-  },
-  {
-    key: "about", number: "05", title: "About", description: "My approach and interests", href: "#about",
-    label: [[803, 700], [1157, 669], [1176, 779], [826, 814]], labelWidth: 380, labelPadding: [20, 30, 18, 32],
-  },
-  {
-    key: "contact", number: "06", title: "Contact", description: "Let’s connect", href: "#contact",
-    label: [[1344, 684], [1563, 667], [1583, 756], [1362, 778]], labelWidth: 290, labelPadding: [16, 22, 14, 24],
-  },
-]
-
-const SCENE_W = 1672
-const SCENE_H = 941
-const box = (r: Rect) => ({ left: r.x, top: r.y, width: r.w, height: r.h })
-const dist = (a: Point, b: Point) => Math.hypot(a[0] - b[0], a[1] - b[1])
-
-/**
- * Size of the flat layout box for a quad: the requested width and the height
- * that keeps the surface's average proportions.
- */
-function quadBox(q: Quad, width: number) {
-  const w = (dist(q[0], q[1]) + dist(q[3], q[2])) / 2
-  const h = (dist(q[0], q[3]) + dist(q[1], q[2])) / 2
-  return { width, height: Math.round((width * h) / w) }
-}
-
-/**
- * CSS matrix3d that maps a w × h box (origin top-left) onto quad q,
- * so HTML appears printed on a surface seen in perspective.
- */
-function quadTransform(w: number, h: number, q: Quad) {
-  const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = q
-  const dx1 = x1 - x2, dx2 = x3 - x2, dx3 = x0 - x1 + x2 - x3
-  const dy1 = y1 - y2, dy2 = y3 - y2, dy3 = y0 - y1 + y2 - y3
-  const den = dx1 * dy2 - dx2 * dy1
-  const g = (dx3 * dy2 - dx2 * dy3) / den
-  const k = (dx1 * dy3 - dx3 * dy1) / den
-  const a = x1 - x0 + g * x1, b = x3 - x0 + k * x3
-  const d = y1 - y0 + g * y1, e = y3 - y0 + k * y3
-  const m = [a / w, d / w, 0, g / w, b / h, e / h, 0, k / h, 0, 0, 1, 0, x0, y0, 0, 1]
-  return `matrix3d(${m.map((v) => +v.toFixed(8)).join(",")})`
-}
-
-/** Places a w × h element onto quad q. */
-const onQuad = (q: Quad, w: number, h: number): CSSProperties => ({
-  width: w,
-  height: h,
-  transform: quadTransform(w, h, q),
+/** Position a rect given in hero-image pixels, relative to the hero. */
+const at = (r: Rect): CSSProperties => ({
+  left: `${(r.x / HERO_W) * 100}%`,
+  top: `${(r.y / HERO_H) * 100}%`,
+  width: `${(r.w / HERO_W) * 100}%`,
+  height: `${(r.h / HERO_H) * 100}%`,
 })
 
-const polygon = (q: Point[]) => q.map((p) => p.join(",")).join(" ")
-const shift = (q: Quad, dx: number, dy: number): Quad => q.map(([x, y]) => [x + dx, y + dy]) as Quad
+/* Photographed navigation words (Education is not in the photograph). */
+const heroNavigation: { label: string; href: string; area: Rect }[] = [
+  { label: "Home", href: "#home", area: { x: 852, y: 20, w: 68, h: 34 } },
+  { label: "Selected Work", href: "#selected-work", area: { x: 950, y: 20, w: 150, h: 34 } },
+  { label: "Lab", href: "#lab", area: { x: 1129, y: 20, w: 52, h: 34 } },
+  { label: "Experience", href: "#experience", area: { x: 1214, y: 20, w: 121, h: 34 } },
+  { label: "About", href: "#about", area: { x: 1368, y: 20, w: 76, h: 34 } },
+  { label: "Contact", href: "#contact", area: { x: 1475, y: 20, w: 97, h: 34 } },
+]
 
-/* ---------- Magazine stack (Selected Work) ----------
-   Three covers lying flat on the table. Quads are projected from table-plane
-   positions (21 × 28 cm magazines) with a camera fitted to the photograph. Bottom to top: Pacific Energy, Critical Minerals, Clean Energy. */
-const MAG_W = 400
-const MAG_H = 560
-
-type StackedMagazine = {
-  tone: "data" | "mineral" | "energy"
-  title: [string, string]
-  subtitle: string
-  image: string
-  quad: Quad
-}
-
-const magazineStack: StackedMagazine[] = [
+/* Each exhibit: its photographed label first (it carries the focus ring), then the object. */
+const heroExhibits: { label: string; href: string; areas: Rect[] }[] = [
   {
-    tone: "data", title: ["Pacific", "Energy"], subtitle: "Data visualization", image: "/pacific-energy.png",
-    quad: [[174, 546], [408, 524], [361, 654], [35, 694]],
+    label: "01 Selected Work: Case studies and featured projects", href: "#selected-work",
+    areas: [
+      { x: 372, y: 785, w: 400, h: 122 },
+      { x: 225, y: 500, w: 390, h: 285 },
+      { x: 65, y: 560, w: 160, h: 225 },
+      { x: 615, y: 612, w: 180, h: 173 },
+      { x: 65, y: 785, w: 307, h: 95 },
+    ],
   },
   {
-    tone: "mineral", title: ["Critical", "Minerals"], subtitle: "Investment & commercialization", image: "/critical-minerals.png",
-    quad: [[238, 538], [462, 530], [361, 675], [46, 691]],
+    label: "02 Lab: Technical and creative projects", href: "#lab",
+    areas: [{ x: 615, y: 505, w: 262, h: 105 }, { x: 590, y: 185, w: 262, h: 320 }],
   },
   {
-    tone: "energy", title: ["Clean", "Energy"], subtitle: "Technology, innovation & decarbonization", image: "/home-clean-energy.jpg",
-    quad: [[360, 527], [566, 537], [408, 691], [130, 672]],
+    label: "03 Experience: Professional background", href: "#experience",
+    areas: [{ x: 877, y: 505, w: 318, h: 95 }, { x: 900, y: 315, w: 252, h: 190 }],
+  },
+  {
+    label: "04 Education: Academic background", href: "#education",
+    areas: [{ x: 1295, y: 523, w: 325, h: 105 }, { x: 1243, y: 318, w: 357, h: 205 }],
+  },
+  {
+    label: "05 About: My approach and interests", href: "#about",
+    areas: [{ x: 1018, y: 790, w: 302, h: 118 }, { x: 988, y: 600, w: 285, h: 190 }, { x: 935, y: 745, w: 83, h: 155 }],
+  },
+  {
+    label: "06 Contact: Let’s connect", href: "#contact",
+    areas: [{ x: 1455, y: 765, w: 182, h: 100 }, { x: 1448, y: 628, w: 165, h: 137 }],
   },
 ]
-/* Paper thickness of one magazine, in photograph pixels. */
-const MAG_EDGE = 5
-
-/** Region of the Selected Work tent card; the magazines sit behind it. */
-const workCard: Point[] = [[88, 700], [618, 662], [644, 772], [128, 826]]
-const behindWorkCard = `path(evenodd, "M0 0H${SCENE_W}V${SCENE_H}H0Z M${workCard.map((p) => p.join(" ")).join(" L")}Z")`
-
-function MagazineStack() {
-  const base = magazineStack[0].quad
-  return (
-    <span className="ch-mags" style={{ clipPath: behindWorkCard }} aria-hidden="true">
-      <svg className="ch-mags__shadow" width={SCENE_W} height={SCENE_H} viewBox={`0 0 ${SCENE_W} ${SCENE_H}`}>
-        <defs>
-          <filter id="ch-mag-blur" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="9" />
-          </filter>
-        </defs>
-        <polygon points={polygon(shift(base, -16, 10))} fill="rgba(110, 70, 34, .30)" filter="url(#ch-mag-blur)" />
-        {magazineStack.map((m) => (
-          <polygon key={m.tone} points={polygon(shift(m.quad, -10, 6))} fill="rgba(110, 70, 34, .22)" filter="url(#ch-mag-blur)" />
-        ))}
-      </svg>
-      <span className="ch-mags__lift">
-        {magazineStack.map((m, i) => {
-          const [tl, tr, br, bl] = m.quad
-          const t = MAG_EDGE
-          return (
-            <span className={`ch-mag ch-mag--${m.tone}`} key={m.tone} style={{ zIndex: i + 1 }}>
-              <svg className="ch-mag__edge" width={SCENE_W} height={SCENE_H} viewBox={`0 0 ${SCENE_W} ${SCENE_H}`}>
-                <polygon points={polygon([bl, br, [br[0], br[1] + t], [bl[0], bl[1] + t]])} fill="#e7e1d7" />
-                <polygon points={polygon([br, tr, [tr[0], tr[1] + t], [br[0], br[1] + t]])} fill="#d9d1c4" />
-                <polyline points={polygon([[bl[0], bl[1] + t * .5], [br[0], br[1] + t * .5], [tr[0], tr[1] + t * .5]])} fill="none" stroke="#f6f2ea" strokeWidth=".8" />
-                <polyline points={polygon([[bl[0], bl[1] + t], [br[0], br[1] + t], [tr[0], tr[1] + t]])} fill="none" stroke="rgba(95, 70, 45, .35)" strokeWidth="1" />
-              </svg>
-              <span className="ch-mag__cover" style={onQuad(m.quad, MAG_W, MAG_H)}>
-                <span className="ch-mag__masthead"><span>Selected Work</span><span>Issue 1</span></span>
-                <span className="ch-mag__title"><span>{m.title[0]}</span><span>{m.title[1]}</span></span>
-                <span className="ch-mag__subtitle">{m.subtitle}</span>
-                <span className="ch-mag__image"><img src={m.image} alt="" draggable={false} /></span>
-              </span>
-            </span>
-          )
-        })}
-      </span>
-    </span>
-  )
-}
-
-/** Scale of the scene relative to the 1672 px photograph, for elements laid out in photograph pixels. */
-function useSceneScale() {
-  const ref = useRef<HTMLDivElement>(null)
-  const [scale, setScale] = useState(1)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const update = () => setScale(el.clientWidth / SCENE_W)
-    update()
-    const observer = new ResizeObserver(update)
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-  return [ref, scale] as const
-}
 
 function CuriosityHomepage() {
-  const [sceneRef, scale] = useSceneScale()
   return (
     <main id="home" className="ch-home">
-      <div className="ch-scene" ref={sceneRef}>
-        <img className="ch-bg" src="/home-background.jpg" alt="" draggable={false} />
+      <div className="ch-hero">
+        <img className="ch-hero__image" src="/home-hero.jpg" alt="" draggable={false} />
 
-        <nav className="ch-nav" aria-label="Primary navigation">
-          <a className="ch-nav__brand" href="#home">Sabrina Bedjera</a>
-          <div className="ch-nav__links">
-            {homeNavigation.map(([label, target], index) => (
-              <a className={index === 0 ? "is-current" : ""} href={`#${target}`} key={target}>
-                {label}
-              </a>
-            ))}
-          </div>
+        {/* The headline is part of the photograph; this copy is for assistive technology. */}
+        <div className="ch-sr-only">
+          <p>Science × Technology × Strategy</p>
+          <h1>Making complex ideas move forward.</h1>
+          <p>Engineering, energy, investment and creative technology for a more sustainable and connected world.</p>
+        </div>
+
+        <nav className="ch-hero__nav" aria-label="Primary navigation">
+          <a className="ch-hit" href="#home" style={at({ x: 58, y: 20, w: 222, h: 34 })}>
+            <span className="ch-sr-only">Sabrina Bedjera, home</span>
+          </a>
+          {heroNavigation.map((item) => (
+            <a className="ch-hit" href={item.href} style={at(item.area)} key={item.label}>
+              <span className="ch-sr-only">{item.label}</span>
+            </a>
+          ))}
         </nav>
 
-        <section className="ch-copy" aria-labelledby="home-title">
-          <p className="ch-eyebrow">Science <span>×</span> Technology <span>×</span> Strategy</p>
-          <h1 id="home-title">Making complex<br />ideas move forward.</h1>
-          <p className="ch-lede">
-            Engineering, energy, investment and creative technology for a more sustainable and
-            connected world.
-          </p>
-        </section>
-
-        {/* Laid out in photograph pixels and scaled with the scene. */}
-        <div className="ch-plane" style={{ transform: `scale(${scale})` }}>
-          <div className="ch-exhibits" aria-label="Explore portfolio sections">
-            {exhibits.map((ex) => {
-              const size = quadBox(ex.label, ex.labelWidth)
-              const [pt, pr, pb, pl] = ex.labelPadding
-              return (
-                <a
-                  key={ex.key}
-                  className={`ch-exhibit ch-exhibit--${ex.key}`}
-                  href={ex.href}
-                  aria-label={`${ex.title}: ${ex.description}`}
-                >
-                  {ex.block && <span className="ch-object" style={box(ex.block)} aria-hidden="true" />}
-                  {ex.object && (
-                    <span className="ch-specimen" style={box(ex.object)} aria-hidden="true">
-                      <span className="ch-specimen__shadow" />
-                      <img src={ex.object.src} alt="" draggable={false} />
-                    </span>
-                  )}
-                  {ex.key === "work" && <MagazineStack />}
-                  <span
-                    className="ch-label"
-                    style={{ ...onQuad(ex.label, size.width, size.height), padding: `${pt}px ${pr}px ${pb}px ${pl}px` }}
-                    aria-hidden="true"
-                  >
-                    <span className="ch-label__number">{ex.number}</span>
-                    <span className="ch-label__title">{ex.title}</span>
-                    <span className="ch-label__description">{ex.description}</span>
-                    <span className="ch-label__arrow">→</span>
-                  </span>
-                </a>
-              )
-            })}
-          </div>
+        <div className="ch-hero__exhibits" role="list" aria-label="Explore portfolio sections">
+          {heroExhibits.map((ex) => (
+            <a className="ch-exhibit" href={ex.href} role="listitem" key={ex.href}>
+              <span className="ch-sr-only">{ex.label}</span>
+              {ex.areas.map((area, i) => (
+                <span className={`ch-hit${i === 0 ? " ch-hit--label" : ""}`} style={at(area)} key={i} aria-hidden="true" />
+              ))}
+            </a>
+          ))}
         </div>
       </div>
     </main>

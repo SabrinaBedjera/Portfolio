@@ -1,329 +1,63 @@
 /* ==================================================
-   Cabinet-of-curiosities homepage
-   Photographic background (public/home-background.jpg, 1672 × 941) with
-   three acrylic blocks with attached labels and three tent nameplates.
-   Navigation and headline use --ch-unit (1 reference pixel); exhibits are
-   laid out in photograph pixels inside .ch-plane, scaled from App.tsx.
-   Everything is scoped to .ch-* classes.
+   Cabinet-of-curiosities homepage (desktop)
+   The hero is one approved photograph (public/home-hero.jpg, 1672 × 941)
+   with transparent links over its navigation and exhibits. The hero keeps
+   the image's proportions and fits the window; link regions are placed in
+   percentages of the image. Everything is scoped to .ch-* classes.
    ================================================== */
-@import url("https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap");
-
 .ch-home {
-  --ch-h: min(56.28vw, 100vh);           /* 941 / 1672 */
-  --ch-w: calc(var(--ch-h) * 1.77683);
-  --ch-unit: calc(var(--ch-w) / 1672);
-  --ch-ink: #1c2a22;
-  --ch-text: #2e3530;
   position: relative;
-  height: var(--ch-h);
-  overflow: hidden;
-  background: #efe1cd;
+  display: flex;
+  justify-content: center;
+  background: #f1e3d0;
 }
 
-.ch-scene {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: var(--ch-w);
-  height: var(--ch-h);
-  transform: translateX(-50%);
-  font-family: "DM Sans", sans-serif;
+.ch-hero {
+  position: relative;
+  width: min(100vw, calc(100vh * 1672 / 941));
+  aspect-ratio: 1672 / 941;
 }
 
-.ch-bg {
+.ch-hero__image {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   user-select: none;
 }
 
-/* ---------- Navigation ---------- */
-.ch-nav {
-  position: absolute;
-  z-index: 20;
-  left: calc(68 * var(--ch-unit));
-  right: calc(114 * var(--ch-unit));
-  top: calc(26 * var(--ch-unit));
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.ch-nav a {
-  color: var(--ch-ink);
-  text-decoration: none;
-  text-transform: uppercase;
-}
-.ch-nav__brand {
-  font-size: calc(15 * var(--ch-unit));
-  letter-spacing: .32em;
-}
-.ch-nav__links {
-  display: flex;
-  gap: calc(44 * var(--ch-unit));
-}
-.ch-nav__links a {
-  position: relative;
-  font-size: calc(12.5 * var(--ch-unit));
-  letter-spacing: .14em;
-}
-.ch-nav__links a::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: calc(-14 * var(--ch-unit));
-  width: calc(5 * var(--ch-unit));
-  height: calc(5 * var(--ch-unit));
-  margin-left: calc(-2.5 * var(--ch-unit));
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0;
-  transition: opacity .25s ease;
-}
-.ch-nav__links a.is-current::after,
-.ch-nav__links a:hover::after { opacity: 1; }
+.ch-hero__nav,
+.ch-hero__exhibits { position: absolute; inset: 0; pointer-events: none; }
 
-/* ---------- Headline ---------- */
-.ch-copy {
+.ch-hit {
   position: absolute;
-  z-index: 10;
-  left: calc(68 * var(--ch-unit));
-  top: calc(120 * var(--ch-unit));
-  width: calc(600 * var(--ch-unit));
-}
-.ch-eyebrow {
-  margin: 0;
-  color: var(--ch-ink);
-  font-size: calc(12.5 * var(--ch-unit));
-  letter-spacing: .26em;
-  text-transform: uppercase;
-}
-.ch-eyebrow span { padding: 0 calc(10 * var(--ch-unit)); }
-.ch-copy h1 {
-  margin: calc(22 * var(--ch-unit)) 0 0;
-  color: var(--ch-ink);
-  font-family: "Newsreader", "Instrument Serif", Georgia, serif;
-  font-size: calc(66 * var(--ch-unit));
-  font-weight: 400;
-  line-height: .95;
-  letter-spacing: -.018em;
-}
-.ch-lede {
-  max-width: calc(600 * var(--ch-unit));
-  text-wrap: balance;
-  margin: calc(16 * var(--ch-unit)) 0 0;
-  color: var(--ch-text);
-  font-size: calc(21 * var(--ch-unit));
-  line-height: 1.36;
-}
-
-/* ---------- Exhibits ----------
-   .ch-plane is laid out in photograph pixels (1672 × 941) and scaled with the
-   scene, so labels and magazines stay locked to the photograph. */
-.ch-plane {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 5;
-  width: 1672px;
-  height: 941px;
-  transform-origin: 0 0;
-  pointer-events: none;
-}
-.ch-exhibits { position: absolute; inset: 0; }
-.ch-exhibit {
-  position: absolute;
-  inset: 0;
-  color: inherit;
-  text-decoration: none;
-  pointer-events: none;              /* only the label, block and object take clicks */
-}
-.ch-exhibit:focus-visible { outline: none; }
-.ch-object, .ch-label, .ch-mags { position: absolute; left: 0; top: 0; }
-.ch-object { pointer-events: auto; cursor: pointer; }
-
-/* Layering: back row first, foreground last */
-.ch-exhibit--lab, .ch-exhibit--experience, .ch-exhibit--education { z-index: 1; }
-.ch-exhibit--about, .ch-exhibit--contact, .ch-exhibit--work { z-index: 2; }
-
-/* ---------- Labels ----------
-   Text only, mapped in perspective onto the blank labels in the photograph
-   so it reads as printed on them. */
-.ch-label {
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto auto;
-  align-content: center;
-  column-gap: 12px;
-  transform-origin: 0 0;
-  color: #1f2924;
-  mix-blend-mode: multiply;
-  pointer-events: auto;
-  cursor: pointer;
-  -webkit-font-smoothing: antialiased;
-}
-.ch-label__number {
-  grid-column: 1;
-  font-size: 15px;
-  letter-spacing: .12em;
-  color: #4f544e;
-}
-.ch-label__title {
-  grid-column: 1;
-  margin-top: 3px;
-  font-size: 19px;
-  letter-spacing: .14em;
-  line-height: 1.15;
-  text-transform: uppercase;
-}
-.ch-label__description {
-  grid-column: 1;
-  margin-top: 3px;
-  color: #4f544e;
-  font-size: 14px;
-  line-height: 1.25;
-}
-.ch-label__arrow {
-  grid-column: 2;
-  grid-row: 1 / 4;
-  align-self: center;
-  font-size: 24px;
-  transition: transform .3s ease;
-}
-.ch-exhibit:hover .ch-label__arrow,
-.ch-exhibit:focus-visible .ch-label__arrow { transform: translateX(6px); }
-.ch-exhibit:focus-visible .ch-label__title { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-
-/* ---------- Specimen objects ----------
-   Cut-out photographs resting on the photographed stands. */
-.ch-specimen {
-  position: absolute;
-  pointer-events: auto;
-  cursor: pointer;
-}
-.ch-specimen img {
-  position: relative;
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  /* tight occlusion shadow where the stone meets the acrylic */
-  filter: sepia(.14) saturate(1.08) brightness(1.03) drop-shadow(0 2px 2px rgba(70, 45, 30, .35));   /* warm room light */
-  transition: transform .45s cubic-bezier(.2, .7, .2, 1), filter .45s ease;
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 6px;
 }
-/* soft contact shadow on the block's top face; light comes from the back right */
-.ch-specimen__shadow {
-  position: absolute;
-  left: 14%;
-  right: 22%;
-  bottom: -4px;
-  height: 18px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(80, 52, 32, .55), rgba(80, 52, 32, 0));
-  transform: translateX(-10px);
-  filter: blur(3px);
-  transition: opacity .45s ease;
-}
-.ch-exhibit:hover .ch-specimen img,
-.ch-exhibit:focus-visible .ch-specimen img {
-  transform: translateY(-5px);
-  filter: sepia(.14) saturate(1.14) brightness(1.07) drop-shadow(0 7px 6px rgba(70, 45, 30, .25));
-}
-.ch-exhibit:hover .ch-specimen__shadow,
-.ch-exhibit:focus-visible .ch-specimen__shadow { opacity: .6; }
+.ch-exhibit { color: inherit; }
+.ch-exhibit:focus, .ch-hit:focus { outline: none; }
 
-/* ---------- Magazine stack (Selected Work) ---------- */
-.ch-mags {
-  width: 1672px;
-  height: 941px;
-  pointer-events: none;
+/* Visible only for keyboard focus, so the design is unchanged otherwise. */
+.ch-hero__nav .ch-hit:focus-visible,
+.ch-exhibit:focus-visible .ch-hit--label {
+  outline: 2px solid #1e5a55;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(255, 252, 245, .7);
 }
-.ch-mags__shadow, .ch-mag__edge { position: absolute; left: 0; top: 0; overflow: visible; }
-.ch-mags__lift {
-  position: absolute;
-  inset: 0;
-  transition: transform .45s cubic-bezier(.2, .7, .2, 1);
-}
-.ch-mag { position: absolute; inset: 0; }
-.ch-mag:last-child { transition: transform .45s cubic-bezier(.2, .7, .2, 1); }
-.ch-exhibit--work:hover .ch-mags__lift,
-.ch-exhibit--work:focus-visible .ch-mags__lift { transform: translateY(-4px); }
-.ch-exhibit--work:hover .ch-mag:last-child,
-.ch-exhibit--work:focus-visible .ch-mag:last-child { transform: translate(3px, -4px); }
 
-.ch-mag__cover {
+.ch-sr-only {
   position: absolute;
-  left: 0;
-  top: 0;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  padding: 22px 24px 24px;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
   overflow: hidden;
-  transform-origin: 0 0;
-  background: #fff;
-  color: #1c211d;
-  pointer-events: auto;
-  cursor: pointer;
-  /* soft light falling across the paper */
-  background-image: linear-gradient(115deg, rgba(255, 255, 255, 0) 40%, rgba(255, 236, 210, .18) 100%);
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
-.ch-mag__cover::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* take on the room's warm light */
-  background: linear-gradient(160deg, rgba(250, 226, 196, .45), rgba(222, 182, 140, .45));
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-.ch-mag__masthead {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 7px;
-  border-bottom: 2px solid #1c211d;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-}
-.ch-mag__title {
-  display: flex;
-  flex-direction: column;
-  margin-top: 14px;
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: 84px;
-  line-height: .7;
-  letter-spacing: -.045em;
-}
-.ch-mag__title span:first-child { padding-bottom: 6px; }
-.ch-mag__subtitle {
-  margin-top: 16px;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-}
-.ch-mag__image {
-  flex: 1;
-  min-height: 0;
-  margin-top: 22px;
-  display: block;
-}
-.ch-mag__image img { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-.ch-mag--mineral .ch-mag__title span:last-child { margin-left: 62px; font-style: italic; color: #397760; }
-.ch-mag--mineral .ch-mag__subtitle { color: #a75825; }
-.ch-mag--mineral .ch-mag__image img { object-fit: contain; }
-.ch-mag--data .ch-mag__title span:first-child { color: #073f3c; }
-.ch-mag--data .ch-mag__title span:last-child { margin-left: 96px; color: #078d88; }
-.ch-mag--data .ch-mag__subtitle { color: #0c5350; text-align: right; }
-.ch-mag--data .ch-mag__image img { object-position: 50% 42%; }
-.ch-mag--energy .ch-mag__title span:first-child { color: #2b7441; }
-.ch-mag--energy .ch-mag__title span:last-child { margin-left: 60px; }
-.ch-mag--energy .ch-mag__subtitle { color: #2b7441; }
 
 /* ---------- Temporary placeholder sections ---------- */
 .ch-placeholders { background: #f1efe8; }
