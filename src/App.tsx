@@ -376,6 +376,9 @@ function ExhibitLabel({
 ------------------------------------------------------------------- */
 
 type Rect = { x: number; y: number; w: number; h: number }
+type Point = [number, number]
+/** Corners of a surface in the photograph: top-left, top-right, bottom-right, bottom-left. */
+type Quad = [Point, Point, Point, Point]
 
 type Exhibit = {
   key: string
@@ -383,54 +386,186 @@ type Exhibit = {
   title: string
   description: string
   href: string
-  /** Where the object will sit; for back-row exhibits this includes the acrylic block. */
-  area: Rect
-  /** Back-row exhibits stand on a photographic acrylic block, which is clickable. */
-  onBlock: boolean
-  label: Rect
+  /** Back-row exhibits: the photographic acrylic block, which is part of the link. */
+  block?: Rect
+  /** The blank label printed in the photograph that this exhibit's text is mapped onto. */
+  label: Quad
+  /** Width of the label's layout box; type is set relative to it, so a smaller value prints larger. */
+  labelWidth: number
+  /** Inner padding of the label box (top, right, bottom, left), clearing screws and acrylic edges. */
+  labelPadding: [number, number, number, number]
 }
 
+/* All coordinates are pixels of the background photograph (1672 × 941). */
 const exhibits: Exhibit[] = [
   {
     key: "work", number: "01", title: "Selected Work", description: "Case studies and featured projects", href: "#selected-work",
-    area: { x: 70, y: 500, w: 720, h: 320 }, onBlock: false,
-    label: { x: 420, y: 834, w: 300, h: 64 },
+    label: [[109, 694], [616, 667], [637, 769], [127, 818]], labelWidth: 440, labelPadding: [24, 34, 22, 36],
   },
   {
     key: "lab", number: "02", title: "Lab", description: "Technical and creative projects", href: "#lab",
-    area: { x: 477, y: 150, w: 288, h: 436 }, onBlock: true,
-    label: { x: 500, y: 504, w: 242, h: 62 },
+    block: { x: 180, y: 365, w: 410, h: 182 },
+    label: [[247, 449], [520, 449], [520, 515], [247, 515]], labelWidth: 360, labelPadding: [9, 44, 8, 34],
   },
   {
     key: "experience", number: "03", title: "Experience", description: "Professional background", href: "#experience",
-    area: { x: 807, y: 300, w: 336, h: 304 }, onBlock: true,
-    label: { x: 846, y: 522, w: 258, h: 62 },
+    block: { x: 648, y: 392, w: 402, h: 168 },
+    label: [[700, 461], [1003, 461], [1003, 533], [700, 533]], labelWidth: 360, labelPadding: [10, 44, 9, 38],
   },
   {
     key: "education", number: "04", title: "Education", description: "Academic background", href: "#education",
-    area: { x: 1190, y: 270, w: 405, h: 328 }, onBlock: true,
-    label: { x: 1262, y: 516, w: 262, h: 62 },
+    block: { x: 1103, y: 372, w: 517, h: 190 },
+    label: [[1178, 462], [1546, 462], [1546, 537], [1178, 537]], labelWidth: 410, labelPadding: [10, 50, 9, 42],
   },
   {
     key: "about", number: "05", title: "About", description: "My approach and interests", href: "#about",
-    area: { x: 985, y: 590, w: 290, h: 210 }, onBlock: false,
-    label: { x: 1012, y: 830, w: 236, h: 62 },
+    label: [[803, 700], [1157, 669], [1176, 779], [826, 814]], labelWidth: 380, labelPadding: [20, 30, 18, 32],
   },
   {
     key: "contact", number: "06", title: "Contact", description: "Let’s connect", href: "#contact",
-    area: { x: 1445, y: 540, w: 165, h: 240 }, onBlock: false,
-    label: { x: 1428, y: 808, w: 200, h: 62 },
+    label: [[1344, 684], [1563, 667], [1583, 756], [1362, 778]], labelWidth: 290, labelPadding: [16, 22, 14, 24],
   },
 ]
 
 const SCENE_W = 1672
-const u = (px: number) => `calc(${px} * var(--ch-unit))`
-const box = (r: Rect) => ({ left: u(r.x), top: u(r.y), width: u(r.w), height: u(r.h) })
+const SCENE_H = 941
+const box = (r: Rect) => ({ left: r.x, top: r.y, width: r.w, height: r.h })
+const dist = (a: Point, b: Point) => Math.hypot(a[0] - b[0], a[1] - b[1])
+
+/**
+ * Size of the flat layout box for a quad: the requested width and the height
+ * that keeps the surface's average proportions.
+ */
+function quadBox(q: Quad, width: number) {
+  const w = (dist(q[0], q[1]) + dist(q[3], q[2])) / 2
+  const h = (dist(q[0], q[3]) + dist(q[1], q[2])) / 2
+  return { width, height: Math.round((width * h) / w) }
+}
+
+/**
+ * CSS matrix3d that maps a w × h box (origin top-left) onto quad q,
+ * so HTML appears printed on a surface seen in perspective.
+ */
+function quadTransform(w: number, h: number, q: Quad) {
+  const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = q
+  const dx1 = x1 - x2, dx2 = x3 - x2, dx3 = x0 - x1 + x2 - x3
+  const dy1 = y1 - y2, dy2 = y3 - y2, dy3 = y0 - y1 + y2 - y3
+  const den = dx1 * dy2 - dx2 * dy1
+  const g = (dx3 * dy2 - dx2 * dy3) / den
+  const k = (dx1 * dy3 - dx3 * dy1) / den
+  const a = x1 - x0 + g * x1, b = x3 - x0 + k * x3
+  const d = y1 - y0 + g * y1, e = y3 - y0 + k * y3
+  const m = [a / w, d / w, 0, g / w, b / h, e / h, 0, k / h, 0, 0, 1, 0, x0, y0, 0, 1]
+  return `matrix3d(${m.map((v) => +v.toFixed(8)).join(",")})`
+}
+
+/** Places a w × h element onto quad q. */
+const onQuad = (q: Quad, w: number, h: number): CSSProperties => ({
+  width: w,
+  height: h,
+  transform: quadTransform(w, h, q),
+})
+
+const polygon = (q: Point[]) => q.map((p) => p.join(",")).join(" ")
+const shift = (q: Quad, dx: number, dy: number): Quad => q.map(([x, y]) => [x + dx, y + dy]) as Quad
+
+/* ---------- Magazine stack (Selected Work) ----------
+   Three covers lying flat on the table. Quads are projected from table-plane
+   positions (21 × 28 cm magazines) with a camera fitted to the photograph. Bottom to top: Pacific Energy, Critical Minerals, Clean Energy. */
+const MAG_W = 400
+const MAG_H = 560
+
+type StackedMagazine = {
+  tone: "data" | "mineral" | "energy"
+  title: [string, string]
+  subtitle: string
+  image: string
+  quad: Quad
+}
+
+const magazineStack: StackedMagazine[] = [
+  {
+    tone: "data", title: ["Pacific", "Energy"], subtitle: "Data visualization", image: "/pacific-energy.png",
+    quad: [[174, 546], [408, 524], [361, 654], [35, 694]],
+  },
+  {
+    tone: "mineral", title: ["Critical", "Minerals"], subtitle: "Investment & commercialization", image: "/critical-minerals.png",
+    quad: [[238, 538], [462, 530], [361, 675], [46, 691]],
+  },
+  {
+    tone: "energy", title: ["Clean", "Energy"], subtitle: "Technology, innovation & decarbonization", image: "/home-clean-energy.jpg",
+    quad: [[360, 527], [566, 537], [408, 691], [130, 672]],
+  },
+]
+/* Paper thickness of one magazine, in photograph pixels. */
+const MAG_EDGE = 5
+
+/** Region of the Selected Work tent card; the magazines sit behind it. */
+const workCard: Point[] = [[88, 700], [618, 662], [644, 772], [128, 826]]
+const behindWorkCard = `path(evenodd, "M0 0H${SCENE_W}V${SCENE_H}H0Z M${workCard.map((p) => p.join(" ")).join(" L")}Z")`
+
+function MagazineStack() {
+  const base = magazineStack[0].quad
+  return (
+    <span className="ch-mags" style={{ clipPath: behindWorkCard }} aria-hidden="true">
+      <svg className="ch-mags__shadow" width={SCENE_W} height={SCENE_H} viewBox={`0 0 ${SCENE_W} ${SCENE_H}`}>
+        <defs>
+          <filter id="ch-mag-blur" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="9" />
+          </filter>
+        </defs>
+        <polygon points={polygon(shift(base, -16, 10))} fill="rgba(110, 70, 34, .30)" filter="url(#ch-mag-blur)" />
+        {magazineStack.map((m) => (
+          <polygon key={m.tone} points={polygon(shift(m.quad, -10, 6))} fill="rgba(110, 70, 34, .22)" filter="url(#ch-mag-blur)" />
+        ))}
+      </svg>
+      <span className="ch-mags__lift">
+        {magazineStack.map((m, i) => {
+          const [tl, tr, br, bl] = m.quad
+          const t = MAG_EDGE
+          return (
+            <span className={`ch-mag ch-mag--${m.tone}`} key={m.tone} style={{ zIndex: i + 1 }}>
+              <svg className="ch-mag__edge" width={SCENE_W} height={SCENE_H} viewBox={`0 0 ${SCENE_W} ${SCENE_H}`}>
+                <polygon points={polygon([bl, br, [br[0], br[1] + t], [bl[0], bl[1] + t]])} fill="#e7e1d7" />
+                <polygon points={polygon([br, tr, [tr[0], tr[1] + t], [br[0], br[1] + t]])} fill="#d9d1c4" />
+                <polyline points={polygon([[bl[0], bl[1] + t * .5], [br[0], br[1] + t * .5], [tr[0], tr[1] + t * .5]])} fill="none" stroke="#f6f2ea" strokeWidth=".8" />
+                <polyline points={polygon([[bl[0], bl[1] + t], [br[0], br[1] + t], [tr[0], tr[1] + t]])} fill="none" stroke="rgba(95, 70, 45, .35)" strokeWidth="1" />
+              </svg>
+              <span className="ch-mag__cover" style={onQuad(m.quad, MAG_W, MAG_H)}>
+                <span className="ch-mag__masthead"><span>Selected Work</span><span>Issue 1</span></span>
+                <span className="ch-mag__title"><span>{m.title[0]}</span><span>{m.title[1]}</span></span>
+                <span className="ch-mag__subtitle">{m.subtitle}</span>
+                <span className="ch-mag__image"><img src={m.image} alt="" draggable={false} /></span>
+              </span>
+            </span>
+          )
+        })}
+      </span>
+    </span>
+  )
+}
+
+/** Scale of the scene relative to the 1672 px photograph, for elements laid out in photograph pixels. */
+function useSceneScale() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const update = () => setScale(el.clientWidth / SCENE_W)
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+  return [ref, scale] as const
+}
 
 function CuriosityHomepage() {
+  const [sceneRef, scale] = useSceneScale()
   return (
     <main id="home" className="ch-home">
-      <div className="ch-scene" style={{ ["--ch-scene-w" as string]: SCENE_W }}>
+      <div className="ch-scene" ref={sceneRef}>
         <img className="ch-bg" src="/home-background.jpg" alt="" draggable={false} />
 
         <nav className="ch-nav" aria-label="Primary navigation">
@@ -453,24 +588,35 @@ function CuriosityHomepage() {
           </p>
         </section>
 
-        <div className="ch-exhibits" aria-label="Explore portfolio sections">
-          {exhibits.map((ex) => (
-            <a
-              key={ex.key}
-              className={`ch-exhibit ch-exhibit--${ex.key}${ex.onBlock ? " ch-exhibit--on-block" : ""}`}
-              href={ex.href}
-              aria-label={`${ex.title}: ${ex.description}`}
-            >
-              {/* Phase 2: the photorealistic object for this exhibit goes here. */}
-              <span className="ch-object" data-object={ex.key} style={box(ex.area)} aria-hidden="true" />
-              <span className="ch-label" style={box(ex.label)} aria-hidden="true">
-                <span className="ch-label__number">{ex.number}</span>
-                <span className="ch-label__title">{ex.title}</span>
-                <span className="ch-label__description">{ex.description}</span>
-                <span className="ch-label__arrow">→</span>
-              </span>
-            </a>
-          ))}
+        {/* Laid out in photograph pixels and scaled with the scene. */}
+        <div className="ch-plane" style={{ transform: `scale(${scale})` }}>
+          <div className="ch-exhibits" aria-label="Explore portfolio sections">
+            {exhibits.map((ex) => {
+              const size = quadBox(ex.label, ex.labelWidth)
+              const [pt, pr, pb, pl] = ex.labelPadding
+              return (
+                <a
+                  key={ex.key}
+                  className={`ch-exhibit ch-exhibit--${ex.key}`}
+                  href={ex.href}
+                  aria-label={`${ex.title}: ${ex.description}`}
+                >
+                  {ex.block && <span className="ch-object" style={box(ex.block)} aria-hidden="true" />}
+                  {ex.key === "work" && <MagazineStack />}
+                  <span
+                    className="ch-label"
+                    style={{ ...onQuad(ex.label, size.width, size.height), padding: `${pt}px ${pr}px ${pb}px ${pl}px` }}
+                    aria-hidden="true"
+                  >
+                    <span className="ch-label__number">{ex.number}</span>
+                    <span className="ch-label__title">{ex.title}</span>
+                    <span className="ch-label__description">{ex.description}</span>
+                    <span className="ch-label__arrow">→</span>
+                  </span>
+                </a>
+              )
+            })}
+          </div>
         </div>
       </div>
     </main>

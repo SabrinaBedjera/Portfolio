@@ -1,9 +1,9 @@
 /* ==================================================
-   Cabinet-of-curiosities homepage — phase 1
+   Cabinet-of-curiosities homepage
    Photographic background (public/home-background.jpg, 1672 × 941) with
-   three acrylic blocks in the back row, real HTML type and six labels.
-   All geometry uses --ch-unit (1 reference pixel), so the scene scales
-   as one piece and stays locked to the photograph.
+   three acrylic blocks with attached labels and three tent nameplates.
+   Navigation and headline use --ch-unit (1 reference pixel); exhibits are
+   laid out in photograph pixels inside .ch-plane, scaled from App.tsx.
    Everything is scoped to .ch-* classes.
    ================================================== */
 @import url("https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap");
@@ -110,82 +110,182 @@
   letter-spacing: -.018em;
 }
 .ch-lede {
-  max-width: calc(400 * var(--ch-unit));
+  max-width: calc(600 * var(--ch-unit));
+  text-wrap: balance;
   margin: calc(16 * var(--ch-unit)) 0 0;
   color: var(--ch-text);
   font-size: calc(21 * var(--ch-unit));
   line-height: 1.36;
 }
 
-/* ---------- Exhibits ---------- */
-.ch-exhibits { position: absolute; inset: 0; z-index: 5; }
+/* ---------- Exhibits ----------
+   .ch-plane is laid out in photograph pixels (1672 × 941) and scaled with the
+   scene, so labels and magazines stay locked to the photograph. */
+.ch-plane {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  width: 1672px;
+  height: 941px;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+.ch-exhibits { position: absolute; inset: 0; }
 .ch-exhibit {
   position: absolute;
   inset: 0;
   color: inherit;
   text-decoration: none;
-  pointer-events: none;              /* only the label, block and (later) object take clicks */
+  pointer-events: none;              /* only the label, block and object take clicks */
 }
 .ch-exhibit:focus-visible { outline: none; }
-.ch-exhibit:focus-visible .ch-label { outline: 2px solid #1e5a55; outline-offset: 4px; }
-.ch-object, .ch-label { position: absolute; }
-.ch-label { pointer-events: auto; cursor: pointer; }
-.ch-object { pointer-events: none; }
-/* The photographic acrylic block of a back-row exhibit is part of its link */
-.ch-exhibit--on-block .ch-object { pointer-events: auto; cursor: pointer; }
+.ch-object, .ch-label, .ch-mags { position: absolute; left: 0; top: 0; }
+.ch-object { pointer-events: auto; cursor: pointer; }
 
 /* Layering: back row first, foreground last */
 .ch-exhibit--lab, .ch-exhibit--experience, .ch-exhibit--education { z-index: 1; }
 .ch-exhibit--about, .ch-exhibit--contact, .ch-exhibit--work { z-index: 2; }
 
-/* ---------- Museum labels ----------
-   Small ivory placards: a hairline rule, number, title in spaced capitals,
-   a short description and a quiet arrow. */
+/* ---------- Labels ----------
+   Text only, mapped in perspective onto the blank labels in the photograph
+   so it reads as printed on them. */
 .ch-label {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto auto;
   align-content: center;
-  column-gap: calc(12 * var(--ch-unit));
-  padding: calc(9 * var(--ch-unit)) calc(16 * var(--ch-unit)) calc(9 * var(--ch-unit)) calc(18 * var(--ch-unit));
-  background: rgba(251, 248, 242, .9);
-  border: 1px solid rgba(120, 98, 70, .16);
-  box-shadow: 0 calc(4 * var(--ch-unit)) calc(10 * var(--ch-unit)) rgba(92, 64, 34, .10);
-  color: var(--ch-ink);
-  transition: background .3s ease, box-shadow .3s ease;
+  column-gap: 12px;
+  transform-origin: 0 0;
+  color: #1f2924;
+  mix-blend-mode: multiply;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-font-smoothing: antialiased;
 }
 .ch-label__number {
   grid-column: 1;
-  font-size: calc(10.5 * var(--ch-unit));
-  letter-spacing: .14em;
-  color: #6b6a62;
+  font-size: 15px;
+  letter-spacing: .12em;
+  color: #4f544e;
 }
 .ch-label__title {
   grid-column: 1;
-  margin-top: calc(2 * var(--ch-unit));
-  font-size: calc(13 * var(--ch-unit));
-  letter-spacing: .16em;
+  margin-top: 3px;
+  font-size: 19px;
+  letter-spacing: .14em;
+  line-height: 1.15;
   text-transform: uppercase;
 }
 .ch-label__description {
   grid-column: 1;
-  margin-top: calc(1 * var(--ch-unit));
-  color: #5d625c;
-  font-size: calc(10.5 * var(--ch-unit));
-  line-height: 1.3;
+  margin-top: 3px;
+  color: #4f544e;
+  font-size: 14px;
+  line-height: 1.25;
 }
 .ch-label__arrow {
   grid-column: 2;
   grid-row: 1 / 4;
   align-self: center;
-  font-size: calc(16 * var(--ch-unit));
+  font-size: 24px;
   transition: transform .3s ease;
 }
-.ch-exhibit:hover .ch-label,
-.ch-exhibit:focus-visible .ch-label { background: rgba(253, 251, 247, .98); box-shadow: 0 calc(6 * var(--ch-unit)) calc(14 * var(--ch-unit)) rgba(92, 64, 34, .14); }
 .ch-exhibit:hover .ch-label__arrow,
-.ch-exhibit:focus-visible .ch-label__arrow { transform: translateX(calc(4 * var(--ch-unit))); }
+.ch-exhibit:focus-visible .ch-label__arrow { transform: translateX(6px); }
+.ch-exhibit:focus-visible .ch-label__title { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+/* ---------- Magazine stack (Selected Work) ---------- */
+.ch-mags {
+  width: 1672px;
+  height: 941px;
+  pointer-events: none;
+}
+.ch-mags__shadow, .ch-mag__edge { position: absolute; left: 0; top: 0; overflow: visible; }
+.ch-mags__lift {
+  position: absolute;
+  inset: 0;
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1);
+}
+.ch-mag { position: absolute; inset: 0; }
+.ch-mag:last-child { transition: transform .45s cubic-bezier(.2, .7, .2, 1); }
+.ch-exhibit--work:hover .ch-mags__lift,
+.ch-exhibit--work:focus-visible .ch-mags__lift { transform: translateY(-4px); }
+.ch-exhibit--work:hover .ch-mag:last-child,
+.ch-exhibit--work:focus-visible .ch-mag:last-child { transform: translate(3px, -4px); }
+
+.ch-mag__cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 24px 24px;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: #fff;
+  color: #1c211d;
+  pointer-events: auto;
+  cursor: pointer;
+  /* soft light falling across the paper */
+  background-image: linear-gradient(115deg, rgba(255, 255, 255, 0) 40%, rgba(255, 236, 210, .18) 100%);
+}
+.ch-mag__cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* take on the room's warm light */
+  background: linear-gradient(160deg, rgba(250, 226, 196, .45), rgba(222, 182, 140, .45));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.ch-mag__masthead {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 7px;
+  border-bottom: 2px solid #1c211d;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.ch-mag__title {
+  display: flex;
+  flex-direction: column;
+  margin-top: 14px;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 84px;
+  line-height: .7;
+  letter-spacing: -.045em;
+}
+.ch-mag__title span:first-child { padding-bottom: 6px; }
+.ch-mag__subtitle {
+  margin-top: 16px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.ch-mag__image {
+  flex: 1;
+  min-height: 0;
+  margin-top: 22px;
+  display: block;
+}
+.ch-mag__image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.ch-mag--mineral .ch-mag__title span:last-child { margin-left: 62px; font-style: italic; color: #397760; }
+.ch-mag--mineral .ch-mag__subtitle { color: #a75825; }
+.ch-mag--mineral .ch-mag__image img { object-fit: contain; }
+.ch-mag--data .ch-mag__title span:first-child { color: #073f3c; }
+.ch-mag--data .ch-mag__title span:last-child { margin-left: 96px; color: #078d88; }
+.ch-mag--data .ch-mag__subtitle { color: #0c5350; text-align: right; }
+.ch-mag--data .ch-mag__image img { object-position: 50% 42%; }
+.ch-mag--energy .ch-mag__title span:first-child { color: #2b7441; }
+.ch-mag--energy .ch-mag__title span:last-child { margin-left: 60px; }
+.ch-mag--energy .ch-mag__subtitle { color: #2b7441; }
 
 /* ---------- Temporary placeholder sections ---------- */
 .ch-placeholders { background: #f1efe8; }
