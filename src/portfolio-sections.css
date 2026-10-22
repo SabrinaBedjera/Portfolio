@@ -1,6 +1,6 @@
 /* ==================================================
-   Portfolio sections (Selected Work surroundings, Lab, Experience,
-   Education, Associations & Volunteering, About, Contact)
+   Portfolio sections (Selected Work surroundings, Experience, Education,
+   Associations & Volunteering, Lab, About, Contact)
    Warm editorial style taken from the homepage photograph:
    cream paper, deep green ink, rust accents, Instrument Serif headings,
    DM Sans text. One type and spacing scale (tokens below) is used
@@ -38,10 +38,11 @@
 }
 
 .ps-section {
+  --ps-bg: var(--ps-paper);   /* this section's background, reused to fill markers */
   padding: var(--ps-section-y) 0;
-  background: var(--ps-paper);
+  background: var(--ps-bg);
 }
-.ps-section--tint { background: var(--ps-tint); }
+.ps-section--tint { --ps-bg: var(--ps-tint); }
 
 .ps-wrap {
   box-sizing: border-box;
@@ -143,7 +144,7 @@
   height: 7px;
   border: 1px solid var(--ps-accent);
   border-radius: 50%;
-  background: var(--ps-paper);
+  background: var(--ps-bg);
   transition: background .2s ease, transform .2s ease;
 }
 .ps-career li.is-current a::before { background: var(--ps-accent); }
@@ -218,7 +219,7 @@
   height: 9px;
   border: 1px solid var(--ps-accent);
   border-radius: 50%;
-  background: var(--ps-tint);
+  background: var(--ps-bg);
 }
 .ps-role + .ps-role::before { top: 42px; }
 .ps-role--current::before { background: var(--ps-accent); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
@@ -285,7 +286,7 @@
 }
 .ps-association {
   padding: clamp(28px, 3vw, 44px);
-  background: var(--ps-paper);
+  background: var(--ps-tint);
   border: 1px solid var(--ps-rule);
   border-top: 3px solid var(--ps-accent);
 }

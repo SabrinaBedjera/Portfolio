@@ -18,23 +18,31 @@ type Project = {
   /** Case-study section heading; defaults to "Selected contributions / Four areas of contribution". */
   contributionsLabel?: string
   contributionsHeading?: string
+  /** "chapters" stacks the contributions in one column, with room for figures. */
+  contributionsLayout?: "chapters"
   contributions: Array<{
     number: string
     title: string
-    body: string
+    /** One paragraph, or several. */
+    body: string | string[]
     highlight?: string
-    points?: string[]
+    pointsLead?: string
+    points?: Array<string | { label: string; text: string }>
+    figure?: CaseFigure
   }>
-  /** Research details shown after the contributions (thesis case study). */
-  research?: {
-    details: Array<[string, string]>
-    skills: string[]
-  }
   image?: string
   imageAlt?: string
   featureImage: string
   featureImageAlt: string
   tone: "mineral" | "data" | "energy" | "water"
+}
+
+type CaseFigure = {
+  src: string
+  alt: string
+  caption: string
+  /** Opens full size in a dialog when clicked. */
+  enlarge?: boolean
 }
 
 /* The water case study reuses the Clean Energy cover and article layout;
@@ -200,61 +208,67 @@ const projects: Project[] = [
     coverSubtitle: "Micropollutant Removal & Ozonation Modelling",
     caseHeadline: "Predicting Micropollutant Removal in Drinking Water",
     caseIntroduction:
-      "Master of Applied Science research at the University of Waterloo (2019) on predicting the removal of micropollutants by ozonation at three Ontario drinking water treatment plants.",
+      "Master of Applied Science Research | University of Waterloo | 2019",
     contributionsLabel: "Master’s research",
     contributionsHeading: "The research",
+    contributionsLayout: "chapters",
     contributions: [
       {
         number: "01",
         title: "The Challenge",
-        body: "Drinking water utilities must effectively remove micropollutants, including pesticides and other emerging contaminants. Treatment performance can vary depending on water chemistry, seasonal conditions, and ozone dose.",
+        body: [
+          "Trace contaminants from agricultural runoff, wastewater and other sources can enter the rivers and lakes used to produce drinking water.",
+          "Ozonation is a treatment process that uses ozone to break down these contaminants. However, its effectiveness depends on factors such as water chemistry, temperature and ozone dose.",
+          "My research investigated how drinking water utilities could better predict contaminant removal under changing seasonal and treatment conditions.",
+        ],
       },
       {
         number: "02",
         title: "My Approach",
-        highlight: "Three Ontario treatment plants · Lake Ontario & Grand River",
-        body: "Conducted experimental and quantitative research involving three Ontario drinking water treatment plants drawing water from Lake Ontario and the Grand River.",
+        body: "Working with three Ontario drinking water treatment plants drawing from Lake Ontario and the Grand River, I combined laboratory experiments, water quality analysis and predictive modelling.",
         points: [
-          "Characterized ozone and hydroxyl radical exposure and investigated seasonal changes in treatment conditions.",
-          "Analyzed water quality characteristics and their relationships with ozonation performance.",
-          "Used laboratory analytical techniques, statistical analysis, and regression modelling.",
-          "Validated a micropollutant degradation model using experimental atrazine results.",
-          "Simulated the degradation of selected micropollutants under varying water quality and seasonal conditions.",
+          { label: "Experimental research", text: "Measured how ozone and hydroxyl radicals behaved in water samples collected across different seasons." },
+          { label: "Data analysis", text: "Used statistical analysis and regression modelling to investigate relationships between water quality, temperature, ozone dose and treatment performance." },
+          { label: "Model validation", text: "Compared predicted atrazine degradation against laboratory results to evaluate model accuracy." },
+          { label: "Predictive simulations", text: "Modelled the removal of different contaminants under varying seasonal conditions and ozone doses, including estimating reaction rates for compounds with limited published data." },
         ],
+        figure: {
+          src: "/case-studies/thesis-figure-3-2-ozonation-setup.jpg",
+          alt: "Laboratory bench with three tall glass columns connected by clear gas tubing; one column stands in a bucket of ice",
+          caption: "Figure 3.2 — Bench-scale ozonation setup: glass columns connected by ozone gas lines, with one column chilled in an ice bath.",
+          enlarge: true,
+        },
       },
       {
         number: "03",
         title: "Results & Impact",
-        body: "Developed and validated modelling approaches to assess the effectiveness of ozonation for micropollutant removal across three drinking water treatment plants, providing information to help utilities evaluate treatment performance and plan proactively.",
+        body: [
+          "The research demonstrated how predictive modelling could help drinking water utilities understand how effectively their treatment processes remove contaminants under different conditions.",
+          "In practice, utilities could use this approach to assess seasonal changes in treatment performance, explore different ozone doses, and simulate contamination events, such as chemical spills, to better understand whether existing treatment processes would be effective.",
+        ],
+        pointsLead: "Key findings included:",
+        points: [
+          { label: "Water quality matters", text: "Predicted removal of several contaminants was highest in Lake Ontario water, likely due in part to its lower organic carbon content." },
+          { label: "Treatment conditions matter", text: "Higher ozone doses generally improved removal of slower-reacting contaminants, including atrazine and BTEX compounds." },
+          { label: "Spill scenarios revealed treatment limitations", text: "In a simulated BTEX contamination event, benzene was particularly difficult to remove below Canadian drinking water limits, highlighting the importance of assessing individual contaminants rather than assuming a treatment process will remove them all equally." },
+        ],
+        figure: {
+          src: "/case-studies/thesis-figure-4-10-btex-simulations.png",
+          alt: "Four line charts of simulated BTEX compound concentrations over 1,500 seconds in Lake Ontario water, at ozone doses of 1 and 4 mg/L and temperatures of 20 °C and 5 °C",
+          caption: "Figure 4.10 — Simulated degradation of individual BTEX compounds in Lake Ontario water, comparing applied ozone doses of 1 mg/L and 4 mg/L at 20 °C (September 2016) and 5 °C (December 2016).",
+          enlarge: true,
+        },
       },
       {
         number: "04",
         title: "Recognition",
-        highlight: "First Place — AWWA Master’s Academic Achievement Award",
-        body: "Awarded first place in the American Water Works Association Master’s Academic Achievement Award.",
+        highlight: "First Place — American Water Works Association (AWWA) Master’s Academic Achievement Award",
+        body: "Awarded for my master’s research in drinking water treatment.",
       },
     ],
-    // Thesis figures and further technical detail can be added here later.
-    research: {
-      details: [
-        ["Thesis", "Predicting the Removal of Micropollutants in Lake Ontario and Grand River using Ozonation (2019)"],
-        ["Institution", "University of Waterloo"],
-        ["Degree", "Master of Applied Science, Civil Engineering"],
-        ["Recognition", "First Place — American Water Works Association (AWWA) Master’s Academic Achievement Award"],
-      ],
-      skills: [
-        "Environmental Engineering",
-        "Water Treatment",
-        "Laboratory Research",
-        "Quantitative Analysis",
-        "Statistical Modelling",
-        "Model Validation",
-        "Water Quality Analysis",
-      ],
-    },
-    featureImage: "/drinking-water.svg",
+    featureImage: "/case-studies/thesis-figure-3-2-ozonation-setup.jpg",
     featureImageAlt:
-      "Illustration of bubbles rising through clear water beneath a rippled surface",
+      "Bench-scale ozonation setup from the thesis research: glass columns connected by gas tubing on a laboratory bench",
     tone: "water",
   },
 ]
@@ -275,17 +289,18 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
    Cabinet-of-curiosities homepage: an interactive still life
    Background: public/home-background.jpg (1672 × 941, empty wall and table).
    Objects: cut-out images in public/home-objects/, positioned in pixels of
-   the 1672 × 941 stage and scaled with it (--ch-unit). To swap an object
-   image, replace the file or change its `src` below.
-   Narrow screens show the objects as a grid instead (curiosity-home.css).
+   the 1672 × 941 photograph and scaled with the scene (curiosity-home.css).
+   To swap an object image, replace the file or change its `src` below.
+   Text is sized in px so browser zoom enlarges it; the layout adapts.
 ------------------------------------------------------------------- */
 
+/* Same order as the sections on the page; objects below follow it too. */
 const siteNavigation: [string, string][] = [
   ["Selected Work", "selected-work"],
-  ["Lab", "lab"],
   ["Experience", "experience"],
   ["Education", "education"],
   ["Associations", "associations"],
+  ["Lab", "lab"],
   ["About", "about"],
   ["Contact", "contact"],
 ]
@@ -312,19 +327,19 @@ const homeObjects: HomeObject[] = [
     layers: [{ src: "/home-objects/01_selected_work_magazines.webp" }],
   },
   {
-    key: "lab", number: "02", title: "Lab", description: "Technical and creative projects", href: "#lab",
-    x: 660, y: 300, w: 262, caption: { dx: 18, dy: 334 },
-    layers: [{ src: "/home-objects/03_lab_cloche.webp" }],
-  },
-  {
-    key: "experience", number: "03", title: "Experience", description: "Professional background", href: "#experience",
+    key: "experience", number: "02", title: "Experience", description: "Professional background", href: "#experience",
     x: 968, y: 380, w: 186, caption: { dx: 52, dy: 256 },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
-    key: "education", number: "04", title: "Education", description: "Academic background", href: "#education",
+    key: "education", number: "03", title: "Education", description: "Academic background", href: "#education",
     x: 1196, y: 356, w: 372, caption: { dx: 196, dy: 280 },
     layers: [{ src: "/home-objects/04_education_books.webp" }],
+  },
+  {
+    key: "lab", number: "04", title: "Lab", description: "Technical and creative projects", href: "#lab",
+    x: 660, y: 300, w: 262, caption: { dx: 18, dy: 334 },
+    layers: [{ src: "/home-objects/03_lab_cloche.webp" }],
   },
   {
     key: "about", number: "05", title: "About", description: "My approach and interests", href: "#about",
@@ -341,8 +356,6 @@ const homeObjects: HomeObject[] = [
     ],
   },
 ]
-
-const u = (px: number) => `calc(${px} * var(--ch-unit))`
 
 function CuriosityHomepage() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -378,33 +391,41 @@ function CuriosityHomepage() {
           </p>
         </section>
 
-        <ul className="ch-objects" aria-label="Explore portfolio sections">
-          {homeObjects.map((object) => (
-            <li
-              className={`ch-object ch-object--${object.key}`}
-              key={object.key}
-              style={{ left: u(object.x), top: u(object.y), width: u(object.w) }}
-            >
-              <a href={object.href} aria-label={`${object.number} ${object.title}: ${object.description}`}>
-                <span className="ch-object__shadow" aria-hidden="true" />
-                <span className="ch-object__art" aria-hidden="true">
-                  {object.layers.map((layer) => (
-                    <img className={layer.className} src={layer.src} alt="" draggable={false} key={layer.src} />
-                  ))}
-                </span>
-                <span
-                  className="ch-caption"
-                  style={{ ["--dx" as string]: u(object.caption.dx), ["--dy" as string]: u(object.caption.dy) }}
-                  aria-hidden="true"
-                >
-                  <span className="ch-caption__number">{object.number}</span>
-                  <span className="ch-caption__title">{object.title}</span>
-                  <span className="ch-caption__arrow">→</span>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="ch-scene">
+          {/* the photograph again, shown on its own when the headline sits above the scene */}
+          <img className="ch-scene__bg" src="/home-background.jpg" alt="" draggable={false} />
+          <ul className="ch-objects" aria-label="Explore portfolio sections">
+            {homeObjects.map((object) => (
+              <li
+                className={`ch-object ch-object--${object.key}`}
+                key={object.key}
+                style={
+                  {
+                    "--x": object.x,
+                    "--y": object.y,
+                    "--w": object.w,
+                    "--dx": object.caption.dx,
+                    "--dy": object.caption.dy,
+                  } as CSSProperties
+                }
+              >
+                <a href={object.href} aria-label={`${object.number} ${object.title}: ${object.description}`}>
+                  <span className="ch-object__shadow" aria-hidden="true" />
+                  <span className="ch-object__art" aria-hidden="true">
+                    {object.layers.map((layer) => (
+                      <img className={layer.className} src={layer.src} alt="" draggable={false} key={layer.src} />
+                    ))}
+                  </span>
+                  <span className="ch-caption" aria-hidden="true">
+                    <span className="ch-caption__number">{object.number}</span>
+                    <span className="ch-caption__title">{object.title}</span>
+                    <span className="ch-caption__arrow">→</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </main>
   )
@@ -632,6 +653,53 @@ function MagazineExperiment({
   )
 }
 
+/** A research figure; when `enlarge` is set it opens full size in a dialog. */
+function CaseStudyFigure({ figure }: { figure: CaseFigure }) {
+  const dialog = useRef<HTMLDialogElement>(null)
+  const image = <img src={figure.src} alt={figure.alt} loading="lazy" />
+  return (
+    <figure className="case-figure">
+      {figure.enlarge ? (
+        <button
+          type="button"
+          className="case-figure__open"
+          onClick={() => dialog.current?.showModal()}
+          aria-label={`Enlarge ${figure.caption.split(" — ")[0]}`}
+        >
+          {image}
+          <span className="case-figure__hint" aria-hidden="true">
+            Enlarge ⤢
+          </span>
+        </button>
+      ) : (
+        image
+      )}
+      <figcaption>{figure.caption}</figcaption>
+      {figure.enlarge && (
+        <dialog
+          ref={dialog}
+          className="case-figure__dialog"
+          aria-label={figure.caption.split(" — ")[0]}
+          onClick={(event) => {
+            // a click on the backdrop (the dialog itself) closes it
+            if (event.target === event.currentTarget) dialog.current?.close()
+          }}
+        >
+          <button
+            type="button"
+            className="case-figure__close"
+            onClick={() => dialog.current?.close()}
+          >
+            Close ✕
+          </button>
+          <img src={figure.src} alt={figure.alt} />
+          <p>{figure.caption}</p>
+        </dialog>
+      )}
+    </figure>
+  )
+}
+
 function MagazineCaseStudy({
   project,
   onBack,
@@ -684,7 +752,11 @@ function MagazineCaseStudy({
       </header>
 
       <section
-        className="article-contributions article-contributions--editorial"
+        className={`article-contributions article-contributions--editorial${
+          project.contributionsLayout === "chapters"
+            ? " article-contributions--chapters"
+            : ""
+        }`}
         aria-labelledby="contributions-title"
       >
         <header>
@@ -702,41 +774,38 @@ function MagazineCaseStudy({
                 {contribution.highlight && (
                   <strong>{contribution.highlight}</strong>
                 )}
-                <p>{contribution.body}</p>
+                {(Array.isArray(contribution.body)
+                  ? contribution.body
+                  : [contribution.body]
+                ).map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+                {contribution.pointsLead && (
+                  <p className="article-contributions__lead">
+                    {contribution.pointsLead}
+                  </p>
+                )}
                 {contribution.points && (
                   <ul>
-                    {contribution.points.map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
+                    {contribution.points.map((point) =>
+                      typeof point === "string" ? (
+                        <li key={point}>{point}</li>
+                      ) : (
+                        <li key={point.label}>
+                          <b>{point.label}:</b> {point.text}
+                        </li>
+                      ),
+                    )}
                   </ul>
                 )}
               </div>
+              {contribution.figure && (
+                <CaseStudyFigure figure={contribution.figure} />
+              )}
             </article>
           ))}
         </div>
       </section>
-
-      {project.research && (
-        <section className="article-reading article-research" aria-labelledby="research-title">
-          <header>
-            <p>Research details</p>
-            <h2 id="research-title">Thesis and technical skills</h2>
-          </header>
-          <dl>
-            {project.research.details.map(([term, value]) => (
-              <div key={term}>
-                <dt>{term}</dt>
-                <dd>{value}</dd>
-              </div>
-            ))}
-          </dl>
-          <ul aria-label="Technical skills">
-            {project.research.skills.map((skill) => (
-              <li key={skill}>{skill}</li>
-            ))}
-          </ul>
-        </section>
-      )}
 
       {project.tone === "mineral" && (
         <section

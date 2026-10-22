@@ -1,8 +1,8 @@
 import "./portfolio-sections.css"
 
 /* ------------------------------------------------------------------
-   Portfolio sections after Selected Work: Lab, Experience, Education,
-   Associations & Volunteering, About and Contact. Content restored from experiment/photo-desk.
+   Portfolio sections after Selected Work: Experience, Education,
+   Associations & Volunteering, Lab, About and Contact. Content restored from experiment/photo-desk.
    Section ids match the homepage hotspots and navigation.
 ------------------------------------------------------------------- */
 
@@ -138,16 +138,9 @@ function SectionHead({ id, number, title, lede }: { id: string; number?: string;
 export default function PortfolioSections() {
   return (
     <div className="ps">
-      {/* Lab projects to be added. */}
-      <section id="lab" className="ps-section" aria-labelledby="lab-title">
+      <section id="experience" className="ps-section" aria-labelledby="experience-title">
         <div className="ps-wrap">
-          <SectionHead id="lab" number="02" title="Lab" lede="Technical and creative projects" />
-        </div>
-      </section>
-
-      <section id="experience" className="ps-section ps-section--tint" aria-labelledby="experience-title">
-        <div className="ps-wrap">
-          <SectionHead id="experience" number="03" title="Professional experience" />
+          <SectionHead id="experience" number="02" title="Professional experience" />
           <nav aria-label="Career overview, 2015 to present">
             <ol className="ps-career">
               {careerMilestones.map((milestone, i) => {
@@ -189,10 +182,10 @@ export default function PortfolioSections() {
         </div>
       </section>
 
-      <section id="education" className="ps-section" aria-labelledby="education-title">
+      <section id="education" className="ps-section ps-section--tint" aria-labelledby="education-title">
         <div className="ps-wrap ps-two">
           <div>
-            <SectionHead id="education" number="04" title="Education" />
+            <SectionHead id="education" number="03" title="Education" />
             <ul className="ps-education">
               {education.map((item) => (
                 <li key={item.degree}>
@@ -217,7 +210,7 @@ export default function PortfolioSections() {
         </div>
       </section>
 
-      <section id="associations" className="ps-section ps-section--tint" aria-labelledby="associations-title">
+      <section id="associations" className="ps-section" aria-labelledby="associations-title">
         <div className="ps-wrap">
           {/* Unnumbered: the numbers match the six objects on the homepage. */}
           <SectionHead id="associations" title="Associations & Volunteering" />
@@ -235,6 +228,13 @@ export default function PortfolioSections() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Lab projects to be added. */}
+      <section id="lab" className="ps-section ps-section--tint" aria-labelledby="lab-title">
+        <div className="ps-wrap">
+          <SectionHead id="lab" number="04" title="Lab" lede="Technical and creative projects" />
         </div>
       </section>
 
