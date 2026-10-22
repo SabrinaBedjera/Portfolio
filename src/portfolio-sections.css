@@ -22,7 +22,7 @@
   --ps-fs-lede: clamp(19px, 1.5vw, 22px);
   --ps-fs-body: clamp(17px, 1.2vw, 18px);
   --ps-fs-small: 16px;
-  --ps-fs-meta: 13px;          /* uppercase labels, dates, numbers */
+  --ps-fs-meta: 14px;          /* uppercase labels, dates, numbers */
   --ps-lh-body: 1.65;
 
   /* layout and spacing */
@@ -122,17 +122,17 @@
 .ps-career::before {
   content: "";
   position: absolute;
-  top: 8px;
-  left: 8px;
-  right: calc(20% - 8px);
-  height: 2px;
+  top: 10px;
+  left: 10px;
+  right: calc(20% - 10px);
+  height: 3px;
   background: rgba(43, 116, 65, .45);
 }
 .ps-career li { position: relative; }
 .ps-career a {
   position: relative;
   display: block;
-  padding: 32px 18px 10px 0;
+  padding: 40px 18px 10px 0;
   color: inherit;
   text-decoration: none;
 }
@@ -141,10 +141,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 14px;
-  height: 14px;
+  width: 23px;
+  height: 23px;
   box-sizing: border-box;
-  border: 2px solid var(--ps-accent);
+  border: 3px solid var(--ps-accent);
   border-radius: 50%;
   background: var(--ps-bg);
   transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
@@ -161,14 +161,15 @@
 .ps-career__year {
   display: block;
   color: var(--ps-clay);
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 500;
   letter-spacing: .12em;
 }
 .ps-career__label {
   display: block;
   margin-top: 6px;
   color: var(--ps-text);
-  font-size: 18px;
+  font-size: 21px;
   line-height: 1.35;
   text-decoration: underline;
   text-decoration-color: transparent;
@@ -184,7 +185,7 @@
 /* Vertical timeline */
 .ps-roles {
   --ps-date-w: 190px;
-  --ps-rail: 56px;
+  --ps-rail: 128px;              /* room for the car to drive along the rail */
   position: relative;
   margin: 0;
   padding: 0;
@@ -195,8 +196,8 @@
   position: absolute;
   top: 8px;
   bottom: 8px;
-  left: calc(var(--ps-date-w) + var(--ps-rail) / 2);
-  width: 1px;
+  left: calc(var(--ps-date-w) + var(--ps-rail) / 2 - 1px);
+  width: 2px;
   background: rgba(43, 116, 65, .35);
 }
 .ps-role {
@@ -223,10 +224,11 @@
   content: "";
   position: absolute;
   top: 6px;
-  left: calc(var(--ps-date-w) + var(--ps-rail) / 2 - 5px);
-  width: 9px;
-  height: 9px;
-  border: 1px solid var(--ps-accent);
+  left: calc(var(--ps-date-w) + var(--ps-rail) / 2 - 7px);
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border: 2px solid var(--ps-accent);
   border-radius: 50%;
   background: var(--ps-bg);
 }
@@ -273,6 +275,69 @@
   .ps-role.is-arrived .ps-role__body::after { animation-name: ps-arrive; }
 }
 .ps-role--current::before { background: var(--ps-accent); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
+/* the role selected in the overview (the first role until one is chosen) */
+.ps-role.is-active::before {
+  border-color: #2f5f8a;
+  background: #2f5f8a;
+  box-shadow: 0 0 0 6px rgba(47, 95, 138, .16);
+}
+.ps-role.is-active .ps-role__when { color: #2f5f8a; font-weight: 600; }
+
+/* ---------- The convertible ----------
+   Parks just above the active role's marker; drives along the rail when
+   another milestone is selected, turning to face the way it travels. */
+.ps-car {
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--ps-date-w) + var(--ps-rail) / 2);
+  width: 96px;
+  margin-left: -48px;
+  list-style: none;
+  pointer-events: none;
+  transform: translateY(calc(-100% - 3px));
+  transition: top .9s cubic-bezier(.5, .05, .3, 1);
+}
+.ps-car img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 3px 3px rgba(60, 30, 20, .18));
+  transition: transform .28s ease;
+}
+.ps-car--down img { transform: rotate(90deg); }
+.ps-car--up img { transform: rotate(-90deg); }
+@media (prefers-reduced-motion: reduce) {
+  .ps-car, .ps-car img { transition: none; }
+  .ps-car--down img, .ps-car--up img { transform: none; }
+}
+
+/* Related work inside an entry (the water policy proposal) */
+.ps-feature {
+  margin-top: 24px;
+  padding: 22px 26px 24px;
+  background: var(--ps-tint);
+  border-left: 3px solid var(--ps-clay);
+}
+.ps-feature__kicker {
+  margin: 0;
+  color: var(--ps-clay);
+  font-size: var(--ps-fs-meta);
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.ps .ps-feature h4 {
+  margin: 8px 0 10px;
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+.ps-feature p { margin: 0; }
+.ps-feature .ps-feature__award { margin-top: 12px; color: var(--ps-accent); font-weight: 600; }
+.ps-feature__links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 14px !important; }
+.ps-feature__links a { color: var(--ps-clay); border-bottom: 1px solid currentColor; text-decoration: none; }
 .ps-role__when {
   grid-column: 1;
   margin: 0;
@@ -437,7 +502,9 @@
 
 /* ---------- Tablet ---------- */
 @media (max-width: 1100px) {
-  .ps-roles { --ps-date-w: 150px; --ps-rail: 44px; }
+  .ps-roles { --ps-date-w: 150px; --ps-rail: 116px; }
+  .ps-car { width: 86px; margin-left: -43px; }
+  .ps-career__label { font-size: 18px; }
   .ps .ps-role h3 { font-size: 30px; }
   .ps .ps-role--current h3 { font-size: 38px; }
 }
@@ -459,10 +526,10 @@
   .ps-career li:not(:last-child)::after {
     content: "";
     position: absolute;
-    top: 8px;
-    left: 8px;
+    top: 10px;
+    left: 10px;
     right: 0;
-    height: 2px;
+    height: 3px;
     background: rgba(43, 116, 65, .4);
   }
   .ps-career a { min-height: 44px; }
@@ -470,7 +537,11 @@
   .ps-role.is-arrived .ps-role__body::before { left: -10px; right: -8px; }
   .ps-role.is-arrived .ps-role__body::after { display: none; }
 
-  .ps-roles { --ps-date-w: 0px; --ps-rail: 28px; }
+  .ps-roles { --ps-date-w: 0px; --ps-rail: 32px; }
+  /* on phones the car stays turned along the narrow rail */
+  .ps-car { width: 64px; margin-left: -32px; transform: translateY(calc(-100% - 28px)); }
+  .ps-car img, .ps-car--down img { transform: rotate(90deg); }
+  .ps-car--up img { transform: rotate(-90deg); }
   .ps-role__when { grid-column: 3; margin-bottom: 6px; }
   .ps-role__body { grid-column: 3; }
   .ps-role + .ps-role { padding-top: 30px; }

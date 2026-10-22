@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react"
 import "./curiosity-home.css"
 import "./selected-work.css"
+import "./case-study.css"
 import PortfolioSections from "./PortfolioSections"
 import { section, sections, type SectionId } from "./sections"
+import { objectHulls } from "./objectHulls"
 
 type Project = {
   slug: string
@@ -13,9 +15,8 @@ type Project = {
   description: string
   caseHeadline: string
   caseIntroduction: string
-  /** Two-word magazine cover title and the small subtitle under it. */
-  coverTitle: [string, string]
-  coverSubtitle: string
+  /** Magazine cover: an oversized title over one central visual (public/covers/). */
+  cover: { title: string; image: string; alt: string; color: string }
   /** Case-study section heading; defaults to "Selected contributions / Four areas of contribution". */
   contributionsLabel?: string
   contributionsHeading?: string
@@ -35,13 +36,10 @@ type Project = {
     /** A short passage in the author's own words. */
     quote?: { text: string; source: string }
   }>
-  image?: string
-  imageAlt?: string
-  featureImage: string
-  featureImageAlt: string
-  /** Case-study hero, when it differs from the magazine cover image. */
+  /** Case-study hero, when it differs from the cover visual. */
   heroImage?: { src: string; alt: string }
-  tone: "mineral" | "data" | "energy" | "water" | "policy"
+  /** Selects the project-specific sections (reading list, data embeds). */
+  tone: "mineral" | "data" | "energy" | "water"
 }
 
 type CaseVideo = {
@@ -59,12 +57,6 @@ type CaseFigure = {
   enlarge?: boolean
 }
 
-/* The water and policy case studies reuse the Clean Energy cover and article layout;
-   its own colours are set in selected-work.css. */
-const layoutTone = (tone: Project["tone"]) =>
-  tone === "water" || tone === "policy" ? `energy ${tone}` : tone
-
-
 const projects: Project[] = [
   {
     slug: "critical-minerals",
@@ -75,8 +67,12 @@ const projects: Project[] = [
       "Evaluating strategic mineral opportunities from technical promise to commercial reality.",
     description:
       "A future case study exploring the questions, frameworks and decision-making behind strategic critical minerals investments.",
-    coverTitle: ["Critical", "Minerals"],
-    coverSubtitle: "Investment & Commercialization",
+    cover: {
+      title: "Critical Minerals",
+      image: "/covers/cover-critical-minerals.webp",
+      alt: "A metallic mineral specimen with golden cubic crystals",
+      color: "#7b1e2e",
+    },
     caseHeadline: "Turning Critical Minerals Projects into Investments",
     caseIntroduction:
       "Technical assessment, commercial negotiations, investment strategy and data analytics supporting critical minerals investment and commercialization.",
@@ -106,71 +102,23 @@ const projects: Project[] = [
         body: "Developed dashboards to visualize project pipelines, track funding allocations and support strategic investment decisions.",
       },
     ],
-    image:
-      "https://images.unsplash.com/photo-1784662193217-62fb0fd7ec2c?auto=format&fit=crop&w=1800&q=90",
-    imageAlt:
-      "Placeholder image of glowing pink and red mineral crystals against a dark background",
-    featureImage: "/critical-minerals.png",
-    featureImageAlt:
-      "A curated arrangement of colourful mineral specimens on a white background",
     tone: "mineral",
   },
   {
-    slug: "pacific-renewable-energy",
-    number: "02",
-    title: "Pacific Renewable Energy Data Visualization",
-    eyebrow: "Independent project · Data",
-    summary:
-      "Tracing electricity access and renewable energy transitions across Papua New Guinea and Tonga.",
-    description:
-      "An interactive visual investigation of energy access and transition pathways. Final charts, methodology and source notes will be added to the complete case study.",
-    coverTitle: ["Pacific", "Energy"],
-    coverSubtitle: "Data Visualization",
-    caseHeadline: "Making Pacific Energy Transitions Visible",
-    caseIntroduction:
-      "An independent interactive data visualization examining electricity access and renewable energy transitions in Papua New Guinea and Tonga.",
-    contributions: [
-      {
-        number: "01",
-        title: "Investigating Pacific Energy Systems",
-        highlight: "Electricity Access & Renewable Energy",
-        body: "Analyzed electricity access, power generation and renewable energy development across Pacific Island countries and territories, including Papua New Guinea and Tonga.",
-      },
-      {
-        number: "02",
-        title: "Analyzing Energy Data",
-        highlight: "Pacific Data Hub & IRENA",
-        body: "Collected, cleaned and compared energy datasets from Pacific Data Hub and IRENA to investigate oil dependence, renewable electricity generation and differences in energy infrastructure.",
-      },
-      {
-        number: "03",
-        title: "Building Interactive Visualizations",
-        highlight: "Excel & Flourish",
-        body: "Developed interactive data visualizations using Excel and Flourish, including animated scatterplots, packed bubble charts and radial charts to explore energy trends across Pacific countries.",
-      },
-      {
-        number: "04",
-        title: "Communicating Energy Transitions",
-        highlight: "Visual Storytelling Through Data",
-        body: "Created an accessible visual narrative highlighting the different energy transition challenges facing Pacific Island countries, from electricity access to reducing oil dependence and expanding renewable capacity.",
-      },
-    ],
-    featureImage: "/pacific-energy.png",
-    featureImageAlt:
-      "Lush mountainous Pacific Islands landscape with cloud moving through deep green valleys",
-    tone: "data",
-  },
-  {
     slug: "clean-energy-innovation",
-    number: "03",
+    number: "02",
     title: "Clean Energy Technology & Innovation",
     eyebrow: "Research · Collaboration",
     summary:
       "Connecting carbon management, emerging technology and international collaboration.",
     description:
       "A future case study bringing together selected work across clean energy technology research, strategy and international collaboration.",
-    coverTitle: ["Clean", "Energy"],
-    coverSubtitle: "Technology, Innovation & Decarbonization",
+    cover: {
+      title: "Clean Energy",
+      image: "/covers/cover-clean-energy.webp",
+      alt: "An industrial carbon capture installation with banks of large fans and steel pipework",
+      color: "#1f4a33",
+    },
     caseHeadline: "Connecting Clean Energy Ideas to Action",
     caseIntroduction:
       "Work spanning clean energy technology, carbon management strategy and international collaboration, with particular emphasis on carbon capture, utilization and storage.",
@@ -200,14 +148,53 @@ const projects: Project[] = [
         body: "Provided technical review and Canadian regulatory context for an International Energy Agency handbook on CCUS legal and regulatory frameworks.",
       },
     ],
-    image:
-      "https://images.unsplash.com/photo-1678984238170-00e65a997e34?auto=format&fit=crop&w=1800&q=90",
-    imageAlt:
-      "Tall industrial processing tower with a dense network of steel pipes",
-    featureImage: "/clean-energy.png",
-    featureImageAlt:
-      "Direct air capture installation with repeating industrial equipment set against a green landscape",
     tone: "energy",
+  },
+  {
+    slug: "pacific-renewable-energy",
+    number: "03",
+    title: "Pacific Renewable Energy Data Visualization",
+    eyebrow: "Independent project · Data",
+    summary:
+      "Tracing electricity access and renewable energy transitions across Papua New Guinea and Tonga.",
+    description:
+      "An interactive visual investigation of energy access and transition pathways. Final charts, methodology and source notes will be added to the complete case study.",
+    cover: {
+      title: "Pacific Energy",
+      image: "/covers/cover-pacific-energy.webp",
+      alt: "A white wind turbine against a pale sky",
+      color: "#1c3d6e",
+    },
+    caseHeadline: "Making Pacific Energy Transitions Visible",
+    caseIntroduction:
+      "An independent interactive data visualization examining electricity access and renewable energy transitions in Papua New Guinea and Tonga.",
+    contributions: [
+      {
+        number: "01",
+        title: "Investigating Pacific Energy Systems",
+        highlight: "Electricity Access & Renewable Energy",
+        body: "Analyzed electricity access, power generation and renewable energy development across Pacific Island countries and territories, including Papua New Guinea and Tonga.",
+      },
+      {
+        number: "02",
+        title: "Analyzing Energy Data",
+        highlight: "Pacific Data Hub & IRENA",
+        body: "Collected, cleaned and compared energy datasets from Pacific Data Hub and IRENA to investigate oil dependence, renewable electricity generation and differences in energy infrastructure.",
+      },
+      {
+        number: "03",
+        title: "Building Interactive Visualizations",
+        highlight: "Excel & Flourish",
+        body: "Developed interactive data visualizations using Excel and Flourish, including animated scatterplots, packed bubble charts and radial charts to explore energy trends across Pacific countries.",
+      },
+      {
+        number: "04",
+        title: "Communicating Energy Transitions",
+        highlight: "Visual Storytelling Through Data",
+        body: "Created an accessible visual narrative highlighting the different energy transition challenges facing Pacific Island countries, from electricity access to reducing oil dependence and expanding renewable capacity.",
+      },
+    ],
+    tone: "data",
   },
   {
     slug: "drinking-water-micropollutants",
@@ -218,8 +205,12 @@ const projects: Project[] = [
       "Modelling how ozonation removes micropollutants at three Ontario drinking water treatment plants.",
     description:
       "Master’s research on predicting the removal of micropollutants by ozonation in water drawn from Lake Ontario and the Grand River.",
-    coverTitle: ["Drinking", "Water"],
-    coverSubtitle: "Micropollutant Removal & Ozonation Modelling",
+    cover: {
+      title: "Drinking Water",
+      image: "/covers/cover-drinking-water.webp",
+      alt: "A single translucent drop of water with small bubbles inside",
+      color: "#0d6870",
+    },
     caseHeadline: "Predicting Micropollutant Removal in Drinking Water",
     caseIntroduction:
       "Master of Applied Science (MASc) in Civil and Environmental Engineering | University of Waterloo | 2019",
@@ -290,79 +281,12 @@ const projects: Project[] = [
       },
     ],
     // Hero photo: a treatment-plant photograph is planned once its licence is
-    // confirmed. Until then the hero uses the cover image (Figure 4.10 panels).
+    // confirmed. Until then the hero uses the cover visual.
     // heroImage: {
     //   src: "/case-studies/thesis-hero-treatment-plant.jpg",
     //   alt: "Water flowing over the weir of a large circular treatment tank, with trees and blue sky behind",
     // },
-    // Cover: panels A and B of thesis Figure 4.10 (the full figure appears in the case study).
-    featureImage: "/case-studies/thesis-cover-btex-panels.png",
-    featureImageAlt:
-      "Two simulated degradation curves from the thesis: BTEX compound concentrations falling over 1,500 seconds at an ozone dose of 1 mg/L, at 20 °C and 5 °C",
     tone: "water",
-  },
-  {
-    slug: "indigenous-drinking-water-policy",
-    number: "05",
-    title: "A Holistic Approach to Measuring Drinking Water Success in Indigenous Communities",
-    eyebrow: "Science Policy · Drinking Water · Indigenous Communities",
-    summary:
-      "A policy proposal for measures of drinking water success that go beyond boil water advisories.",
-    description:
-      "Policy proposal recognized as a runner-up in the Canadian Science Policy Centre’s 2019 Science Policy Awards of Excellence – Youth Category.",
-    coverTitle: ["Water", "Policy"],
-    coverSubtitle: "Measuring Drinking Water Success in Indigenous Communities",
-    caseHeadline: "Measuring Drinking Water Success in Indigenous Communities",
-    caseIntroduction:
-      "Policy proposal | Canadian Science Policy Centre, Science Policy Awards of Excellence – Youth Category | 2019",
-    contributionsLabel: "Policy proposal",
-    contributionsHeading: "The proposal",
-    contributionsLayout: "chapters",
-    // Content summarized from the proposal as published by CSPC (2019).
-    contributions: [
-      {
-        number: "01",
-        title: "The Challenge",
-        body: [
-          "Indigenous communities in Canada are disproportionately affected by poor drinking water quality, linked to factors including colonization, governance, water infrastructure and operator training.",
-          "In 2015, the federal government pledged to end long-term boil water advisories in Indigenous communities. But focusing only on advisories can leave communities behind. Many households without running water rely on cisterns filled by water trucks, where water can become contaminated during delivery; because the treatment plant itself produces safe water, no advisory is issued — and in one community the proposal describes, that meant no eligibility for additional funding. Even after an advisory is lifted, residents may remain unsatisfied with, and distrustful of, their water.",
-          "The proposal argued for new measures of drinking water success, developed in collaboration with Indigenous people, that reflect the full state of drinking water in their communities.",
-        ],
-      },
-      {
-        number: "02",
-        title: "My Approach",
-        body: "Drawing on published research on drinking water, health and governance in Indigenous communities, I proposed a four-step policy approach:",
-        points: [
-          { label: "A dedicated committee", text: "Create a committee with meaningful Indigenous representation, drinking water experts, federal and provincial officials and researchers, to develop measures of drinking water success founded in Indigenous knowledge and values." },
-          { label: "Broader measures of success", text: "Alongside standard water quality measures, consider factors such as residents’ satisfaction with their tap water, how often they drink it, and health outcomes such as gastrointestinal illness, waterborne disease and skin problems." },
-          { label: "Community-based research", text: "Determine where new research is needed and carry it out through community-based participatory methods, including communities that rely on cisterns rather than running water." },
-          { label: "Drinking water goals", text: "Set drinking water goals against the new measures — federally, provincially or by community — with the appropriate agencies allocating resources to meet them." },
-        ],
-        video: {
-          id: "ECDsMIN_8EY",
-          title: "Watch the Policy Interview",
-          description: "My 2019 video interview discussing this policy proposal.",
-        },
-      },
-      {
-        number: "03",
-        title: "Results & Recognition",
-        highlight: "Runner-up — Canadian Science Policy Centre, 5th Annual Science Policy Awards of Excellence – Youth Category (2019)",
-        body: [
-          "The proposal was one of two runners-up in the Youth Category, which recognizes people under 35 who develop innovative, evidence-based policy proposals that would make a positive difference to Canadians. The 2019 awards were presented at the 11th Canadian Science Policy Conference in Ottawa in November 2019.",
-          "The work connects engineering knowledge of drinking water treatment with policy design: how success is measured shapes which communities receive attention and resources.",
-        ],
-        quote: {
-          text: "Through the collaborative water program at the University of Waterloo I learned about drinking water treatment issues in Indigenous communities. I had the opportunity to learn from Indigenous communities themselves and even had the honor of attending a water ceremony.",
-          source: "From my award profile, CSPC 2019",
-        },
-      },
-    ],
-    featureImage: "/case-studies/policy-cover-quote.svg",
-    featureImageAlt:
-      "Quotation from the proposal: “Boil water advisories on their own do not provide enough information on the state of drinking water in Indigenous communities.”",
-    tone: "policy",
   },
 ]
 
@@ -416,7 +340,7 @@ const homeObjects: HomeObject[] = [
   },
   {
     id: "experience", description: "Professional background",
-    x: 650, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: 10, dy: 12 },
+    x: 600, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: -20, dy: 12 },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
@@ -431,17 +355,17 @@ const homeObjects: HomeObject[] = [
   },
   {
     id: "lab", description: "Technical and creative projects",
-    x: 1330, w: 256, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 80, dy: 12 },
+    x: 1330, w: 256, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 130, dy: 12 },
     layers: [{ src: "/home-objects/03_lab_cloche.webp" }],
   },
   {
     id: "about", description: "My approach and interests",
-    x: 650, w: 200, ground: 924, aspect: 487 / 390, base: 0.912, caption: { dx: 204, dy: -28 },
+    x: 760, w: 226, ground: 926, aspect: 487 / 390, base: 0.912, caption: { dx: -136, dy: -28 },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
     id: "associations", description: "Professional associations and volunteering",
-    x: 990, w: 196, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 26, dy: 14 },
+    x: 1056, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 0, dy: 14 },
     layers: [{ src: "/home-objects/06_associations_espresso_cup.webp" }],
     steam: true,
   },
@@ -449,7 +373,7 @@ const homeObjects: HomeObject[] = [
     // Back of the holder, then the pen, then the holder again clipped to its
     // front wall: the pen's lower end disappears inside the cup.
     id: "contact", description: "Let’s connect",
-    x: 1232, w: 150, ground: 905, aspect: 457 / 303, base: 0.932, caption: { dx: 160, dy: -22 },
+    x: 1300, w: 150, ground: 905, aspect: 457 / 303, base: 0.932, caption: { dx: 160, dy: -22 },
     layers: [
       { src: "/home-objects/06_contact_pen_holder.webp", className: "ch-holder" },
       { src: "/home-objects/07_contact_animated_pen.webp", className: "ch-pen" },
@@ -520,7 +444,15 @@ function CuriosityHomepage() {
                   <span className="ch-object__shadow" aria-hidden="true" />
                   <span className="ch-object__art" aria-hidden="true">
                     {object.layers.map((layer, i) => (
-                      <img className={layer.className} src={layer.src} alt="" draggable={false} key={i} />
+                      <img
+                        className={layer.className}
+                        src={layer.src}
+                        alt=""
+                        draggable={false}
+                        key={i}
+                        // hover and clicks only register on the visible artwork
+                        style={{ clipPath: layer.className === "ch-holder-front" ? undefined : objectHulls[layer.src] }}
+                      />
                     ))}
                     {object.steam && (
                       <svg className="ch-steam" viewBox="0 0 120 200" aria-hidden="true">
@@ -658,8 +590,8 @@ function MagazineExperiment({
           <em>{section("selected-work").label.split(" ").at(-1)}</em>
         </h2>
         <p className="ps-lede">
-          Please explore my experience across critical minerals, Pacific energy
-          systems, clean technology, drinking water research and water policy.
+          Please explore my experience across critical minerals, clean energy
+          technology, Pacific energy systems and drinking water research.
         </p>
       </header>
 
@@ -667,17 +599,12 @@ function MagazineExperiment({
         <div className="cover-browser__stage" aria-live="polite">
           {projects.map((project, index) => {
             const position = getPosition(index)
-            const title = project.coverTitle
-            const subtitle = project.coverSubtitle
-
             return (
               <article
-                className={`magazine-cover ${layoutTone(project.tone)
-                  .split(" ")
-                  .map((tone) => `magazine-cover--${tone}`)
-                  .join(" ")} magazine-cover--${position} ${
+                className={`magazine-cover magazine-cover--issue magazine-cover--${position} ${
                   openingCover === index ? "magazine-cover--opening" : ""
                 }`}
+                style={{ "--issue-color": project.cover.color } as CSSProperties}
                 key={project.title}
                 aria-current={position === "active" ? "true" : undefined}
                 aria-hidden={position === "back" ? true : undefined}
@@ -699,7 +626,7 @@ function MagazineExperiment({
                   }
                 >
                   <span className="magazine-cover__inside" aria-hidden="true">
-                    <img src={project.featureImage} alt="" />
+                    <img src={project.cover.image} alt="" />
                   </span>
                   <span
                     className="magazine-cover__paper"
@@ -707,26 +634,14 @@ function MagazineExperiment({
                       if (openingCover === index) finishOpening(project)
                     }}
                   >
-                    <span className="magazine-cover__masthead">
-                      <span>Selected Work</span>
-                      <span>Issue 1</span>
+                    {/* the title is text, one word per line, sized to the cover width */}
+                    <span className="issue__title">
+                      {project.cover.title.split(" ").map((word) => (
+                        <span key={word}>{word}</span>
+                      ))}
                     </span>
-                    <span className="magazine-cover__copy">
-                      <span className="magazine-cover__title">
-                        <span>{title[0]}</span>
-                        <span>{title[1]}</span>
-                      </span>
-                      <span className="magazine-cover__subtitle">
-                        {subtitle}
-                      </span>
-                    </span>
-
-                    <span className="magazine-cover__image">
-                      <img
-                        className="magazine-cover__photo"
-                        src={project.featureImage}
-                        alt={project.featureImageAlt}
-                      />
+                    <span className="issue__visual">
+                      <img src={project.cover.image} alt={project.cover.alt} />
                     </span>
                   </span>
                 </button>
@@ -860,6 +775,67 @@ function CaseStudyFigure({ figure }: { figure: CaseFigure }) {
   )
 }
 
+/** External link card used in the reading lists. */
+type ReadingLink = {
+  href: string
+  kicker: string
+  title: string
+  meta?: string
+  text?: string
+  note?: string
+  featured?: boolean
+}
+
+const readingLists: Partial<Record<Project["tone"], { label: string; heading: string; links: ReadingLink[] }>> = {
+  mineral: {
+    label: "Further reading",
+    heading: "Independent coverage and context",
+    links: [
+      {
+        featured: true,
+        href: "https://www.reuters.com/business/canada-accelerate-critical-mineral-projects-worth-46-billion-energy-minister-2025-10-31/",
+        kicker: "Featured article · In the News",
+        meta: "Reuters | October 31, 2025",
+        title: "Canada to accelerate critical mineral projects worth $4.6 billion",
+        text: "Reuters coverage of Canada’s Critical Minerals Production Alliance, including the Rio Tinto and Nouveau Monde Graphite offtake agreements.",
+        note: "Subscription may be required.",
+      },
+      {
+        href: "https://www.canada.ca/en/campaign/critical-minerals-in-canada/canadian-critical-minerals-strategy.html",
+        kicker: "Secondary resource · Policy Context",
+        title: "The Canadian Critical Minerals Strategy",
+        text: "Canada’s national strategy for developing critical minerals value chains and supporting investment in domestic production and processing.",
+      },
+    ],
+  },
+  energy: {
+    label: "Further reading",
+    heading: "Public context for the work",
+    links: [
+      {
+        href: "https://natural-resources.canada.ca/energy-sources/carbon-management/canada-carbon-management-strategy",
+        kicker: "Government of Canada",
+        title: "Canada’s Carbon Management Strategy",
+      },
+      {
+        href: "https://www.iea.org/reports/legal-and-regulatory-frameworks-for-ccus",
+        kicker: "International Energy Agency",
+        title: "Legal and Regulatory Frameworks for CCUS",
+      },
+    ],
+  },
+}
+
+const flourishCharts = [
+  { id: "30103551", kind: "01 · Packed bubble chart", title: "Pacific Energy Systems Are Transitioning to Renewables" },
+  { id: "30064554", kind: "02 · Animated scatterplot", title: "The Pacific’s Power Generation: A Transition Away from Oil" },
+  { id: "30103365", kind: "03 · Interactive radial chart", title: "Pacific Renewable Electricity in 2025: On-Grid or Off-Grid?" },
+]
+
+/**
+ * A case study laid out as a magazine feature: an opening spread in the
+ * cover's colours, the contributions, then project-specific resources.
+ */
 function MagazineCaseStudy({
   project,
   onBack,
@@ -882,63 +858,54 @@ function MagazineCaseStudy({
     document.body.appendChild(script)
   }, [project.tone])
 
+  const chapters = project.contributionsLayout === "chapters"
+  const reading = readingLists[project.tone]
+  const hero = project.heroImage ?? { src: project.cover.image, alt: project.cover.alt }
+
   return (
-    <main
-      className={`case-study ${layoutTone(project.tone)
-        .split(" ")
-        .map((tone) => `case-study--${tone}`)
-        .join(" ")}`}
-    >
-      <nav className="case-study__nav" aria-label="Case study navigation">
+    <main className="cs" style={{ "--cs-accent": project.cover.color } as CSSProperties}>
+      <nav className="cs-nav" aria-label="Case study navigation">
         <button onClick={onBack}>
           <svg aria-hidden="true" viewBox="0 0 24 24">
             <path d="M19 12H5M10 7l-5 5 5 5" />
           </svg>
           <span>Back to Selected Work</span>
         </button>
-        <span>Case Study / {project.number}</span>
+        <span>
+          Selected Work · {project.number} of {String(projects.length).padStart(2, "0")}
+        </span>
       </nav>
 
-      <header
-        className={`article-hero${project.heroImage ? " article-hero--photo" : ""}`}
-      >
-        <div className="article-hero__copy">
-          <p>{project.eyebrow}</p>
+      <header className="cs-hero">
+        <div className="cs-hero__copy">
+          <p className="cs-kicker">{project.eyebrow}</p>
           <h1>{project.caseHeadline}</h1>
-          <p className="article-hero__intro">{project.caseIntroduction}</p>
+          <p className="cs-hero__intro">{project.caseIntroduction}</p>
         </div>
-        <div className="article-hero__visual" aria-label="Project visual">
-          <img
-            src={project.heroImage?.src ?? project.featureImage}
-            alt={project.heroImage?.alt ?? project.featureImageAlt}
-          />
-          <span>Selected Work / {project.number}</span>
-        </div>
+        <figure className={`cs-hero__visual${project.heroImage ? " cs-hero__visual--photo" : ""}`}>
+          <img src={hero.src} alt={hero.alt} />
+        </figure>
       </header>
 
       <section
-        className={`article-contributions article-contributions--editorial${
-          project.contributionsLayout === "chapters"
-            ? " article-contributions--chapters"
-            : ""
-        }`}
+        className={`cs-section cs-contrib${chapters ? " cs-contrib--chapters" : ""}`}
         aria-labelledby="contributions-title"
       >
-        <header>
-          <p>{project.contributionsLabel ?? "Selected contributions"}</p>
+        <header className="cs-section__head">
+          <p className="cs-kicker">{project.contributionsLabel ?? "Selected contributions"}</p>
           <h2 id="contributions-title">
             {project.contributionsHeading ?? "Four areas of contribution"}
           </h2>
         </header>
-        <div className="article-contributions__list">
+        <div className="cs-contrib__list">
           {project.contributions.map((contribution) => (
-            <article key={contribution.number}>
-              <span>{contribution.number}</span>
+            <article className="cs-card" key={contribution.number}>
+              <span className="cs-card__number">{contribution.number}</span>
               <h3>{contribution.title}</h3>
-              <div className="article-contributions__copy">
-                {contribution.highlight && (
-                  <strong>{contribution.highlight}</strong>
-                )}
+              {contribution.highlight && (
+                <p className="cs-card__highlight">{contribution.highlight}</p>
+              )}
+              <div className="cs-card__body">
                 {(Array.isArray(contribution.body)
                   ? contribution.body
                   : [contribution.body]
@@ -946,42 +913,40 @@ function MagazineCaseStudy({
                   <p key={paragraph}>{paragraph}</p>
                 ))}
                 {contribution.pointsLead && (
-                  <p className="article-contributions__lead">
-                    {contribution.pointsLead}
-                  </p>
-                )}
-                {contribution.points && (
-                  <ul>
-                    {contribution.points.map((point) =>
-                      typeof point === "string" ? (
-                        <li key={point}>{point}</li>
-                      ) : (
-                        <li key={point.label}>
-                          <b>{point.label}</b> {point.text}
-                        </li>
-                      ),
-                    )}
-                  </ul>
-                )}
-                {contribution.link && (
-                  <a
-                    className="article-contributions__link"
-                    href={contribution.link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {contribution.link.label} <span aria-hidden="true">↗</span>
-                  </a>
-                )}
-                {contribution.quote && (
-                  <blockquote className="article-contributions__quote">
-                    <p>“{contribution.quote.text}”</p>
-                    <cite>{contribution.quote.source}</cite>
-                  </blockquote>
+                  <p className="cs-card__lead">{contribution.pointsLead}</p>
                 )}
               </div>
+              {contribution.points && (
+                <ul className="cs-points">
+                  {contribution.points.map((point) =>
+                    typeof point === "string" ? (
+                      <li key={point}>{point}</li>
+                    ) : (
+                      <li key={point.label}>
+                        <b>{point.label}</b> {point.text}
+                      </li>
+                    ),
+                  )}
+                </ul>
+              )}
+              {contribution.link && (
+                <a
+                  className="cs-card__link"
+                  href={contribution.link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {contribution.link.label} <span aria-hidden="true">↗</span>
+                </a>
+              )}
+              {contribution.quote && (
+                <blockquote className="cs-quote">
+                  <p>“{contribution.quote.text}”</p>
+                  <cite>{contribution.quote.source}</cite>
+                </blockquote>
+              )}
               {(contribution.figure || contribution.video) && (
-                <div className="article-chapter__media">
+                <div className="cs-media">
                   {contribution.figure && (
                     <CaseStudyFigure figure={contribution.figure} />
                   )}
@@ -995,160 +960,48 @@ function MagazineCaseStudy({
         </div>
       </section>
 
-      {project.tone === "mineral" && (
-        <section
-          className="article-reading article-reading--minerals"
-          aria-labelledby="critical-reading-title"
-        >
-          <header>
-            <p>Further reading</p>
-            <h2 id="critical-reading-title">Independent coverage and context</h2>
-          </header>
-          <div className="article-reading__links">
-            <a
-              className="article-reading__featured"
-              href="https://www.reuters.com/business/canada-accelerate-critical-mineral-projects-worth-46-billion-energy-minister-2025-10-31/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>Featured article · In the News</span>
-              <small>Reuters | October 31, 2025</small>
-              <strong>
-                Canada to accelerate critical mineral projects worth $4.6
-                billion
-              </strong>
-              <p>
-                Reuters coverage of Canada’s Critical Minerals Production
-                Alliance, including the Rio Tinto and Nouveau Monde Graphite
-                offtake agreements.
-              </p>
-              <em>Subscription may be required.</em>
-              <i aria-hidden="true">↗</i>
-            </a>
-            <a
-              className="article-reading__secondary"
-              href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/canadian-critical-minerals-strategy.html"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>Secondary resource · Policy Context</span>
-              <strong>The Canadian Critical Minerals Strategy</strong>
-              <p>
-                Canada’s national strategy for developing critical minerals
-                value chains and supporting investment in domestic production
-                and processing.
-              </p>
-              <i aria-hidden="true">↗</i>
-            </a>
-          </div>
-        </section>
-      )}
-
       {project.tone === "data" && (
         <>
-          <section className="article-data" aria-labelledby="visuals-title">
-            <header>
-              <p>Published visual investigation</p>
+          <section className="cs-section cs-data" aria-labelledby="visuals-title">
+            <header className="cs-section__head">
+              <p className="cs-kicker">Published visual investigation</p>
               <h2 id="visuals-title">Explore the Data</h2>
             </header>
-            <div className="article-data__visuals">
-              <article className="flourish-visual">
-                <header>
-                  <div>
-                    <span>01 · Packed bubble chart</span>
-                    <h3>
-                      Pacific Energy Systems Are Transitioning to Renewables
-                    </h3>
-                  </div>
-                  <a
-                    href="https://public.flourish.studio/visualisation/30103551/"
-                    target="_blank"
-                    rel="noreferrer"
+            <div className="cs-data__charts">
+              {flourishCharts.map((chart) => (
+                <article className="cs-chart" key={chart.id}>
+                  <header>
+                    <div>
+                      <span>{chart.kind}</span>
+                      <h3>{chart.title}</h3>
+                    </div>
+                    <a
+                      href={`https://public.flourish.studio/visualisation/${chart.id}/`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open in Flourish <span aria-hidden="true">↗</span>
+                    </a>
+                  </header>
+                  <iframe
+                    title={chart.title}
+                    src={`https://flo.uri.sh/visualisation/${chart.id}/embed`}
+                    loading="lazy"
+                    allowFullScreen
                   >
-                    Open in Flourish <span aria-hidden="true">↗</span>
-                  </a>
-                </header>
-                <iframe
-                  title="Pacific Energy Systems Are Transitioning to Renewables"
-                  src="https://flo.uri.sh/visualisation/30103551/embed"
-                  loading="lazy"
-                  allowFullScreen
-                >
-                  <a href="https://public.flourish.studio/visualisation/30103551/">
-                    <img
-                      src="https://public.flourish.studio/visualisation/30103551/thumbnail"
-                      alt="Open Pacific Energy Systems Are Transitioning to Renewables in Flourish"
-                    />
-                  </a>
-                </iframe>
-              </article>
-
-              <article className="flourish-visual">
-                <header>
-                  <div>
-                    <span>02 · Animated scatterplot</span>
-                    <h3>
-                      The Pacific’s Power Generation: A Transition Away from Oil
-                    </h3>
-                  </div>
-                  <a
-                    href="https://public.flourish.studio/visualisation/30064554/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open in Flourish <span aria-hidden="true">↗</span>
-                  </a>
-                </header>
-                <iframe
-                  title="The Pacific’s Power Generation: A Transition Away from Oil"
-                  src="https://flo.uri.sh/visualisation/30064554/embed"
-                  loading="lazy"
-                  allowFullScreen
-                >
-                  <a href="https://public.flourish.studio/visualisation/30064554/">
-                    <img
-                      src="https://public.flourish.studio/visualisation/30064554/thumbnail"
-                      alt="Open The Pacific’s Power Generation: A Transition Away from Oil in Flourish"
-                    />
-                  </a>
-                </iframe>
-              </article>
-
-              <article className="flourish-visual">
-                <header>
-                  <div>
-                    <span>03 · Interactive radial chart</span>
-                    <h3>
-                      Pacific Renewable Electricity in 2025: On-Grid or
-                      Off-Grid?
-                    </h3>
-                  </div>
-                  <a
-                    href="https://public.flourish.studio/visualisation/30103365/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open in Flourish <span aria-hidden="true">↗</span>
-                  </a>
-                </header>
-                <iframe
-                  title="Pacific Renewable Electricity in 2025: On-Grid or Off-Grid?"
-                  src="https://flo.uri.sh/visualisation/30103365/embed"
-                  loading="lazy"
-                  allowFullScreen
-                >
-                  <a href="https://public.flourish.studio/visualisation/30103365/">
-                    <img
-                      src="https://public.flourish.studio/visualisation/30103365/thumbnail"
-                      alt="Open Pacific Renewable Electricity in 2025: On-Grid or Off-Grid? in Flourish"
-                    />
-                  </a>
-                </iframe>
-              </article>
+                    <a href={`https://public.flourish.studio/visualisation/${chart.id}/`}>
+                      <img
+                        src={`https://public.flourish.studio/visualisation/${chart.id}/thumbnail`}
+                        alt={`Open ${chart.title} in Flourish`}
+                      />
+                    </a>
+                  </iframe>
+                </article>
+              ))}
             </div>
           </section>
-          <section className="article-links" aria-labelledby="links-title">
-            <p>View the project</p>
+          <section className="cs-cta" aria-labelledby="links-title">
+            <p className="cs-kicker">View the project</p>
             <h2 id="links-title">Pacific Energy Data Visualization</h2>
             <a
               href="https://sites.google.com/view/sabrinabedjerapacificdataviz/pacific-data-visualization"
@@ -1161,40 +1014,35 @@ function MagazineCaseStudy({
         </>
       )}
 
-      {project.tone === "energy" && (
-        <section
-          className="article-reading"
-          aria-labelledby="further-reading-title"
-        >
-          <header>
-            <p>Further reading</p>
-            <h2 id="further-reading-title">Public context for the work</h2>
+      {reading && (
+        <section className="cs-section cs-reading" aria-labelledby="reading-title">
+          <header className="cs-section__head">
+            <p className="cs-kicker">{reading.label}</p>
+            <h2 id="reading-title">{reading.heading}</h2>
           </header>
-          <div className="article-reading__links">
-            <a
-              href="https://natural-resources.canada.ca/energy-sources/carbon-management/canada-carbon-management-strategy"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>Government of Canada</span>
-              <strong>Canada’s Carbon Management Strategy</strong>
-              <i aria-hidden="true">↗</i>
-            </a>
-            <a
-              href="https://www.iea.org/reports/legal-and-regulatory-frameworks-for-ccus"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>International Energy Agency</span>
-              <strong>Legal and Regulatory Frameworks for CCUS</strong>
-              <i aria-hidden="true">↗</i>
-            </a>
+          <div className="cs-reading__links">
+            {reading.links.map((link) => (
+              <a
+                className={`cs-link${link.featured ? " cs-link--featured" : ""}`}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                key={link.href}
+              >
+                <span className="cs-link__kicker">{link.kicker}</span>
+                {link.meta && <small>{link.meta}</small>}
+                <strong>{link.title}</strong>
+                {link.text && <p>{link.text}</p>}
+                {link.note && <em>{link.note}</em>}
+                <i aria-hidden="true">↗</i>
+              </a>
+            ))}
           </div>
         </section>
       )}
 
-      <footer className="case-study__footer">
-        <p>End of case study / {project.number}</p>
+      <footer className="cs-footer">
+        <p>End of case study · {project.number}</p>
         <button onClick={onBack}>
           <span>Back to Selected Work</span>
           <Arrow />

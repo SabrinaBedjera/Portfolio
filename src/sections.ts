@@ -27,9 +27,9 @@ export const sections: Section[] = [
   { id: "selected-work", label: "Selected Work", number: "01" },
   { id: "experience", label: "Professional Experience", number: "02", caption: "Experience" },
   { id: "education", label: "Education", number: "03" },
-  { id: "associations", label: "Associations", number: "06" },
   { id: "lab", label: "Lab", number: "04" },
   { id: "about", label: "About", number: "05" },
+  { id: "associations", label: "Associations", number: "06" },
   { id: "contact", label: "Contact", number: "07" },
 ]
 

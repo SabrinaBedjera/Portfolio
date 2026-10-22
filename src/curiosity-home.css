@@ -98,8 +98,8 @@
 .ch-eyebrow {
   margin: 0;
   color: var(--ch-ink);
-  font-size: 13px;
-  letter-spacing: .26em;
+  font-size: 14px;
+  letter-spacing: .24em;
   text-transform: uppercase;
 }
 .ch-eyebrow span { padding: 0 10px; }
@@ -141,7 +141,11 @@
   color: inherit;
   text-decoration: none;
   outline: none;
+  pointer-events: none;      /* only the artwork (clipped to its outline) and caption respond */
 }
+.ch-object__art img,
+.ch-caption { pointer-events: auto; }
+.ch-object--contact .ch-holder-front { pointer-events: none; }
 .ch-object__art {
   position: relative;
   z-index: 1;
@@ -204,7 +208,7 @@
 }
 .ch-caption__number {
   color: var(--ch-rust);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: .12em;
 }
 .ch-caption__title {
@@ -231,9 +235,9 @@
   position: absolute;
   z-index: 1;
   left: 34%;
-  top: -21%;
+  top: -14%;                       /* sits deeper in the holder */
   width: 60% !important;
-  transform-origin: 36% 64%;      /* where the pen crosses the front lip */
+  transform-origin: 36% 57%;      /* where the pen crosses the front lip */
   animation: ch-pen-idle 7s ease-in-out 1.5s infinite;
 }
 .ch-object--contact > a:hover .ch-pen,
@@ -482,6 +486,7 @@
   }
   .ch-object { position: relative; left: auto; top: auto; width: auto; }
   .ch-object > a {
+    pointer-events: auto;      /* the whole tile is the tap target on phones */
     display: flex;
     flex-direction: column;
     align-items: center;
