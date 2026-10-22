@@ -25,36 +25,51 @@ const additionalWork = [
   },
 ]
 
-const experience = [
-  {
-    when: "Nov 2022 – present",
-    organization: "Natural Resources Canada",
-    unit: "Critical Minerals Centre of Excellence",
-    text: "Evaluation of advanced clean energy and critical minerals projects; funding assessments and agreement development.",
-  },
+/* Career overview shown above the roles: one milestone per role, oldest first. */
+const careerMilestones = [
+  { year: "2015", label: "Research & Data" },
+  { year: "2019", label: "Water Security" },
+  { year: "2020", label: "IP & Emerging Technology" },
+  { year: "2022", label: "Carbon Management" },
+  { year: "2022–Present", label: "Critical Minerals & Clean Energy" },
+]
+
+type Role = { when: string; organization: string; unit: string; text: string }
+
+const currentRole: Role = {
+  when: "Nov 2022 – Present",
+  organization: "Natural Resources Canada",
+  unit: "Critical Minerals Centre of Excellence",
+  text: "Lead the assessment and advancement of critical minerals and clean energy projects, including technical and commercial due diligence, funding negotiations, and agreement development. Work across engineering, financial, economic and legal teams to evaluate project viability and support commercialization.",
+}
+
+const earlierNrcanRoles: Role[] = [
   {
     when: "Jan 2022 – Nov 2022",
     organization: "Natural Resources Canada",
     unit: "Carbon Capture Division",
-    text: "Carbon management initiatives, including Canada’s Carbon Management Strategy and International Energy Agency CCUS handbooks.",
+    text: "Advanced carbon management policy and strategy, including Canada’s Carbon Management Strategy and International Energy Agency CCUS publications.",
   },
   {
     when: "Oct 2020 – Jan 2022",
     organization: "Natural Resources Canada",
     unit: "Intellectual Property Division",
-    text: "Technical and policy analysis on intellectual property, AI and climate-related technologies; performance indicators; NRCan’s inaugural IP conference.",
+    text: "Analyzed intellectual property, AI and emerging technologies, and developed performance indicators.",
   },
+]
+
+const researchRoles: Role[] = [
   {
     when: "Feb 2019 – Jul 2020",
     organization: "University of Waterloo",
     unit: "forWater Network",
-    text: "Engineering and policy research on water security, including a climate adaptation assessment framework.",
+    text: "Conducted engineering and policy research on water security, including development of a climate adaptation assessment framework.",
   },
   {
     when: "Sep 2015 – Feb 2019",
     organization: "Ontario Tech University",
     unit: "Data Management Lead",
-    text: "Research data management and qualitative analysis using NVivo and structured research datasets.",
+    text: "Led research data management and qualitative analysis using NVivo.",
   },
 ]
 
@@ -114,18 +129,38 @@ export default function PortfolioSections() {
       <section id="experience" className="ps-section" aria-labelledby="experience-title">
         <div className="ps-wrap">
           <SectionHead id="experience" number="03" title="Professional experience" />
-          <ol className="ps-timeline">
-            {experience.map((role) => (
-              <li key={role.when}>
-                <p className="ps-when">{role.when}</p>
-                <div>
-                  <h3>{role.organization}</h3>
-                  <p className="ps-where">{role.unit}</p>
-                  <p>{role.text}</p>
-                </div>
+          <ol className="ps-career" aria-label="Career overview, 2015 to present">
+            {careerMilestones.map((milestone, i) => (
+              <li className={i === careerMilestones.length - 1 ? "is-current" : undefined} key={milestone.label}>
+                <span className="ps-career__year">{milestone.year}</span>
+                <span className="ps-career__label">{milestone.label}</span>
               </li>
             ))}
           </ol>
+
+          <article className="ps-role ps-role--current">
+            <div>
+              <p className="ps-when">{currentRole.when}</p>
+              <p className="ps-role__org">{currentRole.organization}</p>
+            </div>
+            <div>
+              <h3>{currentRole.unit}</h3>
+              <p>{currentRole.text}</p>
+            </div>
+          </article>
+
+          {[earlierNrcanRoles, researchRoles].map((roles, i) => (
+            <div className={`ps-roles${i === 1 ? " ps-roles--compact" : ""}`} key={i}>
+              {roles.map((role) => (
+                <article className="ps-role" key={role.when}>
+                  <p className="ps-when">{role.when}</p>
+                  <h3>{role.organization}</h3>
+                  <p className="ps-where">{role.unit}</p>
+                  <p>{role.text}</p>
+                </article>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 

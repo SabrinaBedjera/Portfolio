@@ -80,33 +80,104 @@
 }
 .ps-card p { margin: 14px 0 0; font-size: 16px; }
 
-/* ---------- Experience ---------- */
-.ps-timeline {
-  margin: 0;
+/* ---------- Experience ----------
+   A compact career overview line, then the roles in three tiers:
+   the current role, earlier NRCan roles, and university research roles. */
+.ps-career {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin: -16px 0 56px;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--ps-rule);
 }
-.ps-timeline li {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 40px;
-  padding: 32px 0;
-  border-bottom: 1px solid var(--ps-rule);
+/* the connecting line runs through the markers, from the first to the last */
+.ps-career::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: calc(20% - 4px);
+  height: 1px;
+  background: rgba(43, 116, 65, .4);
 }
-.ps-when {
-  margin: 2px 0 0;
-  color: var(--ps-muted);
+.ps-career li {
+  position: relative;
+  padding: 22px 16px 0 0;
+}
+.ps-career li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--ps-accent);
+  border-radius: 50%;
+  background: var(--ps-paper);
+}
+.ps-career li.is-current::before { background: var(--ps-accent); }
+.ps-career__year {
+  display: block;
+  color: var(--ps-clay);
+  font-size: 12px;
+  letter-spacing: .14em;
+}
+.ps-career__label {
+  display: block;
+  margin-top: 4px;
+  color: var(--ps-text);
   font-size: 14px;
+  line-height: 1.35;
+}
+.ps-career li.is-current .ps-career__label { color: var(--ps-ink); font-weight: 500; }
+
+.ps-when {
+  margin: 0 0 8px;
+  color: var(--ps-muted);
+  font-size: 13px;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
 .ps-where {
-  margin: 4px 0 10px;
+  margin: 2px 0 8px;
   color: var(--ps-accent);
-  font-size: 16px;
+  font-size: 15px;
 }
-.ps-timeline p:last-child { margin-bottom: 0; font-size: 16px; }
+.ps-role p:last-child { margin-bottom: 0; }
+
+/* Current role: the most room and weight */
+.ps-role--current {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 48px;
+  padding: 36px 40px;
+  background: var(--ps-tint);
+  border-left: 3px solid var(--ps-accent);
+}
+.ps-role__org { margin: 0; color: var(--ps-ink); font-size: 17px; font-weight: 500; }
+.ps-role--current h3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.ps-role--current h3 + p { margin: 14px 0 0; font-size: 17px; }
+
+/* Earlier roles: two per row, getting smaller */
+.ps-roles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--ps-rule);
+}
+.ps-roles .ps-role p:last-child { font-size: 15px; }
+.ps-roles--compact { margin-top: 28px; padding-top: 22px; }
+.ps-roles--compact h3 { font-size: 16px; }
+.ps-roles--compact .ps-where { font-size: 14px; }
+.ps-roles--compact .ps-role p:last-child { color: var(--ps-muted); font-size: 14px; }
 
 /* ---------- Education & skills ---------- */
 .ps-two {
