@@ -32,11 +32,19 @@
 }
 .cs p { margin: 0; }
 .cs a { color: inherit; }
+.cs-nameplate {
+  margin-bottom: 18px !important;
+  color: var(--cs-accent);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(26px, 2.2vw, 32px);
+  font-style: italic;
+  line-height: 1;
+}
 .cs-kicker {
   color: var(--cs-accent);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: .16em;
+  letter-spacing: .08em;
   line-height: 1.5;
   text-transform: uppercase;
 }
@@ -56,7 +64,7 @@
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--cs-rule);
   font-size: 15px;
-  letter-spacing: .12em;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 .cs-nav button,
@@ -138,38 +146,45 @@
 }
 
 /* ---------- Contributions ---------- */
+/* Contributions as open editorial blocks: a rule in the issue colour,
+   numeral beside the title, the highlight set off, then the text. */
 .cs-contrib__list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(20px, 2.2vw, 32px);
+  gap: clamp(44px, 4.5vw, 64px) clamp(40px, 5vw, 80px);
 }
 .cs-card {
-  padding: clamp(26px, 2.6vw, 38px);
-  background: #fff;
-  border: 1px solid var(--cs-rule);
-  border-top: 4px solid var(--cs-accent);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 18px;
+  align-content: start;
+  padding-top: 26px;
+  border-top: 2px solid var(--cs-accent);
 }
+.cs-card > * { grid-column: 1 / -1; }
+.cs-card > .cs-card__number,
+.cs-card > h3 { grid-column: auto; align-self: baseline; }
 .cs-card__number {
-  display: block;
   color: var(--cs-accent);
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 54px;
-  line-height: .9;
+  font-size: clamp(34px, 2.8vw, 42px);
+  line-height: 1;
 }
 .cs-card h3 {
-  margin-top: 12px;
   color: var(--cs-ink);
   font-size: clamp(30px, 2.6vw, 38px);
-  line-height: 1.05;
+  line-height: 1.08;
 }
 .cs-card__highlight {
-  margin-top: 12px !important;
+  margin-top: 18px !important;
+  padding-left: 14px;
+  border-left: 3px solid var(--cs-accent);
   color: var(--cs-accent);
-  font-size: 19px;
+  font-size: clamp(18px, 1.35vw, 20px);
   font-weight: 600;
   line-height: 1.4;
 }
-.cs-card__body { margin-top: 14px; }
+.cs-card__body { margin-top: 16px; }
 .cs-card__body p,
 .cs-card__highlight,
 .cs-hero__intro,
@@ -265,7 +280,7 @@
   padding: 22px clamp(20px, 2.4vw, 32px);
   border-bottom: 1px solid var(--cs-rule);
 }
-.cs-chart header span { color: var(--cs-accent); font-size: 15px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.cs-chart header span { color: var(--cs-accent); font-size: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
 .cs-chart h3 { margin-top: 6px; color: var(--cs-ink); font-size: clamp(26px, 2.4vw, 34px); line-height: 1.1; }
 .cs-chart header a { flex: none; color: var(--cs-accent); font-size: 15px; white-space: nowrap; }
 .cs-chart iframe { display: block; width: 100%; height: clamp(460px, 56vw, 660px); border: 0; }
@@ -310,7 +325,7 @@
   transition: transform .25s ease, box-shadow .25s ease;
 }
 .cs-link:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(60, 40, 20, .12); }
-.cs-link__kicker { color: var(--cs-accent); font-size: 15px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.cs-link__kicker { color: var(--cs-accent); font-size: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
 .cs-link small { color: var(--cs-muted); font-size: 15px; }
 .cs-link strong { color: var(--cs-ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(28px, 2.4vw, 36px); font-weight: 400; line-height: 1.1; }
 .cs-link p { font-size: 18px; }
@@ -337,7 +352,7 @@
   box-sizing: border-box;
   border-top: 1px solid var(--cs-rule);
   font-size: 15px;
-  letter-spacing: .12em;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 .cs-footer p { color: var(--cs-muted); }
@@ -363,7 +378,7 @@
 /* ---------- Phone ---------- */
 @media (max-width: 600px) {
   .cs { font-size: 17px; }
-  .cs-nav { font-size: 12px; letter-spacing: .08em; }
+  .cs-nav { font-size: 14px; letter-spacing: .06em; }
   .cs-nav > span { display: none; }
   .cs-chart header { flex-direction: column; align-items: flex-start; }
   .cs-chart iframe { height: 520px; }

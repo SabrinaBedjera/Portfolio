@@ -15,6 +15,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap");
 
 .ch-home {
+  --ch-plum: #5b2d48;            /* the Technology book */
+  --ch-plum-line: #7b4a6c;       /* between the book and the mineral */
   --ch-ink: #1c2a22;
   --ch-text: #2e3530;
   --ch-rust: #a75825;
@@ -51,10 +53,12 @@
   text-decoration: none;
   text-transform: uppercase;
 }
-.ch-nav__brand {
+.ch-nav .ch-nav__brand {
   flex: none;
-  font-size: 16px;
-  letter-spacing: .3em;
+  color: var(--ch-plum);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: .2em;
 }
 .ch-nav__toggle { display: none; }
 /* Links sit in a thin double-ruled frame, like a printed table of contents. */
@@ -66,10 +70,10 @@
   margin: 0;
   padding: 7px 22px;
   list-style: none;
-  border: 1px solid rgba(28, 42, 34, .42);
-  outline: 1px solid rgba(28, 42, 34, .16);
+  border: 1px solid var(--ch-plum-line);
+  outline: 1px solid rgba(123, 74, 108, .28);
   outline-offset: 3px;
-  background: rgba(251, 246, 238, .38);
+  background: rgba(251, 246, 238, .42);
 }
 .ch-nav__links a {
   position: relative;
@@ -89,6 +93,8 @@
   transform: scaleX(0);
   transition: transform .25s ease;
 }
+.ch-nav__links a:hover,
+.ch-nav__links a:focus-visible { color: var(--ch-plum); }
 .ch-nav__links a:hover::after,
 .ch-nav__links a:focus-visible::after { transform: scaleX(1); }
 .ch-nav a:focus-visible { outline: 2px solid #1e5a55; outline-offset: 4px; }
@@ -98,27 +104,28 @@
 .ch-eyebrow {
   margin: 0;
   color: var(--ch-ink);
-  font-size: 14px;
-  letter-spacing: .24em;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .2em;
   text-transform: uppercase;
 }
 .ch-eyebrow span { padding: 0 10px; }
 .ch-copy h1 {
-  margin: 20px 0 0;
+  max-width: 13em;
+  margin: 18px 0 0;
   color: var(--ch-ink);
   font-family: "Newsreader", "Instrument Serif", Georgia, serif;
-  font-size: 64px;
+  font-size: 62px;
   font-weight: 400;
-  line-height: .95;
+  line-height: 1;
   letter-spacing: -.018em;
 }
 .ch-lede {
-  max-width: 560px;
-  margin: 18px 0 0;
+  max-width: 540px;
+  margin: 20px 0 0;
   color: var(--ch-text);
-  font-size: 21px;
-  line-height: 1.42;
-  text-wrap: balance;
+  font-size: 19px;
+  line-height: 1.55;
 }
 
 /* ---------- Scene and objects ---------- */
@@ -291,25 +298,26 @@
 /* ---------- Selected Work: the four issues as a stack on the table ----------
    Each cover reuses the carousel artwork (IssueArt). The plane lies flat
    in perspective; --i is a magazine's place in the stack (0 = top). On
-   hover or focus the covers fan out from a corner. */
+   hover or focus the issues beneath slide back, each stepping up just far
+   enough to show its title (--lift, set per issue below). */
 .ch-object--selected-work .ch-object__art { aspect-ratio: 1 / .6; }
 .ch-object--selected-work > a:hover .ch-object__art,
 .ch-object--selected-work > a:focus-visible .ch-object__art { transform: none; filter: none; }
 .ch-mags {
   position: absolute;
   inset: 0;
-  perspective: 1300px;
-  perspective-origin: 50% -20%;
+  perspective: 1400px;
+  perspective-origin: 50% -30%;
   pointer-events: none;
 }
 .ch-mags__plane {
   position: absolute;
-  left: 31%;
-  top: -19%;
-  width: 45%;
+  left: 32%;
+  top: 2%;
+  width: 39%;
   aspect-ratio: .715;
   transform-style: preserve-3d;
-  transform: rotateX(54deg) rotateZ(-24deg);
+  transform: rotateX(54deg) rotateZ(-14deg);
 }
 .ch-mag {
   position: absolute;
@@ -319,33 +327,54 @@
   display: flex;
   flex-direction: column;
   padding: 8% 7% 6%;
-  background: #f9f0e3;
-  border: 1px solid rgba(70, 48, 26, .2);
-  /* page edges, then a soft shadow onto whatever lies beneath */
+  background:
+    linear-gradient(105deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 38%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 70%, rgba(90, 60, 30, .06)),
+    #f9f0e3;
+  border: 1px solid rgba(70, 48, 26, .22);
+  border-radius: 1px 3px 3px 1px;
+  /* a few pages of thickness along the open edges, then a contact shadow */
   box-shadow:
-    1px 1px 0 #efe4d2,
-    2px 2px 0 #e2d4bd,
-    3px 3px 0 #d9c9b0,
-    6px 8px 14px rgba(60, 38, 18, .22);
-  transform-origin: 12% 88%;
+    1px 1px 0 #f1e6d4,
+    2px 2px 0 #e6d8c2,
+    3px 3px 0 #ddcdb4,
+    4px 4px 0 #d3c1a6,
+    7px 9px 12px rgba(60, 38, 18, .22),
+    14px 20px 26px rgba(60, 38, 18, .1);
+  transform-origin: 50% 100%;
   transform:
-    translate3d(calc(var(--i) * -4%), calc(var(--i) * 3.5%), calc((3 - var(--i)) * 3px))
-    rotate(calc(var(--i) * -4deg));
+    translate3d(calc(var(--i) * 1.6%), calc(var(--i) * -2.4%), calc((3 - var(--i)) * 4px))
+    rotate(var(--rest-turn, 0deg));
   transition: transform .45s cubic-bezier(.3, .7, .2, 1);
 }
+/* the spine: a slightly darker strip down the left edge */
+.ch-mag::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3%;
+  background: linear-gradient(90deg, rgba(70, 48, 26, .14), rgba(70, 48, 26, 0));
+  pointer-events: none;
+}
+.ch-mag:nth-child(1) { --lift: -74%; --rest-turn: 3deg; --fan-turn: 4deg; }    /* Drinking Water, at the back */
+.ch-mag:nth-child(2) { --lift: -42%; --rest-turn: -2deg; --fan-turn: -2.5deg; } /* Pacific */
+.ch-mag:nth-child(3) { --lift: -21%; --rest-turn: 1.5deg; --fan-turn: 1.5deg; } /* Energy */
+.ch-mag:nth-child(4) { --lift: 0%; --rest-turn: -1deg; --fan-turn: -1deg; }     /* Critical Minerals, on top */
 .ch-mag .issue__visual img { pointer-events: none; }
 .ch-object--selected-work > a:hover .ch-mag,
 .ch-object--selected-work > a:focus-visible .ch-mag {
   transform:
-    translate3d(calc(var(--i) * -3%), calc(var(--i) * -6%), calc((3 - var(--i)) * 3px))
-    rotate(calc(var(--i) * -9deg));
+    translate3d(calc(var(--i) * 2.2%), var(--lift), calc((3 - var(--i)) * 4px))
+    rotate(var(--fan-turn, 0deg));
 }
 /* fixed hit area over the stack and its fanned-out extent */
 .ch-mags__hit {
   position: absolute;
-  inset: 0;
+  inset: -22% 6% 0 22%;
   pointer-events: auto;
-  clip-path: polygon(14% 18%, 52% 2%, 88% 14%, 92% 62%, 70% 98%, 22% 98%, 4% 70%);
+  clip-path: polygon(16% 2%, 84% 0%, 96% 70%, 82% 100%, 18% 100%, 2% 70%);
 }
 .ch-object--selected-work > a:focus-visible .ch-mags__hit { outline: none; }
 
@@ -399,8 +428,8 @@
   .ch-object--selected-work > a:hover .ch-mag,
   .ch-object--selected-work > a:focus-visible .ch-mag {
     transform:
-      translate3d(calc(var(--i) * -4%), calc(var(--i) * 3.5%), calc((3 - var(--i)) * 3px))
-      rotate(calc(var(--i) * -4deg));
+      translate3d(calc(var(--i) * 1.6%), calc(var(--i) * -2.4%), calc((3 - var(--i)) * 4px))
+      rotate(var(--rest-turn, 0deg));
   }
   /* steam appears, still and faint, instead of rising */
   .ch-object--associations > a:hover .ch-steam__wisp,
@@ -422,22 +451,21 @@
 
 /* Headline steps down with the stage width; still px, so zoom applies. */
 @container ch-stage (max-width: 1549px) {
-  .ch-copy h1 { font-size: 56px; }
-  .ch-lede { font-size: 19px; }
+  .ch-copy h1 { font-size: 54px; }
+  .ch-lede { max-width: 520px; font-size: 18px; }
   .ch-nav__links { column-gap: 22px; padding: 6px 18px; }
   .ch-nav__links a { font-size: 14px; letter-spacing: .1em; }
 }
 @container ch-stage (max-width: 1349px) {
-  .ch-copy h1 { font-size: 48px; margin-top: 16px; }
-  .ch-lede { font-size: 17px; margin-top: 14px; }
-  .ch-eyebrow { font-size: 12px; }
+  .ch-copy h1 { font-size: 46px; margin-top: 14px; }
+  .ch-lede { max-width: 470px; font-size: 17px; margin-top: 14px; line-height: 1.5; }
+  .ch-eyebrow { font-size: 13px; }
   .ch-nav__links { column-gap: 18px; padding: 5px 14px; }
   .ch-nav__links a { font-size: 13px; letter-spacing: .08em; }
 }
 
 @container ch-stage (max-width: 1279px) {
   .ch-copy h1 { font-size: 44px; }
-  .ch-lede { font-size: 16px; }
 }
 
 /* ---------- Wide: everything on one stage that fits the window ---------- */
@@ -465,7 +493,7 @@
     position: absolute;
     left: 4.07cqw;
     top: 12.6cqh;      /* 120 / 941 */
-    width: 34cqw;      /* stays clear of the cloche (x 660 of 1672) */
+    width: 62cqw;      /* the headline may run wide above the objects; the lede stays narrow */
   }
   .ch-scene { position: absolute; inset: 0; }
 }
@@ -480,8 +508,8 @@
   .ch-nav__links { justify-content: flex-start; column-gap: 22px; }
   .ch-nav__links a { font-size: 13px; }
   .ch-copy { margin-top: 36px; max-width: 760px; }
-  .ch-copy h1 { font-size: 56px; }
-  .ch-lede { font-size: 19px; }
+  .ch-copy h1 { font-size: 54px; }
+  .ch-lede { max-width: 640px; font-size: 19px; }
   .ch-scene {
     margin: 8px -40px 0;
     aspect-ratio: 1672 / 660;     /* the table part of the photograph */
@@ -512,17 +540,20 @@
 @media (max-width: 899px) {
   .ch-bg { object-position: center 70%; }
   .ch-stage { padding: 20px 22px 40px; }
+  .ch-nav .ch-nav__brand { font-size: 18px; letter-spacing: .16em; }
   .ch-nav__toggle {
     display: block;
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0 4px;
-    border: 0;
-    background: none;
-    color: var(--ch-ink);
+    min-width: 96px;
+    min-height: 46px;
+    padding: 0 18px;
+    border: 1px solid var(--ch-plum-line);
+    border-radius: 999px;
+    background: rgba(251, 246, 238, .55);
+    color: var(--ch-plum);
     font: inherit;
-    font-size: 13px;
-    letter-spacing: .16em;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: .12em;
     text-transform: uppercase;
     cursor: pointer;
   }
@@ -591,7 +622,7 @@
     aspect-ratio: 1 / .8;
     margin-top: auto;
   }
-  .ch-object--selected-work .ch-mags__plane { left: 22%; top: -2%; width: 58%; }
+  .ch-object--selected-work .ch-mags__plane { left: 24%; top: 22%; width: 50%; }
   .ch-object--associations .ch-object__art {
     display: block;
     width: 100%;

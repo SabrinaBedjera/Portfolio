@@ -246,9 +246,11 @@ function Experience() {
             <div className="ps-role__body">
               <h3>{role.theme}</h3>
               <p className="ps-role__text">{role.text}</p>
-              <p className="ps-focus">
-                <span className="ps-focus__label">Focus</span> {role.highlights.join(" · ")}
-              </p>
+              <ul className="ps-pills" aria-label="Focus areas">
+                {role.highlights.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
               {role.feature && (
                 <aside className="ps-feature" aria-label={role.feature.title}>
                   <p className="ps-feature__kicker">{role.feature.kicker}</p>
@@ -320,7 +322,7 @@ export default function PortfolioSections() {
             {skillGroups.map((group) => (
               <div className="ps-skills__group" key={group.heading}>
                 <h3>{group.heading}</h3>
-                <ul>
+                <ul className="ps-pills">
                   {group.skills.map((skill) => (
                     <li key={skill}>{skill}</li>
                   ))}
@@ -376,9 +378,11 @@ export default function PortfolioSections() {
                 <p className="ps-association__role">{item.role}</p>
                 <h3>{item.organization}</h3>
                 <p className="ps-association__text">{item.text}</p>
-                <p className="ps-focus">
-                  <span className="ps-focus__label">Focus</span> {item.tags.join(" · ")}
-                </p>
+                <ul className="ps-pills" aria-label="Focus areas">
+                  {item.tags.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
               </article>
             ))}
           </div>

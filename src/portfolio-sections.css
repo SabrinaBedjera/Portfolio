@@ -23,8 +23,8 @@
   --ps-fs-h2: clamp(44px, 4.6vw, 66px);
   --ps-fs-lede: clamp(20px, 1.55vw, 23px);
   --ps-fs-body: clamp(18px, 1.35vw, 20px);
-  --ps-fs-small: 17px;
-  --ps-fs-meta: 15px;          /* uppercase labels, dates, numbers */
+  --ps-fs-small: 18px;
+  --ps-fs-meta: 16px;          /* labels, dates, numbers */
   --ps-lh-body: 1.65;
   --ps-measure: 34em;          /* about 70 characters of running text */
 
@@ -61,8 +61,8 @@
   margin: 0 0 12px;
   color: var(--ps-clay);
   font-size: var(--ps-fs-meta);
-  font-weight: 500;
-  letter-spacing: .18em;
+  font-weight: 600;
+  letter-spacing: .12em;
 }
 .ps-head h2 {
   margin: 0;
@@ -89,24 +89,27 @@
 }
 .ps p { margin: 0; line-height: var(--ps-lh-body); }
 
-/* Lab holds only its heading for now */
+/* Lab holds only its heading for now, so it takes less room */
 #lab .ps-head { margin-bottom: 0; }
+#lab.ps-section { padding: clamp(48px, 5vw, 72px) 0; }
 
-/* A role's or association's focus areas, set as one line of text */
-.ps-focus {
-  max-width: var(--ps-measure);
-  margin-top: 16px !important;
-  color: var(--ps-muted);
-  font-size: var(--ps-fs-small);
-  line-height: 1.6 !important;
+/* Rounded pills: focus areas under roles and associations, and skills */
+.ps-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 10px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.ps-focus__label {
-  margin-right: 8px;
-  color: var(--ps-clay);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+.ps-pills li {
+  padding: 8px 16px;
+  border: 1px solid rgba(43, 116, 65, .32);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .55);
+  color: var(--ps-ink);
+  font-size: 16px;
+  line-height: 1.35;
 }
 
 /* ---------- Experience ----------
@@ -131,7 +134,7 @@
   color: var(--ps-muted);
   font-size: var(--ps-fs-meta);
   font-weight: 600;
-  letter-spacing: .14em;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 .ps-career {
@@ -187,7 +190,7 @@
   color: var(--ps-clay);
   font-size: var(--ps-fs-meta);
   font-weight: 600;
-  letter-spacing: .1em;
+  letter-spacing: .06em;
 }
 .ps-career__label {
   display: block;
@@ -261,7 +264,7 @@
   color: var(--ps-clay);
   font-size: var(--ps-fs-meta);
   font-weight: 600;
-  letter-spacing: .1em;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
 .ps .ps-role__org {
@@ -354,7 +357,7 @@
   color: var(--ps-clay);
   font-size: var(--ps-fs-meta);
   font-weight: 600;
-  letter-spacing: .12em;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 .ps .ps-feature h4 {
@@ -396,9 +399,9 @@
 .ps-education__award span,
 .ps-skills h3 {
   color: var(--ps-clay);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: .14em;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 .ps-education__award span { margin-right: 8px; }
@@ -412,16 +415,10 @@
   font-weight: 400;
   line-height: 1.12;
 }
-.ps-skills__group { margin-top: 22px; }
-.ps .ps-skills h3 { font-size: 14px; line-height: 1.4; }
-.ps-skills ul { margin: 8px 0 0; padding: 0; list-style: none; }
-.ps-skills li {
-  padding: 9px 0;
-  border-bottom: 1px solid var(--ps-rule);
-  color: var(--ps-ink);
-  font-size: 18px;
-  line-height: 1.4;
-}
+.ps-skills__group { margin-top: 24px; }
+.ps .ps-skills h3 { font-size: 15px; line-height: 1.4; }
+.ps-skills .ps-pills { margin-top: 12px; }
+.ps-skills .ps-pills li { padding: 10px 18px; font-size: 17px; }
 
 /* ---------- Associations ---------- */
 .ps-associations {
@@ -438,7 +435,7 @@
   color: var(--ps-clay);
   font-size: var(--ps-fs-meta);
   font-weight: 600;
-  letter-spacing: .14em;
+  letter-spacing: .08em;
   text-transform: uppercase;
 }
 .ps .ps-association h3 {

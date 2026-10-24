@@ -114,7 +114,7 @@ const projects: Project[] = [
     description:
       "A future case study bringing together selected work across clean energy technology research, strategy and international collaboration.",
     cover: {
-      title: "Clean Energy",
+      title: "Energy",
       image: "/covers/cover-clean-energy.webp",
       alt: "An industrial carbon capture installation with banks of large fans and steel pipework",
       color: "#1f4a33",
@@ -160,7 +160,7 @@ const projects: Project[] = [
     description:
       "An interactive visual investigation of energy access and transition pathways. Final charts, methodology and source notes will be added to the complete case study.",
     cover: {
-      title: "Pacific Energy",
+      title: "Pacific",
       image: "/covers/cover-pacific-energy.webp",
       alt: "A white wind turbine against a pale sky",
       color: "#1c3d6e",
@@ -460,10 +460,12 @@ function CuriosityHomepage() {
 
         <section className="ch-copy" aria-labelledby="home-title">
           <p className="ch-eyebrow">Science <span>×</span> Technology <span>×</span> Strategy</p>
-          <h1 id="home-title">Making complex<br />ideas move forward.</h1>
+          <h1 id="home-title">Bridging technology, strategy and investment.</h1>
           <p className="ch-lede">
-            Engineering, energy, investment and creative technology for a more sustainable and
-            connected world.
+            With a background in science and engineering, I evaluate complex projects, inform
+            strategic decisions and negotiate commercial agreements. My experience spans critical
+            minerals, clean energy and emerging technologies, with a focus on turning technical
+            opportunities into tangible outcomes.
           </p>
         </section>
 
@@ -639,8 +641,9 @@ function MagazineExperiment({
           <em>{section("selected-work").label.split(" ").at(-1)}</em>
         </h2>
         <p className="ps-lede">
-          Please explore my experience across critical minerals, clean energy
-          technology, Pacific energy systems and drinking water research.
+          From advancing critical minerals investments to exploring energy systems and drinking
+          water technologies, these projects reflect how I combine technical analysis, strategic
+          thinking and project execution to tackle complex challenges.
         </p>
       </header>
 
@@ -670,8 +673,8 @@ function MagazineExperiment({
                   tabIndex={position === "back" ? -1 : undefined}
                   aria-label={
                     position === "active"
-                      ? `Open case study: ${project.title}`
-                      : `Move ${project.title} magazine to the centre`
+                      ? `Open the ${project.cover.title} issue: ${project.title}`
+                      : `Move the ${project.cover.title} issue to the centre`
                   }
                 >
                   <span className="magazine-cover__inside" aria-hidden="true">
@@ -710,7 +713,7 @@ function MagazineExperiment({
                 key={project.slug}
                 onClick={() => selectCover(index)}
                 disabled={openingCover !== null}
-                aria-label={`Feature ${project.title}`}
+                aria-label={`Show the ${project.cover.title} issue`}
                 aria-pressed={index === activeCover}
               >
                 <span>0{index + 1}</span>
@@ -913,12 +916,14 @@ function MagazineCaseStudy({
           <span>Back to Selected Work</span>
         </button>
         <span>
-          Selected Work · {project.number} of {String(projects.length).padStart(2, "0")}
+          {project.cover.title} · {project.number} of {String(projects.length).padStart(2, "0")}
         </span>
       </nav>
 
       <header className="cs-hero">
         <div className="cs-hero__copy">
+          {/* the magazine's nameplate, as on its cover */}
+          <p className="cs-nameplate">{project.cover.title}</p>
           <p className="cs-kicker">{project.eyebrow}</p>
           <h1>{project.caseHeadline}</h1>
           <p className="cs-hero__intro">{project.caseIntroduction}</p>
