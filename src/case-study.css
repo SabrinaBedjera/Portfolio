@@ -119,6 +119,13 @@
   font-size: clamp(19px, 1.5vw, 22px);
   line-height: 1.5;
 }
+.cs .cs-hero__credential {
+  margin-top: 18px;
+  color: var(--cs-muted);
+  font-size: 16px;
+  letter-spacing: .04em;
+  line-height: 1.5;
+}
 .cs-hero__visual { margin: 0; justify-self: start; width: 100%; }
 .cs-hero__visual img {
   display: block;
@@ -145,13 +152,30 @@
   line-height: 1;
 }
 
+.cs .cs-section__intro {
+  max-width: 34em;
+  margin-top: 18px;
+  color: var(--cs-ink);
+  font-size: clamp(18px, 1.35vw, 20px);
+  line-height: 1.6;
+}
+
 /* ---------- Contributions ---------- */
+/* "Selected Contributions": the same, slightly larger heading in every case study */
+.cs-contrib .cs-section__head h2 { font-size: clamp(46px, 5.2vw, 76px); }
 /* Contributions as open editorial blocks: a rule in the issue colour,
    numeral beside the title, the highlight set off, then the text. */
 .cs-contrib__list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(44px, 4.5vw, 64px) clamp(40px, 5vw, 80px);
+}
+/* three contributions sit side by side on wide screens */
+@media (min-width: 1041px) {
+  .cs-contrib:not(.cs-contrib--chapters) .cs-contrib__list:has(> :nth-child(3):last-child) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(32px, 3.5vw, 56px);
+  }
 }
 .cs-card {
   display: grid;
@@ -205,6 +229,17 @@
 .cs-contrib--chapters .cs-contrib__list { grid-template-columns: 1fr; }
 .cs-contrib--chapters .cs-card__highlight { max-width: 900px; }
 .cs-contrib--chapters .cs-card__body { font-size: inherit; }
+/* Full-width chapters: a single paragraph reads at a slightly wider measure;
+   several paragraphs flow into two columns, so the card's width is used
+   without long lines. */
+.cs-contrib--chapters .cs-card__body p { max-width: 44em; }
+.cs-contrib--chapters .cs-card__body:has(> p + p) {
+  columns: 2;
+  column-gap: clamp(32px, 4.5vw, 72px);
+}
+.cs-contrib--chapters .cs-card__body:has(> p + p) p { max-width: none; break-inside: avoid; }
+.cs-contrib--chapters .cs-card__body:has(> p + p) > p:first-child { margin-top: 0; }
+.cs-contrib--chapters .cs-card__lead { column-span: all; }
 
 .cs-points {
   display: grid;
@@ -283,7 +318,10 @@
 .cs-chart header span { color: var(--cs-accent); font-size: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
 .cs-chart h3 { margin-top: 6px; color: var(--cs-ink); font-size: clamp(26px, 2.4vw, 34px); line-height: 1.1; }
 .cs-chart header a { flex: none; color: var(--cs-accent); font-size: 15px; white-space: nowrap; }
+.cs .cs-chart__hint { margin-top: 8px; color: var(--cs-muted); font-size: 16px; line-height: 1.4; }
 .cs-chart iframe { display: block; width: 100%; height: clamp(460px, 56vw, 660px); border: 0; }
+/* the animated scatterplot needs room for its legend, axis labels and time controls */
+.cs-chart--tall iframe { height: clamp(580px, 62vw, 780px); }
 
 .cs-cta {
   max-width: none;
@@ -373,6 +411,7 @@
   .cs-reading__links:has(.cs-link--featured) { grid-template-columns: 1fr; }
   .cs-points,
   .cs-points:has(> li:nth-child(4)) { grid-template-columns: 1fr; }
+  .cs-contrib--chapters .cs-card__body:has(> p + p) { columns: 1; }
 }
 
 /* ---------- Phone ---------- */
@@ -382,6 +421,7 @@
   .cs-nav > span { display: none; }
   .cs-chart header { flex-direction: column; align-items: flex-start; }
   .cs-chart iframe { height: 520px; }
+  .cs-chart--tall iframe { height: 640px; }
   .cs-media > .case-video:only-child { display: block; }
   .cs-footer { flex-direction: column; align-items: flex-start; }
 }

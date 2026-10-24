@@ -15,9 +15,11 @@ type Project = {
   description: string
   caseHeadline: string
   caseIntroduction: string
+  /** Secondary line beneath the introduction (e.g. a degree). */
+  credential?: string
   /** Magazine cover: an oversized title over one central visual (public/covers/). */
   cover: { title: string; image: string; alt: string; color: string }
-  /** Case-study section heading; defaults to "Selected contributions / Four areas of contribution". */
+  /** Case-study section heading; defaults to "Selected Contributions" with no label. */
   contributionsLabel?: string
   contributionsHeading?: string
   /** "chapters" stacks the contributions in one column, with room for figures. */
@@ -53,6 +55,8 @@ type CaseFigure = {
   src: string
   alt: string
   caption: string
+  /** Short name for the enlarge button and dialog, e.g. "ozonation setup photo". */
+  label: string
   /** Opens full size in a dialog when clicked. */
   enlarge?: boolean
 }
@@ -62,7 +66,7 @@ const projects: Project[] = [
     slug: "critical-minerals",
     number: "01",
     title: "Critical Minerals Investment & Commercialization",
-    eyebrow: "Investment strategy · Materials",
+    eyebrow: "Critical Minerals · Investment Strategy",
     summary:
       "Evaluating strategic mineral opportunities from technical promise to commercial reality.",
     description:
@@ -73,15 +77,15 @@ const projects: Project[] = [
       alt: "A metallic mineral specimen with golden cubic crystals",
       color: "#7b1e2e",
     },
-    caseHeadline: "Turning Critical Minerals Projects into Investments",
+    caseHeadline: "Building the Future of Critical Minerals Supply Chains",
     caseIntroduction:
-      "Technical assessment, commercial negotiations, investment strategy and data analytics supporting critical minerals investment and commercialization.",
+      "Combining technical project assessment, investment strategy, commercial negotiations and data analytics to advance critical minerals projects and strengthen strategic supply chains.",
     contributions: [
       {
         number: "01",
         title: "Assessing Projects",
         highlight: "$3.5B combined investment envelope",
-        body: "Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals and clean energy projects, supporting investment decisions across federal funding programs with a combined $3.5B investment envelope.",
+        body: "Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals projects supporting clean energy and advanced technology supply chains, informing investment decisions across federal funding programs with a combined $3.5B investment envelope.",
       },
       {
         number: "02",
@@ -108,7 +112,7 @@ const projects: Project[] = [
     slug: "clean-energy-innovation",
     number: "02",
     title: "Clean Energy Technology & Innovation",
-    eyebrow: "Research · Collaboration",
+    eyebrow: "Clean Energy · Carbon Management",
     summary:
       "Connecting carbon management, emerging technology and international collaboration.",
     description:
@@ -119,9 +123,9 @@ const projects: Project[] = [
       alt: "An industrial carbon capture installation with banks of large fans and steel pipework",
       color: "#1f4a33",
     },
-    caseHeadline: "Connecting Clean Energy Ideas to Action",
+    caseHeadline: "Advancing Carbon Management and Clean Energy Technologies",
     caseIntroduction:
-      "Work spanning clean energy technology, carbon management strategy and international collaboration, with particular emphasis on carbon capture, utilization and storage.",
+      "Contributing to Canada’s Carbon Management Strategy, international technical collaboration and research initiatives to support the development and deployment of clean energy technologies.",
     contributions: [
       {
         number: "01",
@@ -132,7 +136,7 @@ const projects: Project[] = [
       {
         number: "02",
         title: "Assessing CCUS Technologies",
-        highlight: "Carbon Capture, Utilization & Storage (CCUS)",
+        highlight: "Carbon Capture, Utilization & Storage",
         body: "Reviewed technical information on carbon capture, utilization and storage (CCUS), connecting technology developments with Canadian industry and policy considerations.",
       },
       {
@@ -154,7 +158,7 @@ const projects: Project[] = [
     slug: "pacific-renewable-energy",
     number: "03",
     title: "Pacific Renewable Energy Data Visualization",
-    eyebrow: "Independent project · Data",
+    eyebrow: "Energy Transitions · Data Visualization",
     summary:
       "Tracing electricity access and renewable energy transitions across Papua New Guinea and Tonga.",
     description:
@@ -165,33 +169,27 @@ const projects: Project[] = [
       alt: "A white wind turbine against a pale sky",
       color: "#1c3d6e",
     },
-    caseHeadline: "Making Pacific Energy Transitions Visible",
+    caseHeadline: "Mapping the Pacific Energy Transition",
     caseIntroduction:
-      "An independent interactive data visualization examining electricity access and renewable energy transitions in Papua New Guinea and Tonga.",
+      "An independent interactive data visualization exploring electricity access, renewable energy development and energy transitions across Pacific Island countries, with a closer look at Papua New Guinea and Tonga.",
     contributions: [
       {
         number: "01",
         title: "Investigating Pacific Energy Systems",
-        highlight: "Electricity Access & Renewable Energy",
-        body: "Analyzed electricity access, power generation and renewable energy development across Pacific Island countries and territories, including Papua New Guinea and Tonga.",
+        highlight: "Energy Research & Analysis",
+        body: "Analyzed electricity access, oil dependence and renewable energy development across Pacific Island countries, integrating datasets from Pacific Data Hub, IRENA, the World Bank and Our World in Data to identify regional trends and energy transition challenges.",
       },
       {
         number: "02",
-        title: "Analyzing Energy Data",
-        highlight: "Pacific Data Hub & IRENA",
-        body: "Collected, cleaned and compared energy datasets from Pacific Data Hub and IRENA to investigate oil dependence, renewable electricity generation and differences in energy infrastructure.",
+        title: "Building Interactive Visualizations",
+        highlight: "Data Visualization",
+        body: "Explored and analyzed energy datasets using Excel and Tableau, then developed interactive visualizations in Flourish, including animated scatterplots, packed bubble charts and radial charts to communicate energy trends across Pacific countries.",
       },
       {
         number: "03",
-        title: "Building Interactive Visualizations",
-        highlight: "Excel & Flourish",
-        body: "Developed interactive data visualizations using Excel and Flourish, including animated scatterplots, packed bubble charts and radial charts to explore energy trends across Pacific countries.",
-      },
-      {
-        number: "04",
-        title: "Communicating Energy Transitions",
-        highlight: "Visual Storytelling Through Data",
-        body: "Created an accessible visual narrative highlighting the different energy transition challenges facing Pacific Island countries, from electricity access to reducing oil dependence and expanding renewable capacity.",
+        title: "Identifying Energy Transition Challenges",
+        highlight: "Findings & Insights",
+        body: "Highlighted contrasting energy transition challenges in Papua New Guinea and Tonga, from expanding electricity access to reducing oil dependence. These differences demonstrate the need for tailored renewable energy pathways, with investment critical to advancing transitions across Pacific Island countries.",
       },
     ],
     tone: "data",
@@ -200,7 +198,7 @@ const projects: Project[] = [
     slug: "drinking-water-micropollutants",
     number: "04",
     title: "Predicting Micropollutant Removal in Drinking Water",
-    eyebrow: "Environmental Engineering · Water Treatment · Scientific Modelling",
+    eyebrow: "Environmental Engineering · Water Treatment",
     summary:
       "Modelling how ozonation removes micropollutants at three Ontario drinking water treatment plants.",
     description:
@@ -211,9 +209,10 @@ const projects: Project[] = [
       alt: "A single translucent drop of water with small bubbles inside",
       color: "#0d6870",
     },
-    caseHeadline: "Predicting Micropollutant Removal in Drinking Water",
+    caseHeadline: "Modelling Micropollutant Removal in Drinking Water",
     caseIntroduction:
-      "Master of Applied Science (MASc) in Civil and Environmental Engineering | University of Waterloo | 2019",
+      "Investigating how ozonation removes trace contaminants from drinking water, combining experimental research and mathematical modelling to better understand and predict treatment performance.",
+    credential: "Master of Applied Science · University of Waterloo · 2019",
     contributionsLabel: "Master’s research",
     contributionsHeading: "The research",
     contributionsLayout: "chapters",
@@ -234,13 +233,13 @@ const projects: Project[] = [
         points: [
           { label: "Experimental research", text: "Measured how ozone and hydroxyl radicals behaved in water samples collected across different seasons." },
           { label: "Data analysis", text: "Used statistical analysis and regression modelling to investigate relationships between water quality, temperature, ozone dose and treatment performance." },
-          { label: "Model validation", text: "Compared predicted atrazine degradation against laboratory results to evaluate model accuracy." },
           { label: "Predictive simulations", text: "Modelled the removal of different contaminants under varying seasonal conditions and ozone doses, including estimating reaction rates for compounds with limited published data." },
         ],
         figure: {
           src: "/case-studies/thesis-figure-3-2-ozonation-setup.jpg",
           alt: "Laboratory bench with three tall glass columns connected by clear gas tubing; one column stands in a bucket of ice",
-          caption: "Figure 3.2 — Bench-scale ozonation setup: glass columns connected by ozone gas lines, with one column chilled in an ice bath.",
+          label: "bench-scale ozonation setup photo",
+          caption: "Bench-scale ozonation setup used in drinking water treatment experiments, featuring glass columns connected by ozone gas lines, with one column chilled in an ice bath.",
           enlarge: true,
         },
         video: {
@@ -263,9 +262,10 @@ const projects: Project[] = [
           { label: "Spill scenarios revealed treatment limitations", text: "In a simulated BTEX contamination event, benzene was particularly difficult to remove below Canadian drinking water limits, highlighting the importance of assessing individual contaminants rather than assuming a treatment process will remove them all equally." },
         ],
         figure: {
-          src: "/case-studies/thesis-figure-4-10-btex-simulations.png",
+          src: "/case-studies/btex-simulations.webp",
           alt: "Four line charts of simulated BTEX compound concentrations over 1,500 seconds in Lake Ontario water, at ozone doses of 1 and 4 mg/L and temperatures of 20 °C and 5 °C",
-          caption: "Figure 4.10 — Simulated degradation of individual BTEX compounds in Lake Ontario water, comparing applied ozone doses of 1 mg/L and 4 mg/L at 20 °C (September 2016) and 5 °C (December 2016).",
+          label: "BTEX simulation charts",
+          caption: "Simulated degradation of individual BTEX compounds in Lake Ontario water, comparing applied ozone doses of 1 mg/L and 4 mg/L at 20 °C (September 2016) and 5 °C (December 2016).",
           enlarge: true,
         },
       },
@@ -783,7 +783,7 @@ function CaseStudyFigure({ figure }: { figure: CaseFigure }) {
           type="button"
           className="case-figure__open"
           onClick={() => dialog.current?.showModal()}
-          aria-label={`Enlarge ${figure.caption.split(" — ")[0]}`}
+          aria-label={`Enlarge the ${figure.label}`}
         >
           {image}
           <span className="case-figure__hint" aria-hidden="true">
@@ -798,7 +798,7 @@ function CaseStudyFigure({ figure }: { figure: CaseFigure }) {
         <dialog
           ref={dialog}
           className="case-figure__dialog"
-          aria-label={figure.caption.split(" — ")[0]}
+          aria-label={figure.label}
           onClick={(event) => {
             // a click on the backdrop (the dialog itself) closes it
             if (event.target === event.currentTarget) dialog.current?.close()
@@ -857,7 +857,7 @@ const readingLists: Partial<Record<Project["tone"], { label: string; heading: st
     heading: "Public context for the work",
     links: [
       {
-        href: "https://natural-resources.canada.ca/energy-sources/carbon-management/canada-carbon-management-strategy",
+        href: "https://natural-resources.canada.ca/energy-sources/carbon-management/canada-s-carbon-management-strategy",
         kicker: "Government of Canada",
         title: "Canada’s Carbon Management Strategy",
       },
@@ -871,9 +871,11 @@ const readingLists: Partial<Record<Project["tone"], { label: string; heading: st
 }
 
 const flourishCharts = [
-  { id: "30103551", kind: "01 · Packed bubble chart", title: "Pacific Energy Systems Are Transitioning to Renewables" },
-  { id: "30064554", kind: "02 · Animated scatterplot", title: "The Pacific’s Power Generation: A Transition Away from Oil" },
-  { id: "30103365", kind: "03 · Interactive radial chart", title: "Pacific Renewable Electricity in 2025: On-Grid or Off-Grid?" },
+  { id: "30103551", kind: "01 · Packed bubble chart", title: "Pacific Energy Systems Are Transitioning to Renewables", hint: "Interactive: hover or tap a bubble for details." },
+  // Autoplay and looping of the time slider are template settings saved in
+  // Flourish, not embed options; the embed only needs room for the controls.
+  { id: "30064554", kind: "02 · Animated scatterplot", title: "The Pacific’s Power Generation: A Transition Away from Oil", hint: "Interactive: use the timeline controls to animate the chart, and hover for details.", tall: true },
+  { id: "30103365", kind: "03 · Interactive radial chart", title: "Pacific Renewable Electricity in 2025: On-Grid or Off-Grid?", hint: "Interactive: hover or tap a segment for details." },
 ]
 
 /**
@@ -927,6 +929,7 @@ function MagazineCaseStudy({
           <p className="cs-kicker">{project.eyebrow}</p>
           <h1>{project.caseHeadline}</h1>
           <p className="cs-hero__intro">{project.caseIntroduction}</p>
+          {project.credential && <p className="cs-hero__credential">{project.credential}</p>}
         </div>
         <figure className={`cs-hero__visual${project.heroImage ? " cs-hero__visual--photo" : ""}`}>
           <img src={hero.src} alt={hero.alt} />
@@ -938,9 +941,9 @@ function MagazineCaseStudy({
         aria-labelledby="contributions-title"
       >
         <header className="cs-section__head">
-          <p className="cs-kicker">{project.contributionsLabel ?? "Selected contributions"}</p>
+          {project.contributionsLabel && <p className="cs-kicker">{project.contributionsLabel}</p>}
           <h2 id="contributions-title">
-            {project.contributionsHeading ?? "Four areas of contribution"}
+            {project.contributionsHeading ?? "Selected Contributions"}
           </h2>
         </header>
         <div className="cs-contrib__list">
@@ -1010,16 +1013,22 @@ function MagazineCaseStudy({
         <>
           <section className="cs-section cs-data" aria-labelledby="visuals-title">
             <header className="cs-section__head">
-              <p className="cs-kicker">Published visual investigation</p>
+              <p className="cs-kicker">Interactive data visualizations</p>
               <h2 id="visuals-title">Explore the Data</h2>
+              <p className="cs-section__intro">
+                Explore the Pacific’s energy transition through interactive charts. Hover, click and
+                animate the visualizations to uncover trends in electricity access, oil dependence and
+                renewable energy development.
+              </p>
             </header>
             <div className="cs-data__charts">
               {flourishCharts.map((chart) => (
-                <article className="cs-chart" key={chart.id}>
+                <article className={`cs-chart${chart.tall ? " cs-chart--tall" : ""}`} key={chart.id}>
                   <header>
                     <div>
                       <span>{chart.kind}</span>
                       <h3>{chart.title}</h3>
+                      <p className="cs-chart__hint">{chart.hint}</p>
                     </div>
                     <a
                       href={`https://public.flourish.studio/visualisation/${chart.id}/`}
