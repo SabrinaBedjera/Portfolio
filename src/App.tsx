@@ -328,6 +328,8 @@ type HomeObject = {
   layers: { src: string; className?: string }[]
   /** Faint animated steam above the object (drawn in SVG, shown on hover). */
   steam?: boolean
+  /** The four Selected Work issues as a stack that fans out on hover. */
+  magazines?: boolean
 }
 
 /* Back row rests on the far part of the table, front row nearer the viewer. */
@@ -335,8 +337,9 @@ const BACK = 652
 const homeObjects: HomeObject[] = [
   {
     id: "selected-work", description: "Case studies and featured projects",
-    x: 60, w: 540, ground: 892, aspect: 430 / 653, base: 0.951, caption: { dx: 330, dy: -40 },
-    layers: [{ src: "/home-objects/01_selected_work_magazines.webp" }],
+    x: 60, w: 540, ground: 892, aspect: 0.6, base: 0.93, caption: { dx: 330, dy: -40 },
+    layers: [],
+    magazines: true,
   },
   {
     id: "experience", description: "Professional background",
@@ -384,6 +387,51 @@ const homeObjects: HomeObject[] = [
 
 /** Top of the object's box, so that its base lands on its ground line. */
 const objectTop = (o: HomeObject) => o.ground - o.base * o.w * o.aspect
+
+/**
+ * A Selected Work cover's artwork: the issue title (text, one word per line,
+ * sized to the cover width) over its central visual. Used by the carousel
+ * and by the magazine stack on the homepage, so both always match.
+ */
+function IssueArt({ project, decorative = false }: { project: Project; decorative?: boolean }) {
+  return (
+    <>
+      <span className="issue__title">
+        {project.cover.title.split(" ").map((word) => (
+          <span key={word}>{word}</span>
+        ))}
+      </span>
+      <span className="issue__visual">
+        <img src={project.cover.image} alt={decorative ? "" : project.cover.alt} draggable={false} />
+      </span>
+    </>
+  )
+}
+
+/**
+ * The homepage's Selected Work object: the four issues lying in a loose
+ * stack on the table (CSS 3D), fanning out when the object is hovered or
+ * focused. Pointer events go to a fixed hit area, not the moving covers,
+ * so the fan never flickers.
+ */
+function MagazineStack() {
+  return (
+    <span className="ch-mags">
+      <span className="ch-mags__plane">
+        {[...projects].reverse().map((project, i) => (
+          <span
+            className="ch-mag"
+            key={project.slug}
+            style={{ "--i": projects.length - 1 - i, "--issue-color": project.cover.color } as CSSProperties}
+          >
+            <IssueArt project={project} decorative />
+          </span>
+        ))}
+      </span>
+      <span className="ch-mags__hit" />
+    </span>
+  )
+}
 
 function CuriosityHomepage() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -454,6 +502,7 @@ function CuriosityHomepage() {
                         style={{ clipPath: layer.className === "ch-holder-front" ? undefined : objectHulls[layer.src] }}
                       />
                     ))}
+                    {object.magazines && <MagazineStack />}
                     {object.steam && (
                       <svg className="ch-steam" viewBox="0 0 120 200" aria-hidden="true">
                         <defs>
@@ -634,15 +683,7 @@ function MagazineExperiment({
                       if (openingCover === index) finishOpening(project)
                     }}
                   >
-                    {/* the title is text, one word per line, sized to the cover width */}
-                    <span className="issue__title">
-                      {project.cover.title.split(" ").map((word) => (
-                        <span key={word}>{word}</span>
-                      ))}
-                    </span>
-                    <span className="issue__visual">
-                      <img src={project.cover.image} alt={project.cover.alt} />
-                    </span>
+                    <IssueArt project={project} />
                   </span>
                 </button>
               </article>

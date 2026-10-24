@@ -121,16 +121,17 @@ const education: { degree: string; detail: string; award?: string }[] = [
   { degree: "BEd", detail: "Ontario Tech University" },
 ]
 
-const skills = [
-  "Technology assessment",
-  "Project evaluation",
-  "Funding assessment & agreement development",
-  "Stakeholder engagement",
-  "Strategic analysis",
-  "Technical research",
-  "Policy analysis",
-  "Data analysis & visualization",
-  "Qualitative analysis (NVivo)",
+/* The same nine skills, grouped so the list is easier to scan. */
+const skillGroups = [
+  {
+    heading: "Assessment & strategy",
+    skills: ["Technology assessment", "Project evaluation", "Funding assessment & agreement development", "Strategic analysis"],
+  },
+  {
+    heading: "Research & analysis",
+    skills: ["Technical research", "Policy analysis", "Data analysis & visualization", "Qualitative analysis (NVivo)"],
+  },
+  { heading: "Collaboration", skills: ["Stakeholder engagement"] },
 ]
 
 /* Dates and fuller descriptions to be added once confirmed. */
@@ -197,7 +198,8 @@ function Experience() {
 
   return (
     <>
-      <nav aria-label="Career overview, 2015 to present">
+      <nav className="ps-overview" aria-label="Career overview, 2015 to present">
+        <p className="ps-overview__label">Career at a glance</p>
         <ol className="ps-career">
           {careerMilestones.map((milestone, i) => {
             const role = roles.find((r) => r.id === milestone.role)!
@@ -236,18 +238,17 @@ function Experience() {
             id={role.id}
             key={role.id}
           >
-            <p className="ps-role__when">{role.when}</p>
+            <div className="ps-role__meta">
+              <p className="ps-role__when">{role.when}</p>
+              <p className="ps-role__org">{role.organization}</p>
+              <p className="ps-role__unit">{role.unit}</p>
+            </div>
             <div className="ps-role__body">
-              <p className="ps-role__org">
-                {role.organization} <span aria-hidden="true">·</span> <span className="ps-role__unit">{role.unit}</span>
-              </p>
               <h3>{role.theme}</h3>
               <p className="ps-role__text">{role.text}</p>
-              <ul className="ps-role__highlights" aria-label="Selected skills and contributions">
-                {role.highlights.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              <p className="ps-focus">
+                <span className="ps-focus__label">Focus</span> {role.highlights.join(" · ")}
+              </p>
               {role.feature && (
                 <aside className="ps-feature" aria-label={role.feature.title}>
                   <p className="ps-feature__kicker">{role.feature.kicker}</p>
@@ -296,29 +297,37 @@ export default function PortfolioSections() {
       </section>
 
       <section id="education" className="ps-section ps-section--tint" aria-labelledby="education-title">
-        <div className="ps-wrap ps-two">
+        <div className="ps-wrap">
+          <SectionHead id="education" />
+          <div className="ps-two">
           <div>
-            <SectionHead id="education" />
             <ul className="ps-education">
               {education.map((item) => (
                 <li key={item.degree}>
                   <h3>{item.degree}</h3>
                   <p>{item.detail}</p>
-                  {item.award && <p className="ps-education__award">{item.award}</p>}
+                  {item.award && (
+                    <p className="ps-education__award">
+                      <span>Award</span> {item.award}
+                    </p>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
-          <div>
-            <header className="ps-head">
-              <p className="ps-number">&nbsp;</p>
-              <h2 id="skills-title">Skills</h2>
-            </header>
-            <ul className="ps-skills" aria-labelledby="skills-title">
-              {skills.map((skill) => (
-                <li key={skill}>{skill}</li>
-              ))}
-            </ul>
+          <div className="ps-skills">
+            <h2 id="skills-title">Skills</h2>
+            {skillGroups.map((group) => (
+              <div className="ps-skills__group" key={group.heading}>
+                <h3>{group.heading}</h3>
+                <ul>
+                  {group.skills.map((skill) => (
+                    <li key={skill}>{skill}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
           </div>
         </div>
       </section>
@@ -367,11 +376,9 @@ export default function PortfolioSections() {
                 <p className="ps-association__role">{item.role}</p>
                 <h3>{item.organization}</h3>
                 <p className="ps-association__text">{item.text}</p>
-                <ul className="ps-role__highlights" aria-label="Areas">
-                  {item.tags.map((tag) => (
-                    <li key={tag}>{tag}</li>
-                  ))}
-                </ul>
+                <p className="ps-focus">
+                  <span className="ps-focus__label">Focus</span> {item.tags.join(" · ")}
+                </p>
               </article>
             ))}
           </div>

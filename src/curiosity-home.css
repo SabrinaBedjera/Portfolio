@@ -235,9 +235,9 @@
   position: absolute;
   z-index: 1;
   left: 34%;
-  top: -14%;                       /* sits deeper in the holder */
+  top: -2%;                        /* most of the pen sits inside the holder */
   width: 60% !important;
-  transform-origin: 36% 57%;      /* where the pen crosses the front lip */
+  transform-origin: 36% 42%;      /* where the pen crosses the front lip */
   animation: ch-pen-idle 7s ease-in-out 1.5s infinite;
 }
 .ch-object--contact > a:hover .ch-pen,
@@ -288,6 +288,67 @@
 .ch-object--education > a:hover .ch-object__art,
 .ch-object--education > a:focus-visible .ch-object__art { transform: none; }
 
+/* ---------- Selected Work: the four issues as a stack on the table ----------
+   Each cover reuses the carousel artwork (IssueArt). The plane lies flat
+   in perspective; --i is a magazine's place in the stack (0 = top). On
+   hover or focus the covers fan out from a corner. */
+.ch-object--selected-work .ch-object__art { aspect-ratio: 1 / .6; }
+.ch-object--selected-work > a:hover .ch-object__art,
+.ch-object--selected-work > a:focus-visible .ch-object__art { transform: none; filter: none; }
+.ch-mags {
+  position: absolute;
+  inset: 0;
+  perspective: 1300px;
+  perspective-origin: 50% -20%;
+  pointer-events: none;
+}
+.ch-mags__plane {
+  position: absolute;
+  left: 31%;
+  top: -19%;
+  width: 45%;
+  aspect-ratio: .715;
+  transform-style: preserve-3d;
+  transform: rotateX(54deg) rotateZ(-24deg);
+}
+.ch-mag {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  padding: 8% 7% 6%;
+  background: #f9f0e3;
+  border: 1px solid rgba(70, 48, 26, .2);
+  /* page edges, then a soft shadow onto whatever lies beneath */
+  box-shadow:
+    1px 1px 0 #efe4d2,
+    2px 2px 0 #e2d4bd,
+    3px 3px 0 #d9c9b0,
+    6px 8px 14px rgba(60, 38, 18, .22);
+  transform-origin: 12% 88%;
+  transform:
+    translate3d(calc(var(--i) * -4%), calc(var(--i) * 3.5%), calc((3 - var(--i)) * 3px))
+    rotate(calc(var(--i) * -4deg));
+  transition: transform .45s cubic-bezier(.3, .7, .2, 1);
+}
+.ch-mag .issue__visual img { pointer-events: none; }
+.ch-object--selected-work > a:hover .ch-mag,
+.ch-object--selected-work > a:focus-visible .ch-mag {
+  transform:
+    translate3d(calc(var(--i) * -3%), calc(var(--i) * -6%), calc((3 - var(--i)) * 3px))
+    rotate(calc(var(--i) * -9deg));
+}
+/* fixed hit area over the stack and its fanned-out extent */
+.ch-mags__hit {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  clip-path: polygon(14% 18%, 52% 2%, 88% 14%, 92% 62%, 70% 98%, 22% 98%, 4% 70%);
+}
+.ch-object--selected-work > a:focus-visible .ch-mags__hit { outline: none; }
+
 /* ---------- Associations: espresso cup with faint steam ----------
    The cup stays still; on hover or focus three soft wisps rise from the
    coffee and fade. Kept very faint on purpose. */
@@ -334,6 +395,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ch-mag { transition: none; }
+  .ch-object--selected-work > a:hover .ch-mag,
+  .ch-object--selected-work > a:focus-visible .ch-mag {
+    transform:
+      translate3d(calc(var(--i) * -4%), calc(var(--i) * 3.5%), calc((3 - var(--i)) * 3px))
+      rotate(calc(var(--i) * -4deg));
+  }
   /* steam appears, still and faint, instead of rising */
   .ch-object--associations > a:hover .ch-steam__wisp,
   .ch-object--associations > a:focus-visible .ch-steam__wisp,
@@ -516,6 +584,14 @@
     margin-top: auto;
   }
   .ch-object--education .ch-object__art img { max-height: none; }
+  .ch-object--selected-work .ch-object__art {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / .8;
+    margin-top: auto;
+  }
+  .ch-object--selected-work .ch-mags__plane { left: 22%; top: -2%; width: 58%; }
   .ch-object--associations .ch-object__art {
     display: block;
     width: 100%;

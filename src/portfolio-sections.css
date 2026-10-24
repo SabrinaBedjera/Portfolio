@@ -1,40 +1,44 @@
 /* ==================================================
    Portfolio sections (Selected Work surroundings, Experience, Education,
-   Associations, Lab, About, Contact)
-   Warm editorial style taken from the homepage photograph:
-   cream paper, deep green ink, rust accents, Instrument Serif headings,
-   DM Sans text. One type and spacing scale (tokens below) is used
-   throughout. Everything is scoped to .ps-* classes.
+   Lab, About, Associations, Contact)
+   Warm editorial style taken from the homepage photograph: cream paper,
+   deep green ink, rust accents, Instrument Serif headings, DM Sans text.
+   Type is set for reading: 18–19.5px body, 15px+ labels, ~68 characters
+   per line; headings are large but sized against the content beneath.
+   Everything is scoped to .ps-* classes.
    ================================================== */
 .ps,
 #selected-work {
   --ps-paper: #fbf6ee;
   --ps-tint: #f3e8d8;
   --ps-ink: #1c2a22;
-  --ps-text: #353b36;
-  --ps-muted: #66625a;
-  --ps-rule: rgba(60, 45, 30, .16);
+  --ps-text: #33382f;
+  --ps-muted: #5e5b53;
+  --ps-rule: rgba(60, 45, 30, .18);
   --ps-accent: #2b7441;
   --ps-clay: #a75825;
+  --ps-select: #2f5f8a;
 
   /* type scale */
-  --ps-fs-h2: clamp(46px, 5vw, 72px);
-  --ps-fs-lede: clamp(19px, 1.5vw, 22px);
-  --ps-fs-body: clamp(17px, 1.2vw, 18px);
-  --ps-fs-small: 16px;
-  --ps-fs-meta: 14px;          /* uppercase labels, dates, numbers */
+  --ps-fs-h2: clamp(44px, 4.6vw, 66px);
+  --ps-fs-lede: clamp(20px, 1.55vw, 23px);
+  --ps-fs-body: clamp(18px, 1.35vw, 20px);
+  --ps-fs-small: 17px;
+  --ps-fs-meta: 15px;          /* uppercase labels, dates, numbers */
   --ps-lh-body: 1.65;
+  --ps-measure: 34em;          /* about 70 characters of running text */
 
   /* layout and spacing */
-  --ps-wrap: 1240px;
+  --ps-wrap: 1200px;
   --ps-gutter: clamp(22px, 5vw, 64px);
-  --ps-section-y: clamp(64px, 7.5vw, 104px);
-  --ps-head-gap: clamp(32px, 3.6vw, 52px);
+  --ps-section-y: clamp(60px, 6.5vw, 96px);
+  --ps-head-gap: clamp(28px, 3vw, 44px);
 }
 .ps {
   font-family: "DM Sans", sans-serif;
   color: var(--ps-text);
   font-size: var(--ps-fs-body);
+  line-height: var(--ps-lh-body);
 }
 
 .ps-section {
@@ -54,10 +58,11 @@
 /* ---------- Section heading ---------- */
 .ps-head { margin-bottom: var(--ps-head-gap); }
 .ps-number {
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   color: var(--ps-clay);
   font-size: var(--ps-fs-meta);
-  letter-spacing: .2em;
+  font-weight: 500;
+  letter-spacing: .18em;
 }
 .ps-head h2 {
   margin: 0;
@@ -65,11 +70,11 @@
   font-family: "Instrument Serif", Georgia, serif;
   font-size: var(--ps-fs-h2);
   font-weight: 400;
-  line-height: .95;
-  letter-spacing: -.02em;
+  line-height: .98;
+  letter-spacing: -.015em;
 }
 .ps-lede {
-  max-width: 640px;
+  max-width: 34em;
   margin: 18px 0 0;
   font-size: var(--ps-fs-lede);
   line-height: 1.5;
@@ -78,43 +83,63 @@
 .ps h3 {
   margin: 0;
   color: var(--ps-ink);
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 500;
   line-height: 1.3;
 }
-.ps p { line-height: var(--ps-lh-body); }
+.ps p { margin: 0; line-height: var(--ps-lh-body); }
 
 /* Lab holds only its heading for now */
 #lab .ps-head { margin-bottom: 0; }
 
-/* Shared tag list (experience highlights, associations) */
-.ps-role__highlights {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 20px 0 0;
-  padding: 0;
-  list-style: none;
+/* A role's or association's focus areas, set as one line of text */
+.ps-focus {
+  max-width: var(--ps-measure);
+  margin-top: 16px !important;
+  color: var(--ps-muted);
+  font-size: var(--ps-fs-small);
+  line-height: 1.6 !important;
 }
-.ps-role__highlights li {
-  padding: 6px 14px;
-  border: 1px solid rgba(43, 116, 65, .3);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .5);
-  color: var(--ps-ink);
+.ps-focus__label {
+  margin-right: 8px;
+  color: var(--ps-clay);
   font-size: 14px;
-  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
 }
 
 /* ---------- Experience ----------
-   A compact career overview whose milestones link to the roles, then the
-   roles as a vertical timeline: date | rail with marker | role. */
+   One grid for the whole section: a meta column (dates, organization),
+   the rail, and the story. The career overview sits in the same grid, so
+   its line starts above the rail and its milestones lead into the roles. */
+#experience .ps-wrap {
+  --ps-meta-w: 230px;
+  --ps-rail: 120px;              /* room for the car to drive along the rail */
+}
+.ps-overview {
+  display: grid;
+  grid-template-columns: var(--ps-meta-w) 1fr;
+  align-items: start;
+  margin: 0 0 clamp(36px, 4vw, 56px);
+  padding: 26px 0 22px;
+  border-top: 1px solid var(--ps-rule);
+  border-bottom: 1px solid var(--ps-rule);
+}
+.ps-overview__label {
+  padding-top: 2px;
+  color: var(--ps-muted);
+  font-size: var(--ps-fs-meta);
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
 .ps-career {
-  --ps-select: #2f5f8a;          /* the selected milestone */
   position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  margin: -4px 0 64px;
+  /* first marker sits directly above the vertical rail */
+  margin: 0 0 0 calc(var(--ps-rail) / 2 - 11px);
   padding: 0;
   list-style: none;
 }
@@ -125,14 +150,14 @@
   top: 10px;
   left: 10px;
   right: calc(20% - 10px);
-  height: 3px;
-  background: rgba(43, 116, 65, .45);
+  height: 2px;
+  background: rgba(43, 116, 65, .4);
 }
 .ps-career li { position: relative; }
 .ps-career a {
   position: relative;
   display: block;
-  padding: 40px 18px 10px 0;
+  padding: 36px 16px 4px 0;
   color: inherit;
   text-decoration: none;
 }
@@ -141,17 +166,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 23px;
-  height: 23px;
+  width: 22px;
+  height: 22px;
   box-sizing: border-box;
-  border: 3px solid var(--ps-accent);
+  border: 2px solid var(--ps-accent);
   border-radius: 50%;
   background: var(--ps-bg);
   transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
 }
-.ps-career li.is-current a::before { background: var(--ps-accent); }
 .ps-career a:hover::before,
-.ps-career a:focus-visible::before { transform: scale(1.25); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
+.ps-career a:focus-visible::before { transform: scale(1.15); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
 .ps-career li.is-selected a::before {
   border-color: var(--ps-select);
   background: var(--ps-select);
@@ -161,31 +185,28 @@
 .ps-career__year {
   display: block;
   color: var(--ps-clay);
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: .12em;
+  font-size: var(--ps-fs-meta);
+  font-weight: 600;
+  letter-spacing: .1em;
 }
 .ps-career__label {
   display: block;
-  margin-top: 6px;
+  margin-top: 4px;
   color: var(--ps-text);
-  font-size: 21px;
+  font-size: 18px;
   line-height: 1.35;
   text-decoration: underline;
   text-decoration-color: transparent;
   text-underline-offset: 5px;
   transition: text-decoration-color .2s ease, color .2s ease;
 }
-.ps-career li.is-current .ps-career__label { color: var(--ps-ink); font-weight: 500; }
 .ps-career a:hover .ps-career__label,
 .ps-career a:focus-visible .ps-career__label { color: var(--ps-ink); text-decoration-color: var(--ps-clay); }
 .ps-career li.is-selected .ps-career__year { color: var(--ps-select); }
-.ps-career li.is-selected .ps-career__label { color: var(--ps-ink); text-decoration-color: var(--ps-select); }
+.ps-career li.is-selected .ps-career__label { color: var(--ps-ink); font-weight: 500; text-decoration-color: var(--ps-select); }
 
 /* Vertical timeline */
 .ps-roles {
-  --ps-date-w: 190px;
-  --ps-rail: 128px;              /* room for the car to drive along the rail */
   position: relative;
   margin: 0;
   padding: 0;
@@ -194,94 +215,104 @@
 .ps-roles::before {
   content: "";
   position: absolute;
-  top: 8px;
-  bottom: 8px;
-  left: calc(var(--ps-date-w) + var(--ps-rail) / 2 - 1px);
+  top: 10px;
+  bottom: 10px;
+  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2 - 1px);
   width: 2px;
-  background: rgba(43, 116, 65, .35);
+  background: rgba(43, 116, 65, .3);
 }
 .ps-role {
   position: relative;
   display: grid;
-  grid-template-columns: var(--ps-date-w) var(--ps-rail) 1fr;
-  padding-bottom: 40px;
+  grid-template-columns: var(--ps-meta-w) var(--ps-rail) minmax(0, 1fr);
+  padding: 0 0 clamp(36px, 3.6vw, 48px);
   scroll-margin-top: 32px;   /* there is no fixed header; keeps the date clear of the window edge */
 }
-.ps-role + .ps-role { padding-top: 36px; }
-/* subtle divider across the content column only */
+.ps-role + .ps-role { padding-top: clamp(32px, 3.2vw, 44px); }
+/* a light divider across the meta and story columns, broken by the rail */
 .ps-role + .ps-role::after {
   content: "";
   position: absolute;
   top: 0;
-  left: calc(var(--ps-date-w) + var(--ps-rail));
+  left: calc(var(--ps-meta-w) + var(--ps-rail));
   right: 0;
   height: 1px;
   background: var(--ps-rule);
 }
 .ps-role:last-child { padding-bottom: 0; }
-/* marker on the rail */
+/* marker on the rail, level with the date */
 .ps-role::before {
   content: "";
   position: absolute;
-  top: 6px;
-  left: calc(var(--ps-date-w) + var(--ps-rail) / 2 - 7px);
-  width: 14px;
-  height: 14px;
+  top: 7px;
+  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2 - 8px);
+  width: 16px;
+  height: 16px;
   box-sizing: border-box;
   border: 2px solid var(--ps-accent);
   border-radius: 50%;
   background: var(--ps-bg);
+  transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
 }
-.ps-role + .ps-role::before { top: 42px; }
-/* After a milestone is selected: an accent line and arrow beside the role,
-   with a faint wash, that fade away. */
-.ps-role__body { position: relative; }
+.ps-role + .ps-role::before { top: calc(clamp(32px, 3.2vw, 44px) + 7px); }
+
+.ps-role__meta { grid-column: 1; }
+.ps-role__when {
+  color: var(--ps-clay);
+  font-size: var(--ps-fs-meta);
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.ps .ps-role__org {
+  margin-top: 10px;
+  color: var(--ps-ink);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.ps .ps-role__unit {
+  margin-top: 2px;
+  color: var(--ps-accent);
+  font-size: var(--ps-fs-small);
+  line-height: 1.4;
+}
+.ps-role__body { position: relative; grid-column: 3; }
+.ps .ps-role h3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(30px, 2.6vw, 38px);
+  font-weight: 400;
+  line-height: 1.08;
+}
+.ps-role__text { max-width: var(--ps-measure); margin-top: 12px !important; }
+
+/* The selected role (the first until another is chosen): blue marker and
+   date, a little more weight on the title */
+.ps-role.is-active::before {
+  border-color: var(--ps-select);
+  background: var(--ps-select);
+  box-shadow: 0 0 0 6px rgba(47, 95, 138, .15);
+}
+.ps-role.is-active .ps-role__when { color: var(--ps-select); }
+.ps-role.is-active h3 { color: var(--ps-select); }
+
+/* After a milestone is selected: a soft wash behind the role that fades */
 .ps-role.is-arrived .ps-role__body::before {
   content: "";
   position: absolute;
-  top: -12px;
-  bottom: -14px;
-  left: -22px;
-  right: -22px;
-  border-left: 3px solid #2f5f8a;
-  background: rgba(47, 95, 138, .07);
+  top: -14px;
+  bottom: -16px;
+  left: -24px;
+  right: -24px;
+  border-left: 3px solid var(--ps-select);
+  background: rgba(47, 95, 138, .06);
   pointer-events: none;
   animation: ps-arrive 3s ease-out forwards;
-}
-.ps-role.is-arrived .ps-role__body::after {
-  content: "→";
-  position: absolute;
-  top: -7px;
-  left: -66px;                 /* just before the rail marker */
-  color: #2f5f8a;
-  font-size: 22px;
-  animation: ps-arrive-arrow 3s ease-out forwards;
-}
-.ps-role.is-arrived::before {
-  border-color: #2f5f8a;
-  background: #2f5f8a;
-  box-shadow: 0 0 0 5px rgba(47, 95, 138, .18);
 }
 @keyframes ps-arrive {
   0%, 55% { opacity: 1; }
   100% { opacity: 0; }
 }
-@keyframes ps-arrive-arrow {
-  0% { opacity: 0; transform: translateX(-8px); }
-  12%, 55% { opacity: 1; transform: none; }
-  100% { opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ps-role.is-arrived .ps-role__body::after { animation-name: ps-arrive; }
-}
-.ps-role--current::before { background: var(--ps-accent); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
-/* the role selected in the overview (the first role until one is chosen) */
-.ps-role.is-active::before {
-  border-color: #2f5f8a;
-  background: #2f5f8a;
-  box-shadow: 0 0 0 6px rgba(47, 95, 138, .16);
-}
-.ps-role.is-active .ps-role__when { color: #2f5f8a; font-weight: 600; }
 
 /* ---------- The convertible ----------
    Parks just above the active role's marker; drives along the rail when
@@ -289,12 +320,12 @@
 .ps-car {
   position: absolute;
   z-index: 2;
-  left: calc(var(--ps-date-w) + var(--ps-rail) / 2);
-  width: 96px;
-  margin-left: -48px;
+  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2);
+  width: 92px;
+  margin-left: -46px;
   list-style: none;
   pointer-events: none;
-  transform: translateY(calc(-100% - 3px));
+  transform: translateY(calc(-100% - 2px));
   transition: top .9s cubic-bezier(.5, .05, .3, 1);
 }
 .ps-car img {
@@ -313,59 +344,39 @@
 
 /* Related work inside an entry (the water policy proposal) */
 .ps-feature {
-  margin-top: 24px;
-  padding: 22px 26px 24px;
+  max-width: calc(var(--ps-measure) + 56px);
+  margin-top: 26px;
+  padding: 24px 28px 26px;
   background: var(--ps-tint);
   border-left: 3px solid var(--ps-clay);
 }
 .ps-feature__kicker {
-  margin: 0;
   color: var(--ps-clay);
   font-size: var(--ps-fs-meta);
   font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.ps .ps-feature h4 {
-  margin: 8px 0 10px;
-  color: var(--ps-ink);
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: 28px;
-  font-weight: 400;
-  line-height: 1.15;
-}
-.ps-feature p { margin: 0; }
-.ps-feature .ps-feature__award { margin-top: 12px; color: var(--ps-accent); font-weight: 600; }
-.ps-feature__links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 14px !important; }
-.ps-feature__links a { color: var(--ps-clay); border-bottom: 1px solid currentColor; text-decoration: none; }
-.ps-role__when {
-  grid-column: 1;
-  margin: 0;
-  padding-top: 1px;
-  color: var(--ps-clay);
-  font-size: var(--ps-fs-meta);
   letter-spacing: .12em;
   text-transform: uppercase;
 }
-.ps-role__body { grid-column: 3; max-width: 880px; }
-.ps-role__org { margin: 0; color: var(--ps-text); font-size: var(--ps-fs-small); }
-.ps-role__org span[aria-hidden] { margin: 0 4px; color: var(--ps-muted); }
-.ps-role__unit { color: var(--ps-accent); }
-.ps .ps-role h3 {
-  margin-top: 8px;
+.ps .ps-feature h4 {
+  margin: 8px 0 12px;
+  color: var(--ps-ink);
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 34px;
+  font-size: clamp(26px, 2.2vw, 30px);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.15;
 }
-.ps .ps-role--current h3 { font-size: 44px; }
-.ps-role__text { margin: 12px 0 0; font-size: var(--ps-fs-body); }
+.ps-feature .ps-feature__award { margin-top: 14px; color: var(--ps-accent); font-weight: 600; }
+.ps-feature__links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 14px !important; }
+.ps-feature__links a { color: var(--ps-clay); border-bottom: 1px solid currentColor; text-decoration: none; }
 
-/* ---------- Education & skills ---------- */
+/* ---------- Education & skills ----------
+   Heading across the top; degrees on the left, grouped skills beside them,
+   both starting on the same rule. */
 .ps-two {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: clamp(48px, 6vw, 96px);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
 }
 .ps-education {
   margin: 0;
@@ -373,57 +384,75 @@
   list-style: none;
   border-top: 1px solid var(--ps-rule);
 }
-.ps-education li { padding: 22px 0; border-bottom: 1px solid var(--ps-rule); }
-.ps-education p { margin: 6px 0 0; color: var(--ps-muted); font-size: var(--ps-fs-small); }
-.ps-education .ps-education__award { color: var(--ps-clay); }
-.ps-skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.ps-education li { padding: 26px 0 28px; border-bottom: 1px solid var(--ps-rule); }
+.ps .ps-education h3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(28px, 2.4vw, 34px);
+  font-weight: 400;
+  line-height: 1.12;
 }
-.ps-skills li {
-  padding: 9px 16px;
-  border: 1px solid rgba(43, 116, 65, .35);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .5);
+.ps-education p { margin-top: 8px !important; color: var(--ps-muted); font-size: var(--ps-fs-small); }
+.ps-education .ps-education__award { margin-top: 12px !important; color: var(--ps-text); }
+.ps-education__award span,
+.ps-skills h3 {
+  color: var(--ps-clay);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.ps-education__award span { margin-right: 8px; }
+
+.ps-skills { border-top: 1px solid var(--ps-rule); padding-top: 26px; }
+.ps .ps-skills h2 {
+  margin: 0 0 6px;
   color: var(--ps-ink);
-  font-size: var(--ps-fs-small);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(28px, 2.4vw, 34px);
+  font-weight: 400;
+  line-height: 1.12;
+}
+.ps-skills__group { margin-top: 22px; }
+.ps .ps-skills h3 { font-size: 14px; line-height: 1.4; }
+.ps-skills ul { margin: 8px 0 0; padding: 0; list-style: none; }
+.ps-skills li {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--ps-rule);
+  color: var(--ps-ink);
+  font-size: 18px;
+  line-height: 1.4;
 }
 
 /* ---------- Associations ---------- */
 .ps-associations {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px;
+  gap: clamp(24px, 3vw, 40px);
 }
 .ps-association {
-  padding: clamp(28px, 3vw, 44px);
-  background: var(--ps-tint);
-  border: 1px solid var(--ps-rule);
+  padding: clamp(26px, 2.8vw, 40px) 0 0;
   border-top: 3px solid var(--ps-accent);
 }
 .ps-association__role {
-  margin: 0 0 10px;
+  margin-bottom: 8px !important;
   color: var(--ps-clay);
   font-size: var(--ps-fs-meta);
-  letter-spacing: .16em;
+  font-weight: 600;
+  letter-spacing: .14em;
   text-transform: uppercase;
 }
 .ps .ps-association h3 {
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 36px;
+  font-size: clamp(32px, 2.8vw, 40px);
   font-weight: 400;
   line-height: 1.05;
 }
-.ps-association__text { margin: 14px 0 0; }
+.ps-association__text { max-width: var(--ps-measure); margin-top: 14px !important; }
 
 /* ---------- About ---------- */
 .ps-about {
   display: grid;
-  grid-template-columns: minmax(280px, 420px) 1fr;
+  grid-template-columns: minmax(260px, 400px) 1fr;
   gap: clamp(40px, 6vw, 88px);
   align-items: start;
 }
@@ -435,12 +464,12 @@
   aspect-ratio: 1;
   object-fit: cover;
 }
-.ps-about p { max-width: 700px; margin: 0 0 20px; }
+.ps-about p { max-width: var(--ps-measure); margin: 0 0 20px; }
 .ps-about .ps-about__lead {
   color: var(--ps-ink);
   font-family: "Instrument Serif", Georgia, serif;
   font-size: clamp(28px, 2.4vw, 34px);
-  line-height: 1.22;
+  line-height: 1.25;
   margin-bottom: 26px;
 }
 
@@ -448,7 +477,7 @@
 .ps-section--dark {
   padding-bottom: 44px;
   background: #1f2c25;
-  color: #e8e1d4;
+  color: #ece5d8;
 }
 .ps-section--dark .ps-head h2 { color: #fbf6ee; }
 .ps-section--dark .ps-number { color: #e0a274; }
@@ -456,7 +485,7 @@
 .ps-button {
   display: inline-block;
   padding: 15px 26px;
-  border: 1px solid rgba(251, 246, 238, .45);
+  border: 1px solid rgba(251, 246, 238, .5);
   color: #fbf6ee;
   font-size: var(--ps-fs-body);
   text-decoration: none;
@@ -467,12 +496,11 @@
 .ps-footer {
   display: flex;
   justify-content: space-between;
-  margin-top: 72px;
+  margin-top: 64px;
   padding-top: 24px;
-  border-top: 1px solid rgba(251, 246, 238, .18);
-  font-size: 15px;
+  border-top: 1px solid rgba(251, 246, 238, .2);
+  font-size: 16px;
 }
-.ps-footer p { margin: 0; }
 .ps-footer a { color: inherit; }
 
 .ps a:focus-visible { outline: 2px solid #e0a274; outline-offset: 3px; }
@@ -496,29 +524,33 @@
 .selected-work__head .ps-lede { color: var(--ps-text); }
 .selected-work__head h2 em { color: var(--ps-clay); }
 #selected-work .cover-browser { margin-top: 0; }
-#selected-work .cover-browser__index button.is-active { border-bottom-color: var(--ps-clay); }
 #selected-work .cover-browser__navigation > button,
-#selected-work .cover-browser__index button { font-size: 14px; }
+#selected-work .cover-browser__index button { font-size: 15px; }
 
 /* ---------- Tablet ---------- */
 @media (max-width: 1100px) {
-  .ps-roles { --ps-date-w: 150px; --ps-rail: 116px; }
-  .ps-car { width: 86px; margin-left: -43px; }
-  .ps-career__label { font-size: 18px; }
-  .ps .ps-role h3 { font-size: 30px; }
-  .ps .ps-role--current h3 { font-size: 38px; }
+  #experience .ps-wrap { --ps-meta-w: 190px; --ps-rail: 104px; }
+  .ps-car { width: 82px; margin-left: -41px; }
+  .ps-career__label { font-size: 17px; }
+}
+@media (max-width: 960px) {
+  /* overview on its own row above the grid */
+  .ps-overview { grid-template-columns: 1fr; gap: 18px; }
+  .ps-career { margin-left: 0; }
 }
 
 /* ---------- Narrow screens ----------
    Stack the two-column layouts; the career overview scrolls sideways and
-   the roles keep a slim rail on the left with the date above each role. */
+   the roles keep a slim rail on the left with their details stacked. */
 @media (max-width: 760px) {
+  .ps-overview { padding: 20px 0 16px; }
   .ps-career {
     display: flex;
-    margin: -8px calc(-1 * var(--ps-gutter)) 40px;
+    margin: 0 calc(-1 * var(--ps-gutter));
     padding: 0 var(--ps-gutter) 6px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--ps-gutter);
   }
   .ps-career::before { display: none; }
   .ps-career li { flex: 0 0 168px; scroll-snap-align: start; }
@@ -529,31 +561,31 @@
     top: 10px;
     left: 10px;
     right: 0;
-    height: 3px;
+    height: 2px;
     background: rgba(43, 116, 65, .4);
   }
   .ps-career a { min-height: 44px; }
-  .ps-career__label { font-size: 16px; }
+  .ps-career__label { font-size: 17px; }
   .ps-role.is-arrived .ps-role__body::before { left: -10px; right: -8px; }
-  .ps-role.is-arrived .ps-role__body::after { display: none; }
 
-  .ps-roles { --ps-date-w: 0px; --ps-rail: 32px; }
+  #experience .ps-wrap { --ps-meta-w: 0px; --ps-rail: 32px; }
+  .ps-role { grid-template-columns: var(--ps-rail) minmax(0, 1fr); }
+  .ps-role::before { left: calc(var(--ps-rail) / 2 - 8px); }
+  .ps-roles::before { left: calc(var(--ps-rail) / 2 - 1px); }
+  .ps-role + .ps-role::after { left: var(--ps-rail); }
+  .ps-role__meta, .ps-role__body { grid-column: 2; }
+  .ps-role__meta { margin-bottom: 10px; }
+  .ps .ps-role__org { margin-top: 6px; }
   /* on phones the car stays turned along the narrow rail */
-  .ps-car { width: 64px; margin-left: -32px; transform: translateY(calc(-100% - 28px)); }
+  .ps-car { left: calc(var(--ps-rail) / 2); width: 62px; margin-left: -31px; transform: translateY(calc(-100% - 26px)); }
   .ps-car img, .ps-car--down img { transform: rotate(90deg); }
   .ps-car--up img { transform: rotate(-90deg); }
-  .ps-role__when { grid-column: 3; margin-bottom: 6px; }
-  .ps-role__body { grid-column: 3; }
-  .ps-role + .ps-role { padding-top: 30px; }
-  .ps-role + .ps-role::before { top: 36px; }
-  .ps .ps-role h3 { font-size: 28px; }
-  .ps .ps-role--current h3 { font-size: 32px; }
+  .ps-feature { padding: 20px 20px 22px; }
 
   .ps-two,
   .ps-about,
   .ps-associations { grid-template-columns: 1fr; gap: 40px; }
-  .ps-associations { gap: 20px; }
-  .ps .ps-association h3 { font-size: 30px; }
   .ps-about__photo { max-width: 340px; }
+  .ps-skills { border-top: 0; padding-top: 0; }
   .ps-footer { flex-direction: column; gap: 12px; }
 }

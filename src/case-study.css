@@ -21,7 +21,7 @@
   background: var(--cs-paper);
   color: var(--cs-text);
   font-family: "DM Sans", sans-serif;
-  font-size: 18px;
+  font-size: clamp(18px, 1.35vw, 20px);
   line-height: 1.65;
 }
 .cs h1, .cs h2, .cs h3 {
@@ -34,7 +34,7 @@
 .cs a { color: inherit; }
 .cs-kicker {
   color: var(--cs-accent);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: .16em;
   line-height: 1.5;
@@ -55,7 +55,7 @@
   background: rgba(249, 240, 227, .92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--cs-rule);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
@@ -170,6 +170,11 @@
   line-height: 1.4;
 }
 .cs-card__body { margin-top: 14px; }
+.cs-card__body p,
+.cs-card__highlight,
+.cs-hero__intro,
+.cs-quote { max-width: 34em; }           /* about 70 characters per line */
+.cs-points li { font-size: 18px; }
 .cs-card__body p + p { margin-top: 14px; }
 .cs-card__lead { margin-top: 22px !important; color: var(--cs-ink); font-weight: 600; }
 .cs-card__link {
@@ -183,9 +188,8 @@
 /* Chapters (the thesis): one full-width card per part, with room for
    method and finding cards, figures and the video. */
 .cs-contrib--chapters .cs-contrib__list { grid-template-columns: 1fr; }
-.cs-contrib--chapters .cs-card__body p,
 .cs-contrib--chapters .cs-card__highlight { max-width: 900px; }
-.cs-contrib--chapters .cs-card__body { font-size: 19px; }
+.cs-contrib--chapters .cs-card__body { font-size: inherit; }
 
 .cs-points {
   display: grid;
@@ -200,7 +204,7 @@
   padding: 20px 22px 22px;
   background: color-mix(in srgb, var(--cs-accent) 6%, var(--cs-paper));
   border-top: 3px solid var(--cs-accent);
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.6;
 }
 .cs-points b {
@@ -220,7 +224,7 @@
   border-left: 3px solid var(--cs-accent);
 }
 .cs-quote p { font-family: "Instrument Serif", Georgia, serif; font-size: 25px; line-height: 1.35; }
-.cs-quote cite { display: block; margin-top: 8px; color: var(--cs-muted); font-size: 14px; font-style: normal; }
+.cs-quote cite { display: block; margin-top: 8px; color: var(--cs-muted); font-size: 15px; font-style: normal; }
 
 /* media row: a figure beside a video, or a large figure with its caption alongside */
 .cs-media {
@@ -248,7 +252,7 @@
 }
 .cs-media > .case-video:only-child > :is(.case-video__poster, .case-video__frame) { grid-row: 1 / span 4; }
 .cs-media > .case-video:only-child > :not(.case-video__poster, .case-video__frame) { grid-column: 2; align-self: start; }
-.cs .case-figure figcaption { font-size: 16px; }
+.cs .case-figure figcaption { font-size: 17px; }
 
 /* ---------- Data embeds (Pacific Energy) ---------- */
 .cs-data__charts { display: grid; gap: clamp(28px, 3vw, 44px); }
@@ -261,7 +265,7 @@
   padding: 22px clamp(20px, 2.4vw, 32px);
   border-bottom: 1px solid var(--cs-rule);
 }
-.cs-chart header span { color: var(--cs-accent); font-size: 14px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.cs-chart header span { color: var(--cs-accent); font-size: 15px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .cs-chart h3 { margin-top: 6px; color: var(--cs-ink); font-size: clamp(26px, 2.4vw, 34px); line-height: 1.1; }
 .cs-chart header a { flex: none; color: var(--cs-accent); font-size: 15px; white-space: nowrap; }
 .cs-chart iframe { display: block; width: 100%; height: clamp(460px, 56vw, 660px); border: 0; }
@@ -306,10 +310,10 @@
   transition: transform .25s ease, box-shadow .25s ease;
 }
 .cs-link:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(60, 40, 20, .12); }
-.cs-link__kicker { color: var(--cs-accent); font-size: 14px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.cs-link__kicker { color: var(--cs-accent); font-size: 15px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .cs-link small { color: var(--cs-muted); font-size: 15px; }
 .cs-link strong { color: var(--cs-ink); font-family: "Instrument Serif", Georgia, serif; font-size: clamp(28px, 2.4vw, 36px); font-weight: 400; line-height: 1.1; }
-.cs-link p { font-size: 17px; }
+.cs-link p { font-size: 18px; }
 .cs-link em { color: var(--cs-muted); font-size: 15px; }
 .cs-link i { position: absolute; top: 24px; right: 26px; color: var(--cs-accent); font-size: 24px; font-style: normal; }
 .cs-link--featured { background: var(--cs-accent); border-color: var(--cs-accent); color: #fff; }
@@ -332,7 +336,7 @@
   padding: 28px var(--cs-gutter) 44px;
   box-sizing: border-box;
   border-top: 1px solid var(--cs-rule);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
