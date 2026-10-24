@@ -228,14 +228,25 @@
   text-decoration: none;
 }
 
-/* Chapters (the thesis): one full-width part after another. Their
-   paragraphs are narrative text: one column, stacked in order, at the
-   reading width; method and finding cards, figures and the video follow. */
-.cs-contrib--chapters .cs-contrib__list { grid-template-columns: 1fr; gap: clamp(48px, 5vw, 72px); }
+/* Chapters (the thesis): set as an editorial research feature, in one
+   centred 1000px column with balanced margins on both sides. Narrative
+   paragraphs stack in order at up to 900px; headings, method and finding
+   cards, figures and the video use the column's full width. */
+.cs-contrib--chapters {
+  --cs-fs-body: clamp(18px, 1.39vw, 20px);
+  --cs-read: 900px;
+  max-width: calc(1000px + 2 * var(--cs-gutter));
+}
+.cs-contrib--chapters .cs-section__head { margin-bottom: clamp(32px, 3vw, 40px); }
+.cs-contrib--chapters .cs-contrib__list { grid-template-columns: 1fr; gap: clamp(56px, 5.5vw, 80px); }
+.cs-contrib--chapters .cs-card { padding-top: clamp(28px, 2.6vw, 36px); }
 .cs-contrib--chapters .cs-card h3 { font-size: var(--cs-fs-h3); }
 .cs-contrib--chapters .cs-card__number { font-size: calc(var(--cs-fs-h3) * 1.15); }
-.cs-contrib--chapters .cs-card__body { margin-top: 16px; font-size: var(--cs-fs-body); line-height: var(--cs-lh-body); }
+.cs-contrib--chapters .cs-card__body { margin-top: 20px; font-size: var(--cs-fs-body); line-height: 1.62; }
+.cs-contrib--chapters .cs-card__body p + p { margin-top: 1.1em; }
 .cs-contrib--chapters .cs-card__highlight { max-width: var(--cs-read); font-size: var(--cs-fs-body); }
+.cs-contrib--chapters .cs-points { margin-top: 32px; }
+.cs-contrib--chapters .cs-media { margin-top: 36px; }
 
 /* Independent method and finding cards: natural height, even padding */
 .cs-points {

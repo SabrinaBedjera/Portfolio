@@ -116,6 +116,56 @@
   line-height: 1.35;
 }
 
+/* ---------- Career highlights ----------
+   Four cards above the timeline: a numeral and rule in the section's rust,
+   a serif heading and one short line each; two by two on wide screens. */
+.ps-highlights { margin: 0 0 clamp(44px, 5vw, 64px); }
+.ps .ps-highlights__label {
+  margin-bottom: 18px;
+  color: var(--ps-muted);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ps-highlights ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 1.8vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-highlights li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 16px;
+  align-content: start;
+  padding: clamp(22px, 2.2vw, 30px) clamp(22px, 2.4vw, 32px);
+  background: var(--ps-tint);
+  border-top: 3px solid var(--ps-clay);
+}
+.ps-highlights__number {
+  grid-row: span 2;
+  color: var(--ps-clay);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 34px;
+  line-height: 1;
+}
+.ps .ps-highlights h4 {
+  margin: 0;
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: var(--ps-fs-card-h);
+  font-weight: 400;
+  line-height: 1.15;
+}
+.ps .ps-highlights p {
+  margin-top: 8px;
+  font-size: var(--ps-fs-card);
+  line-height: 1.5;
+}
+
 /* ---------- Experience ----------
    One grid for the whole section: a meta column (dates, organization),
    the rail, and the story. The career overview sits in the same grid, so
@@ -625,6 +675,8 @@
    Stack the two-column layouts; the career overview scrolls sideways and
    the roles keep a slim rail on the left with their details stacked. */
 @media (max-width: 760px) {
+  .ps-highlights ul { grid-template-columns: 1fr; }
+  .ps-highlights__number { font-size: 28px; }
   .ps,
   #selected-work {
     --ps-fs-h2: 38px;

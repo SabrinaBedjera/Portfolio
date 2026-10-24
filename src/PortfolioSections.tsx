@@ -107,6 +107,26 @@ const roles: Role[] = [
   },
 ]
 
+/* Career Highlights: four cards above the timeline, for a quick read. */
+const careerHighlights = [
+  {
+    title: "Science & Engineering",
+    text: "Research background in environmental engineering, biology and mathematical modelling, including award-winning master’s research.",
+  },
+  {
+    title: "Investment & Due Diligence",
+    text: "Led multidisciplinary assessments of critical minerals projects involving over $1B in proposed support.",
+  },
+  {
+    title: "Commercial Negotiations",
+    text: "Helped structure and negotiate offtake and equity arrangements to advance strategic projects.",
+  },
+  {
+    title: "Energy & Technology Strategy",
+    text: "Contributed to Canada’s Carbon Management Strategy and international technical publications on carbon capture, utilization and storage.",
+  },
+]
+
 /* Career overview above the roles, oldest first; each milestone links to its role. */
 const careerMilestones = [
   { year: "2015", label: "Research & Data", role: "role-ontario-tech" },
@@ -313,6 +333,18 @@ export default function PortfolioSections() {
       <section id="experience" className="ps-section" aria-labelledby="experience-title">
         <div className="ps-wrap">
           <SectionHead id="experience" />
+          <section className="ps-highlights" aria-labelledby="highlights-title">
+            <h3 id="highlights-title" className="ps-highlights__label">Career highlights</h3>
+            <ul>
+              {careerHighlights.map((item, i) => (
+                <li key={item.title}>
+                  <span className="ps-highlights__number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                  <h4>{item.title}</h4>
+                  <p>{item.text}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
           <Experience />
         </div>
       </section>
