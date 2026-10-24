@@ -114,17 +114,6 @@
 .case-video__poster:hover .case-video__play,
 .case-video__poster:focus-visible .case-video__play { transform: scale(1.08); }
 .case-video__poster:focus-visible { outline: 2px solid var(--case-accent); outline-offset: 4px; }
-/* a video on its own in the row: thumbnail with the text alongside */
-.cs-media > .case-video:only-child {
-  display: grid;
-  grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
-  column-gap: clamp(24px, 3vw, 40px);
-  align-content: center;
-  max-width: 1040px;
-}
-.cs-media > .case-video:only-child > :is(.case-video__poster, .case-video__frame) { grid-row: 1 / span 4; }
-.cs-media > .case-video:only-child > :not(.case-video__poster, .case-video__frame) { grid-column: 2; align-self: start; }
-.cs-media > .case-video:only-child > .case-video__title { margin-top: 0; align-self: end; }
 .case-video__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .cs .case-video__title {
   margin: 16px 0 0;
@@ -138,7 +127,7 @@
   display: inline-block;
   margin-top: 10px;
   color: var(--case-accent);
-  font-size: 15px;
+  font-size: 16px;
 }
 
 /* ---------- Research figures ---------- */
@@ -170,7 +159,7 @@
   border-radius: 999px;
   background: rgba(23, 48, 59, .82);
   color: #fff;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: .04em;
   opacity: .9;
   transition: opacity .2s ease;
@@ -202,7 +191,7 @@
   height: auto;
   margin: 0 auto;
 }
-.case-figure__dialog p { max-width: 860px; margin: 16px auto 0; font-size: 15px; line-height: 1.55; }
+.case-figure__dialog p { max-width: 860px; margin: 16px auto 0; font-size: 17px; line-height: 1.5; }
 .case-figure__close {
   position: absolute;
   top: 14px;
@@ -222,7 +211,6 @@
   .case-figure__dialog { padding: 52px 10px 14px; }
   /* on phones, enlarging shows the figure at full resolution to pan around */
   .case-figure__dialog img { max-width: none; }
-  .cs-media > .case-video:only-child { display: block; }
 }
 
 /* Phones: a slightly narrower issue, so it clears the carousel controls

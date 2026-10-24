@@ -3,8 +3,9 @@
    Lab, About, Associations, Contact)
    Warm editorial style taken from the homepage photograph: cream paper,
    deep green ink, rust accents, Instrument Serif headings, DM Sans text.
-   Type is set for reading: 18–19.5px body, 15px+ labels, ~68 characters
-   per line; headings are large but sized against the content beneath.
+   Type follows the same scale as the case studies (case-study.css):
+   54px section headings, 36px subsections, 28px card headings, 21px
+   narrative text in one reading column, 20px card text, 16px labels.
    Everything is scoped to .ps-* classes.
    ================================================== */
 .ps,
@@ -19,14 +20,17 @@
   --ps-clay: #a75825;
   --ps-select: #2f5f8a;
 
-  /* type scale */
-  --ps-fs-h2: clamp(44px, 4.6vw, 66px);
+  /* type scale (desktop; tablet and phone steps at the end of the file) */
+  --ps-fs-h2: clamp(40px, 3.8vw, 54px);        /* section headings */
+  --ps-fs-h3: clamp(30px, 2.5vw, 36px);        /* subsections: roles, Skills */
+  --ps-fs-card-h: clamp(25px, 1.95vw, 28px);   /* headings of independent cards */
   --ps-fs-lede: clamp(20px, 1.55vw, 23px);
-  --ps-fs-body: clamp(18px, 1.35vw, 20px);
+  --ps-fs-body: clamp(19px, 1.46vw, 21px);     /* narrative paragraphs */
+  --ps-fs-card: clamp(18px, 1.39vw, 20px);     /* card descriptions */
   --ps-fs-small: 18px;
   --ps-fs-meta: 16px;          /* labels, dates, numbers */
-  --ps-lh-body: 1.65;
-  --ps-measure: 34em;          /* about 70 characters of running text */
+  --ps-lh-body: 1.6;
+  --ps-measure: 920px;         /* the reading column */
 
   /* layout and spacing */
   --ps-wrap: 1200px;
@@ -74,8 +78,8 @@
   letter-spacing: -.015em;
 }
 .ps-lede {
-  max-width: 34em;
-  margin: 18px 0 0;
+  max-width: var(--ps-measure);
+  margin: 24px 0 0;
   font-size: var(--ps-fs-lede);
   line-height: 1.5;
 }
@@ -83,7 +87,7 @@
 .ps h3 {
   margin: 0;
   color: var(--ps-ink);
-  font-size: 22px;
+  font-size: var(--ps-fs-card-h);
   font-weight: 500;
   line-height: 1.3;
 }
@@ -293,11 +297,11 @@
 .ps-role__body { position: relative; grid-column: 3; }
 .ps .ps-role h3 {
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(32px, 2.8vw, 40px);
+  font-size: var(--ps-fs-h3);
   font-weight: 400;
   line-height: 1.08;
 }
-.ps .ps-role__text { max-width: 36em; margin-top: 16px; font-size: 21px; line-height: 1.6; }
+.ps .ps-role__text { max-width: var(--ps-measure); margin-top: 16px; font-size: var(--ps-fs-body); line-height: var(--ps-lh-body); }
 .ps-role .ps-pills { margin-top: 24px; gap: 12px; }
 .ps-role .ps-pills li { padding: 11px 20px; font-size: 17px; }
 
@@ -306,7 +310,7 @@
 .ps-credit__kicker {
   display: block;
   color: var(--ps-muted);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -385,7 +389,7 @@
 
 /* Related work inside an entry (the water policy proposal) */
 .ps-feature {
-  max-width: calc(36em * 21 / 20 + 60px);
+  max-width: calc(var(--ps-measure) - 60px);
   margin-top: 26px;
   padding: 26px 30px 28px;
   background: var(--ps-tint);
@@ -401,17 +405,19 @@
   margin: 8px 0 12px;
   color: var(--ps-ink);
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(26px, 2.2vw, 30px);
+  font-size: var(--ps-fs-card-h);
   font-weight: 400;
   line-height: 1.15;
 }
+.ps .ps-feature p { font-size: var(--ps-fs-card); line-height: 1.5; }
 .ps-feature .ps-feature__award { margin-top: 14px; color: var(--ps-accent); font-weight: 600; }
 .ps-feature__links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 14px !important; }
 .ps-feature__links a { color: var(--ps-clay); border-bottom: 1px solid currentColor; text-decoration: none; }
 
 /* ---------- Education & skills ----------
-   Heading across the top; the degrees in a row, then the skills across the
-   full width: Projects & Investment first, the other three side by side. */
+   Heading across the top; the master's degree (with its award) on the left
+   and the two shorter degrees stacked beside it, so the columns end
+   together; then the skills across the full width. */
 .ps-two {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -419,25 +425,26 @@
 }
 .ps-education {
   display: grid;
-  grid-template-columns: 1.35fr 1fr 1fr;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: 0 clamp(32px, 4vw, 64px);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.ps-education li { padding: 26px 0 0; border-top: 1px solid var(--ps-rule); }
+.ps-education li { padding: 24px 0; border-top: 1px solid var(--ps-rule); }
+.ps-education li:first-child { grid-row: span 2; }
 .ps .ps-education h3 {
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(28px, 2.4vw, 34px);
+  font-size: var(--ps-fs-card-h);
   font-weight: 400;
-  line-height: 1.12;
+  line-height: 1.15;
 }
-.ps-education p { margin-top: 8px !important; color: var(--ps-muted); font-size: var(--ps-fs-small); }
+.ps-education p { margin-top: 8px !important; color: var(--ps-muted); font-size: var(--ps-fs-card); line-height: 1.5; }
 .ps-education .ps-education__award { margin-top: 12px !important; color: var(--ps-text); }
 .ps-education__award span,
 .ps-skills h3 {
   color: var(--ps-clay);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -453,7 +460,7 @@
   font-weight: 400;
   line-height: 1.12;
 }
-.ps .ps-skills h2 { font-size: clamp(34px, 3vw, 44px); }
+.ps .ps-skills h2 { font-size: var(--ps-fs-h3); }
 .ps-skills__groups {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -513,11 +520,11 @@
 }
 .ps .ps-association h3 {
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(32px, 2.8vw, 40px);
+  font-size: var(--ps-fs-card-h);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: 1.12;
 }
-.ps-association__text { max-width: var(--ps-measure); margin-top: 14px !important; }
+.ps .ps-association__text { max-width: var(--ps-measure); margin-top: 12px; font-size: var(--ps-fs-card); line-height: 1.5; }
 
 /* ---------- About ---------- */
 .ps-about {
@@ -534,7 +541,7 @@
   aspect-ratio: 1;
   object-fit: cover;
 }
-.ps-about p { max-width: var(--ps-measure); margin: 0 0 20px; }
+.ps-about p { max-width: var(--ps-measure); margin: 0 0 1em; }
 .ps-about .ps-about__lead {
   color: var(--ps-ink);
   font-family: "Instrument Serif", Georgia, serif;
@@ -593,9 +600,9 @@
 }
 .selected-work__head .ps-lede { color: var(--ps-text); }
 .selected-work__head h2 em { color: var(--ps-clay); }
-#selected-work .cover-browser { margin-top: 0; }
+#selected-work .cover-browser { margin-top: clamp(20px, 2.5vw, 36px); }
 #selected-work .cover-browser__navigation > button,
-#selected-work .cover-browser__index button { font-size: 15px; }
+#selected-work .cover-browser__index button { font-size: 16px; }
 
 /* ---------- Tablet ---------- */
 @media (max-width: 1100px) {
@@ -603,8 +610,6 @@
   .ps-car { width: 88px; margin-left: -44px; }
   .ps-career__label { font-size: 18px; }
   .ps-career__year { font-size: 17px; }
-  .ps .ps-role h3 { font-size: 34px; }
-  .ps .ps-role__text { font-size: 20px; }
   .ps .ps-role__org, .ps .ps-role__unit { font-size: 18px; }
 }
 @media (max-width: 960px) {
@@ -612,7 +617,7 @@
   .ps-overview { grid-template-columns: 1fr; gap: 18px; }
   .ps-career { margin-left: 0; }
   .ps-education { grid-template-columns: 1fr; }
-  .ps-education li { padding-bottom: 26px; }
+  .ps-education li:first-child { grid-row: auto; }
   .ps-skills__groups { grid-template-columns: 1fr; }
 }
 
@@ -620,6 +625,14 @@
    Stack the two-column layouts; the career overview scrolls sideways and
    the roles keep a slim rail on the left with their details stacked. */
 @media (max-width: 760px) {
+  .ps,
+  #selected-work {
+    --ps-fs-h2: 38px;
+    --ps-fs-h3: 30px;
+    --ps-fs-card-h: 25px;
+    --ps-fs-body: 18px;
+    --ps-fs-card: 18px;
+  }
   .ps-overview { padding: 20px 0 16px; }
   .ps-career {
     display: flex;
@@ -648,8 +661,6 @@
   #experience .ps-wrap { --ps-meta-w: 0px; --ps-rail: 40px; --ps-dot: 22px; --ps-dot-on: 28px; --ps-line: 3px; }
   .ps-role { grid-template-columns: var(--ps-rail) minmax(0, 1fr); }
   .ps-role::before { left: calc(var(--ps-rail) / 2); }
-  .ps .ps-role h3 { font-size: 30px; }
-  .ps .ps-role__text { font-size: 19px; }
   .ps-role .ps-pills li { padding: 9px 16px; font-size: 16px; }
   .ps .ps-role__org, .ps .ps-role__unit { font-size: 18px; }
   .ps-role + .ps-role::after { left: var(--ps-rail); }

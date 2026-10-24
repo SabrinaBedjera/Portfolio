@@ -324,8 +324,12 @@ type HomeObject = {
   /** Box height / width, and where the base sits (fraction of box height). */
   aspect: number
   base: number
-  /** Caption offset: dx from the object's left edge, dy from its ground line. */
-  caption: { dx: number; dy: number }
+  /**
+   * Caption position: dx from the object's left edge (to the caption's
+   * centre when `center` is set); dy from the object's ground line, or, for
+   * the front row, on the shared FRONT_LABELS line instead.
+   */
+  caption: { dx: number; dy?: number; center?: boolean; frontRow?: boolean }
   layers: { src: string; className?: string }[]
   /** Faint animated steam above the object (drawn in SVG, shown on hover). */
   steam?: boolean
@@ -335,6 +339,9 @@ type HomeObject = {
 
 /* Back row rests on the far part of the table, front row nearer the viewer. */
 const BACK = 652
+/* The front row's labels (About, Associations, Contact) share one line:
+   the stage y their bottoms rest on, just above the bottom of the scene. */
+const FRONT_LABELS = 936
 const homeObjects: HomeObject[] = [
   {
     id: "selected-work", description: "Case studies and featured projects",
@@ -345,14 +352,14 @@ const homeObjects: HomeObject[] = [
   {
     id: "experience", description: "Professional background",
     // set a little forward of the back row, leaving room for the intro paragraph above
-    x: 612, w: 200, ground: BACK + 48, aspect: 478 / 359, base: 0.956, caption: { dx: 12, dy: 12 },
+    x: 612, w: 200, ground: BACK + 48, aspect: 478 / 359, base: 0.956, caption: { dx: 112, dy: 12, center: true },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
     // The stack and the standing Technology book are laid out together in
     // curiosity-home.css; the standing book tips onto the stack on hover.
     id: "education", description: "Academic background",
-    x: 884, w: 432, ground: BACK, aspect: 0.53, base: 0.995, caption: { dx: 170, dy: 12 },
+    x: 884, w: 432, ground: BACK, aspect: 0.53, base: 0.995, caption: { dx: 215, dy: 12 },
     layers: [
       { src: "/home-objects/04_education_books_stack.webp", className: "ch-books-stack" },
       { src: "/home-objects/04_education_technology_book.webp", className: "ch-books-tech" },
@@ -360,17 +367,19 @@ const homeObjects: HomeObject[] = [
   },
   {
     id: "lab", description: "Technical and creative projects",
-    x: 1330, w: 256, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 130, dy: 12 },
+    x: 1330, w: 256, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 205, dy: 12 },
     layers: [{ src: "/home-objects/03_lab_cloche.webp" }],
   },
   {
     id: "about", description: "My approach and interests",
-    x: 840, w: 226, ground: 926, aspect: 487 / 390, base: 0.912, caption: { dx: -172, dy: -28 },
+    // front row: frame, cup and pen holder, evenly spaced right of the mineral;
+    // each rests high enough for its label to sit beneath it on FRONT_LABELS
+    x: 880, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
     id: "associations", description: "Professional associations and volunteering",
-    x: 1072, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 0, dy: 14 },
+    x: 1140, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 86, center: true, frontRow: true },
     layers: [{ src: "/home-objects/06_associations_espresso_cup.webp" }],
     steam: true,
   },
@@ -378,7 +387,7 @@ const homeObjects: HomeObject[] = [
     // Back of the holder, then the pen, then the holder again clipped to its
     // front wall: the pen's lower end disappears inside the cup.
     id: "contact", description: "Let’s connect",
-    x: 1300, w: 150, ground: 905, aspect: 457 / 303, base: 0.932, caption: { dx: 160, dy: -22 },
+    x: 1376, w: 150, ground: 883, aspect: 457 / 303, base: 0.932, caption: { dx: 79, center: true, frontRow: true },
     layers: [
       { src: "/home-objects/06_contact_pen_holder.webp", className: "ch-holder" },
       { src: "/home-objects/07_contact_animated_pen.webp", className: "ch-pen" },
@@ -488,7 +497,9 @@ function CuriosityHomepage() {
                     "--w": object.w,
                     "--base": object.base,
                     "--dx": object.caption.dx,
-                    "--dy": object.ground + object.caption.dy - objectTop(object),
+                    "--dy": object.caption.frontRow
+                      ? FRONT_LABELS - objectTop(object)
+                      : object.ground + (object.caption.dy ?? 0) - objectTop(object),
                   } as CSSProperties
                 }
               >
@@ -520,7 +531,10 @@ function CuriosityHomepage() {
                       </svg>
                     )}
                   </span>
-                  <span className="ch-caption" aria-hidden="true">
+                  <span
+                    className={`ch-caption${object.caption.center ? " ch-caption--center" : ""}${object.caption.frontRow ? " ch-caption--front" : ""}`}
+                    aria-hidden="true"
+                  >
                     <span className="ch-caption__number">{number}</span>
                     <span className="ch-caption__title">{caption ?? label}</span>
                     <span className="ch-caption__arrow">→</span>
@@ -926,8 +940,6 @@ function MagazineCaseStudy({
 
       <header className="cs-hero">
         <div className="cs-hero__copy">
-          {/* the magazine's nameplate, as on its cover */}
-          <p className="cs-nameplate">{project.cover.title}</p>
           <p className="cs-kicker">{project.eyebrow}</p>
           <h1>{project.caseHeadline}</h1>
           <p className="cs-hero__intro">{project.caseIntroduction}</p>
