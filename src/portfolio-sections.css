@@ -13,7 +13,7 @@
   --ps-paper: #fbf6ee;
   --ps-tint: #f3e8d8;
   --ps-ink: #1c2a22;
-  --ps-text: #33382f;
+  --ps-text: #1e211d;   /* body copy in the same ink as the case-study introductions */
   --ps-muted: #5e5b53;
   --ps-rule: rgba(60, 45, 30, .18);
   --ps-accent: #2b7441;
@@ -21,15 +21,15 @@
   --ps-select: #2f5f8a;
 
   /* type scale (desktop; tablet and phone steps at the end of the file) */
-  --ps-fs-h2: clamp(40px, 3.8vw, 54px);        /* section headings */
-  --ps-fs-h3: clamp(30px, 2.5vw, 36px);        /* subsections: roles, Skills */
-  --ps-fs-card-h: clamp(25px, 1.95vw, 28px);   /* headings of independent cards */
-  --ps-fs-lede: clamp(20px, 1.55vw, 23px);
-  --ps-fs-body: clamp(19px, 1.46vw, 21px);     /* narrative paragraphs */
-  --ps-fs-card: clamp(18px, 1.39vw, 20px);     /* card descriptions */
+  --ps-fs-h2: clamp(42px, 4vw, 58px);          /* section headings */
+  --ps-fs-h3: clamp(32px, 2.6vw, 38px);        /* subsections: roles, Skills */
+  --ps-fs-card-h: clamp(26px, 2vw, 30px);      /* headings of independent cards */
+  --ps-fs-lede: clamp(19px, 1.5vw, 22px);
+  --ps-fs-body: clamp(19px, 1.5vw, 22px);      /* all narrative paragraphs (as the case-study introductions) */
+  --ps-fs-card: clamp(18px, 1.4vw, 21px);      /* text in multi-column cards */
   --ps-fs-small: 18px;
   --ps-fs-meta: 16px;          /* labels, dates, numbers */
-  --ps-lh-body: 1.6;
+  --ps-lh-body: 1.55;
   --ps-measure: 920px;         /* the reading column */
 
   /* layout and spacing */
@@ -679,10 +679,10 @@
   .ps-highlights__number { font-size: 28px; }
   .ps,
   #selected-work {
-    --ps-fs-h2: 38px;
-    --ps-fs-h3: 30px;
-    --ps-fs-card-h: 25px;
-    --ps-fs-body: 18px;
+    --ps-fs-h2: 40px;
+    --ps-fs-h3: 31px;
+    --ps-fs-card-h: 26px;
+    --ps-fs-body: 19px;
     --ps-fs-card: 18px;
   }
   .ps-overview { padding: 20px 0 16px; }
