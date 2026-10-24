@@ -304,7 +304,8 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 
 /* ------------------------------------------------------------------
    Cabinet-of-curiosities homepage: an interactive still life
-   Background: public/home-background.jpg (1672 × 941, empty wall and table).
+   Background: public/home-background.jpg (1672 × 941, empty wall and table;
+   the bright window edge at the far right was trimmed and the width restored).
    Objects: cut-out images in public/home-objects/, positioned in pixels of
    the 1672 × 941 photograph and scaled with the scene (curiosity-home.css).
    To swap an object image, replace the file or change its `src` below.
@@ -343,7 +344,8 @@ const homeObjects: HomeObject[] = [
   },
   {
     id: "experience", description: "Professional background",
-    x: 600, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: -20, dy: 12 },
+    // set a little forward of the back row, leaving room for the intro paragraph above
+    x: 612, w: 200, ground: BACK + 48, aspect: 478 / 359, base: 0.956, caption: { dx: 12, dy: 12 },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
@@ -363,12 +365,12 @@ const homeObjects: HomeObject[] = [
   },
   {
     id: "about", description: "My approach and interests",
-    x: 760, w: 226, ground: 926, aspect: 487 / 390, base: 0.912, caption: { dx: -136, dy: -28 },
+    x: 840, w: 226, ground: 926, aspect: 487 / 390, base: 0.912, caption: { dx: -172, dy: -28 },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
     id: "associations", description: "Professional associations and volunteering",
-    x: 1056, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 0, dy: 14 },
+    x: 1072, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 0, dy: 14 },
     layers: [{ src: "/home-objects/06_associations_espresso_cup.webp" }],
     steam: true,
   },

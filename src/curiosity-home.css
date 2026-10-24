@@ -56,9 +56,10 @@
 .ch-nav .ch-nav__brand {
   flex: none;
   color: var(--ch-plum);
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: .2em;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: .1em;
 }
 .ch-nav__toggle { display: none; }
 /* Links sit in a thin double-ruled frame, like a printed table of contents. */
@@ -66,9 +67,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 4px 26px;
+  gap: 4px 24px;
   margin: 0;
-  padding: 7px 22px;
+  padding: 14px 26px;
   list-style: none;
   border: 1px solid var(--ch-plum-line);
   outline: 1px solid rgba(123, 74, 108, .28);
@@ -78,9 +79,11 @@
 .ch-nav__links a {
   position: relative;
   display: block;
-  padding: 6px 0;
-  font-size: 15px;
-  letter-spacing: .12em;
+  padding: 2px 0;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  white-space: nowrap;
 }
 .ch-nav__links a::after {
   content: "";
@@ -111,7 +114,7 @@
 }
 .ch-eyebrow span { padding: 0 10px; }
 .ch-copy h1 {
-  max-width: 13em;
+  max-width: none;
   margin: 18px 0 0;
   color: var(--ch-ink);
   font-family: "Newsreader", "Instrument Serif", Georgia, serif;
@@ -121,11 +124,11 @@
   letter-spacing: -.018em;
 }
 .ch-lede {
-  max-width: 540px;
-  margin: 20px 0 0;
+  max-width: 660px;
+  margin: 22px 0 0;
   color: var(--ch-text);
-  font-size: 19px;
-  line-height: 1.55;
+  font-size: 20px;
+  line-height: 1.5;
 }
 
 /* ---------- Scene and objects ---------- */
@@ -312,12 +315,12 @@
 }
 .ch-mags__plane {
   position: absolute;
-  left: 32%;
-  top: 2%;
-  width: 39%;
+  left: 34.5%;
+  top: 4%;
+  width: 33%;
   aspect-ratio: .715;
   transform-style: preserve-3d;
-  transform: rotateX(54deg) rotateZ(-14deg);
+  transform: rotateX(50deg) rotateZ(-8deg);
 }
 .ch-mag {
   position: absolute;
@@ -358,23 +361,26 @@
   background: linear-gradient(90deg, rgba(70, 48, 26, .14), rgba(70, 48, 26, 0));
   pointer-events: none;
 }
-.ch-mag:nth-child(1) { --lift: -74%; --rest-turn: 3deg; --fan-turn: 4deg; }    /* Drinking Water, at the back */
-.ch-mag:nth-child(2) { --lift: -42%; --rest-turn: -2deg; --fan-turn: -2.5deg; } /* Pacific */
-.ch-mag:nth-child(3) { --lift: -21%; --rest-turn: 1.5deg; --fan-turn: 1.5deg; } /* Energy */
-.ch-mag:nth-child(4) { --lift: 0%; --rest-turn: -1deg; --fan-turn: -1deg; }     /* Critical Minerals, on top */
+/* Fanned like a hand of cards, pivoting at the bottom edge: Energy and
+   Pacific to the left, Drinking Water out to the right, Critical Minerals
+   in front. Each shift leaves the issue's title (top left) uncovered. */
+.ch-mag:nth-child(1) { --fan-x: 86%; --fan-y: -2%; --rest-turn: 3deg; --fan-turn: 5deg; }     /* Drinking Water, at the back */
+.ch-mag:nth-child(2) { --fan-x: -86%; --fan-y: 6%; --rest-turn: -2deg; --fan-turn: -14deg; }  /* Pacific */
+.ch-mag:nth-child(3) { --fan-x: -44%; --fan-y: 1%; --rest-turn: 1.5deg; --fan-turn: -7deg; }  /* Energy */
+.ch-mag:nth-child(4) { --fan-x: 0%; --fan-y: 0%; --rest-turn: -1deg; --fan-turn: -1deg; }     /* Critical Minerals, on top */
 .ch-mag .issue__visual img { pointer-events: none; }
 .ch-object--selected-work > a:hover .ch-mag,
 .ch-object--selected-work > a:focus-visible .ch-mag {
   transform:
-    translate3d(calc(var(--i) * 2.2%), var(--lift), calc((3 - var(--i)) * 4px))
+    translate3d(var(--fan-x), var(--fan-y), calc((3 - var(--i)) * 4px))
     rotate(var(--fan-turn, 0deg));
 }
 /* fixed hit area over the stack and its fanned-out extent */
 .ch-mags__hit {
   position: absolute;
-  inset: -22% 6% 0 22%;
+  inset: -8% 2% 0 4%;
   pointer-events: auto;
-  clip-path: polygon(16% 2%, 84% 0%, 96% 70%, 82% 100%, 18% 100%, 2% 70%);
+  clip-path: polygon(10% 8%, 90% 0%, 100% 62%, 88% 100%, 8% 100%, 0% 60%);
 }
 .ch-object--selected-work > a:focus-visible .ch-mags__hit { outline: none; }
 
@@ -425,6 +431,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ch-mag { transition: none; }
+  .ch-object--selected-work > a:hover .ch-mags__plane,
+  .ch-object--selected-work > a:focus-visible .ch-mags__plane { transform: rotateX(50deg) rotateZ(-8deg); }
   .ch-object--selected-work > a:hover .ch-mag,
   .ch-object--selected-work > a:focus-visible .ch-mag {
     transform:
@@ -450,22 +458,19 @@
 }
 
 /* Headline steps down with the stage width; still px, so zoom applies. */
+/* The headline runs on one line across the wall; it and the navigation
+   step down a little on narrower stages. The paragraph keeps 20px. */
 @container ch-stage (max-width: 1549px) {
-  .ch-copy h1 { font-size: 54px; }
-  .ch-lede { max-width: 520px; font-size: 18px; }
-  .ch-nav__links { column-gap: 22px; padding: 6px 18px; }
-  .ch-nav__links a { font-size: 14px; letter-spacing: .1em; }
+  .ch-copy h1 { font-size: 58px; }
+  .ch-nav__links { column-gap: 18px; padding: 14px 20px; }
+  .ch-nav__links a { letter-spacing: .04em; }
 }
-@container ch-stage (max-width: 1349px) {
-  .ch-copy h1 { font-size: 46px; margin-top: 14px; }
-  .ch-lede { max-width: 470px; font-size: 17px; margin-top: 14px; line-height: 1.5; }
-  .ch-eyebrow { font-size: 13px; }
-  .ch-nav__links { column-gap: 18px; padding: 5px 14px; }
-  .ch-nav__links a { font-size: 13px; letter-spacing: .08em; }
-}
-
-@container ch-stage (max-width: 1279px) {
-  .ch-copy h1 { font-size: 44px; }
+@container ch-stage (max-width: 1399px) {
+  .ch-copy h1 { font-size: 52px; margin-top: 14px; }
+  .ch-nav .ch-nav__brand { font-size: 28px; letter-spacing: .08em; }
+  .ch-nav__links { column-gap: 16px; padding: 12px 18px; }
+  .ch-nav__links a { font-size: 15px; }
+  .ch-caption { gap: 7px; padding: 5px 10px; }
 }
 
 /* ---------- Wide: everything on one stage that fits the window ---------- */
@@ -493,7 +498,7 @@
     position: absolute;
     left: 4.07cqw;
     top: 12.6cqh;      /* 120 / 941 */
-    width: 62cqw;      /* the headline may run wide above the objects; the lede stays narrow */
+    width: 88cqw;      /* the headline runs wide across the wall; the lede stays narrower */
   }
   .ch-scene { position: absolute; inset: 0; }
 }
@@ -505,11 +510,12 @@
   .ch-stage { padding: 22px 40px 0; }
   /* name on one row, the seven links on the next, so none wrap alone */
   .ch-nav { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .ch-nav__links { justify-content: flex-start; column-gap: 22px; }
-  .ch-nav__links a { font-size: 13px; }
+  .ch-nav__links { justify-content: flex-start; column-gap: 18px; }
+  .ch-nav__links a { font-size: 15px; }
   .ch-copy { margin-top: 36px; max-width: 760px; }
+  @media (max-width: 1040px) { .ch-nav__links { column-gap: 14px; } .ch-nav__links a { font-size: 14px; } }
   .ch-copy h1 { font-size: 54px; }
-  .ch-lede { max-width: 640px; font-size: 19px; }
+  .ch-lede { max-width: 660px; font-size: 20px; }
   .ch-scene {
     margin: 8px -40px 0;
     aspect-ratio: 1672 / 660;     /* the table part of the photograph */
@@ -622,7 +628,10 @@
     aspect-ratio: 1 / .8;
     margin-top: auto;
   }
-  .ch-object--selected-work .ch-mags__plane { left: 24%; top: 22%; width: 50%; }
+  .ch-object--selected-work .ch-mags__plane { left: 24%; top: 22%; width: 50%; transition: transform .45s cubic-bezier(.3, .7, .2, 1); }
+  /* in the small tile the stack shrinks as it fans, so the whole hand fits */
+  .ch-object--selected-work > a:hover .ch-mags__plane,
+  .ch-object--selected-work > a:focus-visible .ch-mags__plane { transform: rotateX(50deg) rotateZ(-8deg) scale(.6); }
   .ch-object--associations .ch-object__art {
     display: block;
     width: 100%;

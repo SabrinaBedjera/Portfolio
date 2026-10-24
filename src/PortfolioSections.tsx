@@ -18,6 +18,8 @@ type Role = {
   text: string
   /** Selected skills, project themes or contributions. */
   highlights: string[]
+  /** A small linked credit beneath the role, e.g. a presentation. */
+  credit?: { kicker: string; title: string; href: string }
   /** A related piece of work shown inside the entry. */
   feature?: {
     kicker: string
@@ -40,14 +42,12 @@ const roles: Role[] = [
     organization: "Natural Resources Canada",
     unit: "Critical Minerals Centre of Excellence",
     theme: "Critical Minerals & Clean Energy",
-    text: "Lead the assessment and advancement of critical minerals and clean energy projects, including technical and commercial due diligence, funding negotiations, and agreement development. Work across engineering, financial, economic, and legal teams to evaluate project viability and support commercialization.",
+    text: "Lead technical, financial and commercial assessments of critical minerals projects, coordinating multidisciplinary teams to evaluate project viability and inform investment decisions. Support investment strategy and negotiate commercial agreements, including offtake and equity arrangements, to advance strategic supply chains and project commercialization.",
     highlights: [
-      "Project ownership",
-      "Technical & commercial due diligence",
-      "Funding negotiations",
-      "Agreement development",
-      "Cross-functional project assessment",
-      "Commercialization",
+      "Project Due Diligence",
+      "Investment Strategy",
+      "Commercial Negotiations",
+      "Cross-Functional Project Leadership",
     ],
   },
   {
@@ -56,21 +56,21 @@ const roles: Role[] = [
     organization: "Natural Resources Canada",
     unit: "Carbon Capture Division",
     theme: "Carbon Management",
-    text: "Advanced carbon management policy and strategy, including Canada’s Carbon Management Strategy and International Energy Agency CCUS publications.",
-    highlights: ["Canada’s Carbon Management Strategy", "IEA CCUS publications", "Carbon capture, utilization & storage"],
+    text: "Contributed to the development of Canada’s Carbon Management Strategy and international technical publications through the International Energy Agency (IEA). Assessed carbon capture, utilization and storage (CCUS) technologies, connecting technical developments with Canadian industry and policy considerations.",
+    highlights: [
+      "Carbon Capture, Utilization & Storage (CCUS)",
+      "Energy Technology Assessment",
+      "International Technical Collaboration",
+    ],
   },
   {
     id: "role-intellectual-property",
     when: "Oct 2020 – Jan 2022",
     organization: "Natural Resources Canada",
     unit: "Intellectual Property Division",
-    theme: "Intellectual Property, AI & Emerging Technology",
-    text: "Analyzed intellectual property, AI, and emerging technologies, and developed performance indicators to assess program effectiveness.",
-    highlights: [
-      "Climate-related technologies",
-      "Performance indicators",
-      "Organized NRCan’s inaugural IP conference",
-    ],
+    theme: "Intellectual Property, AI & Emerging Technologies",
+    text: "Led technical and policy analysis on intellectual property, artificial intelligence and climate-related technologies, collaborating with external think tanks on AI research. Spearheaded the development of performance indicators to evaluate the Intellectual Property Division’s impact and inform improvements to program design.",
+    highlights: ["Artificial Intelligence", "Intellectual Property", "Performance Measurement"],
   },
   {
     id: "role-forwater",
@@ -78,8 +78,8 @@ const roles: Role[] = [
     organization: "University of Waterloo",
     unit: "forWater Network",
     theme: "Water Security & Climate Adaptation",
-    text: "Conducted engineering and policy research on water security, including the development of a climate adaptation assessment framework.",
-    highlights: ["Engineering & policy research", "Climate adaptation assessment framework"],
+    text: "Conducted engineering and policy research on water security, collaborating with economists to develop a climate adaptation assessment framework.",
+    highlights: ["Water Security", "Climate Adaptation", "Engineering Research", "Interdisciplinary Collaboration"],
     feature: {
       kicker: "Policy proposal · 2019",
       title: "A Holistic Approach to Measuring Drinking Water Success in Indigenous Communities",
@@ -98,7 +98,12 @@ const roles: Role[] = [
     unit: "Data Management Lead",
     theme: "Research Data & Visualization",
     text: "Led research data management and qualitative analysis using NVivo, including developing data organization and analysis approaches for a research project.",
-    highlights: ["Research data management", "Qualitative analysis (NVivo)", "Structured research datasets"],
+    highlights: ["Research data management", "Qualitative analysis", "Structured research datasets"],
+    credit: {
+      kicker: "Co-authored Conference Presentation · 2016",
+      title: "Video diaries of the (un)made",
+      href: "https://www.researchgate.net/publication/322444850_Video_diaries_of_the_unmade",
+    },
   },
 ]
 
@@ -121,18 +126,24 @@ const education: { degree: string; detail: string; award?: string }[] = [
   { degree: "BEd", detail: "Ontario Tech University" },
 ]
 
-/* The same nine skills, grouped so the list is easier to scan. */
+/* Skills grouped so the list is easier to scan; Projects & Investment leads. */
 const skillGroups = [
   {
-    heading: "Assessment & strategy",
-    skills: ["Technology assessment", "Project evaluation", "Funding assessment & agreement development", "Strategic analysis"],
+    heading: "Projects & Investment",
+    skills: ["Project Due Diligence", "Investment Strategy", "Project Evaluation", "Commercial Negotiations", "Agreement Structuring"],
   },
   {
-    heading: "Research & analysis",
-    skills: ["Technical research", "Policy analysis", "Data analysis & visualization", "Qualitative analysis (NVivo)"],
+    heading: "Technical & Analytical",
+    skills: ["Techno-Economic Assessment", "Energy & Emerging Technologies", "Data Analysis & Visualization", "Technical Research"],
   },
-  { heading: "Collaboration", skills: ["Stakeholder engagement"] },
+  { heading: "Strategy & Policy", skills: ["Strategic Analysis", "Technology Policy", "Program Evaluation"] },
+  {
+    heading: "Leadership & Collaboration",
+    skills: ["Cross-Functional Project Leadership", "Multidisciplinary Coordination", "Stakeholder Engagement"],
+  },
 ]
+
+const tools = ["Power BI", "Excel", "R", "Flourish", "Tableau", "NVivo"]
 
 /* Dates and fuller descriptions to be added once confirmed. */
 const associations = [
@@ -251,6 +262,14 @@ function Experience() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
+              {role.credit && (
+                <p className="ps-credit">
+                  <span className="ps-credit__kicker">{role.credit.kicker}</span>
+                  <a href={role.credit.href} target="_blank" rel="noreferrer">
+                    {role.credit.title} <span aria-hidden="true">↗</span>
+                  </a>
+                </p>
+              )}
               {role.feature && (
                 <aside className="ps-feature" aria-label={role.feature.title}>
                   <p className="ps-feature__kicker">{role.feature.kicker}</p>
@@ -319,8 +338,9 @@ export default function PortfolioSections() {
           </div>
           <div className="ps-skills">
             <h2 id="skills-title">Skills</h2>
-            {skillGroups.map((group) => (
-              <div className="ps-skills__group" key={group.heading}>
+            <div className="ps-skills__groups">
+            {skillGroups.map((group, i) => (
+              <div className={`ps-skills__group${i === 0 ? " ps-skills__group--lead" : ""}`} key={group.heading}>
                 <h3>{group.heading}</h3>
                 <ul className="ps-pills">
                   {group.skills.map((skill) => (
@@ -329,6 +349,10 @@ export default function PortfolioSections() {
                 </ul>
               </div>
             ))}
+            </div>
+            <p className="ps-tools">
+              <span className="ps-tools__label">Tools</span> {tools.join(" · ")}
+            </p>
           </div>
           </div>
         </div>
@@ -350,20 +374,21 @@ export default function PortfolioSections() {
           <div>
             <SectionHead id="about" />
             <p className="ps-about__lead">
-              I started in science and mathematics, trained as a teacher, and went on to engineering
-              research on drinking water treatment.
+              My background is in science, mathematics and engineering, but my interests have always
+              extended beyond any one discipline. I enjoy understanding how things work, exploring new
+              ideas and finding ways to turn them into something useful.
             </p>
             <p>
-              That path taught me to look closely at how things actually work: the chemistry, the
-              data, the people who will use the result. It is also what I bring to my work at Natural
-              Resources Canada, where I have moved from intellectual property and emerging technology
-              to carbon capture and, now, critical minerals and clean energy investment.
+              Professionally, I’ve worked across clean energy, critical minerals, emerging technologies
+              and investment strategy. What I enjoy most is working on complex problems that bring
+              together different perspectives, whether that’s understanding a technology, evaluating a
+              project or figuring out how to move an idea forward.
             </p>
             <p>
-              The questions I enjoy most sit between disciplines. Is a technology ready? Is the
-              market? Does a project fit the bigger strategy, and what would it take to move it
-              forward? I like turning complex technical and economic information into something clear
-              enough to act on.
+              Outside of work, I have a lot of creative interests. I enjoy writing fiction,
+              experimenting with data visualization, building websites and tinkering with technology.
+              I’m often working on a new project or learning something simply because I find it
+              interesting. I also enjoy running, playing pickleball, art and exploring new places.
             </p>
           </div>
         </div>

@@ -117,22 +117,25 @@
    the rail, and the story. The career overview sits in the same grid, so
    its line starts above the rail and its milestones lead into the roles. */
 #experience .ps-wrap {
-  --ps-meta-w: 230px;
-  --ps-rail: 120px;              /* room for the car to drive along the rail */
+  --ps-meta-w: 270px;
+  --ps-rail: 140px;              /* room for the car to drive along the rail */
+  --ps-dot: 26px;                /* timeline markers */
+  --ps-dot-on: 32px;             /* the selected marker */
+  --ps-line: 4px;                /* rail and overview line */
 }
 .ps-overview {
   display: grid;
   grid-template-columns: var(--ps-meta-w) 1fr;
   align-items: start;
-  margin: 0 0 clamp(36px, 4vw, 56px);
-  padding: 26px 0 22px;
+  margin: 0 0 clamp(44px, 5vw, 72px);
+  padding: 34px 0 30px;
   border-top: 1px solid var(--ps-rule);
   border-bottom: 1px solid var(--ps-rule);
 }
 .ps-overview__label {
   padding-top: 2px;
   color: var(--ps-muted);
-  font-size: var(--ps-fs-meta);
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -142,7 +145,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   /* first marker sits directly above the vertical rail */
-  margin: 0 0 0 calc(var(--ps-rail) / 2 - 11px);
+  margin: 0 0 0 calc(var(--ps-rail) / 2 - var(--ps-dot) / 2);
   padding: 0;
   list-style: none;
 }
@@ -150,53 +153,57 @@
 .ps-career::before {
   content: "";
   position: absolute;
-  top: 10px;
-  left: 10px;
-  right: calc(20% - 10px);
-  height: 2px;
+  top: calc(var(--ps-dot) / 2 - var(--ps-line) / 2);
+  left: calc(var(--ps-dot) / 2);
+  right: calc(20% - var(--ps-dot) / 2);
+  height: var(--ps-line);
+  border-radius: 2px;
   background: rgba(43, 116, 65, .4);
 }
 .ps-career li { position: relative; }
 .ps-career a {
   position: relative;
   display: block;
-  padding: 36px 16px 4px 0;
+  padding: calc(var(--ps-dot) + 20px) 18px 4px 0;
   color: inherit;
   text-decoration: none;
 }
 .ps-career a::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 22px;
-  height: 22px;
+  top: calc(var(--ps-dot) / 2);
+  left: calc(var(--ps-dot) / 2);
+  width: var(--ps-dot);
+  height: var(--ps-dot);
   box-sizing: border-box;
-  border: 2px solid var(--ps-accent);
+  border: 3px solid var(--ps-accent);
   border-radius: 50%;
   background: var(--ps-bg);
-  transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  transform: translate(-50%, -50%);
+  transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease, width .25s ease, height .25s ease;
 }
 .ps-career a:hover::before,
-.ps-career a:focus-visible::before { transform: scale(1.15); box-shadow: 0 0 0 5px rgba(43, 116, 65, .14); }
+.ps-career a:focus-visible::before { transform: translate(-50%, -50%) scale(1.12); box-shadow: 0 0 0 6px rgba(43, 116, 65, .14); }
 .ps-career li.is-selected a::before {
+  width: var(--ps-dot-on);
+  height: var(--ps-dot-on);
   border-color: var(--ps-select);
   background: var(--ps-select);
-  box-shadow: 0 0 0 5px rgba(47, 95, 138, .18);
+  box-shadow: 0 0 0 6px rgba(47, 95, 138, .18);
 }
 .ps-career a:focus-visible { outline: 2px solid var(--ps-accent); outline-offset: 6px; border-radius: 2px; }
 .ps-career__year {
   display: block;
   color: var(--ps-clay);
-  font-size: var(--ps-fs-meta);
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: .06em;
 }
 .ps-career__label {
   display: block;
-  margin-top: 4px;
+  margin-top: 6px;
   color: var(--ps-text);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.35;
   text-decoration: underline;
   text-decoration-color: transparent;
@@ -218,20 +225,21 @@
 .ps-roles::before {
   content: "";
   position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2 - 1px);
-  width: 2px;
-  background: rgba(43, 116, 65, .3);
+  top: 14px;
+  bottom: 14px;
+  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2 - var(--ps-line) / 2);
+  width: var(--ps-line);
+  border-radius: 2px;
+  background: rgba(43, 116, 65, .32);
 }
 .ps-role {
   position: relative;
   display: grid;
   grid-template-columns: var(--ps-meta-w) var(--ps-rail) minmax(0, 1fr);
-  padding: 0 0 clamp(36px, 3.6vw, 48px);
+  padding: 0 0 clamp(44px, 4.2vw, 60px);
   scroll-margin-top: 32px;   /* there is no fixed header; keeps the date clear of the window edge */
 }
-.ps-role + .ps-role { padding-top: clamp(32px, 3.2vw, 44px); }
+.ps-role + .ps-role { padding-top: clamp(40px, 3.8vw, 56px); }
 /* a light divider across the meta and story columns, broken by the rail */
 .ps-role + .ps-role::after {
   content: "";
@@ -243,61 +251,91 @@
   background: var(--ps-rule);
 }
 .ps-role:last-child { padding-bottom: 0; }
-/* marker on the rail, level with the date */
+/* marker on the rail, centred on the date line */
 .ps-role::before {
   content: "";
   position: absolute;
-  top: 7px;
-  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2 - 8px);
-  width: 16px;
-  height: 16px;
+  top: 14px;
+  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2);
+  width: var(--ps-dot);
+  height: var(--ps-dot);
   box-sizing: border-box;
-  border: 2px solid var(--ps-accent);
+  border: 3px solid var(--ps-accent);
   border-radius: 50%;
   background: var(--ps-bg);
-  transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
+  transform: translate(-50%, -50%);
+  transition: background .3s ease, border-color .3s ease, box-shadow .3s ease, width .3s ease, height .3s ease;
 }
-.ps-role + .ps-role::before { top: calc(clamp(32px, 3.2vw, 44px) + 7px); }
+.ps-role + .ps-role::before { top: calc(clamp(40px, 3.8vw, 56px) + 14px); }
 
 .ps-role__meta { grid-column: 1; }
 .ps-role__when {
   color: var(--ps-clay);
-  font-size: var(--ps-fs-meta);
+  font-size: 17px;
   font-weight: 600;
+  line-height: 28px;
   letter-spacing: .06em;
   text-transform: uppercase;
 }
 .ps .ps-role__org {
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--ps-ink);
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 500;
   line-height: 1.35;
 }
 .ps .ps-role__unit {
-  margin-top: 2px;
+  margin-top: 4px;
   color: var(--ps-accent);
-  font-size: var(--ps-fs-small);
+  font-size: 19px;
   line-height: 1.4;
 }
 .ps-role__body { position: relative; grid-column: 3; }
 .ps .ps-role h3 {
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(30px, 2.6vw, 38px);
+  font-size: clamp(32px, 2.8vw, 40px);
   font-weight: 400;
   line-height: 1.08;
 }
-.ps-role__text { max-width: var(--ps-measure); margin-top: 12px !important; }
+.ps .ps-role__text { max-width: 36em; margin-top: 16px; font-size: 21px; line-height: 1.6; }
+.ps-role .ps-pills { margin-top: 24px; gap: 12px; }
+.ps-role .ps-pills li { padding: 11px 20px; font-size: 17px; }
 
-/* The selected role (the first until another is chosen): blue marker and
-   date, a little more weight on the title */
+/* Ontario Tech: a small linked conference credit */
+.ps .ps-credit { margin-top: 22px; font-size: 18px; line-height: 1.5; }
+.ps-credit__kicker {
+  display: block;
+  color: var(--ps-muted);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.ps-credit a {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--ps-clay);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 24px;
+  font-style: italic;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.ps-credit a:hover, .ps-credit a:focus-visible { color: var(--ps-ink); }
+
+/* The selected role (the first until another is chosen): a larger blue
+   marker and date; the title keeps its colour and turns bold */
 .ps-role.is-active::before {
+  width: var(--ps-dot-on);
+  height: var(--ps-dot-on);
   border-color: var(--ps-select);
   background: var(--ps-select);
   box-shadow: 0 0 0 6px rgba(47, 95, 138, .15);
 }
 .ps-role.is-active .ps-role__when { color: var(--ps-select); }
-.ps-role.is-active h3 { color: var(--ps-select); }
+/* Instrument Serif has no bold cut: the browser synthesizes 700, and a
+   hairline stroke in the same colour makes the weight clearly visible */
+.ps .ps-role.is-active h3 { font-weight: 700; -webkit-text-stroke: .025em currentColor; }
 
 /* After a milestone is selected: a soft wash behind the role that fades */
 .ps-role.is-arrived .ps-role__body::before {
@@ -324,11 +362,11 @@
   position: absolute;
   z-index: 2;
   left: calc(var(--ps-meta-w) + var(--ps-rail) / 2);
-  width: 92px;
-  margin-left: -46px;
+  width: 104px;
+  margin-left: -52px;
   list-style: none;
   pointer-events: none;
-  transform: translateY(calc(-100% - 2px));
+  transform: translateY(calc(-100% - 6px));
   transition: top .9s cubic-bezier(.5, .05, .3, 1);
 }
 .ps-car img {
@@ -347,11 +385,10 @@
 
 /* Related work inside an entry (the water policy proposal) */
 .ps-feature {
-  max-width: calc(var(--ps-measure) + 56px);
+  max-width: calc(36em * 21 / 20 + 60px);
   margin-top: 26px;
-  padding: 24px 28px 26px;
+  padding: 26px 30px 28px;
   background: var(--ps-tint);
-  border-left: 3px solid var(--ps-clay);
 }
 .ps-feature__kicker {
   color: var(--ps-clay);
@@ -373,21 +410,22 @@
 .ps-feature__links a { color: var(--ps-clay); border-bottom: 1px solid currentColor; text-decoration: none; }
 
 /* ---------- Education & skills ----------
-   Heading across the top; degrees on the left, grouped skills beside them,
-   both starting on the same rule. */
+   Heading across the top; the degrees in a row, then the skills across the
+   full width: Projects & Investment first, the other three side by side. */
 .ps-two {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: clamp(40px, 6vw, 96px);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(48px, 5vw, 72px);
 }
 .ps-education {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr;
+  gap: 0 clamp(32px, 4vw, 64px);
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--ps-rule);
 }
-.ps-education li { padding: 26px 0 28px; border-bottom: 1px solid var(--ps-rule); }
+.ps-education li { padding: 26px 0 0; border-top: 1px solid var(--ps-rule); }
 .ps .ps-education h3 {
   font-family: "Instrument Serif", Georgia, serif;
   font-size: clamp(28px, 2.4vw, 34px);
@@ -415,10 +453,45 @@
   font-weight: 400;
   line-height: 1.12;
 }
-.ps-skills__group { margin-top: 24px; }
-.ps .ps-skills h3 { font-size: 15px; line-height: 1.4; }
-.ps-skills .ps-pills { margin-top: 12px; }
-.ps-skills .ps-pills li { padding: 10px 18px; font-size: 17px; }
+.ps .ps-skills h2 { font-size: clamp(34px, 3vw, 44px); }
+.ps-skills__groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(30px, 3vw, 44px) clamp(32px, 4vw, 64px);
+  margin-top: 26px;
+}
+.ps-skills__group--lead {
+  grid-column: 1 / -1;
+  padding: 24px 28px 28px;
+  background: rgba(255, 255, 255, .5);
+  border-radius: 6px;
+}
+.ps .ps-skills h3 { font-size: 17px; line-height: 1.4; }
+.ps-skills .ps-pills { margin-top: 14px; gap: 12px; }
+.ps-skills .ps-pills li { padding: 11px 20px; font-size: 18px; }
+.ps-skills__group--lead .ps-pills li {
+  padding: 12px 22px;
+  border-color: rgba(167, 88, 37, .45);
+  background: #fff;
+  font-size: 19px;
+}
+.ps .ps-tools {
+  margin-top: clamp(30px, 3vw, 40px);
+  padding-top: 20px;
+  border-top: 1px solid var(--ps-rule);
+  color: var(--ps-ink);
+  font-size: 19px;
+  word-spacing: .08em;
+}
+.ps-tools__label {
+  margin-right: 14px;
+  color: var(--ps-clay);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  word-spacing: normal;
+}
 
 /* ---------- Associations ---------- */
 .ps-associations {
@@ -526,14 +599,21 @@
 
 /* ---------- Tablet ---------- */
 @media (max-width: 1100px) {
-  #experience .ps-wrap { --ps-meta-w: 190px; --ps-rail: 104px; }
-  .ps-car { width: 82px; margin-left: -41px; }
-  .ps-career__label { font-size: 17px; }
+  #experience .ps-wrap { --ps-meta-w: 210px; --ps-rail: 112px; --ps-dot: 24px; --ps-dot-on: 30px; }
+  .ps-car { width: 88px; margin-left: -44px; }
+  .ps-career__label { font-size: 18px; }
+  .ps-career__year { font-size: 17px; }
+  .ps .ps-role h3 { font-size: 34px; }
+  .ps .ps-role__text { font-size: 20px; }
+  .ps .ps-role__org, .ps .ps-role__unit { font-size: 18px; }
 }
 @media (max-width: 960px) {
   /* overview on its own row above the grid */
   .ps-overview { grid-template-columns: 1fr; gap: 18px; }
   .ps-career { margin-left: 0; }
+  .ps-education { grid-template-columns: 1fr; }
+  .ps-education li { padding-bottom: 26px; }
+  .ps-skills__groups { grid-template-columns: 1fr; }
 }
 
 /* ---------- Narrow screens ----------
@@ -550,25 +630,28 @@
     scroll-padding-inline: var(--ps-gutter);
   }
   .ps-career::before { display: none; }
-  .ps-career li { flex: 0 0 168px; scroll-snap-align: start; }
+  .ps-career li { flex: 0 0 184px; scroll-snap-align: start; }
   /* line segment from each marker to the next */
   .ps-career li:not(:last-child)::after {
     content: "";
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: calc(var(--ps-dot) / 2 - 1.5px);
+    left: calc(var(--ps-dot) / 2);
     right: 0;
-    height: 2px;
+    height: 3px;
     background: rgba(43, 116, 65, .4);
   }
   .ps-career a { min-height: 44px; }
-  .ps-career__label { font-size: 17px; }
+  .ps-career__label { font-size: 18px; }
   .ps-role.is-arrived .ps-role__body::before { left: -10px; right: -8px; }
 
-  #experience .ps-wrap { --ps-meta-w: 0px; --ps-rail: 32px; }
+  #experience .ps-wrap { --ps-meta-w: 0px; --ps-rail: 40px; --ps-dot: 22px; --ps-dot-on: 28px; --ps-line: 3px; }
   .ps-role { grid-template-columns: var(--ps-rail) minmax(0, 1fr); }
-  .ps-role::before { left: calc(var(--ps-rail) / 2 - 8px); }
-  .ps-roles::before { left: calc(var(--ps-rail) / 2 - 1px); }
+  .ps-role::before { left: calc(var(--ps-rail) / 2); }
+  .ps .ps-role h3 { font-size: 30px; }
+  .ps .ps-role__text { font-size: 19px; }
+  .ps-role .ps-pills li { padding: 9px 16px; font-size: 16px; }
+  .ps .ps-role__org, .ps .ps-role__unit { font-size: 18px; }
   .ps-role + .ps-role::after { left: var(--ps-rail); }
   .ps-role__meta, .ps-role__body { grid-column: 2; }
   .ps-role__meta { margin-bottom: 10px; }
@@ -583,6 +666,7 @@
   .ps-about,
   .ps-associations { grid-template-columns: 1fr; gap: 40px; }
   .ps-about__photo { max-width: 340px; }
-  .ps-skills { border-top: 0; padding-top: 0; }
+  .ps-skills__group--lead { padding: 20px 18px 22px; }
+  .ps-skills .ps-pills li, .ps-skills__group--lead .ps-pills li { padding: 9px 16px; font-size: 17px; }
   .ps-footer { flex-direction: column; gap: 12px; }
 }
