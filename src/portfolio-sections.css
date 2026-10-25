@@ -589,6 +589,7 @@
   font-size: 19px;
   word-spacing: .08em;
 }
+.ps .ps-tools p + p { margin-top: 10px; }
 .ps-tools__label {
   margin-right: 14px;
   color: var(--ps-clay);
