@@ -359,14 +359,14 @@ const homeObjects: HomeObject[] = [
   {
     id: "experience", description: "Professional background",
     // set a little forward of the back row, leaving room for the intro paragraph above
-    x: 548, w: 200, ground: BACK + (-55), aspect: 478 / 359, base: 0.956, caption: { dx: 145, dy: 12, center: true },
+    x: 575, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: 108, dy: 12, center: true },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
     // The stack and the standing Technology book are laid out together in
     // curiosity-home.css; the standing book tips onto the stack on hover.
     id: "education", description: "Academic background",
-    x: 849, w: 432, ground: BACK, aspect: 0.53, base: 0.995, caption: { dx: 190, dy: 12 },
+    x: 805, w: 432, ground: BACK, aspect: 0.53, base: 0.995, caption: { dx: 190, dy: 12 },
     layers: [
       { src: "/home-objects/04_education_books_stack.webp", className: "ch-books-stack" },
       { src: "/home-objects/04_education_technology_book.webp", className: "ch-books-tech" },
@@ -374,19 +374,19 @@ const homeObjects: HomeObject[] = [
   },
   {
     id: "lab", description: "Technical and creative projects",
-    x: 1330, w: 256, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 196, dy: 12 },
+    x: 1255, w: 256, ground: BACK, aspect: 517 / 419, base: 0.977, caption: { dx: 196, dy: 12 },
     layers: [{ src: "/home-objects/03_lab_cloche.webp" }],
   },
   {
     id: "about", description: "My approach and interests",
     // front row: frame, cup and pen holder, evenly spaced right of the mineral;
     // each rests high enough for its label to sit beneath it on FRONT_LABELS
-    x: 745, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
+    x: 790, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
     id: "associations", description: "Professional associations and volunteering",
-    x: 1140, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 86, center: true, frontRow: true },
+    x: 1040, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 86, center: true, frontRow: true },
     layers: [{ src: "/home-objects/06_associations_espresso_cup.webp" }],
     steam: true,
   },
@@ -394,7 +394,7 @@ const homeObjects: HomeObject[] = [
     // Back of the holder, then the pen, then the holder again clipped to its
     // front wall: the pen's lower end disappears inside the cup.
     id: "contact", description: "Let’s connect",
-    x: 1376, w: 150, ground: 883, aspect: 457 / 303, base: 0.932, caption: { dx: 79, center: true, frontRow: true },
+    x: 1272, w: 150, ground: 883, aspect: 457 / 303, base: 0.932, caption: { dx: 79, center: true, frontRow: true },
     layers: [
       { src: "/home-objects/06_contact_pen_holder.webp", className: "ch-holder" },
       { src: "/home-objects/07_contact_animated_pen.webp", className: "ch-pen" },
