@@ -2,7 +2,7 @@
   "title": "Sabrina Bedjera — Technology, Strategy & Investment",
   "description": "Sabrina Bedjera evaluates complex technical projects, informs investment decisions and negotiates commercial agreements across critical minerals, clean energy and emerging technologies.",
   "robots": {
-    "index": false
+    "index": true
   },
   "accessibility": {
     "addBypassLinks": false,
