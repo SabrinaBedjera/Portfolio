@@ -676,6 +676,8 @@
     margin-top: auto;
   }
   .ch-object--associations .ch-object__art img { width: 100%; max-height: none; }
+  /* the amethyst sits at the foot of its tile, level with the magazines beside it */
+  .ch-object--experience .ch-object__art { margin-top: auto; }
   /* seven tiles: the last one spans both columns */
   .ch-object--contact { grid-column: 1 / -1; }
   .ch-object__shadow { display: none; }
