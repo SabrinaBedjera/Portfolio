@@ -190,7 +190,10 @@ const skillGroups = [
   },
 ]
 
-const tools = ["Power BI", "Excel", "R", "Flourish", "Tableau", "NVivo"]
+const toolGroups = [
+  { heading: "Data & Analytics", tools: ["Power BI", "Excel", "R", "Python (foundational)", "Tableau", "Flourish", "NVivo"] },
+  { heading: "Design & AI Development", tools: ["Figma Make", "Claude Code"] },
+]
 
 /* Dates and fuller descriptions to be added once confirmed. */
 const associations = [
@@ -431,9 +434,13 @@ export default function PortfolioSections() {
               </div>
             ))}
             </div>
-            <p className="ps-tools">
-              <span className="ps-tools__label">Tools</span> {tools.join(" · ")}
-            </p>
+            <div className="ps-tools">
+              {toolGroups.map((group) => (
+                <p key={group.heading}>
+                  <span className="ps-tools__label">{group.heading}</span> {group.tools.join(" · ")}
+                </p>
+              ))}
+            </div>
           </div>
           </div>
         </div>
