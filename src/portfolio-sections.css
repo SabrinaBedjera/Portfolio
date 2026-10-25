@@ -84,6 +84,7 @@
   font-size: var(--ps-fs-lede);
   line-height: 1.5;
 }
+.ps .ps-lede + .ps-lede { margin-top: 16px; }
 
 .ps h3 {
   margin: 0;

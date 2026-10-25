@@ -365,14 +365,16 @@ function Experience() {
 }
 
 /** Number and heading come from sections.ts, shared with the navigation. */
-function SectionHead({ id, lede, title }: { id: SectionId; lede?: string; title?: string }) {
+function SectionHead({ id, lede, title }: { id: SectionId; lede?: string | string[]; title?: string }) {
   const { number, label } = section(id)
   return (
     <header className="ps-head">
       {/* with its own title, the section's name joins the number above it */}
       <p className="ps-number">{title ? `${number} · ${label}` : number ?? "\u00a0"}</p>
       <h2 id={`${id}-title`}>{title ?? label}</h2>
-      {lede && <p className="ps-lede">{lede}</p>}
+      {[lede ?? []].flat().map((paragraph) => (
+        <p className="ps-lede" key={paragraph}>{paragraph}</p>
+      ))}
     </header>
   )
 }
@@ -384,7 +386,10 @@ export default function PortfolioSections() {
         <div className="ps-wrap">
           <SectionHead
             id="experience"
-            lede="My career has taken me from scientific research and engineering into energy and technology strategy, project evaluation, investment decisions and commercial negotiations. Across these roles, I’ve focused on understanding complex technologies and helping move projects from analysis toward implementation."
+            lede={[
+              "My career has taken me from scientific research and engineering into energy and technology strategy, project evaluation, investment decisions and commercial negotiations.",
+              "With experience spanning critical minerals, clean energy and emerging technologies, I focus on understanding complex technologies, informing strategic decisions and helping turn technical opportunities into tangible outcomes.",
+            ]}
           />
           <section className="ps-highlights" aria-labelledby="highlights-title">
             <h3 id="highlights-title" className="ps-highlights__label">Career highlights</h3>

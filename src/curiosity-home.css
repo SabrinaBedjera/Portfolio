@@ -115,14 +115,6 @@
   line-height: 1.1;
   letter-spacing: -.018em;
 }
-/* the introduction runs wide under the headline, clear of the objects */
-.ch-lede {
-  max-width: min(1040px, 72cqw);
-  margin: 20px 0 0;
-  color: var(--ch-text);
-  font-size: 20px;
-  line-height: 1.5;
-}
 
 /* ---------- Scene and objects ---------- */
 .ch-scene { position: relative; container: ch-scene / inline-size; }
@@ -232,6 +224,23 @@
 .ch-object > a:hover .ch-caption__arrow,
 .ch-object > a:focus-visible .ch-caption__arrow { transform: translateX(4px); }
 .ch-object > a:focus-visible .ch-caption { outline: 2px solid #1e5a55; outline-offset: 3px; }
+
+/* On the table scene with a mouse, labels stay hidden until their object is
+   hovered or focused, so the still life reads uncluttered. Touch screens
+   (no hover) and the narrow grid always show them. */
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+  .ch-caption {
+    opacity: 0;
+    visibility: hidden;
+    transition: background .3s ease, opacity .25s ease, visibility 0s linear .25s;
+  }
+  .ch-object > a:hover .ch-caption,
+  .ch-object > a:focus-visible .ch-caption {
+    opacity: 1;
+    visibility: visible;
+    transition: background .3s ease, opacity .25s ease, visibility 0s;
+  }
+}
 
 /* ---------- Contact: pen holder with a pen that wobbles ----------
    The pen is drawn behind the holder; its pivot is where it meets the rim,
@@ -524,8 +533,10 @@
     position: absolute;
     left: 4.07cqw;
     top: calc(22px + 28px + var(--ch-brand, 48px) * .525 + 12px + 16px);
-    width: 88cqw;      /* the headline runs wide across the wall; the lede stays narrower */
+    width: 88cqw;      /* the headline runs wide across the wall */
   }
+  /* on its own, the headline carries a little more weight on the wall */
+  .ch-copy h1 { font-size: 50px; }
   .ch-scene { position: absolute; inset: 0; }
   /* the closed stack rests a little left of where the fan opens from,
      using the empty table on the left; the open fan is unchanged */
@@ -543,7 +554,6 @@
   .ch-copy { margin-top: 28px; max-width: 1000px; }
   @media (max-width: 1080px) { .ch-nav__links { column-gap: 13px; padding-inline: 16px; } .ch-nav__links a { font-size: 15px; letter-spacing: .03em; } }
   .ch-copy h1 { font-size: 42px; }
-  .ch-lede { max-width: none; font-size: 20px; }
   .ch-scene {
     margin: 8px -40px 0;
     aspect-ratio: 1672 / 660;     /* the table part of the photograph */
@@ -615,7 +625,6 @@
 
   .ch-copy { margin-top: 40px; }
   .ch-copy h1 { font-size: clamp(34px, 9vw, 42px); }
-  .ch-lede { max-width: none; font-size: 18px; }
 
   .ch-objects {
     display: grid;

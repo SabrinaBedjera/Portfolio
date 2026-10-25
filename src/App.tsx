@@ -478,12 +478,6 @@ function CuriosityHomepage() {
 
         <section className="ch-copy" aria-labelledby="home-title">
           <h1 id="home-title">Bridging technology, strategy and investment.</h1>
-          <p className="ch-lede">
-            With a background in science and engineering, I evaluate complex projects, inform
-            strategic decisions and negotiate commercial agreements. My experience spans critical
-            minerals, clean energy and emerging technologies, with a focus on turning technical
-            opportunities into tangible outcomes.
-          </p>
         </section>
 
         <div className="ch-scene">
