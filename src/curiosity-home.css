@@ -526,13 +526,16 @@
     right: 4.07cqw;
     top: 22px;
   }
-  /* the name sits 12px below the bar's centre line; the headline follows
-     16px beneath it, so name, headline and introduction read as one group */
-  .ch-nav .ch-nav__brand { position: relative; top: 12px; }
+  /* the name sits below the bar's centre line, lowered by --ch-drop so it
+     stands clear of the links; the headline follows 16px beneath it, so
+     name and headline read as one group. --ch-drop scales with the stage,
+     so the pair keeps clear of the objects at every size. */
+  .ch-stage { --ch-drop: 10cqh; }
+  .ch-nav .ch-nav__brand { position: relative; top: calc(12px + var(--ch-drop)); }
   .ch-copy {
     position: absolute;
     left: 4.07cqw;
-    top: calc(22px + 28px + var(--ch-brand, 48px) * .525 + 12px + 16px);
+    top: calc(22px + 28px + var(--ch-drop) + var(--ch-brand, 48px) * .525 + 12px + 16px);
     width: 88cqw;      /* the headline runs wide across the wall */
   }
   /* on its own, the headline carries a little more weight on the wall */
