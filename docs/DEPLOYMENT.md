@@ -75,6 +75,16 @@ with URL Forwarding (free; supports HTTPS):
 5. Test `http://` and `https://`, with and without `www`, once the .com is
    confirmed working.
 
+## Search engines
+
+- `public/robots.txt` allows all crawlers and is copied to the site root.
+  If `.figma/make/site.json` is set back to `"robots": { "index": false }`,
+  the build replaces it with a blocking robots.txt and adds a noindex tag.
+- Draft Lab articles add their own noindex tag while they are open.
+- Google caches robots.txt for up to 24 hours. After changing it, open
+  Search Console → Settings → robots.txt → Request a recrawl, then run the
+  URL Inspection live test again.
+
 ## Launch checks
 
 - `https://sabrinabedjera.com` and `https://www.sabrinabedjera.com` load
