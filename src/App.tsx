@@ -352,14 +352,14 @@ const FRONT_LABELS = 936
 const homeObjects: HomeObject[] = [
   {
     id: "selected-work", description: "Case studies and featured projects",
-    x: 29, w: 540, ground: 874, aspect: 0.6, base: 0.93, caption: { dx: 330, dy: -40 },
+    x: 29, w: 540, ground: 860, aspect: 0.6, base: 0.93, caption: { dx: 330, dy: -40 },
     layers: [],
     magazines: true,
   },
   {
     id: "experience", description: "Professional background",
     // set a little forward of the back row, leaving room for the intro paragraph above
-    x: 575, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: 108, dy: 12, center: true },
+    x: 560, w: 200, ground: BACK, aspect: 478 / 359, base: 0.956, caption: { dx: 108, dy: 12, center: true },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
@@ -381,7 +381,7 @@ const homeObjects: HomeObject[] = [
     id: "about", description: "My approach and interests",
     // front row: frame, cup and pen holder, evenly spaced right of the mineral;
     // each rests high enough for its label to sit beneath it on FRONT_LABELS
-    x: 784, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
+    x: 772, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {

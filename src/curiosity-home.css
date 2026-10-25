@@ -342,9 +342,10 @@
     7px 9px 12px rgba(60, 38, 18, .22),
     14px 20px 26px rgba(60, 38, 18, .1);
   transform-origin: 50% 100%;
+  /* fanned out by default; gathers into a stack on hover or focus */
   transform:
-    translate3d(calc(var(--i) * 1.6% + var(--rest-x, 0%)), calc(var(--i) * -2.4%), calc((3 - var(--i)) * 4px))
-    rotate(var(--rest-turn, 0deg));
+    translate3d(var(--fan-x), var(--fan-y), calc((3 - var(--i)) * 4px))
+    rotate(var(--fan-turn, 0deg));
   transition: transform .45s cubic-bezier(.3, .7, .2, 1);
 }
 /* the spine: a slightly darker strip down the left edge */
@@ -360,17 +361,20 @@
 }
 /* Fanned like a hand of cards, pivoting at the bottom edge: Energy and
    Pacific to the left, Drinking Water out to the right, Critical Minerals
-   in front. Each shift leaves the issue's title (top left) uncovered. */
-.ch-mag:nth-child(1) { --fan-x: 86%; --fan-y: -2%; --rest-turn: 3deg; --fan-turn: 5deg; }     /* Drinking Water, at the back */
+   in front (--i). Each shift leaves the issue's title (top left)
+   uncovered. Gathered, Energy is the cover on top (--si, 0 = top). */
+.ch-mag:nth-child(1) { --si: 3; } .ch-mag:nth-child(2) { --si: 2; }
+.ch-mag:nth-child(3) { --si: 0; } .ch-mag:nth-child(4) { --si: 1; }
+.ch-mag:nth-child(1) { --fan-x: 74%; --fan-y: -3%; --rest-turn: 3deg; --fan-turn: 5deg; }     /* Drinking Water, at the back */
 .ch-mag:nth-child(2) { --fan-x: -86%; --fan-y: 6%; --rest-turn: -2deg; --fan-turn: -14deg; }  /* Pacific */
-.ch-mag:nth-child(3) { --fan-x: -44%; --fan-y: 1%; --rest-turn: 1.5deg; --fan-turn: -7deg; }  /* Energy */
-.ch-mag:nth-child(4) { --fan-x: 0%; --fan-y: 0%; --rest-turn: -1deg; --fan-turn: -1deg; }     /* Critical Minerals, on top */
+.ch-mag:nth-child(3) { --fan-x: -48%; --fan-y: 1%; --rest-turn: 1.5deg; --fan-turn: -7deg; }  /* Energy */
+.ch-mag:nth-child(4) { --fan-x: -7%; --fan-y: 0%; --rest-turn: -1deg; --fan-turn: -1deg; }     /* Critical Minerals, on top */
 .ch-mag .issue__visual img { pointer-events: none; }
 .ch-object--selected-work > a:hover .ch-mag,
 .ch-object--selected-work > a:focus-visible .ch-mag {
   transform:
-    translate3d(var(--fan-x), var(--fan-y), calc((3 - var(--i)) * 4px))
-    rotate(var(--fan-turn, 0deg));
+    translate3d(calc(var(--si) * 1.6% + var(--rest-x, 0%)), calc(var(--si) * -2.4%), calc((3 - var(--si)) * 4px))
+    rotate(var(--rest-turn, 0deg));
 }
 /* fixed hit area over the stack and its fanned-out extent */
 .ch-mags__hit {
@@ -428,13 +432,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ch-mag { transition: none; }
+  /* the magazines stay fanned out: all four titles, no movement */
   .ch-object--selected-work > a:hover .ch-mags__plane,
-  .ch-object--selected-work > a:focus-visible .ch-mags__plane { transform: rotateX(50deg) rotateZ(-8deg); }
+  .ch-object--selected-work > a:focus-visible .ch-mags__plane { transform: rotateX(50deg) rotateZ(-8deg) scale(var(--fan-scale, 1)); }
   .ch-object--selected-work > a:hover .ch-mag,
   .ch-object--selected-work > a:focus-visible .ch-mag {
     transform:
-      translate3d(calc(var(--i) * 1.6% + var(--rest-x, 0%)), calc(var(--i) * -2.4%), calc((3 - var(--i)) * 4px))
-      rotate(var(--rest-turn, 0deg));
+      translate3d(var(--fan-x), var(--fan-y), calc((3 - var(--i)) * 4px))
+      rotate(var(--fan-turn, 0deg));
   }
   /* steam appears, still and faint, instead of rising */
   .ch-object--associations > a:hover .ch-steam__wisp,
@@ -657,10 +662,12 @@
     aspect-ratio: 1 / .8;
     margin-top: auto;
   }
-  .ch-object--selected-work .ch-mags__plane { left: 24%; top: 22%; width: 50%; transition: transform .45s cubic-bezier(.3, .7, .2, 1); }
-  /* in the small tile the stack shrinks as it fans, so the whole hand fits */
+  /* in the small tile the fanned hand is shown smaller, so it all fits;
+     gathered into a stack it returns to full size */
+  .ch-object--selected-work { --fan-scale: .6; }
+  .ch-object--selected-work .ch-mags__plane { left: 24%; top: 22%; width: 50%; transform: rotateX(50deg) rotateZ(-8deg) scale(.6); transition: transform .45s cubic-bezier(.3, .7, .2, 1); }
   .ch-object--selected-work > a:hover .ch-mags__plane,
-  .ch-object--selected-work > a:focus-visible .ch-mags__plane { transform: rotateX(50deg) rotateZ(-8deg) scale(.6); }
+  .ch-object--selected-work > a:focus-visible .ch-mags__plane { transform: rotateX(50deg) rotateZ(-8deg); }
   .ch-object--associations .ch-object__art {
     display: block;
     width: 100%;
