@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found — Sabrina Bedjera</title>
+    <meta name="description" content="This page could not be found. Return to Sabrina Bedjera's homepage." />
+    <meta name="robots" content="noindex" />
+    <!-- GitHub Pages serves this file at any missing URL, however deep, so every link is root-relative. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap"
+    />
+    <style>
+      /* Palette and type from the homepage (src/curiosity-home.css, src/portfolio-sections.css). */
+      :root {
+        --plum: #5b2d48;
+        --plum-line: #7b4a6c;
+        --frame: #8b6878;
+        --ink: #1c2a22;
+        --text: #2e3530;
+        --muted: #5e5b53;
+        --rust: #a75825;
+        --paper: #fbf6ee;
+        --wall: #e7d6c2;
+        --focus: #1e5a55;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body { height: 100%; }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        display: flex;
+        flex-direction: column;
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        background:
+          radial-gradient(circle at 78% 12%, rgba(255, 255, 255, .7), transparent 32rem),
+          linear-gradient(160deg, #f1e4d3 0%, var(--wall) 55%, #dfcbb5 100%);
+      }
+
+      a { color: inherit; }
+      a:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+
+      .masthead {
+        padding: clamp(20px, 4vw, 40px) clamp(20px, 5vw, 60px) 0;
+      }
+      .brand {
+        color: var(--plum);
+        font-size: clamp(22px, 3vw, 32px);
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      main {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: clamp(28px, 6vw, 64px) clamp(16px, 5vw, 60px);
+      }
+
+      /* The double-ruled frame of the homepage's table of contents, as a printed erratum slip. */
+      .slip {
+        position: relative;
+        width: 100%;
+        max-width: 760px;
+        padding: clamp(28px, 6vw, 64px) clamp(22px, 6vw, 68px);
+        border: 2px solid var(--frame);
+        outline: 1px solid rgba(123, 74, 108, .28);
+        outline-offset: 5px;
+        background: rgba(251, 246, 238, .72);
+        box-shadow: 0 24px 50px rgba(60, 40, 20, .12);
+      }
+
+      .kicker {
+        margin: 0 0 18px;
+        color: var(--rust);
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+
+      .numeral {
+        display: block;
+        margin: 0 0 6px;
+        color: var(--plum);
+        font-family: "Instrument Serif", Georgia, serif;
+        font-size: clamp(96px, 20vw, 168px);
+        font-weight: 400;
+        line-height: .8;
+        letter-spacing: -.04em;
+      }
+      .numeral em { color: var(--plum-line); }
+
+      h1 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Newsreader", "Instrument Serif", Georgia, serif;
+        font-size: clamp(32px, 5vw, 46px);
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -.01em;
+      }
+
+      .lede {
+        max-width: 34em;
+        margin: 20px 0 0;
+        font-size: clamp(18px, 2.2vw, 21px);
+        line-height: 1.55;
+      }
+
+      .rule {
+        width: 64px;
+        height: 1px;
+        margin: 28px 0;
+        border: 0;
+        background: var(--frame);
+      }
+
+      .home {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 48px;
+        padding: 12px 26px;
+        border-radius: 999px;
+        color: var(--paper);
+        background: var(--plum);
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: .08em;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: background-color .2s ease, transform .2s ease;
+      }
+      .home:hover { background: #47223a; transform: translateY(-1px); }
+      .home span { transition: transform .2s ease; }
+      .home:hover span { transform: translateX(-3px); }
+
+      .elsewhere {
+        margin: 22px 0 0;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .elsewhere a {
+        color: var(--plum);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+      .elsewhere a:hover { color: var(--rust); }
+
+      /* The homepage's amethyst, as the find that wasn't here. */
+      .specimen {
+        position: absolute;
+        right: clamp(-28px, -2vw, -12px);
+        bottom: clamp(-36px, -3vw, -18px);
+        width: clamp(110px, 22vw, 190px);
+        height: auto;
+        transform: rotate(8deg);
+        /* the homepage's outline for this image (src/objectHulls.ts) trims its faint matte */
+        clip-path: polygon(0.0% 61.5%, 7.0% 32.4%, 9.5% 26.2%, 12.0% 21.8%, 23.1% 5.0%, 30.6% 6.3%, 48.5% 15.3%, 59.6% 22.0%, 69.6% 29.7%, 88.3% 55.4%, 96.4% 81.2%, 94.4% 84.3%, 87.2% 88.5%, 81.1% 90.2%, 76.6% 91.0%, 71.3% 91.8%, 35.9% 95.2%, 25.9% 96.0%, 20.1% 96.0%, 15.6% 95.0%, 0.3% 75.1%);
+        pointer-events: none;
+      }
+
+
+      @media (max-width: 560px) {
+        /* on narrow screens it moves up beside the numeral, clear of the text */
+        .specimen { top: -30px; right: -10px; bottom: auto; width: 96px; }
+        .home { width: 100%; justify-content: center; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .home, .home span { transition: none; }
+        .home:hover, .home:hover span { transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="brand" href="/">Sabrina Bedjera</a>
+    </header>
+
+    <main id="main">
+      <article class="slip" aria-labelledby="title">
+        <p class="kicker">Erratum &middot; Page 404</p>
+        <span class="numeral" aria-hidden="true">4<em>0</em>4</span>
+        <h1 id="title">This page is out of print.</h1>
+        <p class="lede">
+          We surveyed this address thoroughly and found no deposit here. The page may have moved,
+          the link may be mistyped, or it was a draft that never went to press.
+        </p>
+        <hr class="rule" />
+        <a class="home" href="/"><span aria-hidden="true">&larr;</span> Back to homepage</a>
+        <p class="elsewhere">
+          Or browse the <a href="/#selected-work">selected work</a>, read the
+          <a href="/#lab">lab</a>, or <a href="/#contact">get in touch</a>.
+        </p>
+        <img class="specimen" src="/home-objects/02_experience_mineral.webp" alt="" width="359" height="478" decoding="async" />
+      </article>
+    </main>
+  </body>
+</html>
