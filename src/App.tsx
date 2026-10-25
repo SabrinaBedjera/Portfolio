@@ -89,7 +89,7 @@ const projects: Project[] = [
         number: "01",
         title: "Assessing Projects",
         highlight: "$3.5B combined investment envelope",
-        body: "Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals projects supporting clean energy and advanced technology supply chains, informing investment decisions across federal funding programs with a combined $3.5B investment envelope.",
+        body: "Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals projects across federal funding programs with a combined $3.5 billion investment envelope, informing investment decisions and project prioritization.",
       },
       {
         number: "02",
@@ -142,7 +142,7 @@ const projects: Project[] = [
         number: "02",
         title: "Assessing CCUS Technologies",
         highlight: "Carbon Capture, Utilization & Storage",
-        body: "Reviewed technical information on carbon capture, utilization and storage (CCUS), connecting technology developments with Canadian industry and policy considerations.",
+        body: "Analyzed CCUS technology maturity, market conditions, trade dynamics and regulatory frameworks to inform Canadian carbon management strategy and policy development.",
       },
       {
         number: "03",
@@ -189,7 +189,7 @@ const projects: Project[] = [
         number: "02",
         title: "Building Interactive Visualizations",
         highlight: "Data Visualization",
-        body: "Explored and analyzed energy datasets using Excel and Tableau, then developed interactive visualizations in Flourish, including animated scatterplots, packed bubble charts and radial charts to communicate energy trends across Pacific countries.",
+        body: "Analyzed energy datasets using Excel and Tableau, then developed interactive visualizations in Flourish, including animated scatterplots, packed bubble charts and radial charts, to make complex energy trends accessible and reveal differences across Pacific Island countries.",
       },
       {
         number: "03",
@@ -259,7 +259,7 @@ const projects: Project[] = [
         title: "Results & Impact",
         body: [
           "The research demonstrated how predictive modelling could help drinking water utilities understand how effectively their treatment processes remove contaminants under different conditions.",
-          "In practice, utilities could use this approach to assess seasonal changes in treatment performance, explore different ozone doses, and simulate contamination events, such as chemical spills, to better understand whether existing treatment processes would be effective.",
+          "This approach could help drinking water utilities evaluate seasonal changes in treatment performance, compare ozone doses and simulate contamination events, including chemical spills, to assess the effectiveness of existing treatment processes.",
         ],
         pointsLead: "Key findings included:",
         points: [
