@@ -444,6 +444,16 @@ export default function PortfolioSections() {
             {labPosts.map((post) => (
               <li key={post.slug}>
                 <a href={`#lab/${post.slug}`} className="ps-post">
+                  {post.image && (
+                    <img
+                      className="ps-post__image"
+                      src={post.image.src}
+                      alt=""
+                      width={post.image.width}
+                      height={post.image.height}
+                      loading="lazy"
+                    />
+                  )}
                   {post.draft && <span className="lab-draft">Draft</span>}
                   <h3>{post.title}</h3>
                   <p>{post.subtitle}</p>

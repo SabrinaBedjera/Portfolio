@@ -12,6 +12,16 @@ export default function LabArticle({ post, onBack }: { post: LabPost; onBack: ()
     window.scrollTo(0, 0)
   }, [post])
 
+  // keep draft articles out of search results until they are approved
+  useEffect(() => {
+    if (!post.draft) return
+    const meta = document.createElement("meta")
+    meta.name = "robots"
+    meta.content = "noindex"
+    document.head.appendChild(meta)
+    return () => meta.remove()
+  }, [post])
+
   return (
     <main className="cs lab-article" style={{ "--cs-accent": "#5b2d48" } as CSSProperties}>
       <nav className="cs-nav" aria-label="Article navigation">
@@ -32,6 +42,12 @@ export default function LabArticle({ post, onBack }: { post: LabPost; onBack: ()
           <h1>{post.title}</h1>
           <p className="lab-article__subtitle">{post.subtitle}</p>
         </header>
+
+        {post.image && (
+          <figure className="lab-article__image">
+            <img src={post.image.src} alt={post.image.alt} width={post.image.width} height={post.image.height} />
+          </figure>
+        )}
 
         {post.sections.map((section) => (
           <section className="lab-article__section" key={section.heading}>

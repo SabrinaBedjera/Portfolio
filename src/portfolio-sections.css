@@ -109,6 +109,17 @@
 }
 .ps-post:hover, .ps-post:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(60, 40, 20, .12); }
 .ps-post .lab-draft { margin: 0 0 12px; color: #5b2d48; }
+/* the artwork has a white ground, so it sits on a white panel at the card's top */
+.ps-post__image {
+  display: block;
+  width: calc(100% + 2 * clamp(24px, 2.6vw, 34px));
+  max-width: none;
+  height: auto;
+  margin: calc(-1 * clamp(24px, 2.6vw, 34px)) calc(-1 * clamp(24px, 2.6vw, 34px)) 22px;
+  aspect-ratio: 1714 / 1320;
+  object-fit: contain;
+  background: #fff;
+}
 .ps .ps-post h3 { color: #5b2d48; font-family: "Instrument Serif", Georgia, serif; font-size: var(--ps-fs-h3); font-weight: 400; line-height: 1.1; }
 .ps .ps-post p { margin-top: 10px; font-size: var(--ps-fs-card); line-height: 1.5; }
 .ps-post__more { display: inline-block; margin-top: 16px; color: var(--ps-clay); font-size: 17px; border-bottom: 1px solid currentColor; }

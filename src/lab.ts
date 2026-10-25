@@ -16,6 +16,8 @@ export type LabPost = {
   title: string
   subtitle: string
   draft?: boolean
+  /** Featured image: the index thumbnail and the top of the article. */
+  image?: { src: string; alt: string; width: number; height: number }
   sections: { heading: string; blocks: LabBlock[] }[]
 }
 
@@ -25,6 +27,12 @@ export const labPosts: LabPost[] = [
     title: "Beyond the Business Card",
     subtitle: "An experiment with NFC, QR codes and making networking a little more interesting.",
     draft: true,
+    image: {
+      src: "/lab/beyond-the-business-card.webp",
+      alt: "A hand holding a clear NFC card printed with Sabrina Bedjera’s photo and a LinkedIn QR code, in front of a brown leather notebook with a matching sticker and a round NFC tag, beside an NFC symbol and a QR code",
+      width: 1714,
+      height: 1320,
+    },
     sections: [
       {
         heading: "Why I wanted to try it",
@@ -50,7 +58,6 @@ export const labPosts: LabPost[] = [
             type: "p",
             text: "Not everyone knows to tap their phone on something, so I also made QR codes in Canva and had printed versions produced at Staples. That way there was always a second option.",
           },
-          { type: "photo", label: "Photo to add: the NFC stickers, NFC cards and printed QR codes" },
           {
             type: "p",
             text: "Then came the fun part: deciding where the tags should go. I tried a sticker on my phone and another on my notebook. The phone worked well. The notebook was less cooperative. Its cover was thick enough that the tag didn’t always read, so I adjusted the placement and added another sticker.",

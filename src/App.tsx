@@ -359,14 +359,14 @@ const homeObjects: HomeObject[] = [
   {
     id: "experience", description: "Professional background",
     // set a little forward of the back row, leaving room for the intro paragraph above
-    x: 572, w: 200, ground: BACK + 23, aspect: 478 / 359, base: 0.956, caption: { dx: 112, dy: 12, center: true },
+    x: 548, w: 200, ground: BACK + (-55), aspect: 478 / 359, base: 0.956, caption: { dx: 145, dy: 12, center: true },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
     // The stack and the standing Technology book are laid out together in
     // curiosity-home.css; the standing book tips onto the stack on hover.
     id: "education", description: "Academic background",
-    x: 884, w: 432, ground: BACK, aspect: 0.53, base: 0.995, caption: { dx: 190, dy: 12 },
+    x: 849, w: 432, ground: BACK, aspect: 0.53, base: 0.995, caption: { dx: 190, dy: 12 },
     layers: [
       { src: "/home-objects/04_education_books_stack.webp", className: "ch-books-stack" },
       { src: "/home-objects/04_education_technology_book.webp", className: "ch-books-tech" },
@@ -381,7 +381,7 @@ const homeObjects: HomeObject[] = [
     id: "about", description: "My approach and interests",
     // front row: frame, cup and pen holder, evenly spaced right of the mineral;
     // each rests high enough for its label to sit beneath it on FRONT_LABELS
-    x: 815, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
+    x: 745, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
