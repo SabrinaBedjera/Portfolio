@@ -5,6 +5,8 @@ import "./case-study.css"
 import PortfolioSections from "./PortfolioSections"
 import { section, sections, type SectionId } from "./sections"
 import { objectHulls } from "./objectHulls"
+import LabArticle from "./LabArticle"
+import { labPosts, type LabPost } from "./lab"
 
 type Project = {
   slug: string
@@ -40,6 +42,8 @@ type Project = {
   }>
   /** Case-study hero, when it differs from the cover visual. */
   heroImage?: { src: string; alt: string }
+  /** Where this work appears on the main page (e.g. its role in Professional Experience). */
+  related?: { href: string; label: string }
   /** Selects the project-specific sections (reading list, data embeds). */
   tone: "mineral" | "data" | "energy" | "water"
 }
@@ -106,6 +110,7 @@ const projects: Project[] = [
         body: "Developed dashboards to visualize project pipelines, track funding allocations and support strategic investment decisions.",
       },
     ],
+    related: { href: "#role-critical-minerals", label: "See this role in Professional Experience" },
     tone: "mineral",
   },
   {
@@ -152,6 +157,7 @@ const projects: Project[] = [
         body: "Provided technical review and Canadian regulatory context for an International Energy Agency handbook on CCUS legal and regulatory frameworks.",
       },
     ],
+    related: { href: "#role-carbon-capture", label: "See this role in Professional Experience" },
     tone: "energy",
   },
   {
@@ -286,6 +292,7 @@ const projects: Project[] = [
     //   src: "/case-studies/thesis-hero-treatment-plant.jpg",
     //   alt: "Water flowing over the weir of a large circular treatment tank, with trees and blue sky behind",
     // },
+    related: { href: "#education", label: "See this degree in Education" },
     tone: "water",
   },
 ]
@@ -345,14 +352,14 @@ const FRONT_LABELS = 936
 const homeObjects: HomeObject[] = [
   {
     id: "selected-work", description: "Case studies and featured projects",
-    x: 60, w: 540, ground: 892, aspect: 0.6, base: 0.93, caption: { dx: 330, dy: -40 },
+    x: 29, w: 540, ground: 874, aspect: 0.6, base: 0.93, caption: { dx: 330, dy: -40 },
     layers: [],
     magazines: true,
   },
   {
     id: "experience", description: "Professional background",
     // set a little forward of the back row, leaving room for the intro paragraph above
-    x: 612, w: 200, ground: BACK + 48, aspect: 478 / 359, base: 0.956, caption: { dx: 112, dy: 12, center: true },
+    x: 572, w: 200, ground: BACK + 23, aspect: 478 / 359, base: 0.956, caption: { dx: 112, dy: 12, center: true },
     layers: [{ src: "/home-objects/02_experience_mineral.webp" }],
   },
   {
@@ -374,7 +381,7 @@ const homeObjects: HomeObject[] = [
     id: "about", description: "My approach and interests",
     // front row: frame, cup and pen holder, evenly spaced right of the mineral;
     // each rests high enough for its label to sit beneath it on FRONT_LABELS
-    x: 850, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
+    x: 815, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
@@ -470,7 +477,6 @@ function CuriosityHomepage() {
         </nav>
 
         <section className="ch-copy" aria-labelledby="home-title">
-          <p className="ch-eyebrow">Science <span>×</span> Technology <span>×</span> Strategy</p>
           <h1 id="home-title">Bridging technology, strategy and investment.</h1>
           <p className="ch-lede">
             With a background in science and engineering, I evaluate complex projects, inform
@@ -1112,6 +1118,11 @@ function MagazineCaseStudy({
 
       <footer className="cs-footer">
         <p>End of case study · {project.number}</p>
+        {project.related && (
+          <a className="cs-footer__related" href={project.related.href}>
+            {project.related.label} <span aria-hidden="true">→</span>
+          </a>
+        )}
         <button onClick={onBack}>
           <span>Back to Selected Work</span>
           <Arrow />
@@ -1121,24 +1132,38 @@ function MagazineCaseStudy({
   )
 }
 
+/* Views reached by hash: #case-study/<slug> and #lab/<slug>; any other
+   hash is a place on the main page. */
+const projectFromHash = () =>
+  projects.find((project) => window.location.hash === `#case-study/${project.slug}`) ?? null
+const labPostFromHash = () =>
+  labPosts.find((post) => window.location.hash === `#lab/${post.slug}`) ?? null
+
 export default function App() {
-  const [caseStudyProject, setCaseStudyProject] = useState<Project | null>(
-    () => {
-      const slug = window.location.hash.replace("#case-study/", "")
-      return projects.find((project) => project.slug === slug) ?? null
-    },
-  )
+  const [caseStudyProject, setCaseStudyProject] = useState<Project | null>(projectFromHash)
+  const [labPost, setLabPost] = useState<LabPost | null>(labPostFromHash)
 
   useEffect(() => {
     const handleHashChange = () => {
-      const slug = window.location.hash.replace("#case-study/", "")
-      setCaseStudyProject(
-        projects.find((project) => project.slug === slug) ?? null,
-      )
+      setCaseStudyProject(projectFromHash())
+      setLabPost(labPostFromHash())
     }
     window.addEventListener("hashchange", handleHashChange)
     return () => window.removeEventListener("hashchange", handleHashChange)
   }, [])
+
+  // returning to the main page from a case study or article: the browser
+  // looked for the anchor before the page was drawn, so scroll to it now
+  useEffect(() => {
+    if (caseStudyProject || labPost) return
+    const id = decodeURIComponent(window.location.hash.slice(1))
+    if (!id) return
+    const scroll = () => document.getElementById(id)?.scrollIntoView()
+    requestAnimationFrame(scroll)
+    // once more after images above it have taken their size
+    const settle = window.setTimeout(scroll, 400)
+    return () => window.clearTimeout(settle)
+  }, [caseStudyProject, labPost])
 
   const openCaseStudy = (project: Project) => {
     window.location.hash = `case-study/${project.slug}`
@@ -1155,6 +1180,15 @@ export default function App() {
     requestAnimationFrame(() =>
       document.getElementById("selected-work")?.scrollIntoView(),
     )
+  }
+
+  const closeLabPost = () => {
+    window.history.pushState({}, "", `${window.location.pathname}${window.location.search}#lab`)
+    setLabPost(null)
+  }
+
+  if (labPost) {
+    return <LabArticle post={labPost} onBack={closeLabPost} />
   }
 
   if (caseStudyProject) {

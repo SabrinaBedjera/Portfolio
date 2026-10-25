@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import "./portfolio-sections.css"
 import { section, type SectionId } from "./sections"
+import { labPosts } from "./lab"
 
 /* ------------------------------------------------------------------
    Portfolio sections after Selected Work: Experience, Education, Lab,
@@ -18,6 +19,8 @@ type Role = {
   text: string
   /** Selected skills, project themes or contributions. */
   highlights: string[]
+  /** Public work related to the role: announcements, publications, case studies. */
+  related?: { label: string; href: string }[]
   /** A small linked credit beneath the role, e.g. a presentation. */
   credit?: { kicker: string; title: string; href: string }
   /** A related piece of work shown inside the entry. */
@@ -49,6 +52,13 @@ const roles: Role[] = [
       "Commercial Negotiations",
       "Cross-Functional Project Leadership",
     ],
+    related: [
+      {
+        label: "Government of Canada announcement: critical minerals offtake arrangements (Oct. 2025)",
+        href: "https://www.canada.ca/en/natural-resources-canada/news/2025/10/canada-unlocks-25-new-investments-and-partnerships-with-9-allied-countries-to-secure-critical-minerals-supply-chains.html",
+      },
+      { label: "Case study: Critical Minerals", href: "#case-study/critical-minerals" },
+    ],
   },
   {
     id: "role-carbon-capture",
@@ -61,6 +71,17 @@ const roles: Role[] = [
       "Carbon Capture, Utilization & Storage (CCUS)",
       "Energy Technology Assessment",
       "International Technical Collaboration",
+    ],
+    related: [
+      {
+        label: "Canada’s Carbon Management Strategy",
+        href: "https://natural-resources.canada.ca/energy-sources/carbon-management/canada-s-carbon-management-strategy",
+      },
+      {
+        label: "IEA: Legal and Regulatory Frameworks for CCUS",
+        href: "https://www.iea.org/reports/legal-and-regulatory-frameworks-for-ccus",
+      },
+      { label: "Case study: Energy", href: "#case-study/clean-energy-innovation" },
     ],
   },
   {
@@ -110,20 +131,20 @@ const roles: Role[] = [
 /* Career Highlights: four cards above the timeline, for a quick read. */
 const careerHighlights = [
   {
-    title: "Science & Engineering",
-    text: "Research background in environmental engineering, biology and mathematical modelling, including award-winning master’s research.",
-  },
-  {
-    title: "Investment & Due Diligence",
-    text: "Led multidisciplinary assessments of critical minerals projects involving over $1B in proposed support.",
+    title: "Investment & Project Evaluation",
+    text: "Lead multidisciplinary technical, financial and commercial assessments of capital-intensive critical minerals projects, informing investment decisions and project prioritization.",
   },
   {
     title: "Commercial Negotiations",
-    text: "Helped structure and negotiate offtake and equity arrangements to advance strategic projects.",
+    text: "Structure and negotiate commercial agreements, including offtake and equity arrangements, working across legal, engineering and financial teams to advance strategic projects.",
+  },
+  {
+    title: "Science & Engineering",
+    text: "Background in environmental engineering and mathematical modelling, with award-winning research applying experimental and analytical methods to complex technical challenges.",
   },
   {
     title: "Energy & Technology Strategy",
-    text: "Contributed to Canada’s Carbon Management Strategy and international technical publications on carbon capture, utilization and storage.",
+    text: "Experience spanning clean energy, carbon management and emerging technologies, connecting technical assessments with investment strategy, commercialization and policy.",
   },
 ]
 
@@ -184,7 +205,7 @@ const associations = [
 /**
  * Professional Experience: a horizontal overview whose milestones select a
  * role, and the roles as a vertical timeline. The selected role stays
- * highlighted, and a small convertible drives along the rail to it.
+ * highlighted, and a small brass rocket flies along the rail to it.
  */
 function Experience() {
   const [active, setActive] = useState(roles[0].id)
@@ -261,7 +282,7 @@ function Experience() {
           style={{ top: drive.top }}
           aria-hidden="true"
         >
-          <img src="/home-objects/timeline-convertible.webp" alt="" draggable={false} />
+          <img src="/home-objects/timeline-rocket.webp" alt="" draggable={false} />
         </li>
         {roles.map((role, i) => (
           <li
@@ -282,6 +303,23 @@ function Experience() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
+              {role.related && (
+                <div className="ps-related">
+                  <p className="ps-related__label">Related work</p>
+                  <ul>
+                    {role.related.map((link) => {
+                      const external = link.href.startsWith("http")
+                      return (
+                        <li key={link.href}>
+                          <a href={link.href} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
+                            {link.label} <span aria-hidden="true">{external ? "↗" : "→"}</span>
+                          </a>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )}
               {role.credit && (
                 <p className="ps-credit">
                   <span className="ps-credit__kicker">{role.credit.kicker}</span>
@@ -316,12 +354,13 @@ function Experience() {
 }
 
 /** Number and heading come from sections.ts, shared with the navigation. */
-function SectionHead({ id, lede }: { id: SectionId; lede?: string }) {
+function SectionHead({ id, lede, title }: { id: SectionId; lede?: string; title?: string }) {
   const { number, label } = section(id)
   return (
     <header className="ps-head">
-      <p className="ps-number">{number ?? "\u00a0"}</p>
-      <h2 id={`${id}-title`}>{label}</h2>
+      {/* with its own title, the section's name joins the number above it */}
+      <p className="ps-number">{title ? `${number} · ${label}` : number ?? "\u00a0"}</p>
+      <h2 id={`${id}-title`}>{title ?? label}</h2>
       {lede && <p className="ps-lede">{lede}</p>}
     </header>
   )
@@ -332,7 +371,10 @@ export default function PortfolioSections() {
     <div className="ps">
       <section id="experience" className="ps-section" aria-labelledby="experience-title">
         <div className="ps-wrap">
-          <SectionHead id="experience" />
+          <SectionHead
+            id="experience"
+            lede="My career has taken me from scientific research and engineering into energy and technology strategy, project evaluation, investment decisions and commercial negotiations. Across these roles, I’ve focused on understanding complex technologies and helping move projects from analysis toward implementation."
+          />
           <section className="ps-highlights" aria-labelledby="highlights-title">
             <h3 id="highlights-title" className="ps-highlights__label">Career highlights</h3>
             <ul>
@@ -393,7 +435,23 @@ export default function PortfolioSections() {
       {/* Lab projects to be added. */}
       <section id="lab" className="ps-section" aria-labelledby="lab-title">
         <div className="ps-wrap">
-          <SectionHead id="lab" lede="Technical and creative projects" />
+          <SectionHead
+            id="lab"
+            title="A place to experiment."
+            lede="A place for the things I make, experiment with and learn along the way."
+          />
+          <ul className="ps-posts">
+            {labPosts.map((post) => (
+              <li key={post.slug}>
+                <a href={`#lab/${post.slug}`} className="ps-post">
+                  {post.draft && <span className="lab-draft">Draft</span>}
+                  <h3>{post.title}</h3>
+                  <p>{post.subtitle}</p>
+                  <span className="ps-post__more">Read the article <span aria-hidden="true">→</span></span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

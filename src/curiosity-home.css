@@ -56,7 +56,7 @@
 .ch-nav .ch-nav__brand {
   flex: none;
   color: var(--ch-plum);
-  font-size: 48px;
+  font-size: var(--ch-brand, 48px);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: .06em;
@@ -67,9 +67,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 4px 22px;
+  gap: 4px 28px;
   margin: 0;
-  padding: 14px 24px;
+  padding: 15px 28px;
   list-style: none;
   border: 1px solid var(--ch-plum-line);
   outline: 1px solid rgba(123, 74, 108, .28);
@@ -82,6 +82,7 @@
   padding: 2px 0;
   font-size: 16px;
   font-weight: 500;
+  line-height: 23px;
   letter-spacing: .06em;
   white-space: nowrap;
 }
@@ -104,29 +105,20 @@
 
 /* ---------- Headline ---------- */
 .ch-copy { position: relative; z-index: 10; }
-.ch-eyebrow {
-  margin: 0;
-  color: var(--ch-ink);
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-}
-.ch-eyebrow span { padding: 0 10px; }
 .ch-copy h1 {
   max-width: none;
-  margin: 18px 0 0;
+  margin: 0;
   color: var(--ch-ink);
   font-family: "Newsreader", "Instrument Serif", Georgia, serif;
-  font-size: 54px;
+  font-size: 42px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.1;
   letter-spacing: -.018em;
 }
 /* the introduction runs wide under the headline, clear of the objects */
 .ch-lede {
-  max-width: min(1120px, 72cqw);
-  margin: 22px 0 0;
+  max-width: min(1040px, 72cqw);
+  margin: 20px 0 0;
   color: var(--ch-text);
   font-size: 20px;
   line-height: 1.5;
@@ -462,23 +454,23 @@
   .ch-object > a:focus-visible .ch-object__art { transform: none; }
 }
 
-/* Headline steps down with the stage width; still px, so zoom applies. */
-/* The headline runs on one line across the wall; it and the navigation
-   step down a little on narrower stages. The paragraph keeps 20px. */
-@container ch-stage (max-width: 1599px) {
-  .ch-nav .ch-nav__brand { font-size: 44px; letter-spacing: .05em; }
-  .ch-nav__links { column-gap: 16px; padding: 14px 18px; }
+/* The name and the navigation step down a little on narrower stages, so
+   the 16px links always fit on one row beside the name; still px, so
+   browser zoom applies. */
+@container ch-stage (max-width: 1699px) {
+  .ch-nav, .ch-copy { --ch-brand: 44px; }
+  .ch-nav .ch-nav__brand { letter-spacing: .05em; }
+  .ch-nav__links { column-gap: 20px; padding: 14px 20px; }
   .ch-nav__links a { letter-spacing: .04em; }
 }
-@container ch-stage (max-width: 1439px) {
-  .ch-copy h1 { font-size: 50px; margin-top: 14px; }
-  .ch-nav .ch-nav__brand { font-size: 38px; }
-  .ch-nav__links { column-gap: 14px; padding: 12px 16px; }
-  .ch-nav__links a { font-size: 15px; }
+@container ch-stage (max-width: 1499px) {
+  .ch-nav, .ch-copy { --ch-brand: 38px; }
+  .ch-nav__links { column-gap: 16px; padding: 13px 18px; }
 }
 @container ch-stage (max-width: 1339px) {
-  .ch-copy h1 { font-size: 48px; }
-  .ch-nav .ch-nav__brand { font-size: 34px; }
+  .ch-nav, .ch-copy { --ch-brand: 34px; }
+  .ch-nav__links { column-gap: 13px; padding: 12px 15px; }
+  .ch-nav__links a { letter-spacing: .02em; }
   .ch-caption { gap: 7px; padding: 5px 10px; }
 }
 
@@ -503,10 +495,13 @@
     right: 4.07cqw;
     top: 22px;
   }
+  /* the name sits 12px below the bar's centre line; the headline follows
+     16px beneath it, so name, headline and introduction read as one group */
+  .ch-nav .ch-nav__brand { position: relative; top: 12px; }
   .ch-copy {
     position: absolute;
     left: 4.07cqw;
-    top: 12.6cqh;      /* 120 / 941 */
+    top: calc(22px + 28px + var(--ch-brand, 48px) * .525 + 12px + 16px);
     width: 88cqw;      /* the headline runs wide across the wall; the lede stays narrower */
   }
   .ch-scene { position: absolute; inset: 0; }
@@ -520,10 +515,9 @@
   /* name on one row, the seven links on the next, so none wrap alone */
   .ch-nav { flex-direction: column; align-items: flex-start; gap: 10px; }
   .ch-nav__links { justify-content: flex-start; column-gap: 18px; }
-  .ch-nav__links a { font-size: 15px; }
-  .ch-copy { margin-top: 36px; max-width: 1000px; }
-  @media (max-width: 1040px) { .ch-nav__links { column-gap: 14px; } .ch-nav__links a { font-size: 14px; } }
-  .ch-copy h1 { font-size: 48px; }
+  .ch-copy { margin-top: 28px; max-width: 1000px; }
+  @media (max-width: 1080px) { .ch-nav__links { column-gap: 13px; padding-inline: 16px; } .ch-nav__links a { font-size: 15px; letter-spacing: .03em; } }
+  .ch-copy h1 { font-size: 42px; }
   .ch-lede { max-width: none; font-size: 20px; }
   .ch-scene {
     margin: 8px -40px 0;
@@ -561,8 +555,6 @@
   .ch-bg { object-position: center 70%; }
   .ch-stage { padding: 20px 22px 40px; }
   .ch-nav .ch-nav__brand { font-size: 20px; letter-spacing: .1em; }
-  .ch-eyebrow { font-size: 13px; letter-spacing: .14em; }
-  .ch-eyebrow span { padding: 0 6px; }
   .ch-nav__toggle {
     display: block;
     min-width: 96px;
@@ -593,10 +585,10 @@
     box-shadow: 0 12px 30px rgba(60, 40, 20, .16);
   }
   .ch-nav__links.is-open { display: flex; }
-  .ch-nav__links a { padding: 11px 0; font-size: 14px; }
+  .ch-nav__links a { padding: 11px 0; font-size: 16px; }
 
   .ch-copy { margin-top: 40px; }
-  .ch-copy h1 { font-size: clamp(42px, 10vw, 60px); margin-top: 20px; }
+  .ch-copy h1 { font-size: clamp(34px, 9vw, 42px); }
   .ch-lede { max-width: none; font-size: 18px; }
 
   .ch-objects {

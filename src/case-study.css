@@ -398,6 +398,8 @@
   text-transform: uppercase;
 }
 .cs-footer p { color: var(--cs-muted); }
+.cs-footer .cs-footer__related { color: var(--cs-accent); letter-spacing: .04em; text-decoration: none; border-bottom: 1px solid currentColor; }
+.cs-footer .cs-footer__related:hover { color: var(--cs-ink); }
 .cs-footer .arrow { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
 
 /* ---------- Tablet ---------- */

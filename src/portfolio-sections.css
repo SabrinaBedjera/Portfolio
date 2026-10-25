@@ -77,6 +77,7 @@
   line-height: .98;
   letter-spacing: -.015em;
 }
+.ps .ps-lede,
 .ps-lede {
   max-width: var(--ps-measure);
   margin: 24px 0 0;
@@ -93,9 +94,25 @@
 }
 .ps p { margin: 0; line-height: var(--ps-lh-body); }
 
-/* Lab holds only its heading for now, so it takes less room */
-#lab .ps-head { margin-bottom: 0; }
-#lab.ps-section { padding: clamp(48px, 5vw, 72px) 0; }
+/* Lab: the index of articles; one featured post for now, more to follow */
+.ps-posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.ps-post {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  padding: clamp(24px, 2.6vw, 34px);
+  background: var(--ps-tint);
+  border-top: 3px solid #5b2d48;
+  color: inherit;
+  text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.ps-post:hover, .ps-post:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(60, 40, 20, .12); }
+.ps-post .lab-draft { margin: 0 0 12px; color: #5b2d48; }
+.ps .ps-post h3 { color: #5b2d48; font-family: "Instrument Serif", Georgia, serif; font-size: var(--ps-fs-h3); font-weight: 400; line-height: 1.1; }
+.ps .ps-post p { margin-top: 10px; font-size: var(--ps-fs-card); line-height: 1.5; }
+.ps-post__more { display: inline-block; margin-top: 16px; color: var(--ps-clay); font-size: 17px; border-bottom: 1px solid currentColor; }
+@media (prefers-reduced-motion: reduce) { .ps-post { transition: none; } .ps-post:hover, .ps-post:focus-visible { transform: none; } }
 
 /* Rounded pills: focus areas under roles and associations, and skills */
 .ps-pills {
@@ -355,6 +372,26 @@
 .ps-role .ps-pills { margin-top: 24px; gap: 12px; }
 .ps-role .ps-pills li { padding: 11px 20px; font-size: 17px; }
 
+/* Related public work under a role: a quiet label and short links */
+.ps-related { margin-top: 22px; }
+.ps .ps-related__label {
+  color: var(--ps-muted);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.ps-related ul { display: grid; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
+.ps-related a {
+  color: var(--ps-clay);
+  font-size: 18px;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-decoration-color: rgba(167, 88, 37, .35);
+  text-underline-offset: 4px;
+}
+.ps-related a:hover, .ps-related a:focus-visible { color: var(--ps-ink); text-decoration-color: currentColor; }
+
 /* Ontario Tech: a small linked conference credit */
 .ps .ps-credit { margin-top: 22px; font-size: 18px; line-height: 1.5; }
 .ps-credit__kicker {
@@ -409,15 +446,16 @@
   100% { opacity: 0; }
 }
 
-/* ---------- The convertible ----------
-   Parks just above the active role's marker; drives along the rail when
-   another milestone is selected, turning to face the way it travels. */
+/* ---------- The rocket ----------
+   A brass desk-ornament rocket parks upright just above the active role's
+   marker; it flies along the rail when another milestone is selected,
+   nose first (turned down when travelling down the timeline). */
 .ps-car {
   position: absolute;
   z-index: 2;
   left: calc(var(--ps-meta-w) + var(--ps-rail) / 2);
-  width: 104px;
-  margin-left: -52px;
+  width: 40px;
+  margin-left: -20px;
   list-style: none;
   pointer-events: none;
   transform: translateY(calc(-100% - 6px));
@@ -430,11 +468,10 @@
   filter: drop-shadow(0 3px 3px rgba(60, 30, 20, .18));
   transition: transform .28s ease;
 }
-.ps-car--down img { transform: rotate(90deg); }
-.ps-car--up img { transform: rotate(-90deg); }
+.ps-car--down img { transform: rotate(180deg); }
 @media (prefers-reduced-motion: reduce) {
   .ps-car, .ps-car img { transition: none; }
-  .ps-car--down img, .ps-car--up img { transform: none; }
+  .ps-car--down img { transform: none; }
 }
 
 /* Related work inside an entry (the water policy proposal) */
@@ -657,7 +694,7 @@
 /* ---------- Tablet ---------- */
 @media (max-width: 1100px) {
   #experience .ps-wrap { --ps-meta-w: 210px; --ps-rail: 112px; --ps-dot: 24px; --ps-dot-on: 30px; }
-  .ps-car { width: 88px; margin-left: -44px; }
+  .ps-car { width: 36px; margin-left: -18px; }
   .ps-career__label { font-size: 18px; }
   .ps-career__year { font-size: 17px; }
   .ps .ps-role__org, .ps .ps-role__unit { font-size: 18px; }
@@ -676,7 +713,8 @@
    the roles keep a slim rail on the left with their details stacked. */
 @media (max-width: 760px) {
   .ps-highlights ul { grid-template-columns: 1fr; }
-  .ps-highlights__number { font-size: 28px; }
+  .ps-highlights__number { grid-row: auto; font-size: 28px; }
+  .ps .ps-highlights p { grid-column: 1 / -1; }
   .ps,
   #selected-work {
     --ps-fs-h2: 40px;
@@ -720,9 +758,7 @@
   .ps-role__meta { margin-bottom: 10px; }
   .ps .ps-role__org { margin-top: 6px; }
   /* on phones the car stays turned along the narrow rail */
-  .ps-car { left: calc(var(--ps-rail) / 2); width: 62px; margin-left: -31px; transform: translateY(calc(-100% - 26px)); }
-  .ps-car img, .ps-car--down img { transform: rotate(90deg); }
-  .ps-car--up img { transform: rotate(-90deg); }
+  .ps-car { left: calc(var(--ps-rail) / 2); width: 28px; margin-left: -14px; transform: translateY(calc(-100% - 20px)); }
   .ps-feature { padding: 20px 20px 22px; }
 
   .ps-two,
