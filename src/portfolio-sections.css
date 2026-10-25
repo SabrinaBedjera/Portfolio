@@ -199,6 +199,10 @@
    One grid for the whole section: a meta column (dates, organization),
    the rail, and the story. The career overview sits in the same grid, so
    its line starts above the rail and its milestones lead into the roles. */
+/* the introduction is a reading-width column centred over the highlights;
+   its text stays left-aligned */
+#experience .ps-head { max-width: var(--ps-measure); margin-inline: auto; }
+
 #experience .ps-wrap {
   --ps-meta-w: 270px;
   --ps-rail: 140px;              /* room for the car to drive along the rail */
