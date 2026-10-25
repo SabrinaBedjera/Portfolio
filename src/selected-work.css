@@ -1,0 +1,222 @@
+/* ==================================================
+   Selected Work: magazine covers, plus the figure, video and enlarge
+   dialog used inside the case studies (case-study.css lays out the rest).
+
+   Each cover is one issue of the same publication: an oversized serif
+   title over a single central visual on warm ivory. The title is HTML
+   text; its colour comes from --issue-color, set per project in App.tsx.
+   ================================================== */
+
+/* Covers that are neither centred nor beside it wait behind the centre one. */
+.magazine-cover--back {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-50%, 60px, -420px) scale(.72);
+}
+
+.magazine-cover--issue .magazine-cover__paper {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 8% 7% 6%;               /* % of the cover width (cqw here would read the viewport) */
+  background: #f9f0e3;              /* the ivory of the cover artwork */
+  border: 1px solid rgba(70, 48, 26, .14);
+  box-shadow:
+    -5px 6px 0 #e4d6c2,
+    -14px 20px 40px rgba(70, 48, 26, .2);
+}
+.magazine-cover--issue.magazine-cover--active:hover .magazine-cover__paper {
+  box-shadow:
+    -5px 7px 0 #e4d6c2,
+    -16px 30px 54px rgba(70, 48, 26, .26);
+}
+.issue__title {
+  display: block;
+  color: var(--issue-color);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 23cqw;
+  font-weight: 400;
+  line-height: .8;
+  letter-spacing: -.035em;
+  text-align: left;
+}
+.issue__title > span { display: block; }
+.issue__title > span + span { margin-left: 12cqw; font-style: italic; }
+.issue__visual {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-top: 5cqw;
+}
+.issue__visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+/* the image shown as the cover swings open */
+.magazine-cover--issue .magazine-cover__inside { background: #f9f0e3; }
+.magazine-cover--issue .magazine-cover__inside img { object-fit: contain; }
+.magazine-cover--issue .magazine-cover__open:focus-visible { outline-color: var(--issue-color); }
+#selected-work .cover-browser__index button.is-active { border-bottom-color: #7b1e2e; }
+
+/* ---------- Video (thumbnail first; the player loads on request) ---------- */
+.case-video { max-width: 520px; }
+.case-video__poster,
+.case-video__frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid color-mix(in srgb, var(--case-ink) 14%, transparent);
+}
+.case-video__poster {
+  padding: 0;
+  /* the YouTube thumbnail is set inline; the colour shows if it can't load */
+  background-color: color-mix(in srgb, var(--case-accent) 75%, #1a1a1a);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.case-video__poster::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 55%, rgba(0, 0, 0, .35));
+}
+.case-video__play {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: 68px;
+  height: 68px;
+  margin: -34px 0 0 -34px;
+  border-radius: 50%;
+  background: rgba(255, 253, 248, .92);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+  transition: transform .25s ease;
+}
+.case-video__play::after {
+  content: "";
+  position: absolute;
+  left: 27px;
+  top: 21px;
+  border-style: solid;
+  border-width: 13px 0 13px 21px;
+  border-color: transparent transparent transparent var(--case-accent);
+}
+.case-video__poster:hover .case-video__play,
+.case-video__poster:focus-visible .case-video__play { transform: scale(1.08); }
+.case-video__poster:focus-visible { outline: 2px solid var(--case-accent); outline-offset: 4px; }
+.case-video__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.cs .case-video__title {
+  margin: 16px 0 0;
+  color: var(--case-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 28px;
+  line-height: 1.1;
+}
+.cs .case-video__description { margin: 8px 0 0; font-size: 17px; line-height: 1.55; }
+.case-video__link {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--case-accent);
+  font-size: 16px;
+}
+
+/* ---------- Research figures ---------- */
+.case-figure { margin: 32px 0 0; }
+/* never wider than the file itself, so figures stay sharp */
+.case-figure img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid color-mix(in srgb, var(--case-ink) 14%, transparent);
+  background: #fff;
+}
+.case-figure__open {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.case-figure__hint {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(23, 48, 59, .82);
+  color: #fff;
+  font-size: 15px;
+  letter-spacing: .04em;
+  opacity: .9;
+  transition: opacity .2s ease;
+}
+.case-figure__open:hover .case-figure__hint,
+.case-figure__open:focus-visible .case-figure__hint { opacity: 1; }
+.case-figure__open:focus-visible { outline: 2px solid var(--case-accent); outline-offset: 4px; }
+.case-figure figcaption {
+  margin-top: 12px;
+  color: color-mix(in srgb, var(--case-ink) 72%, transparent);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.case-figure__dialog {
+  margin: auto;          /* the base reset removes the browser's centring */
+  width: min(96vw, 1100px);
+  max-height: 94vh;
+  padding: 56px 24px 24px;
+  border: 0;
+  background: #fffdf8;
+  color: #17303b;
+  overflow: auto;
+}
+.case-figure__dialog::backdrop { background: rgba(18, 26, 22, .72); }
+.case-figure__dialog img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+.case-figure__dialog p { max-width: 860px; margin: 16px auto 0; font-size: 17px; line-height: 1.5; }
+.case-figure__close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid rgba(23, 48, 59, .3);
+  border-radius: 999px;
+  background: #fff;
+  color: #17303b;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .case-figure__dialog { padding: 52px 10px 14px; }
+  /* on phones, enlarging shows the figure at full resolution to pan around */
+  .case-figure__dialog img { max-width: none; }
+}
+
+/* Phones: a slightly narrower issue, so it clears the carousel controls
+   and the neighbouring covers stay out of view. */
+@media (max-width: 600px) {
+  .magazine-cover.magazine-cover--issue { width: min(74vw, 290px); }
+  .magazine-cover--issue.magazine-cover--previous,
+  .magazine-cover--issue.magazine-cover--next { opacity: 0; pointer-events: none; }
+}

@@ -1,0 +1,438 @@
+/* ==================================================
+   Case studies, laid out as the inside of each magazine issue:
+   an opening spread on the cover's ivory with the headline in the issue
+   colour (--cs-accent, from App.tsx), then the contributions as feature
+   cards, then project resources. Scoped to .cs-* classes.
+   ================================================== */
+.cs {
+  --cs-ivory: #f9f0e3;
+  --cs-paper: #fcf8f1;
+  --cs-ink: #1e211d;
+  --cs-text: #1e211d;   /* body copy in the same ink as the approved hero introduction */
+  --cs-muted: #5f6157;
+  --cs-rule: rgba(60, 45, 30, .16);
+  --cs-gutter: clamp(22px, 5vw, 72px);
+  --cs-wrap: 1240px;
+  /* One type scale for every case study (desktop values; tablet and phone
+     steps at the end of the file). Prose sits in one reading column. */
+  /* body copy matches the hero introduction: 19px, rising to 22px at 1467px+ */
+  --cs-fs-h2: clamp(42px, 4vw, 58px);          /* section headings */
+  --cs-fs-h3: clamp(32px, 2.6vw, 38px);        /* subsections (thesis chapters) */
+  --cs-fs-card-h: clamp(26px, 2vw, 30px);      /* headings of independent cards */
+  --cs-fs-body: clamp(19px, 1.5vw, 22px);      /* all narrative paragraphs */
+  --cs-lh-body: 1.55;
+  --cs-fs-card: clamp(18px, 1.4vw, 21px);      /* text in narrow multi-column cards */
+  --cs-lh-card: 1.5;
+  --cs-fs-caption: clamp(17px, 1.25vw, 18px);  /* figure and video captions */
+  --cs-fs-eyebrow: 16px;
+  --cs-read: 920px;                            /* the reading column */
+  /* names used by the shared figure and video styles (selected-work.css) */
+  --case-accent: var(--cs-accent);
+  --case-ink: var(--cs-ink);
+  --case-accent-soft: color-mix(in srgb, var(--cs-accent) 9%, #fff);
+  min-height: 100vh;
+  background: var(--cs-paper);
+  color: var(--cs-text);
+  font-family: "DM Sans", sans-serif;
+  font-size: var(--cs-fs-body);
+  line-height: var(--cs-lh-body);
+}
+.cs h1, .cs h2, .cs h3 {
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.015em;
+}
+.cs p { margin: 0; }
+.cs a { color: inherit; }
+.cs-kicker {
+  color: var(--cs-accent);
+  font-size: var(--cs-fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: .08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+/* ---------- Top bar ---------- */
+.cs-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 60px;
+  padding: 0 var(--cs-gutter);
+  background: rgba(249, 240, 227, .92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cs-rule);
+  font-size: 16px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.cs-nav button,
+.cs-footer button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--cs-ink);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.cs-nav svg,
+.cs-footer svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.cs-nav button:hover span,
+.cs-footer button:hover span { text-decoration: underline; text-underline-offset: 4px; }
+.cs-nav > span { color: var(--cs-muted); }
+.cs button:focus-visible,
+.cs a:focus-visible { outline: 2px solid var(--cs-accent); outline-offset: 4px; }
+
+/* ---------- Opening spread ---------- */
+.cs-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  max-width: calc(var(--cs-wrap) + 2 * var(--cs-gutter));
+  margin: 0 auto;
+  padding: clamp(40px, 5vw, 72px) var(--cs-gutter) clamp(48px, 6vw, 88px);
+  box-sizing: border-box;
+}
+/* full-bleed ivory, but the copy starts on the same edge as the sections */
+.cs-hero {
+  max-width: none;
+  padding-inline: max(var(--cs-gutter), calc((100% - var(--cs-wrap)) / 2));
+  background: var(--cs-ivory);
+}
+.cs-hero__copy { width: 100%; }
+.cs-hero h1 {
+  margin-top: 18px;
+  color: var(--cs-accent);
+  font-size: clamp(50px, 6.2vw, 104px);
+  line-height: .92;
+}
+.cs-hero__intro {
+  max-width: 560px;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 2px solid var(--cs-accent);
+  color: var(--cs-ink);
+  font-size: var(--cs-fs-body);
+  line-height: 1.5;
+}
+.cs .cs-hero__credential {
+  margin-top: 18px;
+  color: var(--cs-muted);
+  font-size: 16px;
+  letter-spacing: .04em;
+  line-height: 1.5;
+}
+.cs-hero__visual { margin: 0; justify-self: start; width: 100%; }
+.cs-hero__visual img {
+  display: block;
+  width: 100%;
+  max-height: min(66vh, 640px);
+  object-fit: contain;
+}
+.cs-hero__visual--photo img { aspect-ratio: 16 / 9; object-fit: cover; }
+
+/* ---------- Sections ---------- */
+.cs-section,
+.cs-cta {
+  max-width: calc(var(--cs-wrap) + 2 * var(--cs-gutter));
+  margin: 0 auto;
+  padding: clamp(56px, 6.5vw, 96px) var(--cs-gutter);
+  box-sizing: border-box;
+}
+.cs-section + .cs-section { border-top: 1px solid var(--cs-rule); }
+.cs-section__head { margin-bottom: clamp(28px, 3vw, 44px); }
+.cs-section__head h2 {
+  margin-top: 10px;
+  color: var(--cs-ink);
+  font-size: var(--cs-fs-h2);
+  line-height: 1.02;
+}
+.cs-section__head h2:first-child { margin-top: 0; }
+
+.cs .cs-section__intro {
+  max-width: var(--cs-read);
+  margin-top: 18px;
+  color: var(--cs-ink);
+  font-size: var(--cs-fs-body);
+  line-height: var(--cs-lh-body);
+}
+
+/* ---------- Contributions ---------- */
+/* Contributions as open editorial blocks: a rule in the issue colour,
+   numeral beside the title, the highlight set off, then the text. */
+.cs-contrib__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(44px, 4.5vw, 64px) clamp(40px, 5vw, 80px);
+}
+/* three contributions sit side by side on wide screens */
+@media (min-width: 1041px) {
+  .cs-contrib:not(.cs-contrib--chapters) .cs-contrib__list:has(> :nth-child(3):last-child) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(32px, 3.5vw, 56px);
+  }
+}
+.cs-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 18px;
+  align-content: start;
+  padding-top: 26px;
+  border-top: 2px solid var(--cs-accent);
+}
+.cs-card > * { grid-column: 1 / -1; }
+.cs-card > .cs-card__number,
+.cs-card > h3 { grid-column: auto; align-self: baseline; }
+.cs-card__number {
+  color: var(--cs-accent);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: calc(var(--cs-fs-card-h) * 1.25);
+  line-height: 1;
+}
+.cs-card h3 {
+  color: var(--cs-ink);
+  font-size: var(--cs-fs-card-h);
+  line-height: 1.12;
+}
+.cs-card__highlight {
+  margin-top: 16px !important;
+  padding-left: 14px;
+  border-left: 3px solid var(--cs-accent);
+  color: var(--cs-accent);
+  font-size: var(--cs-fs-card);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.cs-card__body { margin-top: 14px; font-size: var(--cs-fs-card); line-height: var(--cs-lh-card); }
+.cs-card__body p { max-width: var(--cs-read); }
+.cs-card__body p + p { margin-top: 1em; }
+.cs-card__lead { margin-top: 22px !important; color: var(--cs-ink); font-weight: 600; }
+.cs-card__link {
+  display: inline-block;
+  justify-self: start;
+  margin-top: 18px;
+  border-bottom: 1px solid currentColor;
+  color: var(--cs-accent) !important;
+  text-decoration: none;
+}
+
+/* Chapters (the thesis): set as an editorial research feature, in one
+   centred 1000px column with balanced margins on both sides. Narrative
+   paragraphs stack in order at up to 900px; headings, method and finding
+   cards, figures and the video use the column's full width. */
+.cs-contrib--chapters {
+  --cs-read: 900px;
+  max-width: calc(1000px + 2 * var(--cs-gutter));
+}
+.cs-contrib--chapters .cs-section__head { margin-bottom: clamp(32px, 3vw, 40px); }
+.cs-contrib--chapters .cs-contrib__list { grid-template-columns: 1fr; gap: clamp(56px, 5.5vw, 80px); }
+.cs-contrib--chapters .cs-card { padding-top: clamp(28px, 2.6vw, 36px); }
+.cs-contrib--chapters .cs-card h3 { font-size: var(--cs-fs-h3); }
+.cs-contrib--chapters .cs-card__number { font-size: calc(var(--cs-fs-h3) * 1.15); }
+.cs-contrib--chapters .cs-card__body { margin-top: 20px; font-size: var(--cs-fs-body); line-height: var(--cs-lh-body); }
+.cs-contrib--chapters .cs-card__body p + p { margin-top: 1.1em; }
+.cs-contrib--chapters .cs-card__highlight { max-width: var(--cs-read); font-size: var(--cs-fs-body); }
+.cs-contrib--chapters .cs-points { margin-top: 32px; }
+.cs-contrib--chapters .cs-media { margin-top: 36px; }
+
+/* Independent method and finding cards: natural height, even padding */
+.cs-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(16px, 1.6vw, 24px);
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cs-points:has(> li:nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cs-points li {
+  padding: clamp(22px, 2vw, 28px);
+  background: color-mix(in srgb, var(--cs-accent) 6%, var(--cs-paper));
+  border-top: 3px solid var(--cs-accent);
+  font-size: var(--cs-fs-card);
+  line-height: var(--cs-lh-card);
+}
+.cs-points b {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--cs-accent);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: var(--cs-fs-card-h);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.cs-quote {
+  max-width: var(--cs-read);
+  margin: 26px 0 0;
+  padding: 2px 0 2px 22px;
+  border-left: 3px solid var(--cs-accent);
+}
+.cs-quote p { font-family: "Instrument Serif", Georgia, serif; font-size: 25px; line-height: 1.35; }
+.cs-quote cite { display: block; margin-top: 8px; color: var(--cs-muted); font-size: 16px; font-style: normal; }
+
+/* Visuals: every figure and video shows its caption directly beneath it,
+   aligned with its left edge. Two visuals may sit side by side, each with
+   its own caption; a visual on its own keeps a readable size. */
+.cs-media {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 44px);
+  align-items: start;
+  margin-top: 32px;
+}
+.cs-media > :only-child { grid-column: 1 / -1; max-width: 780px; }
+.cs-media .case-figure { margin: 0; }
+.cs-media .case-figure__open,
+.cs-media .case-figure img { width: 100%; }
+.cs .case-figure figcaption,
+.cs .case-video__description {
+  max-width: var(--cs-read);
+  margin-top: 14px;
+  font-size: var(--cs-fs-caption);
+  line-height: 1.5;
+}
+.cs-media .case-video { max-width: none; }
+
+/* ---------- Data embeds (Pacific Energy) ---------- */
+.cs-data__charts { display: grid; gap: clamp(28px, 3vw, 44px); }
+.cs-chart { background: #fff; border: 1px solid var(--cs-rule); border-top: 4px solid var(--cs-accent); }
+.cs-chart header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px clamp(20px, 2.4vw, 32px);
+  border-bottom: 1px solid var(--cs-rule);
+}
+.cs-chart header span { color: var(--cs-accent); font-size: var(--cs-fs-eyebrow); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.cs-chart h3 { margin-top: 6px; color: var(--cs-ink); font-size: var(--cs-fs-card-h); line-height: 1.12; }
+.cs-chart header a { flex: none; color: var(--cs-accent); font-size: 16px; white-space: nowrap; }
+.cs .cs-chart__hint { margin-top: 8px; color: var(--cs-muted); font-size: var(--cs-fs-caption); line-height: 1.45; }
+.cs-chart iframe { display: block; width: 100%; height: clamp(460px, 56vw, 660px); border: 0; }
+/* the animated scatterplot needs room for its legend, axis labels and time controls */
+.cs-chart--tall iframe { height: clamp(580px, 62vw, 780px); }
+
+.cs-cta {
+  max-width: none;
+  background: var(--cs-accent);
+  color: #fff;
+  text-align: center;
+}
+.cs-cta .cs-kicker { color: rgba(255, 255, 255, .8); }
+.cs-cta h2 { margin-top: 10px; color: #fff; font-size: var(--cs-fs-h2); line-height: 1.05; }
+.cs-cta a {
+  display: inline-block;
+  margin-top: 26px;
+  padding: 14px 26px;
+  border: 1px solid rgba(255, 255, 255, .7);
+  color: #fff !important;
+  text-decoration: none;
+  letter-spacing: .04em;
+}
+.cs-cta a:hover { background: #fff; color: var(--cs-accent) !important; }
+.cs-cta a:focus-visible { outline-color: #fff; }
+
+/* ---------- Reading list ---------- */
+.cs-reading__links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 2.2vw, 32px);
+}
+.cs-reading__links:has(.cs-link--featured) { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+.cs-link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(26px, 2.6vw, 38px) clamp(26px, 2.6vw, 38px) clamp(26px, 2.6vw, 38px);
+  padding-right: 64px;
+  background: #fff;
+  border: 1px solid var(--cs-rule);
+  text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.cs-link:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(60, 40, 20, .12); }
+.cs-link__kicker { color: var(--cs-accent); font-size: var(--cs-fs-eyebrow); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.cs-link small { color: var(--cs-muted); font-size: 16px; }
+.cs-link strong { color: var(--cs-ink); font-family: "Instrument Serif", Georgia, serif; font-size: var(--cs-fs-card-h); font-weight: 400; line-height: 1.12; }
+.cs-link p { font-size: var(--cs-fs-card); line-height: var(--cs-lh-card); }
+.cs-link em { color: var(--cs-muted); font-size: 16px; }
+.cs-link i { position: absolute; top: 24px; right: 26px; color: var(--cs-accent); font-size: 24px; font-style: normal; }
+.cs-link--featured { background: var(--cs-accent); border-color: var(--cs-accent); color: #fff; }
+.cs-link--featured .cs-link__kicker,
+.cs-link--featured small,
+.cs-link--featured em,
+.cs-link--featured i { color: rgba(255, 255, 255, .82); }
+.cs-link--featured strong { color: #fff; font-size: var(--cs-fs-h3); }
+.cs-link--featured p { color: rgba(255, 255, 255, .92); }
+.cs-link--featured:focus-visible { outline-color: var(--cs-ink); }
+
+/* ---------- Footer ---------- */
+.cs-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: calc(var(--cs-wrap) + 2 * var(--cs-gutter));
+  margin: 0 auto;
+  padding: 28px var(--cs-gutter) 44px;
+  box-sizing: border-box;
+  border-top: 1px solid var(--cs-rule);
+  font-size: 16px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.cs-footer p { color: var(--cs-muted); }
+.cs-footer .cs-footer__related { color: var(--cs-accent); letter-spacing: .04em; text-decoration: none; border-bottom: 1px solid currentColor; }
+.cs-footer .cs-footer__related:hover { color: var(--cs-ink); }
+.cs-footer .arrow { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1040px) {
+  .cs-hero { grid-template-columns: 1fr; }
+  .cs-hero > * { max-width: 760px; }
+  .cs-hero__visual img { max-height: 46vh; object-position: left center; }
+}
+@media (max-width: 860px) {
+  .cs-contrib__list,
+  .cs-reading__links,
+  .cs-reading__links:has(.cs-link--featured) { grid-template-columns: 1fr; }
+  .cs-points,
+  .cs-points:has(> li:nth-child(4)) { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .cs-media { grid-template-columns: 1fr; }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 600px) {
+  .cs {
+    --cs-fs-h2: 40px;
+    --cs-fs-h3: 31px;
+    --cs-fs-card-h: 26px;
+    --cs-fs-body: 19px;
+    --cs-fs-card: 18px;
+    --cs-fs-caption: 16px;
+  }
+  .cs-nav { font-size: 14px; letter-spacing: .06em; }
+  .cs-nav > span { display: none; }
+  .cs-chart header { flex-direction: column; align-items: flex-start; }
+  .cs-chart iframe { height: 520px; }
+  .cs-chart--tall iframe { height: 640px; }
+  .cs-footer { flex-direction: column; align-items: flex-start; }
+}

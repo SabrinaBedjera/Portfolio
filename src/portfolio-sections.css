@@ -1,0 +1,784 @@
+/* ==================================================
+   Portfolio sections (Selected Work surroundings, Experience, Education,
+   Lab, About, Associations, Contact)
+   Warm editorial style taken from the homepage photograph: cream paper,
+   deep green ink, rust accents, Instrument Serif headings, DM Sans text.
+   Type follows the same scale as the case studies (case-study.css):
+   54px section headings, 36px subsections, 28px card headings, 21px
+   narrative text in one reading column, 20px card text, 16px labels.
+   Everything is scoped to .ps-* classes.
+   ================================================== */
+.ps,
+#selected-work {
+  --ps-paper: #fbf6ee;
+  --ps-tint: #f3e8d8;
+  --ps-ink: #1c2a22;
+  --ps-text: #1e211d;   /* body copy in the same ink as the case-study introductions */
+  --ps-muted: #5e5b53;
+  --ps-rule: rgba(60, 45, 30, .18);
+  --ps-accent: #2b7441;
+  --ps-clay: #a75825;
+  --ps-select: #2f5f8a;
+
+  /* type scale (desktop; tablet and phone steps at the end of the file) */
+  --ps-fs-h2: clamp(42px, 4vw, 58px);          /* section headings */
+  --ps-fs-h3: clamp(32px, 2.6vw, 38px);        /* subsections: roles, Skills */
+  --ps-fs-card-h: clamp(26px, 2vw, 30px);      /* headings of independent cards */
+  --ps-fs-lede: clamp(19px, 1.5vw, 22px);
+  --ps-fs-body: clamp(19px, 1.5vw, 22px);      /* all narrative paragraphs (as the case-study introductions) */
+  --ps-fs-card: clamp(18px, 1.4vw, 21px);      /* text in multi-column cards */
+  --ps-fs-small: 18px;
+  --ps-fs-meta: 16px;          /* labels, dates, numbers */
+  --ps-lh-body: 1.55;
+  --ps-measure: 920px;         /* the reading column */
+
+  /* layout and spacing */
+  --ps-wrap: 1200px;
+  --ps-gutter: clamp(22px, 5vw, 64px);
+  --ps-section-y: clamp(60px, 6.5vw, 96px);
+  --ps-head-gap: clamp(28px, 3vw, 44px);
+}
+.ps {
+  font-family: "DM Sans", sans-serif;
+  color: var(--ps-text);
+  font-size: var(--ps-fs-body);
+  line-height: var(--ps-lh-body);
+}
+
+.ps-section {
+  --ps-bg: var(--ps-paper);   /* this section's background, reused to fill markers */
+  padding: var(--ps-section-y) 0;
+  background: var(--ps-bg);
+}
+.ps-section--tint { --ps-bg: var(--ps-tint); }
+
+.ps-wrap {
+  box-sizing: border-box;
+  max-width: calc(var(--ps-wrap) + 2 * var(--ps-gutter));
+  margin: 0 auto;
+  padding: 0 var(--ps-gutter);
+}
+
+/* ---------- Section heading ---------- */
+.ps-head { margin-bottom: var(--ps-head-gap); }
+.ps-number {
+  margin: 0 0 12px;
+  color: var(--ps-clay);
+  font-size: var(--ps-fs-meta);
+  font-weight: 600;
+  letter-spacing: .12em;
+}
+.ps-head h2 {
+  margin: 0;
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: var(--ps-fs-h2);
+  font-weight: 400;
+  line-height: .98;
+  letter-spacing: -.015em;
+}
+.ps .ps-lede,
+.ps-lede {
+  max-width: var(--ps-measure);
+  margin: 24px 0 0;
+  font-size: var(--ps-fs-lede);
+  line-height: 1.5;
+}
+
+.ps h3 {
+  margin: 0;
+  color: var(--ps-ink);
+  font-size: var(--ps-fs-card-h);
+  font-weight: 500;
+  line-height: 1.3;
+}
+.ps p { margin: 0; line-height: var(--ps-lh-body); }
+
+/* Lab: the index of articles; one featured post for now, more to follow */
+.ps-posts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.ps-post {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  padding: clamp(24px, 2.6vw, 34px);
+  background: var(--ps-tint);
+  border-top: 3px solid #5b2d48;
+  color: inherit;
+  text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.ps-post:hover, .ps-post:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(60, 40, 20, .12); }
+.ps-post .lab-draft { margin: 0 0 12px; color: #5b2d48; }
+/* the artwork has a white ground, so it sits on a white panel at the card's top */
+.ps-post__image {
+  display: block;
+  width: calc(100% + 2 * clamp(24px, 2.6vw, 34px));
+  max-width: none;
+  height: auto;
+  margin: calc(-1 * clamp(24px, 2.6vw, 34px)) calc(-1 * clamp(24px, 2.6vw, 34px)) 22px;
+  aspect-ratio: 1376 / 1320;
+  object-fit: contain;
+  background: #fff;
+}
+.ps .ps-post h3 { color: #5b2d48; font-family: "Instrument Serif", Georgia, serif; font-size: var(--ps-fs-h3); font-weight: 400; line-height: 1.1; }
+.ps .ps-post p { margin-top: 10px; font-size: var(--ps-fs-card); line-height: 1.5; }
+.ps-post__more { display: inline-block; margin-top: 16px; color: var(--ps-clay); font-size: 17px; border-bottom: 1px solid currentColor; }
+@media (prefers-reduced-motion: reduce) { .ps-post { transition: none; } .ps-post:hover, .ps-post:focus-visible { transform: none; } }
+
+/* Rounded pills: focus areas under roles and associations, and skills */
+.ps-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 10px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-pills li {
+  padding: 8px 16px;
+  border: 1px solid rgba(43, 116, 65, .32);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .55);
+  color: var(--ps-ink);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+/* ---------- Career highlights ----------
+   Four cards above the timeline: a numeral and rule in the section's rust,
+   a serif heading and one short line each; two by two on wide screens. */
+.ps-highlights { margin: 0 0 clamp(44px, 5vw, 64px); }
+.ps .ps-highlights__label {
+  margin-bottom: 18px;
+  color: var(--ps-muted);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ps-highlights ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 1.8vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-highlights li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 16px;
+  align-content: start;
+  padding: clamp(22px, 2.2vw, 30px) clamp(22px, 2.4vw, 32px);
+  background: var(--ps-tint);
+  border-top: 3px solid var(--ps-clay);
+}
+.ps-highlights__number {
+  grid-row: span 2;
+  color: var(--ps-clay);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 34px;
+  line-height: 1;
+}
+.ps .ps-highlights h4 {
+  margin: 0;
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: var(--ps-fs-card-h);
+  font-weight: 400;
+  line-height: 1.15;
+}
+.ps .ps-highlights p {
+  margin-top: 8px;
+  font-size: var(--ps-fs-card);
+  line-height: 1.5;
+}
+
+/* ---------- Experience ----------
+   One grid for the whole section: a meta column (dates, organization),
+   the rail, and the story. The career overview sits in the same grid, so
+   its line starts above the rail and its milestones lead into the roles. */
+#experience .ps-wrap {
+  --ps-meta-w: 270px;
+  --ps-rail: 140px;              /* room for the car to drive along the rail */
+  --ps-dot: 26px;                /* timeline markers */
+  --ps-dot-on: 32px;             /* the selected marker */
+  --ps-line: 4px;                /* rail and overview line */
+}
+.ps-overview {
+  display: grid;
+  grid-template-columns: var(--ps-meta-w) 1fr;
+  align-items: start;
+  margin: 0 0 clamp(44px, 5vw, 72px);
+  padding: 34px 0 30px;
+  border-top: 1px solid var(--ps-rule);
+  border-bottom: 1px solid var(--ps-rule);
+}
+.ps-overview__label {
+  padding-top: 2px;
+  color: var(--ps-muted);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ps-career {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  /* first marker sits directly above the vertical rail */
+  margin: 0 0 0 calc(var(--ps-rail) / 2 - var(--ps-dot) / 2);
+  padding: 0;
+  list-style: none;
+}
+/* the connecting line runs through the markers, from the first to the last */
+.ps-career::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--ps-dot) / 2 - var(--ps-line) / 2);
+  left: calc(var(--ps-dot) / 2);
+  right: calc(20% - var(--ps-dot) / 2);
+  height: var(--ps-line);
+  border-radius: 2px;
+  background: rgba(43, 116, 65, .4);
+}
+.ps-career li { position: relative; }
+.ps-career a {
+  position: relative;
+  display: block;
+  padding: calc(var(--ps-dot) + 20px) 18px 4px 0;
+  color: inherit;
+  text-decoration: none;
+}
+.ps-career a::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--ps-dot) / 2);
+  left: calc(var(--ps-dot) / 2);
+  width: var(--ps-dot);
+  height: var(--ps-dot);
+  box-sizing: border-box;
+  border: 3px solid var(--ps-accent);
+  border-radius: 50%;
+  background: var(--ps-bg);
+  transform: translate(-50%, -50%);
+  transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease, width .25s ease, height .25s ease;
+}
+.ps-career a:hover::before,
+.ps-career a:focus-visible::before { transform: translate(-50%, -50%) scale(1.12); box-shadow: 0 0 0 6px rgba(43, 116, 65, .14); }
+.ps-career li.is-selected a::before {
+  width: var(--ps-dot-on);
+  height: var(--ps-dot-on);
+  border-color: var(--ps-select);
+  background: var(--ps-select);
+  box-shadow: 0 0 0 6px rgba(47, 95, 138, .18);
+}
+.ps-career a:focus-visible { outline: 2px solid var(--ps-accent); outline-offset: 6px; border-radius: 2px; }
+.ps-career__year {
+  display: block;
+  color: var(--ps-clay);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: .06em;
+}
+.ps-career__label {
+  display: block;
+  margin-top: 6px;
+  color: var(--ps-text);
+  font-size: 20px;
+  line-height: 1.35;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 5px;
+  transition: text-decoration-color .2s ease, color .2s ease;
+}
+.ps-career a:hover .ps-career__label,
+.ps-career a:focus-visible .ps-career__label { color: var(--ps-ink); text-decoration-color: var(--ps-clay); }
+.ps-career li.is-selected .ps-career__year { color: var(--ps-select); }
+.ps-career li.is-selected .ps-career__label { color: var(--ps-ink); font-weight: 500; text-decoration-color: var(--ps-select); }
+
+/* Vertical timeline */
+.ps-roles {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-roles::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2 - var(--ps-line) / 2);
+  width: var(--ps-line);
+  border-radius: 2px;
+  background: rgba(43, 116, 65, .32);
+}
+.ps-role {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--ps-meta-w) var(--ps-rail) minmax(0, 1fr);
+  padding: 0 0 clamp(44px, 4.2vw, 60px);
+  scroll-margin-top: 32px;   /* there is no fixed header; keeps the date clear of the window edge */
+}
+.ps-role + .ps-role { padding-top: clamp(40px, 3.8vw, 56px); }
+/* a light divider across the meta and story columns, broken by the rail */
+.ps-role + .ps-role::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(var(--ps-meta-w) + var(--ps-rail));
+  right: 0;
+  height: 1px;
+  background: var(--ps-rule);
+}
+.ps-role:last-child { padding-bottom: 0; }
+/* marker on the rail, centred on the date line */
+.ps-role::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2);
+  width: var(--ps-dot);
+  height: var(--ps-dot);
+  box-sizing: border-box;
+  border: 3px solid var(--ps-accent);
+  border-radius: 50%;
+  background: var(--ps-bg);
+  transform: translate(-50%, -50%);
+  transition: background .3s ease, border-color .3s ease, box-shadow .3s ease, width .3s ease, height .3s ease;
+}
+.ps-role + .ps-role::before { top: calc(clamp(40px, 3.8vw, 56px) + 14px); }
+
+.ps-role__meta { grid-column: 1; }
+.ps-role__when {
+  color: var(--ps-clay);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.ps .ps-role__org {
+  margin-top: 12px;
+  color: var(--ps-ink);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.ps .ps-role__unit {
+  margin-top: 4px;
+  color: var(--ps-accent);
+  font-size: 19px;
+  line-height: 1.4;
+}
+.ps-role__body { position: relative; grid-column: 3; }
+.ps .ps-role h3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: var(--ps-fs-h3);
+  font-weight: 400;
+  line-height: 1.08;
+}
+.ps .ps-role__title { margin-top: 6px; color: var(--ps-muted); font-size: 17px; font-weight: 500; letter-spacing: .04em; line-height: 1.4; }
+.ps .ps-role__text { max-width: var(--ps-measure); margin-top: 16px; font-size: var(--ps-fs-body); line-height: var(--ps-lh-body); }
+.ps-role .ps-pills { margin-top: 24px; gap: 12px; }
+.ps-role .ps-pills li { padding: 11px 20px; font-size: 17px; }
+
+/* Related public work under a role: a quiet label and short links */
+.ps-related { margin-top: 22px; }
+.ps .ps-related__label {
+  color: var(--ps-muted);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.ps-related ul { display: grid; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
+.ps-related a {
+  color: var(--ps-clay);
+  font-size: 18px;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-decoration-color: rgba(167, 88, 37, .35);
+  text-underline-offset: 4px;
+}
+.ps-related a:hover, .ps-related a:focus-visible { color: var(--ps-ink); text-decoration-color: currentColor; }
+
+/* Ontario Tech: a small linked conference credit */
+.ps .ps-credit { margin-top: 22px; font-size: 18px; line-height: 1.5; }
+.ps-credit__kicker {
+  display: block;
+  color: var(--ps-muted);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.ps-credit a {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--ps-clay);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 24px;
+  font-style: italic;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.ps-credit a:hover, .ps-credit a:focus-visible { color: var(--ps-ink); }
+
+/* The selected role (the first until another is chosen): a larger blue
+   marker and date; the title keeps its colour and turns bold */
+.ps-role.is-active::before {
+  width: var(--ps-dot-on);
+  height: var(--ps-dot-on);
+  border-color: var(--ps-select);
+  background: var(--ps-select);
+  box-shadow: 0 0 0 6px rgba(47, 95, 138, .15);
+}
+.ps-role.is-active .ps-role__when { color: var(--ps-select); }
+/* Instrument Serif has no bold cut: the browser synthesizes 700, and a
+   hairline stroke in the same colour makes the weight clearly visible */
+.ps .ps-role.is-active h3 { font-weight: 700; -webkit-text-stroke: .025em currentColor; }
+
+/* After a milestone is selected: a soft wash behind the role that fades */
+.ps-role.is-arrived .ps-role__body::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  bottom: -16px;
+  left: -24px;
+  right: -24px;
+  border-left: 3px solid var(--ps-select);
+  background: rgba(47, 95, 138, .06);
+  pointer-events: none;
+  animation: ps-arrive 3s ease-out forwards;
+}
+@keyframes ps-arrive {
+  0%, 55% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---------- The rocket ----------
+   A brass desk-ornament rocket parks upright just above the active role's
+   marker; it flies along the rail when another milestone is selected,
+   nose first (turned down when travelling down the timeline). */
+.ps-car {
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--ps-meta-w) + var(--ps-rail) / 2);
+  width: 40px;
+  margin-left: -20px;
+  list-style: none;
+  pointer-events: none;
+  transform: translateY(calc(-100% - 6px));
+  transition: top .9s cubic-bezier(.5, .05, .3, 1);
+}
+.ps-car img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 3px 3px rgba(60, 30, 20, .18));
+  transition: transform .28s ease;
+}
+.ps-car--down img { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) {
+  .ps-car, .ps-car img { transition: none; }
+  .ps-car--down img { transform: none; }
+}
+
+/* Related work inside an entry (the water policy proposal) */
+.ps-feature {
+  max-width: calc(var(--ps-measure) - 60px);
+  margin-top: 26px;
+  padding: 26px 30px 28px;
+  background: var(--ps-tint);
+}
+.ps-feature__kicker {
+  color: var(--ps-clay);
+  font-size: var(--ps-fs-meta);
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ps .ps-feature h4 {
+  margin: 8px 0 12px;
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: var(--ps-fs-card-h);
+  font-weight: 400;
+  line-height: 1.15;
+}
+.ps .ps-feature p { font-size: var(--ps-fs-card); line-height: 1.5; }
+.ps-feature .ps-feature__award { margin-top: 14px; color: var(--ps-accent); font-weight: 600; }
+.ps-feature__links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 14px !important; }
+.ps-feature__links a { color: var(--ps-clay); border-bottom: 1px solid currentColor; text-decoration: none; }
+
+/* ---------- Education & skills ----------
+   Heading across the top; the master's degree (with its award) on the left
+   and the two shorter degrees stacked beside it, so the columns end
+   together; then the skills across the full width. */
+.ps-two {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(48px, 5vw, 72px);
+}
+.ps-education {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 0 clamp(32px, 4vw, 64px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-education li { padding: 24px 0; border-top: 1px solid var(--ps-rule); }
+.ps-education li:first-child { grid-row: span 2; }
+.ps .ps-education h3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: var(--ps-fs-card-h);
+  font-weight: 400;
+  line-height: 1.15;
+}
+.ps-education p { margin-top: 8px !important; color: var(--ps-muted); font-size: var(--ps-fs-card); line-height: 1.5; }
+.ps-education .ps-education__award { margin-top: 12px !important; color: var(--ps-text); }
+.ps-education__award span,
+.ps-skills h3 {
+  color: var(--ps-clay);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ps-education__award span { margin-right: 8px; }
+
+.ps-skills { border-top: 1px solid var(--ps-rule); padding-top: 26px; }
+.ps .ps-skills h2 {
+  margin: 0 0 6px;
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(28px, 2.4vw, 34px);
+  font-weight: 400;
+  line-height: 1.12;
+}
+.ps .ps-skills h2 { font-size: var(--ps-fs-h3); }
+.ps-skills__groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(30px, 3vw, 44px) clamp(32px, 4vw, 64px);
+  margin-top: 26px;
+}
+.ps-skills__group--lead {
+  grid-column: 1 / -1;
+  padding: 24px 28px 28px;
+  background: rgba(255, 255, 255, .5);
+  border-radius: 6px;
+}
+.ps .ps-skills h3 { font-size: 17px; line-height: 1.4; }
+.ps-skills .ps-pills { margin-top: 14px; gap: 12px; }
+.ps-skills .ps-pills li { padding: 11px 20px; font-size: 18px; }
+.ps-skills__group--lead .ps-pills li {
+  padding: 12px 22px;
+  border-color: rgba(167, 88, 37, .45);
+  background: #fff;
+  font-size: 19px;
+}
+.ps .ps-tools {
+  margin-top: clamp(30px, 3vw, 40px);
+  padding-top: 20px;
+  border-top: 1px solid var(--ps-rule);
+  color: var(--ps-ink);
+  font-size: 19px;
+  word-spacing: .08em;
+}
+.ps .ps-tools p + p { margin-top: 10px; }
+.ps-tools__label {
+  margin-right: 14px;
+  color: var(--ps-clay);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  word-spacing: normal;
+}
+
+/* ---------- Associations ---------- */
+.ps-associations {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 40px);
+}
+.ps-association {
+  padding: clamp(26px, 2.8vw, 40px) 0 0;
+  border-top: 3px solid var(--ps-accent);
+}
+.ps-association__role {
+  margin-bottom: 8px !important;
+  color: var(--ps-clay);
+  font-size: var(--ps-fs-meta);
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ps .ps-association h3 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: var(--ps-fs-card-h);
+  font-weight: 400;
+  line-height: 1.12;
+}
+.ps .ps-association__text { max-width: var(--ps-measure); margin-top: 12px; font-size: var(--ps-fs-card); line-height: 1.5; }
+
+/* ---------- About ---------- */
+.ps-about {
+  display: grid;
+  grid-template-columns: minmax(260px, 400px) 1fr;
+  gap: clamp(40px, 6vw, 88px);
+  align-items: start;
+}
+.ps-about__photo { margin: 0; }
+.ps-about__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.ps-about p { max-width: var(--ps-measure); margin: 0 0 1em; }
+.ps-about .ps-about__lead {
+  color: var(--ps-ink);
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(28px, 2.4vw, 34px);
+  line-height: 1.25;
+  margin-bottom: 26px;
+}
+
+/* ---------- Contact ---------- */
+.ps-section--dark {
+  padding-bottom: 44px;
+  background: #1f2c25;
+  color: #ece5d8;
+}
+.ps-section--dark .ps-head h2 { color: #fbf6ee; }
+.ps-section--dark .ps-number { color: #e0a274; }
+.ps-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.ps-button {
+  display: inline-block;
+  padding: 15px 26px;
+  border: 1px solid rgba(251, 246, 238, .5);
+  color: #fbf6ee;
+  font-size: var(--ps-fs-body);
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease;
+}
+.ps-button:hover,
+.ps-button:focus-visible { background: #fbf6ee; color: #1f2c25; }
+.ps-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(251, 246, 238, .2);
+  font-size: 16px;
+}
+.ps-footer a { color: inherit; }
+
+.ps a:focus-visible { outline: 2px solid #e0a274; outline-offset: 3px; }
+
+/* ---------- Selected Work surroundings ----------
+   The magazine carousel itself is unchanged; only the section around it
+   follows the other sections' background, width, spacing and heading. */
+#selected-work.magazine-experiment {
+  min-height: 0;
+  padding: var(--ps-section-y) 0 calc(var(--ps-section-y) - 16px);
+  background: var(--ps-tint);
+  border-bottom: 0;
+}
+.selected-work__head {
+  box-sizing: border-box;
+  max-width: calc(var(--ps-wrap) + 2 * var(--ps-gutter));
+  margin: 0 auto;
+  padding: 0 var(--ps-gutter);
+  font-family: "DM Sans", sans-serif;
+}
+.selected-work__head .ps-lede { color: var(--ps-text); }
+.selected-work__head h2 em { color: var(--ps-clay); }
+#selected-work .cover-browser { margin-top: clamp(20px, 2.5vw, 36px); }
+#selected-work .cover-browser__navigation > button,
+#selected-work .cover-browser__index button { font-size: 16px; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1100px) {
+  #experience .ps-wrap { --ps-meta-w: 210px; --ps-rail: 112px; --ps-dot: 24px; --ps-dot-on: 30px; }
+  .ps-car { width: 36px; margin-left: -18px; }
+  .ps-career__label { font-size: 18px; }
+  .ps-career__year { font-size: 17px; }
+  .ps .ps-role__org, .ps .ps-role__unit { font-size: 18px; }
+}
+@media (max-width: 960px) {
+  /* overview on its own row above the grid */
+  .ps-overview { grid-template-columns: 1fr; gap: 18px; }
+  .ps-career { margin-left: 0; }
+  .ps-education { grid-template-columns: 1fr; }
+  .ps-education li:first-child { grid-row: auto; }
+  .ps-skills__groups { grid-template-columns: 1fr; }
+}
+
+/* ---------- Narrow screens ----------
+   Stack the two-column layouts; the career overview scrolls sideways and
+   the roles keep a slim rail on the left with their details stacked. */
+@media (max-width: 760px) {
+  .ps-highlights ul { grid-template-columns: 1fr; }
+  .ps-highlights__number { grid-row: auto; font-size: 28px; }
+  .ps .ps-highlights p { grid-column: 1 / -1; }
+  .ps,
+  #selected-work {
+    --ps-fs-h2: 40px;
+    --ps-fs-h3: 31px;
+    --ps-fs-card-h: 26px;
+    --ps-fs-body: 19px;
+    --ps-fs-card: 18px;
+  }
+  .ps-overview { padding: 20px 0 16px; }
+  .ps-career {
+    display: flex;
+    margin: 0 calc(-1 * var(--ps-gutter));
+    padding: 0 var(--ps-gutter) 6px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--ps-gutter);
+  }
+  .ps-career::before { display: none; }
+  .ps-career li { flex: 0 0 184px; scroll-snap-align: start; }
+  /* line segment from each marker to the next */
+  .ps-career li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: calc(var(--ps-dot) / 2 - 1.5px);
+    left: calc(var(--ps-dot) / 2);
+    right: 0;
+    height: 3px;
+    background: rgba(43, 116, 65, .4);
+  }
+  .ps-career a { min-height: 44px; }
+  .ps-career__label { font-size: 18px; }
+  .ps-role.is-arrived .ps-role__body::before { left: -10px; right: -8px; }
+
+  #experience .ps-wrap { --ps-meta-w: 0px; --ps-rail: 40px; --ps-dot: 22px; --ps-dot-on: 28px; --ps-line: 3px; }
+  .ps-role { grid-template-columns: var(--ps-rail) minmax(0, 1fr); }
+  .ps-role::before { left: calc(var(--ps-rail) / 2); }
+  .ps-role .ps-pills li { padding: 9px 16px; font-size: 16px; }
+  .ps .ps-role__org, .ps .ps-role__unit { font-size: 18px; }
+  .ps-role + .ps-role::after { left: var(--ps-rail); }
+  .ps-role__meta, .ps-role__body { grid-column: 2; }
+  .ps-role__meta { margin-bottom: 10px; }
+  .ps .ps-role__org { margin-top: 6px; }
+  /* on phones the car stays turned along the narrow rail */
+  .ps-car { left: calc(var(--ps-rail) / 2); width: 28px; margin-left: -14px; transform: translateY(calc(-100% - 20px)); }
+  .ps-feature { padding: 20px 20px 22px; }
+
+  .ps-two,
+  .ps-about,
+  .ps-associations { grid-template-columns: 1fr; gap: 40px; }
+  .ps-about__photo { max-width: 340px; }
+  .ps-skills__group--lead { padding: 20px 18px 22px; }
+  .ps-skills .ps-pills li, .ps-skills__group--lead .ps-pills li { padding: 9px 16px; font-size: 17px; }
+  .ps-footer { flex-direction: column; gap: 12px; }
+}

@@ -1,0 +1,695 @@
+/* ==================================================
+   Cabinet-of-curiosities homepage: an interactive still life
+
+   Three layouts, chosen by available width in CSS pixels (so browser zoom
+   moves between them like any responsive page):
+   - wide (≥ 1300px): headline over the wall, objects on the table, all on a
+     1672 × 941 stage that fits the window;
+   - medium (900–1299px): headline above, the table scene below;
+   - narrow (< 900px): headline above, objects as a two-column grid.
+
+   Text is sized in px (zooms normally). Objects are placed in pixels of the
+   1672 × 941 photograph and scaled with the scene: --u = scene width / 1672.
+   Everything is scoped to .ch-* classes.
+   ================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap");
+
+.ch-home {
+  --ch-plum: #5b2d48;            /* the Technology book */
+  --ch-plum-line: #7b4a6c;       /* between the book and the mineral */
+  --ch-ink: #1c2a22;
+  --ch-text: #2e3530;
+  --ch-rust: #a75825;
+  --ch-wall: #e7d6c2;
+  position: relative;
+  overflow: hidden;
+  background: var(--ch-wall);
+  font-family: "DM Sans", sans-serif;
+}
+
+.ch-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  user-select: none;
+}
+
+.ch-stage { position: relative; container: ch-stage / inline-size; }
+
+/* ---------- Navigation ---------- */
+.ch-nav {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.ch-nav a {
+  color: var(--ch-ink);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.ch-nav .ch-nav__brand {
+  flex: none;
+  color: var(--ch-plum);
+  font-size: var(--ch-brand, 48px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: .06em;
+}
+.ch-nav__toggle { display: none; }
+/* Links sit in a thin double-ruled frame, like a printed table of contents. */
+.ch-nav__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 28px;
+  margin: 0;
+  padding: 15px 28px;
+  list-style: none;
+  border: 2px solid #8b6878;
+  outline: 1px solid rgba(123, 74, 108, .28);
+  outline-offset: 3px;
+  background: rgba(251, 246, 238, .42);
+}
+.ch-nav__links a {
+  position: relative;
+  display: block;
+  padding: 2px 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.ch-nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform .25s ease;
+}
+.ch-nav__links a:hover,
+.ch-nav__links a:focus-visible { color: var(--ch-plum); }
+.ch-nav__links a:hover::after,
+.ch-nav__links a:focus-visible::after { transform: scaleX(1); }
+.ch-nav a:focus-visible { outline: 2px solid #1e5a55; outline-offset: 4px; }
+
+/* ---------- Headline ---------- */
+.ch-copy { position: relative; z-index: 10; }
+.ch-copy h1 {
+  max-width: none;
+  margin: 0;
+  color: var(--ch-ink);
+  font-family: "Newsreader", "Instrument Serif", Georgia, serif;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -.018em;
+}
+/* the introduction runs wide under the headline, clear of the objects */
+.ch-lede {
+  max-width: min(1040px, 72cqw);
+  margin: 20px 0 0;
+  color: var(--ch-text);
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+/* ---------- Scene and objects ---------- */
+.ch-scene { position: relative; container: ch-scene / inline-size; }
+.ch-scene__bg { display: none; }
+.ch-objects { margin: 0; padding: 0; list-style: none; }
+.ch-object {
+  --u: calc(100cqw / 1672);
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--x) * var(--u));
+  top: calc((var(--y) - var(--y0, 0)) * var(--u));
+  width: calc(var(--w) * var(--u));
+}
+/* The back-row objects never overlap the front row, so the back row is
+   drawn on top: its captions then stay clear of the front objects. */
+.ch-object--lab, .ch-object--experience, .ch-object--education { z-index: 3; }
+.ch-object > a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  pointer-events: none;      /* only the artwork (clipped to its outline) and caption respond */
+}
+.ch-object__art img,
+.ch-caption { pointer-events: auto; }
+.ch-object--contact .ch-holder-front { pointer-events: none; }
+.ch-object__art {
+  position: relative;
+  z-index: 1;
+  display: block;
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1), filter .45s ease;
+}
+.ch-object__art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  /* The supplied cut-outs keep a faint haze up to their edges; feathering the
+     outer few percent hides the rectangle without touching the object
+     (only the last 2% at the bottom, where the bases are).
+     Clean transparent replacements need no change here. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 98%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 98%, transparent);
+  mask-composite: intersect;
+}
+/* Contact shadow centred on the object's base line (--base): a soft, wide
+   ambient shadow with a tighter, darker core where it touches the table. */
+.ch-object__shadow {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: calc(var(--base) * 100% - 14 * var(--u));
+  height: calc(26 * var(--u));
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, rgba(80, 50, 25, .38), rgba(80, 50, 25, .12) 55%, rgba(80, 50, 25, 0)),
+    radial-gradient(50% 32% at 50% 55%, rgba(60, 36, 18, .35), rgba(60, 36, 18, 0));
+  filter: blur(2px);
+  transition: opacity .45s ease, transform .45s ease;
+}
+.ch-object > a:hover .ch-object__art,
+.ch-object > a:focus-visible .ch-object__art {
+  transform: translateY(calc(-7 * var(--u)));
+  filter: brightness(1.04) saturate(1.05);
+}
+.ch-object > a:hover .ch-object__shadow,
+.ch-object > a:focus-visible .ch-object__shadow { opacity: .65; transform: scaleX(.94); }
+
+/* Caption: number, title, arrow; offset from its object (App.tsx) */
+.ch-caption {
+  position: absolute;
+  z-index: 3;
+  left: calc(var(--dx) * var(--u));
+  top: calc(var(--dy) * var(--u));
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(251, 246, 238, .78);
+  color: var(--ch-ink);
+  white-space: nowrap;
+  backdrop-filter: blur(2px);
+  transition: background .3s ease;
+}
+/* centred under its object; front-row labels rest on a shared line */
+.ch-caption--center { translate: -50% 0; }
+.ch-caption--front { translate: 0 -100%; }
+.ch-caption--center.ch-caption--front { translate: -50% -100%; }
+.ch-caption__number {
+  color: var(--ch-rust);
+  font-size: 13px;
+  letter-spacing: .12em;
+}
+.ch-caption__title {
+  font-size: 14px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.ch-caption__arrow {
+  font-size: 15px;
+  transition: transform .3s ease;
+}
+.ch-object > a:hover .ch-caption,
+.ch-object > a:focus-visible .ch-caption { background: rgba(251, 246, 238, .96); }
+.ch-object > a:hover .ch-caption__arrow,
+.ch-object > a:focus-visible .ch-caption__arrow { transform: translateX(4px); }
+.ch-object > a:focus-visible .ch-caption { outline: 2px solid #1e5a55; outline-offset: 3px; }
+
+/* ---------- Contact: pen holder with a pen that wobbles ----------
+   The pen is drawn behind the holder; its pivot is where it meets the rim,
+   so it reads as resting in the holder. Positions are in % of the holder. */
+/* these files have clean edges and reach the top of their images */
+.ch-object--contact .ch-object__art img { -webkit-mask-image: none; mask-image: none; }
+.ch-object--contact .ch-pen {
+  position: absolute;
+  z-index: 1;
+  left: 34%;
+  top: -2%;                        /* most of the pen sits inside the holder */
+  width: 60% !important;
+  transform-origin: 36% 42%;      /* where the pen crosses the front lip */
+  animation: ch-pen-idle 7s ease-in-out 1.5s infinite;
+}
+.ch-object--contact > a:hover .ch-pen,
+.ch-object--contact > a:focus-visible .ch-pen { animation: ch-pen-twirl 1.4s ease-in-out; }
+
+@keyframes ch-pen-idle {
+  0%, 62%, 100% { transform: rotate(0); }
+  70% { transform: rotate(-6deg); }
+  78% { transform: rotate(4.5deg); }
+  85% { transform: rotate(-2.5deg); }
+  92% { transform: rotate(1deg); }
+}
+@keyframes ch-pen-twirl {
+  0% { transform: rotate(0); }
+  20% { transform: rotate(-12deg); }
+  42% { transform: rotate(9deg); }
+  62% { transform: rotate(-5deg); }
+  80% { transform: rotate(2deg); }
+  100% { transform: rotate(0); }
+}
+
+/* ---------- Education: a stack of three books and a standing Technology book
+   The standing book pivots on its bottom-left corner and tips onto the stack. */
+.ch-object--education .ch-object__art { aspect-ratio: 1 / .53; }
+.ch-object--education .ch-object__art img {
+  position: absolute;
+  bottom: 0;
+  height: auto;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.ch-object--education .ch-books-stack { left: 0; width: 64%; }
+/* resting just beside the stack; it tips onto the stack's top corner */
+.ch-object--education .ch-books-tech {
+  left: 62.5%;
+  width: 30%;
+  transform-origin: 30% 99.6%;    /* bottom-left corner of the spine */
+  transition: transform .5s cubic-bezier(.3, .7, .3, 1);
+}
+.ch-object--education > a:hover .ch-books-tech,
+.ch-object--education > a:focus-visible .ch-books-tech,
+.ch-object--education > a:active .ch-books-tech {
+  transform: rotate(-9deg);
+  /* falls a little past, then settles against the stack */
+  transition: transform .8s cubic-bezier(.5, 1.6, .55, 1);
+}
+/* the books stay on the table; only the standing one moves */
+.ch-object--education > a:hover .ch-object__art,
+.ch-object--education > a:focus-visible .ch-object__art { transform: none; }
+
+/* ---------- Selected Work: the four issues as a stack on the table ----------
+   Each cover reuses the carousel artwork (IssueArt). The plane lies flat
+   in perspective; --i is a magazine's place in the stack (0 = top). On
+   hover or focus the issues beneath slide back, each stepping up just far
+   enough to show its title (--lift, set per issue below). */
+.ch-object--selected-work .ch-object__art { aspect-ratio: 1 / .6; }
+.ch-object--selected-work > a:hover .ch-object__art,
+.ch-object--selected-work > a:focus-visible .ch-object__art { transform: none; filter: none; }
+.ch-mags {
+  position: absolute;
+  inset: 0;
+  perspective: 1400px;
+  perspective-origin: 50% -30%;
+  pointer-events: none;
+}
+.ch-mags__plane {
+  position: absolute;
+  left: 34.5%;
+  top: 4%;
+  width: 33%;
+  aspect-ratio: .715;
+  transform-style: preserve-3d;
+  transform: rotateX(50deg) rotateZ(-8deg);
+}
+.ch-mag {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  padding: 8% 7% 6%;
+  background:
+    linear-gradient(105deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 38%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 70%, rgba(90, 60, 30, .06)),
+    #f9f0e3;
+  border: 1px solid rgba(70, 48, 26, .22);
+  border-radius: 1px 3px 3px 1px;
+  /* a few pages of thickness along the open edges, then a contact shadow */
+  box-shadow:
+    1px 1px 0 #f1e6d4,
+    2px 2px 0 #e6d8c2,
+    3px 3px 0 #ddcdb4,
+    4px 4px 0 #d3c1a6,
+    7px 9px 12px rgba(60, 38, 18, .22),
+    14px 20px 26px rgba(60, 38, 18, .1);
+  transform-origin: 50% 100%;
+  /* fanned out by default; gathers into a stack on hover or focus */
+  transform:
+    translate3d(var(--fan-x), var(--fan-y), calc((3 - var(--i)) * 4px))
+    rotate(var(--fan-turn, 0deg));
+  transition: transform .45s cubic-bezier(.3, .7, .2, 1);
+}
+/* the spine: a slightly darker strip down the left edge */
+.ch-mag::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3%;
+  background: linear-gradient(90deg, rgba(70, 48, 26, .14), rgba(70, 48, 26, 0));
+  pointer-events: none;
+}
+/* Fanned like a hand of cards, pivoting at the bottom edge: Energy and
+   Pacific to the left, Drinking Water out to the right, Critical Minerals
+   in front (--i). Each shift leaves the issue's title (top left)
+   uncovered. Gathered, Energy is the cover on top (--si, 0 = top). */
+.ch-mag:nth-child(1) { --si: 3; } .ch-mag:nth-child(2) { --si: 2; }
+.ch-mag:nth-child(3) { --si: 0; } .ch-mag:nth-child(4) { --si: 1; }
+.ch-mag:nth-child(1) { --fan-x: 74%; --fan-y: -3%; --rest-turn: 3deg; --fan-turn: 5deg; }     /* Drinking Water, at the back */
+.ch-mag:nth-child(2) { --fan-x: -86%; --fan-y: 6%; --rest-turn: -2deg; --fan-turn: -14deg; }  /* Pacific */
+.ch-mag:nth-child(3) { --fan-x: -48%; --fan-y: 1%; --rest-turn: 1.5deg; --fan-turn: -7deg; }  /* Energy */
+.ch-mag:nth-child(4) { --fan-x: -7%; --fan-y: 0%; --rest-turn: -1deg; --fan-turn: -1deg; }     /* Critical Minerals, on top */
+.ch-mag .issue__visual img { pointer-events: none; }
+.ch-object--selected-work > a:hover .ch-mag,
+.ch-object--selected-work > a:focus-visible .ch-mag {
+  transform:
+    translate3d(calc(var(--si) * 1.6% + var(--rest-x, 0%)), calc(var(--si) * -2.4%), calc((3 - var(--si)) * 4px))
+    rotate(var(--rest-turn, 0deg));
+}
+/* fixed hit area over the stack and its fanned-out extent */
+.ch-mags__hit {
+  position: absolute;
+  inset: -8% 2% 0 4%;
+  pointer-events: auto;
+  clip-path: polygon(10% 8%, 90% 0%, 100% 62%, 88% 100%, 8% 100%, 0% 60%);
+}
+.ch-object--selected-work > a:focus-visible .ch-mags__hit { outline: none; }
+
+/* ---------- Associations: espresso cup with faint steam ----------
+   The cup stays still; on hover or focus three soft wisps rise from the
+   coffee and fade. Kept very faint on purpose. */
+.ch-object--associations .ch-object__art img { -webkit-mask-image: none; mask-image: none; }
+.ch-object--associations > a:hover .ch-object__art,
+.ch-object--associations > a:focus-visible .ch-object__art { transform: none; }
+.ch-steam {
+  position: absolute;
+  left: 28%;
+  bottom: 79%;            /* starts at the coffee's surface */
+  width: 38%;
+  overflow: visible;
+  pointer-events: none;
+}
+.ch-steam__wisp {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 8;
+  stroke-linecap: round;
+  filter: url(#ch-steam-blur);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.ch-object--associations > a:hover .ch-steam__wisp,
+.ch-object--associations > a:focus-visible .ch-steam__wisp,
+.ch-object--associations > a:active .ch-steam__wisp { animation: ch-steam-rise 4.2s ease-in-out infinite; }
+.ch-object--associations .ch-steam__wisp:nth-child(3) { animation-delay: 1.4s !important; }
+.ch-object--associations .ch-steam__wisp:nth-child(4) { animation-delay: 2.8s !important; }
+@keyframes ch-steam-rise {
+  0% { opacity: 0; transform: translateY(14%) scaleY(.85); }
+  30% { opacity: .55; }
+  65% { opacity: .32; }
+  100% { opacity: 0; transform: translate(4%, -16%) scaleY(1.05); }
+}
+
+/* ---------- Contact: back of the holder, the pen, then the front wall ---------- */
+.ch-object--contact .ch-holder { position: relative; z-index: 0; }
+.ch-object--contact .ch-holder-front {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  clip-path: inset(37% 0 0 0);   /* everything below the front lip of the rim */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch-mag { transition: none; }
+  /* the magazines stay fanned out: all four titles, no movement */
+  .ch-object--selected-work > a:hover .ch-mags__plane,
+  .ch-object--selected-work > a:focus-visible .ch-mags__plane { transform: rotateX(50deg) rotateZ(-8deg) scale(var(--fan-scale, 1)); }
+  .ch-object--selected-work > a:hover .ch-mag,
+  .ch-object--selected-work > a:focus-visible .ch-mag {
+    transform:
+      translate3d(var(--fan-x), var(--fan-y), calc((3 - var(--i)) * 4px))
+      rotate(var(--fan-turn, 0deg));
+  }
+  /* steam appears, still and faint, instead of rising */
+  .ch-object--associations > a:hover .ch-steam__wisp,
+  .ch-object--associations > a:focus-visible .ch-steam__wisp,
+  .ch-object--associations > a:active .ch-steam__wisp { animation: none; opacity: .35; }
+  .ch-object--education .ch-books-tech,
+  .ch-object--education > a:hover .ch-books-tech,
+  .ch-object--education > a:focus-visible .ch-books-tech,
+  .ch-object--education > a:active .ch-books-tech { transform: none; transition: none; }
+  .ch-object--contact .ch-pen,
+  .ch-object--contact > a:hover .ch-pen,
+  .ch-object--contact > a:focus-visible .ch-pen { animation: none; }
+  .ch-object__art,
+  .ch-object__shadow,
+  .ch-caption__arrow { transition: none; }
+  .ch-object > a:hover .ch-object__art,
+  .ch-object > a:focus-visible .ch-object__art { transform: none; }
+}
+
+/* The name and the navigation step down a little on narrower stages, so
+   the 16px links always fit on one row beside the name; still px, so
+   browser zoom applies. */
+@container ch-stage (max-width: 1699px) {
+  .ch-nav, .ch-copy { --ch-brand: 44px; }
+  .ch-nav .ch-nav__brand { letter-spacing: .05em; }
+  .ch-nav__links { column-gap: 20px; padding: 14px 20px; }
+  .ch-nav__links a { letter-spacing: .04em; }
+}
+@container ch-stage (max-width: 1499px) {
+  .ch-nav, .ch-copy { --ch-brand: 38px; }
+  .ch-nav__links { column-gap: 16px; padding: 13px 18px; }
+}
+@container ch-stage (max-width: 1389px) {
+  .ch-nav, .ch-copy { --ch-brand: 34px; }
+  .ch-nav__links { column-gap: 13px; padding: 12px 15px; }
+  .ch-nav__links a { letter-spacing: .02em; }
+  .ch-caption { gap: 7px; padding: 5px 10px; }
+}
+
+/* short, wide windows make a small stage: 15px links keep the bar on one row */
+@container ch-stage (max-width: 1349px) {
+  .ch-nav, .ch-copy { --ch-brand: 32px; }
+  .ch-nav__links { column-gap: 12px; padding: 11px 14px; }
+  .ch-nav__links a { font-size: 15px; }
+}
+@container ch-stage (max-width: 1219px) {
+  .ch-nav, .ch-copy { --ch-brand: 28px; }
+  .ch-nav__links { column-gap: 10px; padding: 10px 12px; }
+  .ch-nav__links a { font-size: 14px; letter-spacing: .01em; }
+}
+@container ch-stage (max-width: 1099px) {
+  .ch-nav, .ch-copy { --ch-brand: 26px; }
+  .ch-nav__links { column-gap: 9px; padding: 9px 11px; }
+  .ch-nav__links a { font-size: 13px; letter-spacing: 0; }
+}
+
+/* ---------- Wide: everything on one stage that fits the window ---------- */
+@media (min-width: 1300px) {
+  .ch-home {
+    --ch-h: min(56.28vw, 100vh);           /* 941 / 1672 */
+    height: var(--ch-h);
+  }
+  .ch-stage {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: calc(var(--ch-h) * 1.77683);
+    height: var(--ch-h);
+    transform: translateX(-50%);
+    container-type: size;
+  }
+  .ch-nav {
+    position: absolute;
+    left: 4.07cqw;     /* 68 / 1672 */
+    right: 4.07cqw;
+    top: 22px;
+  }
+  /* the name sits 12px below the bar's centre line; the headline follows
+     16px beneath it, so name, headline and introduction read as one group */
+  .ch-nav .ch-nav__brand { position: relative; top: 12px; }
+  .ch-copy {
+    position: absolute;
+    left: 4.07cqw;
+    top: calc(22px + 28px + var(--ch-brand, 48px) * .525 + 12px + 16px);
+    width: 88cqw;      /* the headline runs wide across the wall; the lede stays narrower */
+  }
+  .ch-scene { position: absolute; inset: 0; }
+  /* the closed stack rests a little left of where the fan opens from,
+     using the empty table on the left; the open fan is unchanged */
+  .ch-object--selected-work { --rest-x: -18%; }
+}
+
+/* ---------- Medium: headline above, the table scene below ---------- */
+@media (min-width: 900px) and (max-width: 1299px) {
+  .ch-bg { display: none; }
+  .ch-home { background: linear-gradient(var(--ch-wall), #e3cfbb); }
+  .ch-stage { padding: 22px 40px 0; }
+  /* name on one row, the seven links on the next, so none wrap alone */
+  .ch-nav { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .ch-nav__links { justify-content: flex-start; column-gap: 18px; }
+  .ch-copy { margin-top: 28px; max-width: 1000px; }
+  @media (max-width: 1080px) { .ch-nav__links { column-gap: 13px; padding-inline: 16px; } .ch-nav__links a { font-size: 15px; letter-spacing: .03em; } }
+  .ch-copy h1 { font-size: 42px; }
+  .ch-lede { max-width: none; font-size: 20px; }
+  .ch-scene {
+    margin: 8px -40px 0;
+    aspect-ratio: 1672 / 660;     /* the table part of the photograph */
+    overflow: hidden;
+  }
+  .ch-scene__bg {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: calc(-281 * 100cqw / 1672);
+    width: 100%;
+    height: auto;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%);
+    mask-image: linear-gradient(to bottom, transparent, #000 12%);
+  }
+  .ch-object { --y0: 281; }
+  /* the scene is smaller here, so captions are too, to keep them apart */
+  .ch-caption { gap: 7px; padding: 4px 10px; }
+  .ch-caption__title { font-size: 12px; letter-spacing: .08em; }
+  .ch-caption__number { font-size: 11px; }
+  /* compact labels on tablets, so neighbouring labels never meet */
+  @media (max-width: 1100px) {
+    .ch-caption { gap: 6px; padding: 4px 9px; }
+    .ch-caption__title { letter-spacing: .05em; }
+    .ch-caption__arrow { display: none; }
+  }
+  /* caption positions for this layout; !important overrides the inline
+     values from App.tsx. --dy is measured from the top of the object. */
+  .ch-object--selected-work { --dx: 130 !important; --dy: 300 !important; }
+}
+
+/* ---------- Narrow: headline, then the objects as a grid ---------- */
+@media (max-width: 899px) {
+  .ch-bg { object-position: center 70%; }
+  .ch-stage { padding: 20px 22px 40px; }
+  .ch-nav .ch-nav__brand { font-size: 20px; letter-spacing: .1em; }
+  .ch-nav__toggle {
+    display: block;
+    min-width: 96px;
+    min-height: 46px;
+    padding: 0 18px;
+    border: 1px solid var(--ch-plum-line);
+    border-radius: 999px;
+    background: rgba(251, 246, 238, .55);
+    color: var(--ch-plum);
+    font: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .ch-nav__links {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 30;
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    min-width: 220px;
+    padding: 10px 20px;
+    background: #fbf6ee;
+    box-shadow: 0 12px 30px rgba(60, 40, 20, .16);
+  }
+  .ch-nav__links.is-open { display: flex; }
+  .ch-nav__links { border-width: 1px; }
+  .ch-nav__links a { padding: 11px 0; font-size: 16px; }
+
+  .ch-copy { margin-top: 40px; }
+  .ch-copy h1 { font-size: clamp(34px, 9vw, 42px); }
+  .ch-lede { max-width: none; font-size: 18px; }
+
+  .ch-objects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 18px;
+    margin-top: 44px;
+  }
+  .ch-object { position: relative; left: auto; top: auto; width: auto; }
+  .ch-object > a {
+    pointer-events: auto;      /* the whole tile is the tap target on phones */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+    padding: 14px 6px 14px;
+    border-radius: 6px;
+    background: rgba(251, 246, 238, .55);
+  }
+  .ch-object__art { width: 92%; height: 172px; display: flex; align-items: flex-end; justify-content: center; }
+  .ch-object__art img { width: auto; max-width: 100%; max-height: 100%; }
+  /* contact and education keep their desktop proportions inside the tile */
+  .ch-object--contact .ch-object__art {
+    display: block;
+    width: auto;
+    height: 146px;
+    aspect-ratio: 303 / 457;
+    margin-top: 26px;
+  }
+  .ch-object--contact .ch-object__art img { max-height: none; }
+  .ch-object--contact .ch-object__art .ch-holder { width: 100%; height: 100%; }
+  .ch-object--contact .ch-object__art .ch-holder-front { width: 100%; height: 100%; }
+  .ch-object--education .ch-object__art {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: auto;
+  }
+  .ch-object--education .ch-object__art img { max-height: none; }
+  .ch-object--selected-work .ch-object__art {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / .8;
+    margin-top: auto;
+  }
+  /* in the small tile the fanned hand is shown smaller, so it all fits;
+     gathered into a stack it returns to full size */
+  .ch-object--selected-work { --fan-scale: .6; }
+  .ch-object--selected-work .ch-mags__plane { left: 24%; top: 22%; width: 50%; transform: rotateX(50deg) rotateZ(-8deg) scale(.6); transition: transform .45s cubic-bezier(.3, .7, .2, 1); }
+  .ch-object--selected-work > a:hover .ch-mags__plane,
+  .ch-object--selected-work > a:focus-visible .ch-mags__plane { transform: rotateX(50deg) rotateZ(-8deg); }
+  .ch-object--associations .ch-object__art {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 735 / 516;
+    margin-top: auto;
+  }
+  .ch-object--associations .ch-object__art img { width: 100%; max-height: none; }
+  /* the amethyst sits at the foot of its tile, level with the magazines beside it */
+  .ch-object--experience .ch-object__art { margin-top: auto; }
+  /* seven tiles: the last one spans both columns */
+  .ch-object--contact { grid-column: 1 / -1; }
+  .ch-object__shadow { display: none; }
+  .ch-caption {
+    position: static;
+    translate: none !important;
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    gap: 8px;
+  }
+  .ch-caption__title { font-size: 13px; letter-spacing: .08em; }
+  .ch-object > a:focus-visible { outline: 2px solid #1e5a55; outline-offset: 2px; }
+  .ch-object > a:focus-visible .ch-caption { outline: none; }
+}
