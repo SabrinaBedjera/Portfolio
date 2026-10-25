@@ -381,12 +381,12 @@ const homeObjects: HomeObject[] = [
     id: "about", description: "My approach and interests",
     // front row: frame, cup and pen holder, evenly spaced right of the mineral;
     // each rests high enough for its label to sit beneath it on FRONT_LABELS
-    x: 790, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
+    x: 784, w: 196, ground: 883, aspect: 487 / 390, base: 0.912, caption: { dx: 98, center: true, frontRow: true },
     layers: [{ src: "/home-objects/05_about_frame.webp" }],
   },
   {
     id: "associations", description: "Professional associations and volunteering",
-    x: 1040, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 86, center: true, frontRow: true },
+    x: 1018, w: 172, ground: 880, aspect: 516 / 735, base: 0.99, caption: { dx: 86, center: true, frontRow: true },
     layers: [{ src: "/home-objects/06_associations_espresso_cup.webp" }],
     steam: true,
   },
@@ -394,7 +394,7 @@ const homeObjects: HomeObject[] = [
     // Back of the holder, then the pen, then the holder again clipped to its
     // front wall: the pen's lower end disappears inside the cup.
     id: "contact", description: "Let’s connect",
-    x: 1272, w: 150, ground: 883, aspect: 457 / 303, base: 0.932, caption: { dx: 79, center: true, frontRow: true },
+    x: 1250, w: 150, ground: 883, aspect: 457 / 303, base: 0.932, caption: { dx: 79, center: true, frontRow: true },
     layers: [
       { src: "/home-objects/06_contact_pen_holder.webp", className: "ch-holder" },
       { src: "/home-objects/07_contact_animated_pen.webp", className: "ch-pen" },
