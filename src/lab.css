@@ -21,7 +21,10 @@
   font-size: var(--cs-fs-body);
   line-height: 1.5;
 }
-.lab-article__image { margin: clamp(32px, 3.5vw, 44px) 0 0; }
+.lab-article__image { margin: clamp(28px, 3vw, 36px) 0 0; }
+.cs .lab-article__section a { color: var(--cs-accent); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--cs-accent) 40%, transparent); text-underline-offset: 3px; }
+.cs .lab-article__section a:hover { text-decoration-color: currentColor; }
+.cs .lab-article__section code { padding: 1px 6px; border-radius: 4px; background: color-mix(in srgb, var(--cs-accent) 8%, var(--cs-paper)); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em; }
 .lab-article__image img { display: block; width: 100%; height: auto; background: #fff; }
 .lab-article__section { margin-top: clamp(40px, 4vw, 56px); }
 .lab-article__section h2 {

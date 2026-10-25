@@ -1,7 +1,22 @@
-import { useEffect, type CSSProperties } from "react"
+import { useEffect, type CSSProperties, type ReactNode } from "react"
 import "./case-study.css"
 import "./lab.css"
 import type { LabPost } from "./lab"
+
+/** Paragraph text with [links](https://…) and `code` turned into elements. */
+function richText(text: string): ReactNode[] {
+  return text.split(/(\[[^\]]+\]\([^)]+\)|`[^`]+`)/g).map((part, i) => {
+    const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+    if (link)
+      return (
+        <a href={link[2]} target="_blank" rel="noreferrer" key={i}>
+          {link[1]}
+        </a>
+      )
+    if (part.startsWith("`") && part.endsWith("`")) return <code key={i}>{part.slice(1, -1)}</code>
+    return part
+  })
+}
 
 /**
  * A Lab article: the case studies' top bar, type scale and reading column,
@@ -43,18 +58,18 @@ export default function LabArticle({ post, onBack }: { post: LabPost; onBack: ()
           <p className="lab-article__subtitle">{post.subtitle}</p>
         </header>
 
-        {post.image && (
-          <figure className="lab-article__image">
-            <img src={post.image.src} alt={post.image.alt} width={post.image.width} height={post.image.height} />
-          </figure>
-        )}
-
         {post.sections.map((section) => (
           <section className="lab-article__section" key={section.heading}>
             <h2>{section.heading}</h2>
             {section.blocks.map((block, i) =>
               block.type === "p" ? (
-                <p key={i}>{block.text}</p>
+                <p key={i}>{richText(block.text)}</p>
+              ) : block.type === "image" ? (
+                post.image && (
+                  <figure className="lab-article__image" key={i}>
+                    <img src={post.image.src} alt={post.image.alt} width={post.image.width} height={post.image.height} />
+                  </figure>
+                )
               ) : (
                 <figure className="lab-photo" key={i}>
                   <div className="lab-photo__placeholder" role="img" aria-label={block.label}>
