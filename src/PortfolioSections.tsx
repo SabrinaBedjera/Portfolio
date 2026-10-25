@@ -13,9 +13,11 @@ type Role = {
   id: string
   when: string
   organization: string
-  unit: string
+  unit?: string
   /** Theme of the work, shown as the entry's headline. */
   theme: string
+  /** Formal job title, shown quietly beneath the headline. */
+  title: string
   text: string
   /** Selected skills, project themes or contributions. */
   highlights: string[]
@@ -45,6 +47,7 @@ const roles: Role[] = [
     organization: "Natural Resources Canada",
     unit: "Critical Minerals Centre of Excellence",
     theme: "Critical Minerals & Clean Energy",
+    title: "Policy Analyst",
     text: "Lead technical, financial and commercial assessments of critical minerals projects, coordinating multidisciplinary teams to evaluate project viability and inform investment decisions. Support investment strategy and negotiate commercial agreements, including offtake and equity arrangements, to advance strategic supply chains and project commercialization.",
     highlights: [
       "Project Due Diligence",
@@ -66,6 +69,7 @@ const roles: Role[] = [
     organization: "Natural Resources Canada",
     unit: "Carbon Capture Division",
     theme: "Carbon Management",
+    title: "Policy Analyst",
     text: "Contributed to the development of Canada’s Carbon Management Strategy and international technical publications through the International Energy Agency (IEA). Assessed carbon capture, utilization and storage (CCUS) technologies, connecting technical developments with Canadian industry and policy considerations.",
     highlights: [
       "Carbon Capture, Utilization & Storage (CCUS)",
@@ -90,6 +94,7 @@ const roles: Role[] = [
     organization: "Natural Resources Canada",
     unit: "Intellectual Property Division",
     theme: "Intellectual Property, AI & Emerging Technologies",
+    title: "Policy Analyst",
     text: "Led technical and policy analysis on intellectual property, artificial intelligence and climate-related technologies, collaborating with external think tanks on AI research. Spearheaded the development of performance indicators to evaluate the Intellectual Property Division’s impact and inform improvements to program design.",
     highlights: ["Artificial Intelligence", "Intellectual Property", "Performance Measurement"],
   },
@@ -99,6 +104,7 @@ const roles: Role[] = [
     organization: "University of Waterloo",
     unit: "forWater Network",
     theme: "Water Security & Climate Adaptation",
+    title: "Researcher",
     text: "Conducted engineering and policy research on water security, collaborating with economists to develop a climate adaptation assessment framework.",
     highlights: ["Water Security", "Climate Adaptation", "Engineering Research", "Interdisciplinary Collaboration"],
     feature: {
@@ -116,8 +122,8 @@ const roles: Role[] = [
     id: "role-ontario-tech",
     when: "Sep 2015 – Feb 2019",
     organization: "Ontario Tech University",
-    unit: "Data Management Lead",
     theme: "Research Data & Visualization",
+    title: "Data Management Lead",
     text: "Led research data management and qualitative analysis using NVivo, including developing data organization and analysis approaches for a research project.",
     highlights: ["Research data management", "Qualitative analysis", "Structured research datasets"],
     credit: {
@@ -132,11 +138,11 @@ const roles: Role[] = [
 const careerHighlights = [
   {
     title: "Investment & Project Evaluation",
-    text: "Lead multidisciplinary technical, financial and commercial assessments of capital-intensive critical minerals projects, informing investment decisions and project prioritization.",
+    text: "Lead multidisciplinary technical, financial and commercial assessments of capital-intensive critical minerals projects, contributing to investment decisions and the evaluation of over $1 billion in project support.",
   },
   {
     title: "Commercial Negotiations",
-    text: "Structure and negotiate commercial agreements, including offtake and equity arrangements, working across legal, engineering and financial teams to advance strategic projects.",
+    text: "Supported the structuring and negotiation of two major offtake agreements involving Rio Tinto and Nouveau Monde Graphite, working across legal, engineering and financial teams to advance strategic critical minerals projects.",
   },
   {
     title: "Science & Engineering",
@@ -263,7 +269,7 @@ function Experience() {
               <li className={classes || undefined} key={milestone.label}>
                 <a
                   href={`#${milestone.role}`}
-                  aria-label={`${milestone.year}, ${milestone.label}: go to ${role.organization}, ${role.unit}`}
+                  aria-label={`${milestone.year}, ${milestone.label}: go to ${[role.organization, role.unit].filter(Boolean).join(", ")}`}
                   aria-current={active === milestone.role ? "true" : undefined}
                   onClick={() => select(milestone.role)}
                 >
@@ -293,10 +299,11 @@ function Experience() {
             <div className="ps-role__meta">
               <p className="ps-role__when">{role.when}</p>
               <p className="ps-role__org">{role.organization}</p>
-              <p className="ps-role__unit">{role.unit}</p>
+              {role.unit && <p className="ps-role__unit">{role.unit}</p>}
             </div>
             <div className="ps-role__body">
               <h3>{role.theme}</h3>
+              <p className="ps-role__title">{role.title}</p>
               <p className="ps-role__text">{role.text}</p>
               <ul className="ps-pills" aria-label="Focus areas">
                 {role.highlights.map((item) => (
