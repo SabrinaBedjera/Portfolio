@@ -679,6 +679,17 @@
   font-size: 16px;
 }
 .ps-footer a { color: inherit; }
+.ps-footer__links { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.ps-footer__links button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ps-footer__links button:focus-visible { outline: 2px solid #e0a274; outline-offset: 3px; }
 
 .ps a:focus-visible { outline: 2px solid #e0a274; outline-offset: 3px; }
 
