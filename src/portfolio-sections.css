@@ -675,7 +675,7 @@
 }
 .ps-button:hover,
 .ps-button:focus-visible { background: #fbf6ee; color: #1f2c25; }
-/* GitHub and LinkedIn: a quiet row of small line-weight links */
+/* GitHub: a quiet row of small line-weight links */
 .ps-social {
   display: flex;
   flex-wrap: wrap;
