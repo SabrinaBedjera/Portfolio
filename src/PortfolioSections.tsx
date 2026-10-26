@@ -2,7 +2,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import "./portfolio-sections.css"
 import { section, type SectionId } from "./sections"
 import { labPosts } from "./lab"
-import { openConsentSettings } from "./analytics"
 
 /* ------------------------------------------------------------------
    Portfolio sections after Selected Work: Experience, Education, Lab,
@@ -553,7 +552,6 @@ export default function PortfolioSections() {
             <p>© 2026 Sabrina Bedjera</p>
             <div className="ps-footer__links">
               <a href="/privacy.html">Privacy</a>
-              <button type="button" onClick={openConsentSettings}>Cookie settings</button>
               <a href="#home">Back to top ↑</a>
             </div>
           </div>
