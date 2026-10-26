@@ -675,6 +675,31 @@
 }
 .ps-button:hover,
 .ps-button:focus-visible { background: #fbf6ee; color: #1f2c25; }
+/* GitHub: a quiet row of small line-weight links */
+.ps-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin: 56px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ps-social a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(236, 229, 216, .78);
+  font-size: 16px;
+  letter-spacing: .02em;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: color .2s ease, text-decoration-color .2s ease;
+}
+.ps-social a:hover,
+.ps-social a:focus-visible { color: #fbf6ee; text-decoration-color: #e0a274; }
+.ps-social svg { width: 16px; height: 16px; flex: none; opacity: .9; }
+.ps-social + .ps-footer { margin-top: 24px; }
 .ps-footer {
   display: flex;
   justify-content: space-between;
