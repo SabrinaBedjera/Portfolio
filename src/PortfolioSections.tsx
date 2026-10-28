@@ -23,6 +23,8 @@ type Role = {
   highlights: string[]
   /** Public work related to the role: announcements, publications, case studies. */
   related?: { label: string; href: string }[]
+  /** Recognition for the work in this role, styled like the Education awards. */
+  award?: { name: string; year: string; category: string; organization: string }
   /** A small linked credit beneath the role, e.g. a presentation. */
   credit?: { kicker: string; title: string; href: string }
   /** A related piece of work shown inside the entry. */
@@ -62,6 +64,12 @@ const roles: Role[] = [
       },
       { label: "Case study: Critical Minerals", href: "#case-study/critical-minerals" },
     ],
+    award: {
+      name: "Departmental Achievement Award",
+      year: "2026",
+      category: "Defence Industrial Strategy & Stockpiling",
+      organization: "Natural Resources Canada",
+    },
   },
   {
     id: "role-carbon-capture",
@@ -142,7 +150,7 @@ const careerHighlights = [
   },
   {
     title: "Commercial Negotiations",
-    text: "Supported the structuring and negotiation of two major offtake agreements involving Rio Tinto and Nouveau Monde Graphite, working across legal, engineering and financial teams to advance strategic critical minerals projects.",
+    text: "Contributed to structuring and negotiating first-of-their-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, working across legal, engineering and financial teams. The agreements support the development of Canada’s strategic stockpiling capability and strengthen defence supply chains.",
   },
   {
     title: "Science & Engineering",
@@ -328,6 +336,16 @@ function Experience() {
                       )
                     })}
                   </ul>
+                </div>
+              )}
+              {role.award && (
+                <div className="ps-role__award">
+                  <p className="ps-education__award">
+                    <span>Award · {role.award.year}</span> {role.award.name}
+                  </p>
+                  <p className="ps-role__award-meta">
+                    {role.award.category} · {role.award.organization}
+                  </p>
                 </div>
               )}
               {role.credit && (
