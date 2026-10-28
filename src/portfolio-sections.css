@@ -414,7 +414,6 @@
 .ps .ps-role__award p { margin: 0; font-size: var(--ps-fs-card); line-height: 1.5; }
 .ps .ps-role__award .ps-education__award { color: var(--ps-text); }
 .ps .ps-role__award .ps-role__award-meta { margin-top: 4px; color: var(--ps-muted); }
-.ps .ps-role__award .ps-role__award-text { margin-top: 8px; color: var(--ps-muted); }
 
 /* Ontario Tech: a small linked conference credit */
 .ps .ps-credit { margin-top: 22px; font-size: 18px; line-height: 1.5; }

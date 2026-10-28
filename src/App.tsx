@@ -877,7 +877,7 @@ const readingLists: Partial<Record<Project["tone"], { label: string; heading: st
         kicker: "In the News · Ontario Tech University",
         meta: "July 2013",
         title: "Water Quality Research",
-        text: "University news story on a 2013 water quality study, from my early environmental research.",
+        text: "Ontario Tech University news feature highlighting my undergraduate research investigating water quality in Oshawa Creek.",
       },
     ],
   },

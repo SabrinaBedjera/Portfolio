@@ -24,7 +24,7 @@ type Role = {
   /** Public work related to the role: announcements, publications, case studies. */
   related?: { label: string; href: string }[]
   /** Recognition for the work in this role, styled like the Education awards. */
-  award?: { name: string; year: string; category: string; organization: string; text: string }
+  award?: { name: string; year: string; category: string; organization: string }
   /** A small linked credit beneath the role, e.g. a presentation. */
   credit?: { kicker: string; title: string; href: string }
   /** A related piece of work shown inside the entry. */
@@ -69,7 +69,6 @@ const roles: Role[] = [
       year: "2026",
       category: "Defence Industrial Strategy & Stockpiling",
       organization: "Natural Resources Canada",
-      text: "Recognized for contributions to first-of-their-kind critical minerals offtake agreements, defence industrial strategy, and the development of Canada’s strategic critical minerals stockpiling capability.",
     },
   },
   {
@@ -347,7 +346,6 @@ function Experience() {
                   <p className="ps-role__award-meta">
                     {role.award.category} · {role.award.organization}
                   </p>
-                  <p className="ps-role__award-text">{role.award.text}</p>
                 </div>
               )}
               {role.credit && (
