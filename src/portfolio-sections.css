@@ -409,6 +409,13 @@
 }
 .ps-related a:hover, .ps-related a:focus-visible { color: var(--ps-ink); text-decoration-color: currentColor; }
 
+/* Critical Minerals: an award line, styled like the Education awards */
+.ps-role__award { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--ps-rule); }
+.ps .ps-role__award p { margin: 0; font-size: var(--ps-fs-card); line-height: 1.5; }
+.ps .ps-role__award .ps-education__award { color: var(--ps-text); }
+.ps .ps-role__award .ps-role__award-meta { margin-top: 4px; color: var(--ps-muted); }
+.ps .ps-role__award .ps-role__award-text { margin-top: 8px; color: var(--ps-muted); }
+
 /* Ontario Tech: a small linked conference credit */
 .ps .ps-credit { margin-top: 22px; font-size: 18px; line-height: 1.5; }
 .ps-credit__kicker {
