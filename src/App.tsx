@@ -868,19 +868,6 @@ const readingLists: Partial<Record<Project["tone"], { label: string; heading: st
       },
     ],
   },
-  water: {
-    label: "Further reading",
-    heading: "Early research",
-    links: [
-      {
-        href: "https://news.ontariotechu.ca/archives/2013/07/uoit-faculty-of-science-professor-and-grad-student-team-up-to-help-with-water-quality-study.php",
-        kicker: "In the News · Ontario Tech University",
-        meta: "July 2013",
-        title: "Water Quality Research",
-        text: "Ontario Tech University news feature highlighting my undergraduate research investigating water quality in Oshawa Creek.",
-      },
-    ],
-  },
   energy: {
     label: "Further reading",
     heading: "Public context for the work",
