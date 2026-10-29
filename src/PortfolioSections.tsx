@@ -50,7 +50,7 @@ const roles: Role[] = [
     unit: "Critical Minerals Centre of Excellence",
     theme: "Critical Minerals & Clean Energy",
     title: "Policy Analyst",
-    text: "Lead technical, financial and commercial assessments of critical minerals projects, coordinating multidisciplinary teams to evaluate project viability and inform investment decisions. Support investment strategy and negotiate commercial agreements, including offtake and equity arrangements, to advance strategic supply chains and project commercialization.",
+    text: "Lead technical, financial and commercial assessments of critical minerals projects, coordinating multidisciplinary teams to evaluate project viability and inform investment decisions. Support investment strategy and negotiate commercial agreements, including offtake and equity arrangements, to advance strategic supply chains and project commercialization. Help manage the $2.5 billion Canada Critical Minerals Accelerator fund.",
     highlights: [
       "Project Due Diligence",
       "Investment Strategy",
@@ -146,7 +146,7 @@ const roles: Role[] = [
 const careerHighlights = [
   {
     title: "Investment & Project Evaluation",
-    text: "Lead multidisciplinary technical, financial and commercial assessments of capital-intensive critical minerals projects, contributing to investment decisions and the evaluation of over $1 billion in project support.",
+    text: "Lead multidisciplinary technical, financial and commercial assessments of capital-intensive critical minerals projects, contributing to investment decisions and the evaluation of over $1 billion in project support. Now help manage the separate $2.5 billion Canada Critical Minerals Accelerator fund.",
   },
   {
     title: "Commercial Negotiations",

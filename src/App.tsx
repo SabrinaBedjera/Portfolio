@@ -88,8 +88,8 @@ const projects: Project[] = [
       {
         number: "01",
         title: "Assessing Projects",
-        highlight: "$3.5B combined investment envelope",
-        body: "Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals projects across federal funding programs with a combined $3.5 billion investment envelope, informing investment decisions and project prioritization.",
+        highlight: "$1B+ in projects assessed",
+        body: "Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals projects seeking support through federal funding programs, together worth over $1 billion, informing investment decisions and project prioritization.",
       },
       {
         number: "02",
@@ -99,9 +99,9 @@ const projects: Project[] = [
       },
       {
         number: "03",
-        title: "Designing Investment Programs",
-        highlight: "Canada Critical Minerals Accelerator",
-        body: "Helped shape the program, applying lessons from earlier investment and offtake work to inform strategy, project assessment and financing approaches.",
+        title: "Designing & Managing Investment Programs",
+        highlight: "$2.5B Canada Critical Minerals Accelerator",
+        body: "Helped shape, and now help manage, the $2.5 billion Canada Critical Minerals Accelerator fund, applying lessons from earlier investment and offtake work to inform strategy, project assessment and financing approaches.",
       },
       {
         number: "04",
