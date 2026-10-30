@@ -560,6 +560,14 @@
   text-transform: uppercase;
 }
 .ps-education__award span { margin-right: 8px; }
+.ps-education .ps-education__link { margin-top: 10px !important; }
+.ps-education__link a {
+  color: var(--ps-clay);
+  text-decoration: underline;
+  text-decoration-color: rgba(167, 88, 37, .35);
+  text-underline-offset: 4px;
+}
+.ps-education__link a:hover, .ps-education__link a:focus-visible { color: var(--ps-ink); text-decoration-color: currentColor; }
 
 .ps-skills { border-top: 1px solid var(--ps-rule); padding-top: 26px; }
 .ps .ps-skills h2 {
