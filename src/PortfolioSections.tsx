@@ -311,6 +311,7 @@ function Experience() {
               <p className="ps-role__when">{role.when}</p>
               <p className="ps-role__org">{role.organization}</p>
               {role.unit && <p className="ps-role__unit">{role.unit}</p>}
+              <p className="ps-role__year" aria-hidden="true">{role.when.match(/\d{4}/)?.[0]}</p>
             </div>
             <div className="ps-role__body">
               <h3>{role.theme}</h3>
