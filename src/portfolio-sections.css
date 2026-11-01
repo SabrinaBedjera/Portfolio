@@ -365,12 +365,26 @@
   margin-top: 18px;
   color: var(--ps-clay);
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(64px, 6.4vw, 104px);
+  font-size: clamp(54px, 5vw, 72px);
   line-height: .9;
+  white-space: nowrap;
   opacity: .28;
   transition: color .3s ease, opacity .3s ease;
 }
 .ps-role.is-active .ps-role__year { color: var(--ps-select); opacity: .5; }
+/* a thin line under the year that fills as the role is read */
+.ps-role__progress {
+  display: block;
+  width: min(160px, 70%);
+  height: 3px;
+  margin-top: 16px;
+  border-radius: 2px;
+  background: linear-gradient(var(--ps-clay), var(--ps-clay)) no-repeat 0 0 / calc(var(--ps-read, 0) * 100%) 100%, var(--ps-rule);
+  opacity: .7;
+}
+.ps-role.is-active .ps-role__progress {
+  background: linear-gradient(var(--ps-select), var(--ps-select)) no-repeat 0 0 / calc(var(--ps-read, 0) * 100%) 100%, var(--ps-rule);
+}
 .ps-role__when {
   color: var(--ps-clay);
   font-size: 17px;
@@ -821,7 +835,7 @@
   .ps-role + .ps-role::after { left: var(--ps-rail); }
   .ps-role__meta, .ps-role__body { grid-column: 2; }
   .ps-role__meta { margin-bottom: 10px; }
-  .ps-role__year { display: none; }
+  .ps-role__year, .ps-role__progress { display: none; }
   .ps .ps-role__org { margin-top: 6px; }
   /* on phones the car stays turned along the narrow rail */
   .ps-car { left: calc(var(--ps-rail) / 2); width: 28px; margin-left: -14px; transform: translateY(calc(-100% - 20px)); }

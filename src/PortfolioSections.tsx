@@ -219,6 +219,13 @@ const associations = [
   },
 ]
 
+/** "Feb 2019 – Jul 2020" becomes "2019–20"; "Nov 2022 – Present" becomes "2022–Now". */
+function yearSpan(when: string) {
+  const [start, end] = when.split("–").map((part) => part.match(/\d{4}/)?.[0])
+  if (!end) return `${start}–Now`
+  return start === end ? start : `${start}–${end!.slice(2)}`
+}
+
 /**
  * Professional Experience: a horizontal overview whose milestones select a
  * role, and the roles as a vertical timeline. The selected role stays
@@ -247,6 +254,28 @@ function Experience() {
 
   useEffect(() => () => {
     if (arrived.current) window.clearTimeout(arrived.current)
+  }, [])
+
+  // how far the reader is through each role, for the line under its year
+  useEffect(() => {
+    let frame = 0
+    const measure = () => {
+      frame = 0
+      list.current?.querySelectorAll<HTMLElement>(".ps-role").forEach((entry) => {
+        const box = entry.getBoundingClientRect()
+        const read = (window.innerHeight * 0.5 - box.top) / box.height
+        entry.style.setProperty("--ps-read", String(Math.min(1, Math.max(0, read))))
+      })
+    }
+    const queue = () => { if (!frame) frame = requestAnimationFrame(measure) }
+    measure()
+    window.addEventListener("scroll", queue, { passive: true })
+    window.addEventListener("resize", queue)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener("scroll", queue)
+      window.removeEventListener("resize", queue)
+    }
   }, [])
 
   const select = (roleId: string) => {
@@ -311,7 +340,8 @@ function Experience() {
               <p className="ps-role__when">{role.when}</p>
               <p className="ps-role__org">{role.organization}</p>
               {role.unit && <p className="ps-role__unit">{role.unit}</p>}
-              <p className="ps-role__year" aria-hidden="true">{role.when.match(/\d{4}/)?.[0]}</p>
+              <p className="ps-role__year" aria-hidden="true">{yearSpan(role.when)}</p>
+              <span className="ps-role__progress" aria-hidden="true" />
             </div>
             <div className="ps-role__body">
               <h3>{role.theme}</h3>
