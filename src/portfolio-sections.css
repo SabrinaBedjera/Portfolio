@@ -210,7 +210,7 @@
   --ps-dot-on: 32px;             /* the selected marker */
   --ps-line: 4px;                /* rail and overview line */
   /* one accent for the whole timeline: rust marks only the selected role
-     (its marker, dates and year) and links; everything else is ink or grey */
+     (its marker and dates) and links; everything else is ink or grey */
   --ps-accent: #8c8378;
   --ps-select: var(--ps-clay);
   --ps-track: rgba(60, 45, 30, .2);
@@ -363,21 +363,10 @@
 
 .ps-role__meta { grid-column: 1; }
 /* On wide screens the dates and organization stay pinned beside the role
-   while it scrolls past, with the start year set large below them. */
+   while it scrolls past. */
 @media (min-width: 761px) {
   .ps-role__meta { position: sticky; top: 32px; align-self: start; }
 }
-.ps .ps-role__year {
-  margin-top: 18px;
-  color: var(--ps-muted);
-  font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(54px, 5vw, 72px);
-  line-height: .9;
-  white-space: nowrap;
-  opacity: .22;
-  transition: color .3s ease, opacity .3s ease;
-}
-.ps-role.is-active .ps-role__year { color: var(--ps-select); opacity: .5; }
 .ps-role__when {
   color: var(--ps-muted);
   font-size: 17px;
@@ -828,7 +817,6 @@
   .ps-role + .ps-role::after { left: var(--ps-rail); }
   .ps-role__meta, .ps-role__body { grid-column: 2; }
   .ps-role__meta { margin-bottom: 10px; }
-  .ps-role__year { display: none; }
   .ps .ps-role__org { margin-top: 6px; }
   /* on phones the car stays turned along the narrow rail */
   .ps-car { left: calc(var(--ps-rail) / 2); width: 28px; margin-left: -14px; transform: translateY(calc(-100% - 20px)); }

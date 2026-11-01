@@ -219,13 +219,6 @@ const associations = [
   },
 ]
 
-/** "Feb 2019 – Jul 2020" becomes "2019–20"; "Nov 2022 – Present" becomes "2022–Now". */
-function yearSpan(when: string) {
-  const [start, end] = when.split("–").map((part) => part.match(/\d{4}/)?.[0])
-  if (!end) return `${start}–Now`
-  return start === end ? start : `${start}–${end!.slice(2)}`
-}
-
 /**
  * Professional Experience: a horizontal overview whose milestones select a
  * role, and the roles as a vertical timeline. The selected role stays
@@ -318,7 +311,6 @@ function Experience() {
               <p className="ps-role__when">{role.when}</p>
               <p className="ps-role__org">{role.organization}</p>
               {role.unit && <p className="ps-role__unit">{role.unit}</p>}
-              <p className="ps-role__year" aria-hidden="true">{yearSpan(role.when)}</p>
             </div>
             <div className="ps-role__body">
               <h3>{role.theme}</h3>
