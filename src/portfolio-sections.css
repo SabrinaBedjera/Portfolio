@@ -209,9 +209,9 @@
   --ps-dot: 26px;                /* timeline markers */
   --ps-dot-on: 32px;             /* the selected marker */
   --ps-line: 4px;                /* rail and overview line */
-  /* one accent for the whole timeline: the rust of the dates marks
-     markers, links and the selected role; everything else is ink or grey */
-  --ps-accent: var(--ps-clay);
+  /* one accent for the whole timeline: rust marks only the selected role
+     (its marker, dates and year) and links; everything else is ink or grey */
+  --ps-accent: #8c8378;
   --ps-select: var(--ps-clay);
   --ps-track: rgba(60, 45, 30, .2);
 }
@@ -287,7 +287,7 @@
 .ps-career a:focus-visible { outline: 2px solid var(--ps-accent); outline-offset: 6px; border-radius: 2px; }
 .ps-career__year {
   display: block;
-  color: var(--ps-clay);
+  color: var(--ps-muted);
   font-size: 18px;
   font-weight: 600;
   letter-spacing: .06em;
@@ -369,17 +369,17 @@
 }
 .ps .ps-role__year {
   margin-top: 18px;
-  color: var(--ps-clay);
+  color: var(--ps-muted);
   font-family: "Instrument Serif", Georgia, serif;
   font-size: clamp(54px, 5vw, 72px);
   line-height: .9;
   white-space: nowrap;
-  opacity: .28;
+  opacity: .22;
   transition: color .3s ease, opacity .3s ease;
 }
 .ps-role.is-active .ps-role__year { color: var(--ps-select); opacity: .5; }
 .ps-role__when {
-  color: var(--ps-clay);
+  color: var(--ps-muted);
   font-size: 17px;
   font-weight: 600;
   line-height: 28px;
