@@ -369,7 +369,7 @@
 }
 .ps-role__when {
   color: var(--ps-muted);
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 28px;
   letter-spacing: .06em;
@@ -758,6 +758,7 @@
   .ps-car { width: 36px; margin-left: -18px; }
   .ps-career__label { font-size: 18px; }
   .ps-career__year { font-size: 17px; }
+  .ps-role__when { font-size: 17px; }
   .ps .ps-role__org, .ps .ps-role__unit { font-size: 18px; }
 }
 @media (max-width: 960px) {
