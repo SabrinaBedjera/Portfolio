@@ -209,7 +209,13 @@
   --ps-dot: 26px;                /* timeline markers */
   --ps-dot-on: 32px;             /* the selected marker */
   --ps-line: 4px;                /* rail and overview line */
+  /* one accent for the whole timeline: the rust of the dates marks
+     markers, links and the selected role; everything else is ink or grey */
+  --ps-accent: var(--ps-clay);
+  --ps-select: var(--ps-clay);
+  --ps-track: rgba(60, 45, 30, .2);
 }
+#experience .ps-pills li { border-color: var(--ps-rule); }
 .ps-overview {
   display: grid;
   grid-template-columns: var(--ps-meta-w) 1fr;
@@ -245,7 +251,7 @@
   right: calc(20% - var(--ps-dot) / 2);
   height: var(--ps-line);
   border-radius: 2px;
-  background: rgba(43, 116, 65, .4);
+  background: var(--ps-track);
 }
 .ps-career li { position: relative; }
 .ps-career a {
@@ -270,13 +276,13 @@
   transition: background .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease, width .25s ease, height .25s ease;
 }
 .ps-career a:hover::before,
-.ps-career a:focus-visible::before { transform: translate(-50%, -50%) scale(1.12); box-shadow: 0 0 0 6px rgba(43, 116, 65, .14); }
+.ps-career a:focus-visible::before { transform: translate(-50%, -50%) scale(1.12); box-shadow: 0 0 0 6px rgba(167, 88, 37, .14); }
 .ps-career li.is-selected a::before {
   width: var(--ps-dot-on);
   height: var(--ps-dot-on);
   border-color: var(--ps-select);
   background: var(--ps-select);
-  box-shadow: 0 0 0 6px rgba(47, 95, 138, .18);
+  box-shadow: 0 0 0 6px rgba(167, 88, 37, .18);
 }
 .ps-career a:focus-visible { outline: 2px solid var(--ps-accent); outline-offset: 6px; border-radius: 2px; }
 .ps-career__year {
@@ -317,7 +323,7 @@
   left: calc(var(--ps-meta-w) + var(--ps-rail) / 2 - var(--ps-line) / 2);
   width: var(--ps-line);
   border-radius: 2px;
-  background: rgba(43, 116, 65, .32);
+  background: var(--ps-track);
 }
 .ps-role {
   position: relative;
@@ -389,7 +395,7 @@
 }
 .ps .ps-role__unit {
   margin-top: 4px;
-  color: var(--ps-accent);
+  color: var(--ps-muted);
   font-size: 19px;
   line-height: 1.4;
 }
@@ -460,7 +466,7 @@
   height: var(--ps-dot-on);
   border-color: var(--ps-select);
   background: var(--ps-select);
-  box-shadow: 0 0 0 6px rgba(47, 95, 138, .15);
+  box-shadow: 0 0 0 6px rgba(167, 88, 37, .15);
 }
 .ps-role.is-active .ps-role__when { color: var(--ps-select); }
 /* Instrument Serif has no bold cut: the browser synthesizes 700, and a
@@ -476,7 +482,7 @@
   left: -24px;
   right: -24px;
   border-left: 3px solid var(--ps-select);
-  background: rgba(47, 95, 138, .06);
+  background: rgba(167, 88, 37, .06);
   pointer-events: none;
   animation: ps-arrive 3s ease-out forwards;
 }
@@ -808,7 +814,7 @@
     left: calc(var(--ps-dot) / 2);
     right: 0;
     height: 3px;
-    background: rgba(43, 116, 65, .4);
+    background: var(--ps-track);
   }
   .ps-career a { min-height: 44px; }
   .ps-career__label { font-size: 18px; }
