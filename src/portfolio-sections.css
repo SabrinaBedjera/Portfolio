@@ -492,7 +492,8 @@
   margin-left: -20px;
   list-style: none;
   pointer-events: none;
-  transform: translateY(calc(-100% - 6px));
+  /* parks clear of the selected marker and its halo */
+  transform: translateY(calc(-100% - var(--ps-dot-on) / 2));
   transition: top .9s cubic-bezier(.5, .05, .3, 1);
 }
 .ps-car img {
