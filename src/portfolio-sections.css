@@ -492,8 +492,9 @@
   margin-left: -20px;
   list-style: none;
   pointer-events: none;
-  /* parks clear of the selected marker and its halo */
-  transform: translateY(calc(-100% - var(--ps-dot-on) / 2));
+  /* lands on the selected marker: its fins just touch the marker's top
+     edge (the marker is centred 14px below the top of the role's date) */
+  transform: translateY(calc(-100% + 16px - var(--ps-dot-on) / 2));
   transition: top .9s cubic-bezier(.5, .05, .3, 1);
 }
 .ps-car img {
@@ -821,7 +822,7 @@
   .ps-role__meta { margin-bottom: 10px; }
   .ps .ps-role__org { margin-top: 6px; }
   /* on phones the car stays turned along the narrow rail */
-  .ps-car { left: calc(var(--ps-rail) / 2); width: 28px; margin-left: -14px; transform: translateY(calc(-100% - 20px)); }
+  .ps-car { left: calc(var(--ps-rail) / 2); width: 28px; margin-left: -14px; }
   .ps-feature { padding: 20px 20px 22px; }
 
   .ps-two,
