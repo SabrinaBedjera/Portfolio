@@ -183,7 +183,7 @@ const education: { degree: string; detail: string; award?: string; link?: { labe
     award: "First place, American Water Works Association (AWWA) Master’s Academic Achievement Award",
   },
   {
-    degree: "BSc, Minor in Mathematics",
+    degree: "BSc, Highest Distinction (Biology and Mathematics)",
     detail: "Ontario Tech University",
     link: {
       label: "Undergraduate water quality research · Ontario Tech University, 2013",
