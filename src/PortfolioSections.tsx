@@ -171,13 +171,20 @@ const careerMilestones = [
   { year: "2022–Present", label: "Critical Minerals & Clean Energy", role: "role-critical-minerals" },
 ]
 
-const education: { degree: string; detail: string; award?: string }[] = [
+const education: { degree: string; detail: string; award?: string; link?: { label: string; href: string } }[] = [
   {
     degree: "Master of Applied Science (MASc) in Civil and Environmental Engineering",
     detail: "Water specialization · University of Waterloo",
     award: "First place, American Water Works Association (AWWA) Master’s Academic Achievement Award",
   },
-  { degree: "BSc, Minor in Mathematics", detail: "Ontario Tech University" },
+  {
+    degree: "BSc, Minor in Mathematics",
+    detail: "Ontario Tech University",
+    link: {
+      label: "Undergraduate water quality research · Ontario Tech University, 2013",
+      href: "https://news.ontariotechu.ca/archives/2013/07/uoit-faculty-of-science-professor-and-grad-student-team-up-to-help-with-water-quality-study.php",
+    },
+  },
   { degree: "BEd", detail: "Ontario Tech University" },
 ]
 
@@ -437,6 +444,13 @@ export default function PortfolioSections() {
                   {item.award && (
                     <p className="ps-education__award">
                       <span>Award</span> {item.award}
+                    </p>
+                  )}
+                  {item.link && (
+                    <p className="ps-education__link">
+                      <a href={item.link.href} target="_blank" rel="noreferrer">
+                        {item.link.label} <span aria-hidden="true">↗</span>
+                      </a>
                     </p>
                   )}
                 </li>
