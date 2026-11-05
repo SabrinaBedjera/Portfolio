@@ -150,7 +150,7 @@ const careerHighlights = [
   },
   {
     title: "Commercial Negotiations",
-    text: "Co-led the department’s negotiations of first-of-their-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, leading portions of the talks and working across legal, engineering and financial teams. The agreements support the development of Canada’s strategic stockpiling capability and strengthen defence supply chains.",
+    text: "Negotiated and helped structure first-of-their-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, leading key parts of the negotiations and working across legal, engineering and financial teams. The agreements support the development of Canada’s strategic stockpiling capability and strengthen defence supply chains.",
   },
   {
     title: "Science & Engineering",
