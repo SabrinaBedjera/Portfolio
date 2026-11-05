@@ -101,7 +101,7 @@ const projects: Project[] = [
         number: "03",
         title: "Designing & Managing Investment Programs",
         highlight: "$2B Canada Critical Minerals Accelerator",
-        body: "Helped shape, and now help manage, the $2 billion Canada Critical Minerals Accelerator, applying lessons from earlier project investment work to inform strategy, project assessment and financing approaches.",
+        body: "Helped shape, and now help manage, the $2 billion Canada Critical Minerals Accelerator, applying lessons from earlier investment and offtake work to inform strategy, project assessment and financing approaches.",
       },
       {
         number: "04",
