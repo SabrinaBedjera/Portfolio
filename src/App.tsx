@@ -95,7 +95,7 @@ const projects: Project[] = [
         number: "02",
         title: "Negotiating Deals",
         highlight: "Canada’s first critical minerals offtake agreements",
-        body: "Evaluated project economics, technical feasibility and commercial considerations, and collaborated on agreements with Nouveau Monde Graphite and Rio Tinto.",
+        body: "Evaluated project economics, technical feasibility and commercial considerations, and co-led the department’s negotiations of the agreements with Nouveau Monde Graphite and Rio Tinto.",
       },
       {
         number: "03",
