@@ -89,19 +89,19 @@ const projects: Project[] = [
         number: "01",
         title: "Assessing Projects",
         highlight: "$1B+ in projects assessed",
-        body: "Coordinated multidisciplinary technical, financial and commercial assessments of critical minerals projects seeking support through federal funding programs, together worth over $1 billion, informing investment decisions and project prioritization.",
+        body: "Led technical and commercial due diligence on critical minerals and clean technology projects seeking federal funding, coordinating teams across engineering, finance, legal and policy to support over $1 billion in funding commitments.",
       },
       {
         number: "02",
         title: "Negotiating Deals",
         highlight: "Canada’s first critical minerals offtake agreements",
-        body: "Evaluated project economics, technical feasibility and commercial considerations, and negotiated and helped structure the agreements with Nouveau Monde Graphite and Rio Tinto.",
+        body: "Evaluated project economics, technical feasibility and commercial considerations, then led departmental negotiations and helped structure the agreements with Nouveau Monde Graphite and Rio Tinto, securing contractual rights to future mineral supply for Canada.",
       },
       {
         number: "03",
         title: "Designing & Managing Investment Programs",
         highlight: "$2B Canada Critical Minerals Accelerator",
-        body: "Helped shape, and now help manage, the $2 billion Canada Critical Minerals Accelerator, applying lessons from earlier investment and offtake work to inform strategy, project assessment and financing approaches.",
+        body: "Shaped investment strategy and developed a project pipeline for the $2 billion Canada Critical Minerals Accelerator, recommending equity, debt and offtake structures and applying lessons from earlier investment and offtake work.",
       },
       {
         number: "04",
