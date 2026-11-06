@@ -24,7 +24,7 @@ type Role = {
   /** Public work related to the role: announcements, publications, case studies. */
   related?: { label: string; href: string }[]
   /** Recognition for the work in this role, styled like the Education awards. */
-  award?: { name: string; year: string; category: string; organization: string }
+  award?: { name: string; year: string; category?: string; organization: string }
   /** A small linked credit beneath the role, e.g. a presentation. */
   credit?: { kicker: string; title: string; href: string }
   /** A related piece of work shown inside the entry. */
@@ -50,7 +50,7 @@ const roles: Role[] = [
     unit: "Critical Minerals Centre of Excellence",
     theme: "Critical Minerals & Clean Energy",
     title: "Policy Analyst",
-    text: "Lead technical, financial and commercial assessments of critical minerals projects, coordinating multidisciplinary teams to evaluate project viability and inform investment decisions. Support investment strategy and negotiate commercial agreements, including offtake and equity arrangements, to advance strategic supply chains and project commercialization. Help manage the $2 billion Canada Critical Minerals Accelerator.",
+    text: "Shaped investment strategy and developed a project pipeline for the $2 billion Canada Critical Minerals Accelerator, recommending equity, debt and offtake structures to advance strategic investments. Led departmental negotiations and helped structure first-of-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, securing contractual rights to future mineral supply for Canada. Led technical and commercial due diligence on critical minerals and clean technology projects, coordinating cross-functional teams across engineering, finance, legal and policy to support over $1 billion in federal funding commitments.",
     highlights: [
       "Project Due Diligence",
       "Investment Strategy",
@@ -78,7 +78,7 @@ const roles: Role[] = [
     unit: "Carbon Capture Division",
     theme: "Carbon Management",
     title: "Policy Analyst",
-    text: "Contributed to the development of Canada’s Carbon Management Strategy and international technical publications through the International Energy Agency (IEA). Assessed carbon capture, utilization and storage (CCUS) technologies, connecting technical developments with Canadian industry and policy considerations.",
+    text: "Analyzed carbon capture, utilization and storage (CCUS) technology maturity, market conditions, trade dynamics and regulatory frameworks to inform the development of Canada’s Carbon Management Strategy. Contributed technical analysis and Canadian regulatory expertise to International Energy Agency (IEA) initiatives, including a CCUS regulatory handbook and the Committee on Energy Research and Technology.",
     highlights: [
       "Carbon Capture, Utilization & Storage (CCUS)",
       "Energy Technology Assessment",
@@ -103,8 +103,13 @@ const roles: Role[] = [
     unit: "Intellectual Property Division",
     theme: "Intellectual Property, AI & Emerging Technologies",
     title: "Policy Analyst",
-    text: "Led technical and policy analysis on intellectual property, artificial intelligence and climate-related technologies, collaborating with external think tanks on AI research. Spearheaded the development of performance indicators to evaluate the Intellectual Property Division’s impact and inform improvements to program design.",
+    text: "Led analysis of Canada’s intellectual property landscape, AI and emerging technologies, collaborating with external think tanks on AI research and assessing barriers to technology commercialization. Led the development of key performance indicators (KPIs) to evaluate the Intellectual Property Division’s impact and inform program improvements.",
     highlights: ["Artificial Intelligence", "Intellectual Property", "Performance Measurement"],
+    award: {
+      name: "Strategic Policy & Innovation Merit Award",
+      year: "2023",
+      organization: "Natural Resources Canada",
+    },
   },
   {
     id: "role-forwater",
@@ -113,7 +118,7 @@ const roles: Role[] = [
     unit: "forWater Network",
     theme: "Water Security & Climate Adaptation",
     title: "Researcher",
-    text: "Conducted engineering and policy research on water security, collaborating with economists to develop a climate adaptation assessment framework.",
+    text: "Collaborated with economists to develop an engineering and policy framework for assessing climate-related risks to drinking water security and informing adaptation planning, presenting findings at the 2020 forWater Network Research Conference. Analyzed operational challenges facing drinking water utilities, with research findings presented at the 2023 National Water and Wastewater Conference.",
     highlights: ["Water Security", "Climate Adaptation", "Engineering Research", "Interdisciplinary Collaboration"],
     feature: {
       kicker: "Policy proposal · 2019",
@@ -132,7 +137,7 @@ const roles: Role[] = [
     organization: "Ontario Tech University",
     theme: "Research Data & Visualization",
     title: "Data Management Lead",
-    text: "Led research data management and qualitative analysis using NVivo, including developing data organization and analysis approaches for a research project.",
+    text: "Led research data management and qualitative analysis using NVivo, developing data organization and analysis methods and supervising technical staff for a multi-year research project.",
     highlights: ["Research data management", "Qualitative analysis", "Structured research datasets"],
     credit: {
       kicker: "Co-authored Conference Presentation · 2016",
@@ -146,11 +151,11 @@ const roles: Role[] = [
 const careerHighlights = [
   {
     title: "Investment & Project Evaluation",
-    text: "Lead multidisciplinary technical, financial and commercial assessments of capital-intensive critical minerals projects, contributing to investment decisions and the evaluation of over $1 billion in project support. Now help manage the separate $2 billion Canada Critical Minerals Accelerator.",
+    text: "Led technical and commercial due diligence on critical minerals and clean technology projects, coordinating teams across engineering, finance, legal and policy to support over $1 billion in federal funding commitments. Shaped investment strategy and developed a project pipeline for the $2 billion Canada Critical Minerals Accelerator.",
   },
   {
     title: "Commercial Negotiations",
-    text: "Negotiated and helped structure first-of-their-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, leading key parts of the negotiations and working across legal, engineering and financial teams. The agreements support the development of Canada’s strategic stockpiling capability and strengthen defence supply chains.",
+    text: "Led departmental negotiations and helped structure first-of-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, securing contractual rights to future mineral supply for Canada. The agreements support the development of Canada’s strategic stockpiling capability and strengthen defence supply chains.",
   },
   {
     title: "Science & Engineering",
@@ -178,7 +183,7 @@ const education: { degree: string; detail: string; award?: string; link?: { labe
     award: "First place, American Water Works Association (AWWA) Master’s Academic Achievement Award",
   },
   {
-    degree: "BSc, Minor in Mathematics",
+    degree: "BSc, Highest Distinction (Biology and Mathematics)",
     detail: "Ontario Tech University",
     link: {
       label: "Undergraduate water quality research · Ontario Tech University, 2013",
@@ -351,7 +356,7 @@ function Experience() {
                     <span>Award · {role.award.year}</span> {role.award.name}
                   </p>
                   <p className="ps-role__award-meta">
-                    {role.award.category} · {role.award.organization}
+                    {[role.award.category, role.award.organization].filter(Boolean).join(" · ")}
                   </p>
                 </div>
               )}
