@@ -50,7 +50,7 @@ const roles: Role[] = [
     unit: "Critical Minerals Centre of Excellence",
     theme: "Critical Minerals & Clean Energy",
     title: "Policy Analyst",
-    text: "Shaped investment strategy and developed a project pipeline for the $2 billion Canada Critical Minerals Accelerator, recommending equity, debt and offtake structures to advance strategic investments. Led departmental negotiations and helped structure first-of-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, securing contractual rights to future mineral supply for Canada. Led technical and commercial due diligence on critical minerals and clean technology projects, coordinating cross-functional teams across engineering, finance, legal and policy to support over $1 billion in federal funding commitments.",
+    text: "Led the rare earth, cobalt and nickel projects for the $2B Canada Critical Minerals Accelerator, shaped its investment strategy and pipeline, and recommended equity, debt and offtake structures. Managed the project portfolio for the $1.5B Strategic Response Fund critical minerals stream, directed technical and commercial due diligence on critical minerals and clean technology projects, and coordinated cross-functional teams across engineering, finance, legal and policy. Led departmental negotiations and helped structure first-of-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, securing contractual rights to future mineral supply for Canada.",
     highlights: [
       "Project Due Diligence",
       "Investment Strategy",
@@ -151,7 +151,7 @@ const roles: Role[] = [
 const careerHighlights = [
   {
     title: "Investment & Project Evaluation",
-    text: "Led technical and commercial due diligence on critical minerals and clean technology projects, coordinating teams across engineering, finance, legal and policy to support over $1 billion in federal funding commitments. Shaped investment strategy and developed a project pipeline for the $2 billion Canada Critical Minerals Accelerator.",
+    text: "Managed the project portfolio for the $1.5B Strategic Response Fund critical minerals stream, directed technical and commercial due diligence on critical minerals and clean technology projects, and coordinated cross-functional teams across engineering, finance, legal and policy. Shaped investment strategy and developed a project pipeline for the $2 billion Canada Critical Minerals Accelerator.",
   },
   {
     title: "Commercial Negotiations",
