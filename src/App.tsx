@@ -88,8 +88,8 @@ const projects: Project[] = [
       {
         number: "01",
         title: "Assessing Projects",
-        highlight: "$1B+ in projects assessed",
-        body: "As projects lead for the rare earth, cobalt and nickel value chains, led technical and commercial due diligence on critical minerals and clean technology projects seeking federal funding, coordinating teams across engineering, finance, legal and policy to support over $1 billion in funding commitments.",
+        highlight: "$1.5B Strategic Response Fund stream",
+        body: "Managed all projects in the $1.5B Strategic Response Fund critical minerals stream, leading technical and commercial due diligence on critical minerals and clean technology projects and coordinating cross-functional teams across engineering, finance, legal and policy.",
       },
       {
         number: "02",
