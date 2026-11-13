@@ -48,21 +48,21 @@ const roles: Role[] = [
     when: "Nov 2022 – Present",
     organization: "Natural Resources Canada",
     unit: "Critical Minerals Centre of Excellence",
-    theme: "Critical Minerals & Clean Energy",
+    theme: "Critical minerals & clean energy",
     title: "Policy Analyst",
     text: "Led the rare earth, cobalt and nickel projects for the $2B Canada Critical Minerals Accelerator, shaped its investment strategy and pipeline, and recommended equity, debt and offtake structures. Managed the project portfolio for the $1.5B Strategic Response Fund critical minerals stream, directed technical and commercial due diligence on critical minerals and clean technology projects, and coordinated cross-functional teams across engineering, finance, legal and policy. Led departmental negotiations and helped structure first-of-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, securing contractual rights to future mineral supply for Canada.",
     highlights: [
-      "Project Due Diligence",
-      "Investment Strategy",
-      "Commercial Negotiations",
-      "Cross-Functional Project Leadership",
+      "Project due diligence",
+      "Investment strategy",
+      "Commercial negotiations",
+      "Cross-functional project leadership",
     ],
     related: [
       {
         label: "Government of Canada announcement: critical minerals offtake arrangements (Oct. 2025)",
         href: "https://www.canada.ca/en/natural-resources-canada/news/2025/10/canada-unlocks-25-new-investments-and-partnerships-with-9-allied-countries-to-secure-critical-minerals-supply-chains.html",
       },
-      { label: "Case study: Critical Minerals", href: "#case-study/critical-minerals" },
+      { label: "Case study: Critical minerals", href: "#case-study/critical-minerals" },
     ],
     award: {
       name: "Departmental Achievement Award",
@@ -76,13 +76,13 @@ const roles: Role[] = [
     when: "Jan 2022 – Nov 2022",
     organization: "Natural Resources Canada",
     unit: "Carbon Capture Division",
-    theme: "Carbon Management",
+    theme: "Carbon management",
     title: "Policy Analyst",
     text: "Analyzed carbon capture, utilization and storage (CCUS) technology maturity, market conditions, trade dynamics and regulatory frameworks to inform the development of Canada’s Carbon Management Strategy. Contributed technical analysis and Canadian regulatory expertise to International Energy Agency (IEA) initiatives, including a CCUS regulatory handbook and the Committee on Energy Research and Technology.",
     highlights: [
-      "Carbon Capture, Utilization & Storage (CCUS)",
-      "Energy Technology Assessment",
-      "International Technical Collaboration",
+      "Carbon capture, utilization & storage (CCUS)",
+      "Energy technology assessment",
+      "International technical collaboration",
     ],
     related: [
       {
@@ -101,10 +101,10 @@ const roles: Role[] = [
     when: "Oct 2020 – Jan 2022",
     organization: "Natural Resources Canada",
     unit: "Intellectual Property Division",
-    theme: "Intellectual Property, AI & Emerging Technologies",
+    theme: "Intellectual property, AI & emerging technologies",
     title: "Policy Analyst",
     text: "Led analysis of Canada’s intellectual property landscape, AI and emerging technologies, collaborating with external think tanks on AI research and assessing barriers to technology commercialization. Led the development of key performance indicators (KPIs) to evaluate the Intellectual Property Division’s impact and inform program improvements.",
-    highlights: ["Artificial Intelligence", "Intellectual Property", "Performance Measurement"],
+    highlights: ["Artificial intelligence", "Intellectual property", "Performance measurement"],
     award: {
       name: "Strategic Policy & Innovation Merit Award",
       year: "2023",
@@ -116,10 +116,10 @@ const roles: Role[] = [
     when: "Feb 2019 – Jul 2020",
     organization: "University of Waterloo",
     unit: "forWater Network",
-    theme: "Water Security & Climate Adaptation",
+    theme: "Water security & climate adaptation",
     title: "Researcher",
     text: "Collaborated with economists to develop an engineering and policy framework for assessing climate-related risks to drinking water security and informing adaptation planning, presenting findings at the 2020 forWater Network Research Conference. Analyzed operational challenges facing drinking water utilities, with research findings presented at the 2023 National Water and Wastewater Conference.",
-    highlights: ["Water Security", "Climate Adaptation", "Engineering Research", "Interdisciplinary Collaboration"],
+    highlights: ["Water security", "Climate adaptation", "Engineering research", "Interdisciplinary collaboration"],
     feature: {
       kicker: "Policy proposal · 2019",
       title: "A Holistic Approach to Measuring Drinking Water Success in Indigenous Communities",
@@ -135,12 +135,12 @@ const roles: Role[] = [
     id: "role-ontario-tech",
     when: "Sep 2015 – Feb 2019",
     organization: "Ontario Tech University",
-    theme: "Research Data & Visualization",
+    theme: "Research data & visualization",
     title: "Data Management Lead",
     text: "Led research data management and qualitative analysis using NVivo, developing data organization and analysis methods and supervising technical staff for a multi-year research project.",
     highlights: ["Research data management", "Qualitative analysis", "Structured research datasets"],
     credit: {
-      kicker: "Co-authored Conference Presentation · 2016",
+      kicker: "Co-authored conference presentation · 2016",
       title: "Video diaries of the (un)made",
       href: "https://www.researchgate.net/publication/322444850_Video_diaries_of_the_unmade",
     },
@@ -150,30 +150,30 @@ const roles: Role[] = [
 /* Career Highlights: four cards above the timeline, for a quick read. */
 const careerHighlights = [
   {
-    title: "Investment & Project Evaluation",
+    title: "Investment & project evaluation",
     text: "Managed the project portfolio for the $1.5B Strategic Response Fund critical minerals stream, directed technical and commercial due diligence on critical minerals and clean technology projects, and coordinated cross-functional teams across engineering, finance, legal and policy. Shaped investment strategy and developed a project pipeline for the $2 billion Canada Critical Minerals Accelerator.",
   },
   {
-    title: "Commercial Negotiations",
+    title: "Commercial negotiations",
     text: "Led departmental negotiations and helped structure first-of-kind critical minerals offtake agreements with Rio Tinto and Nouveau Monde Graphite, securing contractual rights to future mineral supply for Canada. The agreements support the development of Canada’s strategic stockpiling capability and strengthen defence supply chains.",
   },
   {
-    title: "Science & Engineering",
+    title: "Science & engineering",
     text: "Background in environmental engineering and mathematical modelling, with award-winning research applying experimental and analytical methods to complex technical challenges.",
   },
   {
-    title: "Energy & Technology Strategy",
+    title: "Energy & technology strategy",
     text: "Experience spanning clean energy, carbon management and emerging technologies, connecting technical assessments with investment strategy, commercialization and policy.",
   },
 ]
 
 /* Career overview above the roles, oldest first; each milestone links to its role. */
 const careerMilestones = [
-  { year: "2015", label: "Research & Data", role: "role-ontario-tech" },
-  { year: "2019", label: "Water Security", role: "role-forwater" },
-  { year: "2020", label: "IP & Emerging Technology", role: "role-intellectual-property" },
-  { year: "2022", label: "Carbon Management", role: "role-carbon-capture" },
-  { year: "2022–Present", label: "Critical Minerals & Clean Energy", role: "role-critical-minerals" },
+  { year: "2015", label: "Research & data", role: "role-ontario-tech" },
+  { year: "2019", label: "Water security", role: "role-forwater" },
+  { year: "2020", label: "IP & emerging technology", role: "role-intellectual-property" },
+  { year: "2022", label: "Carbon management", role: "role-carbon-capture" },
+  { year: "2022–Present", label: "Critical minerals & clean energy", role: "role-critical-minerals" },
 ]
 
 const education: { degree: string; detail: string; award?: string; link?: { label: string; href: string } }[] = [
@@ -196,23 +196,23 @@ const education: { degree: string; detail: string; award?: string; link?: { labe
 /* Skills grouped so the list is easier to scan; Projects & Investment leads. */
 const skillGroups = [
   {
-    heading: "Projects & Investment",
-    skills: ["Project Due Diligence", "Investment Strategy", "Project Evaluation", "Commercial Negotiations", "Agreement Structuring"],
+    heading: "Projects & investment",
+    skills: ["Project due diligence", "Investment strategy", "Project evaluation", "Commercial negotiations", "Agreement structuring"],
   },
   {
-    heading: "Technical & Analytical",
-    skills: ["Techno-Economic Assessment", "Energy & Emerging Technologies", "Data Analysis & Visualization", "Technical Research"],
+    heading: "Technical & analytical",
+    skills: ["Techno-economic assessment", "Energy & emerging technologies", "Data analysis & visualization", "Technical research"],
   },
-  { heading: "Strategy & Policy", skills: ["Strategic Analysis", "Technology Policy", "Program Evaluation"] },
+  { heading: "Strategy & policy", skills: ["Strategic analysis", "Technology policy", "Program evaluation"] },
   {
-    heading: "Leadership & Collaboration",
-    skills: ["Cross-Functional Project Leadership", "Multidisciplinary Coordination", "Stakeholder Engagement"],
+    heading: "Leadership & collaboration",
+    skills: ["Cross-functional project leadership", "Multidisciplinary coordination", "Stakeholder engagement"],
   },
 ]
 
 const toolGroups = [
-  { heading: "Data & Analytics", tools: ["Power BI", "Excel", "R", "Python (foundational)", "Tableau", "Flourish", "NVivo"] },
-  { heading: "Design & AI Development", tools: ["Figma Make", "Claude Code"] },
+  { heading: "Data & analytics", tools: ["Power BI", "Excel", "R", "Python (foundational)", "Tableau", "Flourish", "NVivo"] },
+  { heading: "Design & AI development", tools: ["Figma Make", "Claude Code"] },
 ]
 
 /* Dates and fuller descriptions to be added once confirmed. */
@@ -395,11 +395,11 @@ function Experience() {
 
 /** Number and heading come from sections.ts, shared with the navigation. */
 function SectionHead({ id, lede, title }: { id: SectionId; lede?: string | string[]; title?: string }) {
-  const { number, label } = section(id)
+  const { label } = section(id)
   return (
     <header className="ps-head">
-      {/* with its own title, the section's name joins the number above it */}
-      <p className="ps-number">{title ? `${number} · ${label}` : number ?? "\u00a0"}</p>
+      {/* section numbers stay on the homepage desk labels only; a custom title keeps the section name above it */}
+      {title && <p className="ps-number">{label}</p>}
       <h2 id={`${id}-title`}>{title ?? label}</h2>
       {[lede ?? []].flat().map((paragraph) => (
         <p className="ps-lede" key={paragraph}>{paragraph}</p>

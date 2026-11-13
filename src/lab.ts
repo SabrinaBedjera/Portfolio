@@ -27,7 +27,7 @@ export type LabPost = {
 export const labPosts: LabPost[] = [
   {
     slug: "beyond-the-business-card",
-    title: "Beyond the Business Card",
+    title: "Beyond the business card",
     subtitle: "An experiment with NFC, QR codes and making networking a little more interesting.",
     image: {
       src: "/lab/beyond-the-business-card.webp",
