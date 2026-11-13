@@ -65,8 +65,7 @@
   gap: 16px;
   min-height: 60px;
   padding: 0 var(--cs-gutter);
-  background: rgba(249, 240, 227, .92);
-  backdrop-filter: blur(8px);
+  background: #f9f0e3;
   border-bottom: 1px solid var(--cs-rule);
   font-size: 16px;
   letter-spacing: .08em;

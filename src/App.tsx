@@ -69,8 +69,8 @@ const projects: Project[] = [
   {
     slug: "critical-minerals",
     number: "01",
-    title: "Critical Minerals Investment & Commercialization",
-    eyebrow: "Critical Minerals · Investment Strategy",
+    title: "Critical minerals investment & commercialization",
+    eyebrow: "Critical minerals · Investment strategy",
     summary:
       "Evaluating strategic mineral opportunities from technical promise to commercial reality.",
     description:
@@ -87,37 +87,37 @@ const projects: Project[] = [
     contributions: [
       {
         number: "01",
-        title: "Assessing Projects",
+        title: "Assessing projects",
         highlight: "$1.5B Strategic Response Fund stream",
         body: "Managed the project portfolio for the $1.5B Strategic Response Fund critical minerals stream, directed technical and commercial due diligence on critical minerals and clean technology projects, and coordinated cross-functional teams across engineering, finance, legal and policy.",
       },
       {
         number: "02",
-        title: "Negotiating Deals",
+        title: "Negotiating deals",
         highlight: "Canada’s first critical minerals offtake agreements",
         body: "Evaluated project economics, technical feasibility and commercial considerations, then led departmental negotiations and helped structure the agreements with Nouveau Monde Graphite and Rio Tinto, securing contractual rights to future mineral supply for Canada.",
       },
       {
         number: "03",
-        title: "Designing & Managing Investment Programs",
+        title: "Designing & managing investment programs",
         highlight: "$2B Canada Critical Minerals Accelerator",
         body: "Shaped investment strategy and developed a project pipeline for the $2 billion Canada Critical Minerals Accelerator, recommending equity, debt and offtake structures and applying lessons from earlier investment and offtake work.",
       },
       {
         number: "04",
-        title: "Visualizing Investments",
+        title: "Visualizing investments",
         highlight: "Interactive Power BI dashboards",
         body: "Developed dashboards to visualize project pipelines, track funding allocations and support strategic investment decisions.",
       },
     ],
-    related: { href: "#role-critical-minerals", label: "See this role in Professional Experience" },
+    related: { href: "#role-critical-minerals", label: "See this role in Professional experience" },
     tone: "mineral",
   },
   {
     slug: "clean-energy-innovation",
     number: "02",
-    title: "Clean Energy Technology & Innovation",
-    eyebrow: "Clean Energy · Carbon Management",
+    title: "Clean energy technology & innovation",
+    eyebrow: "Clean energy · Carbon management",
     summary:
       "Connecting carbon management, emerging technology and international collaboration.",
     description:
@@ -134,37 +134,37 @@ const projects: Project[] = [
     contributions: [
       {
         number: "01",
-        title: "Shaping Clean Energy Strategy",
+        title: "Shaping clean energy strategy",
         highlight: "Canada’s Carbon Management Strategy",
         body: "Contributed to Canada’s Carbon Management Strategy, supporting approaches to advance carbon management technologies and industrial decarbonization.",
       },
       {
         number: "02",
-        title: "Assessing CCUS Technologies",
-        highlight: "Carbon Capture, Utilization & Storage",
+        title: "Assessing CCUS technologies",
+        highlight: "Carbon capture, utilization & storage",
         body: "Analyzed CCUS technology maturity, market conditions, trade dynamics and regulatory frameworks to inform Canadian carbon management strategy and policy development.",
       },
       {
         number: "03",
-        title: "Advancing International Collaboration",
+        title: "Advancing international collaboration",
         highlight: "IEA Committee on Energy Research and Technology",
         body: "Supported Canada’s engagement with the International Energy Agency’s Committee on Energy Research and Technology (CERT), contributing technical analysis and Canadian perspectives to international clean energy innovation discussions.",
       },
       {
         number: "04",
-        title: "Translating Technical Knowledge",
+        title: "Translating technical knowledge",
         highlight: "IEA CCUS Regulatory Handbook",
         body: "Provided technical review and Canadian regulatory context for an International Energy Agency handbook on CCUS legal and regulatory frameworks.",
       },
     ],
-    related: { href: "#role-carbon-capture", label: "See this role in Professional Experience" },
+    related: { href: "#role-carbon-capture", label: "See this role in Professional experience" },
     tone: "energy",
   },
   {
     slug: "pacific-renewable-energy",
     number: "03",
-    title: "Pacific Renewable Energy Data Visualization",
-    eyebrow: "Energy Transitions · Data Visualization",
+    title: "Pacific renewable energy data visualization",
+    eyebrow: "Energy transitions · Data visualization",
     summary:
       "Tracing electricity access and renewable energy transitions across Papua New Guinea and Tonga.",
     description:
@@ -181,20 +181,20 @@ const projects: Project[] = [
     contributions: [
       {
         number: "01",
-        title: "Investigating Pacific Energy Systems",
-        highlight: "Energy Research & Analysis",
+        title: "Investigating Pacific energy systems",
+        highlight: "Energy research & analysis",
         body: "Analyzed electricity access, oil dependence and renewable energy development across Pacific Island countries, integrating datasets from Pacific Data Hub, IRENA, the World Bank and Our World in Data to identify regional trends and energy transition challenges.",
       },
       {
         number: "02",
-        title: "Building Interactive Visualizations",
-        highlight: "Data Visualization",
+        title: "Building interactive visualizations",
+        highlight: "Data visualization",
         body: "Analyzed energy datasets using Excel and Tableau, then developed interactive visualizations in Flourish, including animated scatterplots, packed bubble charts and radial charts, to make complex energy trends accessible and reveal differences across Pacific Island countries.",
       },
       {
         number: "03",
-        title: "Identifying Energy Transition Challenges",
-        highlight: "Findings & Insights",
+        title: "Identifying energy transition challenges",
+        highlight: "Findings & insights",
         body: "Highlighted contrasting energy transition challenges in Papua New Guinea and Tonga, from expanding electricity access to reducing oil dependence. These differences demonstrate the need for tailored renewable energy pathways, with investment critical to advancing transitions across Pacific Island countries.",
       },
     ],
@@ -203,8 +203,8 @@ const projects: Project[] = [
   {
     slug: "drinking-water-micropollutants",
     number: "04",
-    title: "Predicting Micropollutant Removal in Drinking Water",
-    eyebrow: "Environmental Engineering · Water Treatment",
+    title: "Predicting micropollutant removal in drinking water",
+    eyebrow: "Environmental engineering · Water treatment",
     summary:
       "Modelling how ozonation removes micropollutants at three Ontario drinking water treatment plants.",
     description:
@@ -225,7 +225,7 @@ const projects: Project[] = [
     contributions: [
       {
         number: "01",
-        title: "The Challenge",
+        title: "The challenge",
         body: [
           "Trace contaminants from agricultural runoff, wastewater and other sources can enter the rivers and lakes used to produce drinking water.",
           "Ozonation is a treatment process that uses ozone to break down these contaminants. However, its effectiveness depends on factors such as water chemistry, temperature and ozone dose.",
@@ -234,7 +234,7 @@ const projects: Project[] = [
       },
       {
         number: "02",
-        title: "My Approach",
+        title: "My approach",
         body: "Working with three Ontario drinking water treatment plants drawing from Lake Ontario and the Grand River, I combined laboratory experiments, water quality analysis and predictive modelling.",
         points: [
           { label: "Experimental research", text: "Measured how ozone and hydroxyl radicals behaved in water samples collected across different seasons." },
@@ -250,13 +250,13 @@ const projects: Project[] = [
         },
         video: {
           id: "wCCp21QAsbY",
-          title: "Watch My Three Minute Thesis",
+          title: "Watch my Three Minute Thesis",
           description: "My 2016 Three Minute Thesis presentation, explaining this micropollutant research to a general audience.",
         },
       },
       {
         number: "03",
-        title: "Results & Impact",
+        title: "Results & impact",
         body: [
           "The research demonstrated how predictive modelling could help drinking water utilities understand how effectively their treatment processes remove contaminants under different conditions.",
           "This approach could help drinking water utilities evaluate seasonal changes in treatment performance, compare ozone doses and simulate contamination events, including chemical spills, to assess the effectiveness of existing treatment processes.",
@@ -650,7 +650,6 @@ function MagazineExperiment({
     >
       {/* Heading styled like the sections that follow (portfolio-sections.css). */}
       <header className="ps-head selected-work__head">
-        <p className="ps-number">{section("selected-work").number}</p>
         <h2 id="covers-title">
           {/* last word in italics, as in the original design */}
           {section("selected-work").label.split(" ").slice(0, -1).join(" ")}{" "}
@@ -854,7 +853,7 @@ const readingLists: Partial<Record<Project["tone"], { label: string; heading: st
       {
         featured: true,
         href: "https://www.reuters.com/business/canada-accelerate-critical-mineral-projects-worth-46-billion-energy-minister-2025-10-31/",
-        kicker: "Featured article · In the News",
+        kicker: "Featured article · In the news",
         meta: "Reuters | October 31, 2025",
         title: "Canada to accelerate critical mineral projects worth $4.6 billion",
         text: "Reuters coverage of Canada’s Critical Minerals Production Alliance, including the Rio Tinto and Nouveau Monde Graphite offtake agreements.",
@@ -862,7 +861,7 @@ const readingLists: Partial<Record<Project["tone"], { label: string; heading: st
       },
       {
         href: "https://www.canada.ca/en/campaign/critical-minerals-in-canada/canadian-critical-minerals-strategy.html",
-        kicker: "Secondary resource · Policy Context",
+        kicker: "Secondary resource · Policy context",
         title: "The Canadian Critical Minerals Strategy",
         text: "Canada’s national strategy for developing critical minerals value chains and supporting investment in domestic production and processing.",
       },
@@ -931,7 +930,7 @@ function MagazineCaseStudy({
           <svg aria-hidden="true" viewBox="0 0 24 24">
             <path d="M19 12H5M10 7l-5 5 5 5" />
           </svg>
-          <span>Back to Selected Work</span>
+          <span>Back to Selected work</span>
         </button>
         <span>
           {project.cover.title} · {project.number} of {String(projects.length).padStart(2, "0")}
@@ -1028,7 +1027,7 @@ function MagazineCaseStudy({
           <section className="cs-section cs-data" aria-labelledby="visuals-title">
             <header className="cs-section__head">
               <p className="cs-kicker">Interactive data visualizations</p>
-              <h2 id="visuals-title">Explore the Data</h2>
+              <h2 id="visuals-title">Explore the data</h2>
               <p className="cs-section__intro">
                 Explore the Pacific’s energy transition through interactive charts. Hover, click and
                 animate the visualizations to uncover trends in electricity access, oil dependence and
@@ -1071,7 +1070,7 @@ function MagazineCaseStudy({
           </section>
           <section className="cs-cta" aria-labelledby="links-title">
             <p className="cs-kicker">View the project</p>
-            <h2 id="links-title">Pacific Energy Data Visualization</h2>
+            <h2 id="links-title">Pacific energy data visualization</h2>
             <a
               href="https://sites.google.com/view/sabrinabedjerapacificdataviz/pacific-data-visualization"
               target="_blank"
@@ -1118,7 +1117,7 @@ function MagazineCaseStudy({
           </a>
         )}
         <button onClick={onBack}>
-          <span>Back to Selected Work</span>
+          <span>Back to Selected work</span>
           <Arrow />
         </button>
       </footer>
